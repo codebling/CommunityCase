@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 164
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations
+END
+Delete.java
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Delete.java
+END
+Update.java
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Update.java
+END
+CompositeStrategyUtil.java
+K 25
+svn:wc:ra_dav:version-url
+V 191
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/CompositeStrategyUtil.java
+END
+AbstractOperation.java
+K 25
+svn:wc:ra_dav:version-url
+V 187
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/AbstractOperation.java
+END
+Checkin.java
+K 25
+svn:wc:ra_dav:version-url
+V 177
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Checkin.java
+END
+Checkout.java
+K 25
+svn:wc:ra_dav:version-url
+V 178
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Checkout.java
+END
+Move.java
+K 25
+svn:wc:ra_dav:version-url
+V 174
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Move.java
+END
+Add.java
+K 25
+svn:wc:ra_dav:version-url
+V 173
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Add.java
+END
+Uncheckout.java
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Uncheckout.java
+END
+FindCheckouts.java
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/FindCheckouts.java
+END
+GetElementStates.java
+K 25
+svn:wc:ra_dav:version-url
+V 186
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/GetElementStates.java
+END
+Command.java
+K 25
+svn:wc:ra_dav:version-url
+V 177
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/operations/Command.java
+END

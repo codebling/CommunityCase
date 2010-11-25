@@ -1,0 +1,14 @@
+/AllTests.java////*///
+/CheckOutHelperTest.java////*///
+/ClearCaseFileTest.java////*///
+/ClearCaseImplTester.java////*///
+/ClearCaseImplsTest.java////*///
+/ClearCaseTestFixture.java////*///
+/NativeClearCaseTest.java////*///
+/NewCommandLineClearCaseTest.java////*///
+/NewNativeClearCaseTest.java////*///
+/RunnerTest.java////*///
+/TransparentConfigurableTest.java////*///
+/TransparentConfigurationTest.java////*///
+/TransparentModificationAttemptListenerTest.java////*///
+/TransparentVcsTest.java////*///

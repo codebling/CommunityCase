@@ -1,0 +1,4 @@
+#Sat Dec 20 01:06:11 CST 2003
+build.number=5
+minor.number=30
+major.number=1

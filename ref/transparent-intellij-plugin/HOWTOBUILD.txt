@@ -1,0 +1,47 @@
+ENABLE GENERICS SUPPORT
+-----------------------
+Follow the instruction at http://www.intellij.org/twiki/bin/view/Main/GenericsFAQ
+
+HOW TO SUPPORT MULTIPLE IDEA VERSIONS
+-------------------------------------
+There are now 2 mechanisms to make version specific code: version specific source directories (src-ariadna, src-aurora) and macro.
+1) version specific source
+By using an interface to define the common contract, having 2 implementations one for each version and a simple discovery mechanism (Class.forName) based on the version of IDEA (using com.intellij.openapi.application.ApplicationInfo), you can have variable implemention that support both.
+
+2) macros
+  In order to support both ariadna and aurora you will see some strange comments like
+  /*@if Aurora@*/
+  //something specific to aurora
+  /*@else@
+  //something specific to ariadna
+    @end@*/
+  This is my own implementation of macro. HHHHHAAAARG you are going to scream! Evil evil evil! Well I tried the other way and unfortunately ended up with so many wrapper classes that I just drop it. This is much easier even though the switch between ariadna and aurora is very manually and need to be automated:
+
+   1. at the top of the build find something like
+      <!-- Target aurora by default -->
+      <property name="idea.target.aurora" value="true"/>
+      <!--   <property name="idea.target.ariadna" value="true"/>-->
+      toggle which line is not commented out to chose which target version you want to build for
+   2. run the target preprocessSource
+
+HOW TO BUILD
+------------
+1) build.properties
+change the paths in build.properties
+
+2) In IDEA you have to manually select the source directories you want to use based on the version you try to build for:
+src -> common
+src-aurora -> aurora specific
+src-ariadna -> ariadna specific
+src-experimental -> don't bother ;-)
+
+3) set up for testing
+   1. Follow steps in http://www.intellij.org/twiki/bin/view/Main/PluginTesting
+   2. Make sure that in build.properties the idea.test.dir is pointing to IDEA_TEST_DIR
+   3. Use the target testInvitro to launch the test IDEA instance.
+   4. When adding a offline test please add it to AllTests (add a PackageTests for the package and add the PackageTests to AllTests)
+
+4) deploying
+   Use the deploy target.
+   The version will be incremented automatically. 
+   version.txt in the root for the info keep the next version info.

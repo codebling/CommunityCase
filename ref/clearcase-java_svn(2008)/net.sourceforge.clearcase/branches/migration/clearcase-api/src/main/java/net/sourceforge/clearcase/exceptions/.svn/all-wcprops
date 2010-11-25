@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/exceptions
+END
+InterfaceDisposedException.java
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svnroot/clearcase-java/!svn/ver/7/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/exceptions/InterfaceDisposedException.java
+END
+NotAccessibleException.java
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/exceptions/NotAccessibleException.java
+END
+OperationCanceledException.java
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/exceptions/OperationCanceledException.java
+END

@@ -1,0 +1,8 @@
+package net.sourceforge.transparent;
+
+public class Version {
+   public static String getId() {
+      return "@version@";
+   }
+}
+

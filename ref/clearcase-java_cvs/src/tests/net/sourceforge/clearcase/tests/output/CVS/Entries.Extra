@@ -1,0 +1,15 @@
+/AbstractOutputTestCase.java////*///
+/AddOutputScenariosTest.java////*///
+/AllTests.java////*///
+/CheckinOutputScenariosTest.java////*///
+/CheckoutOutputScenariosTest.java////*///
+/DeleteOutputScenarios.java////*///
+/ElementIsCheckedInTest.java////*///
+/ElementIsCheckedOutTest.java////*///
+/MergeOutputScenariosTest.java////*///
+/MoveOutputScenarioTest.java////*///
+/OutputUtilTest.java////*///
+/SymbolicLinkTest.java////*///
+/UncheckoutOutputScenariosTest.java////*///
+/UpdateOutputScenariosTest.java////*///
+/ViewPrivateObjectTest.java////*///

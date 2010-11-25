@@ -51,7 +51,9 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/git4idea/src/git4idea/actions/BasicAction.java" charset="UTF-8" />
+  </component>
   <component name="IdProvider" IDEtalkID="9998BDB2E37B128DB95E5987B86296EF" />
   <component name="InspectionProjectProfileManager">
     <profiles>
@@ -415,6 +417,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CommunityCase.iml" filepath="$PROJECT_DIR$/CommunityCase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ref/git4idea/git4idea.iml" filepath="$PROJECT_DIR$/ref/git4idea/git4idea.iml" />
     </modules>
   </component>
   <component name="ProjectResources">

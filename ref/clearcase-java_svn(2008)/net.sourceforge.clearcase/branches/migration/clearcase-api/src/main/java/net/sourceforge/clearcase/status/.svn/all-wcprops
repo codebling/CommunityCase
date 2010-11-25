@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 140
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/status
+END
+ClearCaseStatus.java
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/status/ClearCaseStatus.java
+END
+ClearCaseWarning.java
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/status/ClearCaseWarning.java
+END
+ClearCaseError.java
+K 25
+svn:wc:ra_dav:version-url
+V 160
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/status/ClearCaseError.java
+END
+ClearCaseElementState.java
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/status/ClearCaseElementState.java
+END

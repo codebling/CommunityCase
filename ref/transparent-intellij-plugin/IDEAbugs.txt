@@ -1,0 +1,10 @@
+1) CheckInEnvironment.createDifferencesProviderOn is called with virtualFile null. Why?
+   The CheckinEnv. created by LocalVcsServices.createCheckinEnvironment() does not handle null properly.
+
+2) sharemem remote debugging does not work anymore
+
+3) ESC does not close the Check In Project
+
+4) The splitter icon between fields and dual diff tree in the Check In Project is BETWEEN
+   the additional fields and the builtin fields (comments)
+
