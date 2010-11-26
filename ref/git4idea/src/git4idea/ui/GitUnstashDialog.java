@@ -26,7 +26,7 @@ import git4idea.GitBranch;
 import git4idea.GitRevisionNumber;
 import git4idea.actions.GitShowAllSubmittedFilesAction;
 import git4idea.commands.*;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import git4idea.i18n.GitBundle;
 import git4idea.validators.GitBranchNameValidator;
 
@@ -292,7 +292,7 @@ public class GitUnstashDialog extends DialogWrapper {
     h.addParameters("list");
     String out;
     try {
-      h.setCharset(Charset.forName(GitConfigUtil.getLogEncoding(myProject, getGitRoot())));
+      h.setCharset(Charset.forName(ConfigUtil.getLogEncoding(myProject, getGitRoot())));
       out = h.run();
     }
     catch (VcsException e) {

@@ -27,7 +27,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import git4idea.GitBranch;
 import git4idea.GitRemote;
 import git4idea.GitVcs;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import git4idea.i18n.GitBundle;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -271,7 +271,7 @@ public class GitUIUtil {
       List<GitRemote> remotes = GitRemote.list(project, root);
       String remote = null;
       if (currentBranch != null) {
-        remote = GitConfigUtil.getValue(project, root, "branch." + currentBranch + ".remote");
+        remote = ConfigUtil.getValue(project, root, "branch." + currentBranch + ".remote");
       }
       remoteCombobox.setRenderer(getGitRemoteListCellRenderer(remote, fetchUrl, remoteCombobox.getRenderer()));
       GitRemote toSelect = null;

@@ -93,8 +93,8 @@
         serviceInterface="git4idea.rollback.GitRollbackEnvironment"
         serviceImplementation="git4idea.rollback.GitRollbackEnvironment"/>
     <projectService
-        serviceInterface="git4idea.config.GitVcsSettings"
-        serviceImplementation="git4idea.config.GitVcsSettings"/>
+        serviceInterface="org.community.intellij.plugins.communitycase.config.VcsSettings"
+        serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsSettings"/>
     <projectService
         serviceInterface="git4idea.history.NewGitUsersComponent"
         serviceImplementation="git4idea.history.NewGitUsersComponent"/>
@@ -105,11 +105,11 @@
         serviceInterface="git4idea.checkout.branches.GitBranchConfigurations"
         serviceImplementation="git4idea.checkout.branches.GitBranchConfigurations"/>
     <projectService
-        serviceInterface="git4idea.config.GitExecutableValidator"
-        serviceImplementation="git4idea.config.GitExecutableValidator"/>
+        serviceInterface="org.community.intellij.plugins.communitycase.config.ExecutableValidator"
+        serviceImplementation="org.community.intellij.plugins.communitycase.config.ExecutableValidator"/>
     <applicationService
-        serviceInterface="git4idea.config.GitVcsApplicationSettings"
-        serviceImplementation="git4idea.config.GitVcsApplicationSettings"/>
+        serviceInterface="org.community.intellij.plugins.communitycase.config.VcsApplicationSettings"
+        serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsApplicationSettings"/>
     <applicationService
         serviceInterface="git4idea.commands.GitSSHIdeaService"
         serviceImplementation="git4idea.commands.GitSSHIdeaService"/>
@@ -117,8 +117,8 @@
         serviceInterface="git4idea.rebase.GitRebaseEditorService"
         serviceImplementation="git4idea.rebase.GitRebaseEditorService"/>
     <applicationService
-        serviceInterface="git4idea.config.SSHConnectionSettings"
-        serviceImplementation="git4idea.config.SSHConnectionSettings"/>
+        serviceInterface="org.community.intellij.plugins.communitycase.config.SshConnectionSettings"
+        serviceImplementation="org.community.intellij.plugins.communitycase.config.SshConnectionSettings"/>
 
     <ComponentRoamingType component="Git.Settings" type="DISABLED"/>
     <fileTypeFactory implementation="git4idea.vfs.GitFileTypeFactory"/>

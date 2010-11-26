@@ -17,7 +17,7 @@ package git4idea.update;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import git4idea.config.GitVcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import git4idea.i18n.GitBundle;
 import org.jetbrains.annotations.Nls;
 
@@ -28,7 +28,7 @@ import javax.swing.*;
  */
 public class GitUpdateConfigurable implements Configurable {
   /** The vcs settings for the configurable */
-  private final GitVcsSettings mySettings;
+  private final VcsSettings mySettings;
   /** The options panel */
   private GitUpdateOptionsPanel myPanel;
 
@@ -36,7 +36,7 @@ public class GitUpdateConfigurable implements Configurable {
    * The constructor
    * @param settings the settings object
    */
-  public GitUpdateConfigurable(GitVcsSettings settings) {
+  public GitUpdateConfigurable(VcsSettings settings) {
     mySettings = settings;
   }
 

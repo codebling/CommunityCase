@@ -25,7 +25,7 @@ import com.intellij.util.containers.ContainerUtil;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitSimpleHandler;
 import git4idea.commands.StringScanner;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -378,7 +378,7 @@ public final class GitRemote {
     }
     else {
       // try .git/config file
-      for (Pair<String, String> pair : GitConfigUtil.getAllValues(project, root, "remote." + remoteName + ".fetch")) {
+      for (Pair<String, String> pair : ConfigUtil.getAllValues(project, root, "remote." + remoteName + ".fetch")) {
         rc.add(pair.second);
       }
     }

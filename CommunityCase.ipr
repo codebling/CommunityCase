@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AntConfiguration">
+    <defaultAnt bundledAnt="true" />
+  </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
@@ -24,6 +27,33 @@
       </list>
     </option>
     <option name="showMethodBody" value="true" />
+  </component>
+  <component name="CodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value>
+        <ADDITIONAL_INDENT_OPTIONS fileType="java">
+          <option name="INDENT_SIZE" value="4" />
+          <option name="CONTINUATION_INDENT_SIZE" value="8" />
+          <option name="TAB_SIZE" value="4" />
+          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="SMART_TABS" value="false" />
+          <option name="LABEL_INDENT_SIZE" value="0" />
+          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
+        </ADDITIONAL_INDENT_OPTIONS>
+        <ADDITIONAL_INDENT_OPTIONS fileType="xml">
+          <option name="INDENT_SIZE" value="4" />
+          <option name="CONTINUATION_INDENT_SIZE" value="8" />
+          <option name="TAB_SIZE" value="4" />
+          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="SMART_TABS" value="false" />
+          <option name="LABEL_INDENT_SIZE" value="0" />
+          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
+        </ADDITIONAL_INDENT_OPTIONS>
+      </value>
+    </option>
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
@@ -51,8 +81,9 @@
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
-    <file url="file://$PROJECT_DIR$/git4idea/src/git4idea/actions/BasicAction.java" charset="UTF-8" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="9998BDB2E37B128DB95E5987B86296EF" />
   <component name="InspectionProjectProfileManager">
@@ -229,11 +260,6 @@
           <option name="ADD_APPLET_TO_ENTRIES" value="true" />
           <option name="ADD_SERVLET_TO_ENTRIES" value="true" />
           <option name="ADD_NONJAVA_TO_ENTRIES" value="true" />
-          <option name="ADDITIONAL_ANNOTATIONS">
-            <value>
-              <list size="0" />
-            </value>
-          </option>
         </inspection_tool>
         <inspection_tool class="UnusedImport" enabled="true" level="WARNING" enabled_by_default="true" />
         <inspection_tool class="UnusedLabel" enabled="false" level="WARNING" enabled_by_default="false" />
@@ -246,8 +272,8 @@
         </inspection_tool>
       </profile>
     </profiles>
-    <option name="PROJECT_PROFILE" value="Project Default" />
-    <option name="USE_PROJECT_PROFILE" value="true" />
+    <option name="PROJECT_PROFILE" />
+    <option name="USE_PROJECT_PROFILE" value="false" />
     <version value="1.0" />
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="SERVER PROBLEM" />
@@ -395,21 +421,8 @@
       </item>
     </group>
   </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State>
-            <id>Inspections</id>
-          </State>
-        </expanded-state>
-        <selected-state>
-          <State>
-            <id>Class structure</id>
-          </State>
-        </selected-state>
-      </profile-state>
-    </entry>
+  <component name="ProjectDictionaryState">
+    <dictionary name="ascher" />
   </component>
   <component name="ProjectKey">
     <option name="state" value="project://default" />
@@ -417,13 +430,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CommunityCase.iml" filepath="$PROJECT_DIR$/CommunityCase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ref/git4idea/git4idea.iml" filepath="$PROJECT_DIR$/ref/git4idea/git4idea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/clearcase-java_cvs/clearcase-java_cvs.iml" filepath="$PROJECT_DIR$/lib/clearcase-java_cvs/clearcase-java_cvs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" filepath="$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" />
     </modules>
   </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IC-98.382" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IC-98.382" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ResourceManagerContainer">
@@ -435,9 +449,6 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

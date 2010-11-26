@@ -34,7 +34,7 @@ import git4idea.GitVcs;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitFileUtils;
 import git4idea.commands.GitSimpleHandler;
-import git4idea.config.GitVersion;
+import org.community.intellij.plugins.communitycase.config.Version;
 import git4idea.vfs.GitVFSListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +51,7 @@ public class GitStashUtils {
   /**
    * The version when quiet stash supported
    */
-  private final static GitVersion QUIET_STASH_SUPPORTED = new GitVersion(1, 6, 4, 0);
+  private final static Version QUIET_STASH_SUPPORTED = new Version(1, 6, 4, 0);
 
   private GitStashUtils() {
   }

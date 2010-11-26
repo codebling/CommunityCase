@@ -25,7 +25,7 @@ import git4idea.GitRevisionNumber;
 import git4idea.GitVcs;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitLineHandler;
-import git4idea.config.GitVcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import git4idea.merge.MergeChangeCollector;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class GitUpdateProcess extends GitBaseRebaseProcess {
   /**
    * The settings to use
    */
-  private final GitVcsSettings mySettings;
+  private final VcsSettings mySettings;
   /**
    * The updated files
    */
@@ -58,7 +58,7 @@ public class GitUpdateProcess extends GitBaseRebaseProcess {
    * @param exceptions   the collection with exceptions
    */
   public GitUpdateProcess(final Project project,
-                          GitVcsSettings settings,
+                          VcsSettings settings,
                           final GitVcs vcs,
                           UpdatedFiles updatedFiles,
                           List<VcsException> exceptions) {
@@ -126,7 +126,7 @@ public class GitUpdateProcess extends GitBaseRebaseProcess {
    * {@inheritDoc}
    */
   @Override
-  protected GitVcsSettings.UpdateChangesPolicy getUpdatePolicy() {
+  protected VcsSettings.UpdateChangesPolicy getUpdatePolicy() {
     return mySettings.updateChangesPolicy();
   }
 }

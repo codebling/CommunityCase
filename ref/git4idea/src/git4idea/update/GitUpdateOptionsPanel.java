@@ -15,8 +15,8 @@
  */
 package git4idea.update;
 
-import git4idea.config.GitVcsSettings;
-import git4idea.config.GitVcsSettings.UpdateType;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings.UpdateType;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -83,7 +83,7 @@ public class GitUpdateOptionsPanel {
    * @param settings the settings to compare to
    * @return true if the UI modified the settings
    */
-  public boolean isModified(GitVcsSettings settings) {
+  public boolean isModified(VcsSettings settings) {
     UpdateType type = getUpdateType();
     return type != settings.getUpdateType() || updateSaveFilesPolicy() != settings.updateChangesPolicy();
   }
@@ -91,7 +91,7 @@ public class GitUpdateOptionsPanel {
   /**
    * @return get policy value from selected radio buttons
    */
-  private GitVcsSettings.UpdateChangesPolicy updateSaveFilesPolicy() {
+  private VcsSettings.UpdateChangesPolicy updateSaveFilesPolicy() {
     return UpdatePolicyUtils.getUpdatePolicy(myStashRadioButton, myShelveRadioButton, myKeepRadioButton);
   }
 
@@ -118,7 +118,7 @@ public class GitUpdateOptionsPanel {
    *
    * @param settings the settings to save to
    */
-  public void applyTo(GitVcsSettings settings) {
+  public void applyTo(VcsSettings settings) {
     settings.setUpdateType(getUpdateType());
     settings.setUpdateChangesPolicy(updateSaveFilesPolicy());
   }
@@ -128,7 +128,7 @@ public class GitUpdateOptionsPanel {
    *
    * @param settings the settings to use
    */
-  public void updateFrom(GitVcsSettings settings) {
+  public void updateFrom(VcsSettings settings) {
     switch (settings.getUpdateType()) {
       case REBASE:
         myForceRebaseRadioButton.setSelected(true);

@@ -19,7 +19,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import git4idea.i18n.GitBundle;
 
 import javax.swing.*;
@@ -64,7 +64,7 @@ public class GitRebaseUnstructuredEditor extends DialogWrapper {
     setTitle(GitBundle.message("rebase.unstructured.editor.title"));
     setOKButtonText(GitBundle.message("rebase.unstructured.editor.button"));
     myGitRootLabel.setText(root.getPresentableUrl());
-    encoding = GitConfigUtil.getCommitEncoding(project, root);
+    encoding = ConfigUtil.getCommitEncoding(project, root);
     myFile = new File(path);
     myTextArea.setText(new String(FileUtil.loadFileText(myFile, encoding)));
     init();

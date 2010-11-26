@@ -26,7 +26,7 @@ import com.intellij.util.ui.ColumnInfo;
 import git4idea.GitFileRevision;
 import git4idea.GitVcs;
 import git4idea.actions.GitShowAllSubmittedFilesAction;
-import git4idea.config.GitExecutableValidator;
+import org.community.intellij.plugins.communitycase.config.ExecutableValidator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -130,7 +130,7 @@ public class GitHistoryProvider implements VcsHistoryProvider {
   public void reportAppendableHistory(final FilePath path, final VcsAppendableHistorySessionPartner partner) throws VcsException {
     final VcsAbstractHistorySession emptySession = createSession(path, Collections.<VcsFileRevision>emptyList());
     partner.reportCreatedEmptySession(emptySession);
-    final GitExecutableValidator validator = GitVcs.getInstance(myProject).getExecutableValidator();
+    final ExecutableValidator validator = GitVcs.getInstance(myProject).getExecutableValidator();
     GitHistoryUtils.history(myProject, path, null, new Consumer<GitFileRevision>() {
       public void consume(GitFileRevision gitFileRevision) {
         partner.acceptRevision(gitFileRevision);

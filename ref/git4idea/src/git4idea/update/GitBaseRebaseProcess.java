@@ -40,7 +40,7 @@ import git4idea.commands.GitCommand;
 import git4idea.commands.GitHandlerUtil;
 import git4idea.commands.GitLineHandler;
 import git4idea.commands.GitLineHandlerAdapter;
-import git4idea.config.GitVcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import git4idea.i18n.GitBundle;
 import git4idea.rebase.GitRebaseUtils;
 import git4idea.ui.GitConvertFilesDialog;
@@ -247,16 +247,16 @@ public abstract class GitBaseRebaseProcess {
     if (mySkippedCommits.size() > 0) {
       GitSkippedCommits.showSkipped(myProject, mySkippedCommits);
     }
-    if (getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.SHELVE) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       if (myShelvedChangeList != null) {
         myProgressIndicator.setText(GitBundle.getString("update.unshelving.changes"));
         GitStashUtils.doSystemUnshelve(myProject, myShelvedChangeList, myShelveManager, myChangeManager, myExceptions);
       }
     }
     // Move files back to theirs change lists
-    if (getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.SHELVE || getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.STASH) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE || getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       VcsDirtyScopeManager m = VcsDirtyScopeManager.getInstance(myProject);
-      final boolean isStash = getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.STASH;
+      final boolean isStash = getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH;
       HashSet<File> filesToRefresh = isStash ? new HashSet<File>() : null;
       for (LocalChangeList changeList : myListsCopy) {
         for (Change c : changeList.getChanges()) {
@@ -315,7 +315,7 @@ public abstract class GitBaseRebaseProcess {
         myExceptions.add(GitUtil.rethrowVcsException(ex.get()));
       }
     }
-    if (stashCreated && getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.STASH) {
+    if (stashCreated && getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       myProgressIndicator.setText(GitHandlerUtil.formatOperationName("Unstashing changes to", root));
       unstash(root);
       // after unstash, offer reverse merge
@@ -336,7 +336,7 @@ public abstract class GitBaseRebaseProcess {
    * @throws VcsException if there is a problem with saving changes
    */
   private void saveRootChangesBeforeUpdate(VirtualFile root) throws VcsException {
-    if (getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.STASH) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       stashCreated = false;
       if (myRootsToStash.contains(root)) {
         myProgressIndicator.setText(GitHandlerUtil.formatOperationName("Stashing changes from", root));
@@ -351,7 +351,7 @@ public abstract class GitBaseRebaseProcess {
    * @return false, if update process needs to be aborted
    */
   private boolean saveProjectChangesBeforeUpdate() {
-    if (getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.STASH || getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.SHELVE) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH || getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       myStashMessage = makeStashMessage();
       myListsCopy = myChangeManager.getChangeListsCopy();
       for (LocalChangeList l : myListsCopy) {
@@ -383,8 +383,8 @@ public abstract class GitBaseRebaseProcess {
         }
       }
     }
-    if (getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.STASH) {
-      GitVcsSettings settings = GitVcsSettings.getInstance(myProject);
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
+      VcsSettings settings = VcsSettings.getInstance(myProject);
       if (settings == null) {
         return false;
       }
@@ -397,7 +397,7 @@ public abstract class GitBaseRebaseProcess {
         return false;
       }
     }
-    if (getUpdatePolicy() == GitVcsSettings.UpdateChangesPolicy.SHELVE) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       myShelveManager = ShelveChangesManager.getInstance(myProject);
       ArrayList<Change> changes = new ArrayList<Change>();
       for (LocalChangeList l : myListsCopy) {
@@ -481,7 +481,7 @@ public abstract class GitBaseRebaseProcess {
   /**
    * @return the policy of autosaving change
    */
-  protected abstract GitVcsSettings.UpdateChangesPolicy getUpdatePolicy();
+  protected abstract VcsSettings.UpdateChangesPolicy getUpdatePolicy();
 
   /**
    * Check if some roots are under the rebase operation and show a message in this case

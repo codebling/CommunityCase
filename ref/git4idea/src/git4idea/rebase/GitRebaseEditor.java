@@ -26,7 +26,7 @@ import com.intellij.util.ui.ComboBoxTableCellEditor;
 import com.intellij.util.ui.ComboBoxTableCellRenderer;
 import git4idea.actions.GitShowAllSubmittedFilesAction;
 import git4idea.commands.StringScanner;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import git4idea.i18n.GitBundle;
 import org.jetbrains.annotations.NonNls;
 
@@ -337,7 +337,7 @@ public class GitRebaseEditor extends DialogWrapper {
      * @throws IOException if file could not be loaded
      */
     public void load(final String file) throws IOException {
-      String encoding = GitConfigUtil.getLogEncoding(myProject, myGitRoot);
+      String encoding = ConfigUtil.getLogEncoding(myProject, myGitRoot);
       final StringScanner s = new StringScanner(new String(FileUtil.loadFileText(new File(file), encoding)));
       while (s.hasMoreData()) {
         if (s.isEol() || s.startsWith('#') || s.startsWith("noop")) {
@@ -359,7 +359,7 @@ public class GitRebaseEditor extends DialogWrapper {
      * @throws IOException if there is IO problem
      */
     public void save(final String file) throws IOException {
-      String encoding = GitConfigUtil.getLogEncoding(myProject, myGitRoot);
+      String encoding = ConfigUtil.getLogEncoding(myProject, myGitRoot);
       PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), encoding));
       try {
         for (GitRebaseEntry e : myEntries) {

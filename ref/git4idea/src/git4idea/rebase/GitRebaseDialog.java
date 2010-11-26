@@ -24,7 +24,7 @@ import git4idea.GitBranch;
 import git4idea.GitTag;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitLineHandler;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import git4idea.i18n.GitBundle;
 import git4idea.merge.GitMergeUtil;
 import git4idea.ui.GitReferenceValidator;
@@ -337,8 +337,8 @@ public class GitRebaseDialog extends DialogWrapper {
       String currentBranch = (String)myBranchComboBox.getSelectedItem();
       final GitBranch trackedBranch;
       if (currentBranch != null) {
-        String remote = GitConfigUtil.getValue(myProject, root, "branch." + currentBranch + ".remote");
-        String merge = GitConfigUtil.getValue(myProject, root, "branch." + currentBranch + ".merge");
+        String remote = ConfigUtil.getValue(myProject, root, "branch." + currentBranch + ".remote");
+        String merge = ConfigUtil.getValue(myProject, root, "branch." + currentBranch + ".merge");
         String name =
           (merge != null && merge.startsWith(GitBranch.REFS_HEADS_PREFIX)) ? merge.substring(GitBranch.REFS_HEADS_PREFIX.length()) : null;
         if (remote == null || merge == null || name == null) {

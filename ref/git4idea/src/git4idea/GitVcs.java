@@ -25,7 +25,6 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Disposer;
-import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.ChangeProvider;
 import com.intellij.openapi.vcs.changes.CommitExecutor;
 import com.intellij.openapi.vcs.checkin.CheckinEnvironment;
@@ -54,7 +53,6 @@ import git4idea.checkin.GitCommitAndPushExecutor;
 import git4idea.checkout.branches.GitBranchConfigurations;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitSimpleHandler;
-import git4idea.config.*;
 import git4idea.diff.GitDiffProvider;
 import git4idea.diff.GitTreeDiffProvider;
 import git4idea.history.GitHistoryProvider;
@@ -65,6 +63,7 @@ import git4idea.merge.GitMergeProvider;
 import git4idea.rollback.GitRollbackEnvironment;
 import git4idea.update.GitUpdateEnvironment;
 import git4idea.vfs.*;
+import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -94,7 +93,7 @@ public class GitVcs extends AbstractVcs<CommittedChangeList> {
   private final DiffProvider myDiffProvider;
   private final VcsHistoryProvider myHistoryProvider;
   private final ProjectLevelVcsManager myVcsManager;
-  private final GitVcsApplicationSettings myAppSettings;
+  private final VcsApplicationSettings myAppSettings;
   private final Configurable myConfigurable;
   private final RevisionSelector myRevSelector;
   private final GitMergeProvider myMergeProvider;
@@ -118,7 +117,7 @@ public class GitVcs extends AbstractVcs<CommittedChangeList> {
   private final GitCommitAndPushExecutor myCommitAndPushExecutor;
   private GitReferenceTracker myReferenceTracker;
   private boolean isActivated; // If true, the vcs was activated
-  private GitExecutableValidator myExecutableValidator;
+  private ExecutableValidator myExecutableValidator;
   private RepositoryChangeListener myIndexChangeListener;
 
   public static GitVcs getInstance(@NotNull Project project) {
@@ -133,7 +132,7 @@ public class GitVcs extends AbstractVcs<CommittedChangeList> {
                 @NotNull final GitDiffProvider gitDiffProvider,
                 @NotNull final GitHistoryProvider gitHistoryProvider,
                 @NotNull final GitRollbackEnvironment gitRollbackEnvironment,
-                @NotNull final GitVcsApplicationSettings gitSettings,
+                @NotNull final VcsApplicationSettings gitSettings,
                 @NotNull final GitVcsSettings gitProjectSettings) {
     super(project, NAME);
     myVcsManager = gitVcsManager;
@@ -411,7 +410,7 @@ public class GitVcs extends AbstractVcs<CommittedChangeList> {
   @Override
   protected void activate() {
     isActivated = true;
-    myExecutableValidator = new GitExecutableValidator(myProject);
+    myExecutableValidator = new ExecutableValidator(myProject);
     myExecutableValidator.checkExecutableAndShowDialogIfNeeded();
     if (!myProject.isDefault() && myRootTracker == null) {
       myRootTracker = new GitRootTracker(this, myProject, myRootListeners.getMulticaster());
@@ -517,7 +516,7 @@ public class GitVcs extends AbstractVcs<CommittedChangeList> {
    * @return vcs settings for the current project
    */
   @NotNull
-  public GitVcsApplicationSettings getAppSettings() {
+  public VcsApplicationSettings getAppSettings() {
     return myAppSettings;
   }
 
@@ -696,7 +695,7 @@ public class GitVcs extends AbstractVcs<CommittedChangeList> {
     return isActivated;
   }
 
-  public GitExecutableValidator getExecutableValidator() {
+  public ExecutableValidator getExecutableValidator() {
     return myExecutableValidator;
   }
 

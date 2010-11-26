@@ -15,7 +15,7 @@
  */
 package git4idea.update;
 
-import git4idea.config.GitVcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,11 +39,11 @@ public class UpdatePolicyUtils {
    * @param shelveRadioButton   the shelve radio button
    * @param keepRadioButton     the keep radio button
    */
-  public static void updatePolicyItem(GitVcsSettings.UpdateChangesPolicy updateChangesPolicy,
+  public static void updatePolicyItem(VcsSettings.UpdateChangesPolicy updateChangesPolicy,
                                       JRadioButton stashRadioButton,
                                       JRadioButton shelveRadioButton,
                                       JRadioButton keepRadioButton) {
-    switch (updateChangesPolicy == null ? GitVcsSettings.UpdateChangesPolicy.STASH : updateChangesPolicy) {
+    switch (updateChangesPolicy == null ? VcsSettings.UpdateChangesPolicy.STASH : updateChangesPolicy) {
       case STASH:
         stashRadioButton.setSelected(true);
         return;
@@ -67,22 +67,22 @@ public class UpdatePolicyUtils {
    * @param keepRadioButton   the keep radio button
    * @return the policy value
    */
-  public static GitVcsSettings.UpdateChangesPolicy getUpdatePolicy(@NotNull JRadioButton stashRadioButton,
+  public static VcsSettings.UpdateChangesPolicy getUpdatePolicy(@NotNull JRadioButton stashRadioButton,
                                                                    @NotNull JRadioButton shelveRadioButton,
                                                                    @Nullable JRadioButton keepRadioButton) {
 
     if (keepRadioButton != null && keepRadioButton.isSelected()) {
-      return GitVcsSettings.UpdateChangesPolicy.KEEP;
+      return VcsSettings.UpdateChangesPolicy.KEEP;
     }
     else if (stashRadioButton.isSelected()) {
-      return GitVcsSettings.UpdateChangesPolicy.STASH;
+      return VcsSettings.UpdateChangesPolicy.STASH;
     }
     else if (shelveRadioButton.isSelected()) {
-      return GitVcsSettings.UpdateChangesPolicy.SHELVE;
+      return VcsSettings.UpdateChangesPolicy.SHELVE;
     }
     else {
       // the stash is a default policy, in case if the policy could not be determined
-      return GitVcsSettings.UpdateChangesPolicy.STASH;
+      return VcsSettings.UpdateChangesPolicy.STASH;
     }
   }
 }

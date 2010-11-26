@@ -34,7 +34,7 @@ import git4idea.changes.GitChangeUtils;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitSimpleHandler;
 import git4idea.commands.StringScanner;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import git4idea.i18n.GitBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -275,7 +275,7 @@ public class GitUtil {
               }
               assert n == b.length;
               // add them to string
-              final String encoding = GitConfigUtil.getFileNameEncoding();
+              final String encoding = ConfigUtil.getFileNameEncoding();
               try {
                 rc.append(new String(b, encoding));
               }

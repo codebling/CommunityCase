@@ -34,8 +34,8 @@ import git4idea.GitVcs;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitSimpleHandler;
 import git4idea.commands.StringScanner;
-import git4idea.config.GitVcsSettings;
-import git4idea.config.GitVersion;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.Version;
 import git4idea.i18n.GitBundle;
 
 import javax.swing.*;
@@ -54,7 +54,7 @@ public class GitConvertFilesDialog extends DialogWrapper {
   /**
    * The version when option --stdin was added
    */
-  private static final GitVersion CHECK_ATTR_STDIN_SUPPORTED = new GitVersion(1, 6, 1, 0);
+  private static final Version CHECK_ATTR_STDIN_SUPPORTED = new Version(1, 6, 1, 0);
   /**
    * Do not convert exit code
    */
@@ -150,12 +150,12 @@ public class GitConvertFilesDialog extends DialogWrapper {
    * @return true if conversion completed successfully, false if process was cancelled or there were errors
    */
   public static boolean showDialogIfNeeded(final Project project,
-                                           final GitVcsSettings settings,
+                                           final VcsSettings settings,
                                            Map<VirtualFile, List<Change>> sortedChanges,
                                            final List<VcsException> exceptions) {
     try {
       if (settings.askBeforeLineSeparatorConversion() ||
-          settings.getLineSeparatorsConversion() == GitVcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS) {
+          settings.getLineSeparatorsConversion() == VcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS) {
         LocalFileSystem lfs = LocalFileSystem.getInstance();
         final String nl = CodeStyleFacade.getInstance(project).getLineSeparator();
         final Map<VirtualFile, Set<VirtualFile>> files = new HashMap<VirtualFile, Set<VirtualFile>>();
@@ -208,12 +208,12 @@ public class GitConvertFilesDialog extends DialogWrapper {
               d.show();
               if (d.isOK()) {
                 settings.setAskBeforeLineSeparatorConversion(!d.myDoNotShowCheckBox.isSelected());
-                settings.setLineSeparatorsConversion(GitVcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS);
+                settings.setLineSeparatorsConversion(VcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS);
                 selectedFiles = d.myFilesToConvert.getCheckedNodes(VirtualFile.class, null);
               }
               else if (d.getExitCode() == DO_NOT_CONVERT) {
                 settings.setAskBeforeLineSeparatorConversion(!d.myDoNotShowCheckBox.isSelected());
-                settings.setLineSeparatorsConversion(GitVcsSettings.ConversionPolicy.NONE);
+                settings.setLineSeparatorsConversion(VcsSettings.ConversionPolicy.NONE);
               }
               else {
                 //noinspection ThrowableInstanceNeverThrown

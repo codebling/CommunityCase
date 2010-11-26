@@ -26,7 +26,7 @@ import com.intellij.util.containers.HashMap;
 import com.intellij.util.containers.HashSet;
 import git4idea.GitUtil;
 import git4idea.GitVcs;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -180,7 +180,7 @@ public class GitIgnoreTracker {
   @Nullable
   private String getExcludeFile(VirtualFile gitRoot) {
     try {
-      String file = GitConfigUtil.getValue(myProject, gitRoot, "core.excludesfile");
+      String file = ConfigUtil.getValue(myProject, gitRoot, "core.excludesfile");
       file = fixFileName(file);
       if (file != null && file.trim().length() != 0) {
         // locate path so it will be tracked

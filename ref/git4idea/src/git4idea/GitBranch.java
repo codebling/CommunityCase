@@ -21,7 +21,7 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import git4idea.commands.GitCommand;
 import git4idea.commands.GitSimpleHandler;
-import git4idea.config.GitConfigUtil;
+import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -77,7 +77,7 @@ public class GitBranch extends GitReference {
    */
   @Nullable
   public String getTrackedRemoteName(Project project, VirtualFile root) throws VcsException {
-    return GitConfigUtil.getValue(project, root, trackedRemoteKey());
+    return ConfigUtil.getValue(project, root, trackedRemoteKey());
   }
 
   /**
@@ -90,7 +90,7 @@ public class GitBranch extends GitReference {
    */
   @Nullable
   public String getTrackedBranchName(Project project, VirtualFile root) throws VcsException {
-    return GitConfigUtil.getValue(project, root, trackedBranchKey());
+    return ConfigUtil.getValue(project, root, trackedBranchKey());
   }
 
   /**
@@ -201,12 +201,12 @@ public class GitBranch extends GitReference {
    */
   public void setTrackedBranch(Project project, VirtualFile root, String remote, String branch) throws VcsException {
     if (remote == null || branch == null) {
-      GitConfigUtil.unsetValue(project, root, trackedRemoteKey());
-      GitConfigUtil.unsetValue(project, root, trackedBranchKey());
+      ConfigUtil.unsetValue(project, root, trackedRemoteKey());
+      ConfigUtil.unsetValue(project, root, trackedBranchKey());
     }
     else {
-      GitConfigUtil.setValue(project, root, trackedRemoteKey(), remote);
-      GitConfigUtil.setValue(project, root, trackedBranchKey(), branch);
+      ConfigUtil.setValue(project, root, trackedRemoteKey(), remote);
+      ConfigUtil.setValue(project, root, trackedBranchKey(), branch);
     }
   }
 

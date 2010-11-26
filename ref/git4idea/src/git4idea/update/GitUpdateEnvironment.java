@@ -29,7 +29,7 @@ import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
 import git4idea.GitUtil;
 import git4idea.GitVcs;
-import git4idea.config.GitVcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,14 +52,14 @@ public class GitUpdateEnvironment implements UpdateEnvironment {
   /**
    * The project settings
    */
-  private final GitVcsSettings mySettings;
+  private final VcsSettings mySettings;
 
   /**
    * A constructor from settings
    *
    * @param project a project
    */
-  public GitUpdateEnvironment(@NotNull Project project, @NotNull GitVcs vcs, GitVcsSettings settings) {
+  public GitUpdateEnvironment(@NotNull Project project, @NotNull GitVcs vcs, VcsSettings settings) {
     myVcs = vcs;
     myProject = project;
     mySettings = settings;
