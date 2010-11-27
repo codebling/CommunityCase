@@ -42,7 +42,7 @@ import com.intellij.util.EventDispatcher;
 import com.intellij.util.containers.ComparatorDelegate;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.ui.UIUtil;
-import org.community.intellij.plugins.communitycase.annotate.AnnotationProvider;
+import org.community.intellij.plugins.communitycase.annotate.IntellijAnnotationProvider;
 import org.community.intellij.plugins.communitycase.changes.ChangeUtils;
 import org.community.intellij.plugins.communitycase.changes.CommittedChangeListProvider;
 import org.community.intellij.plugins.communitycase.changes.OutgoingChangesProvider;
@@ -83,7 +83,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   private final CheckinEnvironment myCheckinEnvironment;
   private final RollbackEnvironment myRollbackEnvironment;
   private final UpdateEnvironment myUpdateEnvironment;
-  private final AnnotationProvider myAnnotationProvider;
+  private final IntellijAnnotationProvider myAnnotationProvider;
   private final DiffProvider myDiffProvider;
   private final VcsHistoryProvider myHistoryProvider;
   private final ProjectLevelVcsManager myVcsManager;
@@ -122,7 +122,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
              @NotNull final ChangeProvider changeProvider,
              @NotNull final CheckinEnvironment checkinEnvironment,
              @NotNull final ProjectLevelVcsManager vcsManager,
-             @NotNull final AnnotationProvider annotationProvider,
+             @NotNull final IntellijAnnotationProvider annotationProvider,
              @NotNull final DiffProvider diffProvider,
              @NotNull final HistoryProvider historyProvider,
              @NotNull final RollbackEnvironment rollbackEnvironment,
@@ -317,7 +317,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    */
   @Override
   @NotNull
-  public AnnotationProvider getAnnotationProvider() {
+  public IntellijAnnotationProvider getAnnotationProvider() {
     return myAnnotationProvider;
   }
 

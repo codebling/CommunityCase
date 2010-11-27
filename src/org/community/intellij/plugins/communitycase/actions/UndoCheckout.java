@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * "revert" action
  */
-public class Revert extends BasicAction {
+public class UndoCheckout extends BasicAction {
 
   @Override
   public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] affectedFiles) {

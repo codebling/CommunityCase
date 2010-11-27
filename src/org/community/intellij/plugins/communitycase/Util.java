@@ -165,13 +165,8 @@ public class Util {
    * @param files files to sort.
    * @return the map from root to the files under the root
    */
-  public static Map<VirtualFile, List<FilePath>> sortFilePathsByRoot(Collection<FilePath> files) {
-    try {
-      return sortFilePathsByRoot(files, true);
-    }
-    catch (VcsException e) {
-      throw new RuntimeException("Unexpected exception:", e);
-    }
+  public static Map<VirtualFile, List<FilePath>> sortFilePathsByRoot(Collection<FilePath> files) throws VcsException {
+    return sortFilePathsByRoot(files, true);
   }
 
 

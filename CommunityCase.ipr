@@ -31,6 +31,16 @@
   <component name="CodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
       <value>
+        <ADDITIONAL_INDENT_OPTIONS fileType="groovy">
+          <option name="INDENT_SIZE" value="2" />
+          <option name="CONTINUATION_INDENT_SIZE" value="8" />
+          <option name="TAB_SIZE" value="4" />
+          <option name="USE_TAB_CHARACTER" value="false" />
+          <option name="SMART_TABS" value="false" />
+          <option name="LABEL_INDENT_SIZE" value="0" />
+          <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+          <option name="USE_RELATIVE_INDENTS" value="false" />
+        </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="java">
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
@@ -430,7 +440,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CommunityCase.iml" filepath="$PROJECT_DIR$/CommunityCase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lib/clearcase-java_cvs/clearcase-java_cvs.iml" filepath="$PROJECT_DIR$/lib/clearcase-java_cvs/clearcase-java_cvs.iml" />
       <module fileurl="file://$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" filepath="$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/ref/git4idea/git4idea.iml" filepath="$PROJECT_DIR$/ref/git4idea/git4idea.iml" />
     </modules>
@@ -438,7 +447,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IntelliJ v10.b.98 (IDEA IC-98.402)" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IntelliJ CE 10.b.98 (IDEA IC-98.402)" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ResourceManagerContainer">

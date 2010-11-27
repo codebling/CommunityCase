@@ -62,10 +62,6 @@ public class QuickListContentProvider implements VcsQuickListContentProvider {
     add(".Checkout", manager, actions);
     add(".Push.Active.Branches", manager, actions);
 
-    // misc
-    add(".Stash", manager, actions);
-    add(".Unstash", manager, actions);
-
     return actions;
   }
 

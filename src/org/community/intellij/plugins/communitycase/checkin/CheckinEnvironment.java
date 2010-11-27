@@ -54,11 +54,11 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Git environment for commit operations.
+ * Environment for commit operations.
  */
 public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.CheckinEnvironment {
   private static final Logger log = Logger.getInstance(CheckinEnvironment.class.getName());
-  @NonNls private static final String GIT_COMMIT_MSG_FILE_PREFIX = "git-commit-msg-"; // the file name prefix for commit message file
+  @NonNls private static final String GIT_COMMIT_MSG_FILE_PREFIX = "cc-commit-msg-"; // the file name prefix for commit message file
   @NonNls private static final String GIT_COMMIT_MSG_FILE_EXT = ".txt"; // the file extension for commit message file
 
   private final Project myProject;
@@ -76,17 +76,22 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     mySettings = settings;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public boolean keepChangeListAfterCommit(ChangeList changeList) {
     return false;
   }
 
+  /** {@inheritDoc} */
   @Nullable
+  @Override
   public RefreshableOnComponent createAdditionalOptionsPanel(CheckinProjectPanel panel,
                                                              PairConsumer<Object, Object> additionalDataConsumer) {
-    return new GitCheckinOptions(myProject, panel.getRoots());
+    return new CheckinOptions(myProject, panel.getRoots());
   }
 
   @Nullable
+  @Override
   public String getDefaultMessageFor(FilePath[] filesToCheckin) {
     StringBuilder rc = new StringBuilder();
     for (VirtualFile root : Util.roots(Arrays.asList(filesToCheckin))) {
@@ -115,14 +120,20 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     return null;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public String getHelpId() {
     return null;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public String getCheckinOperationName() {
     return Bundle.getString("commit.action.name");
   }
 
+  /** {@inheritDoc} */
+  @Override
   public List<VcsException> commit(@NotNull List<Change> changes,
                                    @NotNull String message,
                                    @NotNull NullableFunction<Object, Object> parametersHolder) {
@@ -203,6 +214,8 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     return exceptions;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public List<VcsException> commit(List<Change> changes, String preparedComment) {
     //noinspection unchecked
     return commit(changes, preparedComment, NullableFunction.NULL);
@@ -542,7 +555,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   /**
    * Checkin options for git
    */
-  private class GitCheckinOptions implements RefreshableOnComponent {
+  private class CheckinOptions implements RefreshableOnComponent {
     /**
      * A container panel
      */
@@ -562,7 +575,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
      * @param project
      * @param roots
      */
-    GitCheckinOptions(Project project, Collection<VirtualFile> roots) {
+    CheckinOptions(Project project, Collection<VirtualFile> roots) {
       myPanel = new JPanel(new GridBagLayout());
       final Insets insets = new Insets(2, 2, 2, 2);
       // add authors drop down

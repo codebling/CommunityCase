@@ -42,8 +42,8 @@ import java.util.*;
  * <p/>
  * Based on the JetBrains SVNAnnotationProvider.
  */
-public class FileAnnotation implements com.intellij.openapi.vcs.annotate.FileAnnotation {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.annotate.FileAnnotation");
+public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate.FileAnnotation {
+  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.annotate.IntellijFileAnnotation");
 
   /**
    * annotated content
@@ -111,7 +111,7 @@ public class FileAnnotation implements com.intellij.openapi.vcs.annotate.FileAnn
    * @param file        the root
    * @param monitorFlag if false the file system will not be listened for changes (used for annotated files from the repository).
    */
-  public FileAnnotation(@NotNull final Project project, @NotNull VirtualFile file, final boolean monitorFlag) {
+  public IntellijFileAnnotation(@NotNull final Project project, @NotNull VirtualFile file, final boolean monitorFlag) {
     myProject = project;
     myFile = file;
     myMonitorFlag = monitorFlag;

@@ -192,7 +192,7 @@ public class UpdateLocallyModifiedDialog extends DialogWrapper {
   }
 
   /**
-   * Revert files from the list
+   * UndoCheckout files from the list
    *
    * @param project the project
    * @param root    the vcs root

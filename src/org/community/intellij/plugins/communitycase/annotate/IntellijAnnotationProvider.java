@@ -19,6 +19,7 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
@@ -44,7 +45,7 @@ import java.util.List;
  * <p/>
  * Based on the JetBrains SVNAnnotationProvider.
  */
-public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.AnnotationProvider {
+public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.annotate.AnnotationProvider {
   /**
    * the context project
    */
@@ -63,25 +64,25 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
    *
    * @param project a context project
    */
-  public AnnotationProvider(@NotNull Project project) {
+  public IntellijAnnotationProvider(@NotNull Project project) {
     myProject = project;
   }
 
   /**
    * {@inheritDoc}
    */
-  public com.intellij.openapi.vcs.annotate.FileAnnotation annotate(@NotNull VirtualFile file) throws VcsException {
+  public FileAnnotation annotate(@NotNull VirtualFile file) throws VcsException {
     return annotate(file, null);
   }
 
   /**
    * {@inheritDoc}
    */
-  public com.intellij.openapi.vcs.annotate.FileAnnotation annotate(@NotNull final VirtualFile file, final VcsFileRevision revision) throws VcsException {
+  public FileAnnotation annotate(@NotNull final VirtualFile file, final VcsFileRevision revision) throws VcsException {
     if (file.isDirectory()) {
       throw new VcsException("Cannot annotate a directory");
     }
-    final com.intellij.openapi.vcs.annotate.FileAnnotation[] annotation = new com.intellij.openapi.vcs.annotate.FileAnnotation[1];
+    final FileAnnotation[] annotation = new FileAnnotation[1];
     final Exception[] exception = new Exception[1];
     Runnable command = new Runnable() {
       public void run() {
@@ -133,7 +134,7 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
    * @return a file annotation object
    * @throws VcsException if there is a problem with running
    */
-  private com.intellij.openapi.vcs.annotate.FileAnnotation annotate(final FilePath repositoryFilePath,
+  private FileAnnotation annotate(final FilePath repositoryFilePath,
                                      final VcsFileRevision revision,
                                      final List<VcsFileRevision> revisions,
                                      final VirtualFile file) throws VcsException {
@@ -151,7 +152,7 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
     h.endOptions();
     h.addRelativePaths(repositoryFilePath);
     String output = h.run();
-    FileAnnotation annotation = new FileAnnotation(myProject, file, revision == null);
+    IntellijFileAnnotation annotation = new IntellijFileAnnotation(myProject, file, revision == null);
     class CommitInfo {
       Date date;
       String author;

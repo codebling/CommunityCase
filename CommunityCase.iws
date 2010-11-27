@@ -2,14 +2,305 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="624ca59d-ea6e-48f5-832f-84f91714a65d" name="Default" comment="">
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\src\org\community\intellij\plugins\communitycase\history\browser\SelectGitBranchesPopup.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\src\org\community\intellij\plugins\communitycase\annotate\CcFileAnnotation.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\src\org\community\intellij\plugins\communitycase\changes\CcChangeProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/AnnotationProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/AnnotationProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeCollector.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeCollector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeUtils.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/CommittedChangeListProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/CommittedChangeListProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/RepositoryLocation.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/RepositoryLocation.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/ClearcaseIntegration.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/ClearcasePlugin.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/ccjni.dll" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/clearcase-java_2.0.0-alpha/antlr.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/clearcase-java_2.0.0-alpha/clearcase-java.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/clearcase-java_cvs/clearcase-java_cvs.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/clearcase.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/commons-lang-1.0.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/commons-logging.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/jacob.dll" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/jacob.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib/jawin.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Unstash.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/ui/UnstashDialog.form" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/ui/UnstashDialog.java" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.antlr-eclipse" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.antlr-eclipse" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.classpath" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.classpath" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.cvsignore" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.cvsignore" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.fbprefs" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.fbprefs" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.project" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.project" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/org.eclipse.jdt.core.prefs" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/org.eclipse.jdt.core.prefs" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/.settings/org.eclipse.jdt.ui.prefs" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/.settings/org.eclipse.jdt.ui.prefs" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/.cvsignore" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/.cvsignore" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/cglib-nodep-2.1_3.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/cglib-nodep-2.1_3.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/easymock-2.5.2.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/easymock-2.5.2.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/easymockclassextension-2.4.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/easymockclassextension-2.4.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/javassist-3.10.0.GA.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/javassist-3.10.0.GA.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/junit-4.7.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/junit-4.7.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/objenesis-1.1.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/objenesis-1.1.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/powermock-easymock-1.3.5-full.jar" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/3rdparty/powermock-easymock-junit-1.3.5/powermock-easymock-1.3.5-full.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Entries.Log" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Entries.Log" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/.project" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/.project" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/checkoutlist" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/checkoutlist" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/commitinfo" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/commitinfo" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/config" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/config" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/cvswrappers" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/cvswrappers" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/editinfo" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/editinfo" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/loginfo" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/loginfo" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/modules" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/modules" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/notify" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/notify" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/rcsinfo" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/rcsinfo" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/taginfo" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/taginfo" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/CVSROOT/verifymsg" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/CVSROOT/verifymsg" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/META-INF/MANIFEST.MF" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/META-INF/MANIFEST.MF" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/README.txt" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/README.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/about.html" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/about.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/build.properties" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/build.properties" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/license.html" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/license.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/plugin.properties" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/plugin.properties" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Log" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Log" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Log" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Log" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/ClearCaseCLIImpl.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/ClearCaseCLIImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/Utils.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/Utils.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CleardlgCommandLine.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CleardlgCommandLine.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CleartoolCommandLine.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CleartoolCommandLine.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CommandLauncher.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CommandLauncher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CommandLauncherProgressive.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CommandLauncherProgressive.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CommandLine.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/CommandLine.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/ICommandLauncher.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/ICommandLauncher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/Response.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/Response.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/SingleProcessCommandLauncher.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/SingleProcessCommandLauncher.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/MatchStrategyComposite.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/MatchStrategyComposite.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/OutputUtil.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/OutputUtil.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/PatternMatcherStrategy.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/PatternMatcherStrategy.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/AbstractMatcherStrategy.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/AbstractMatcherStrategy.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/DirectoryIsNotCheckedOut.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/DirectoryIsNotCheckedOut.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementAlreadyCheckedout.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementAlreadyCheckedout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementAlreadyExists.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementAlreadyExists.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementCheckedOutReservedInOtherView.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementCheckedOutReservedInOtherView.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementHasCheckOuts.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementHasCheckOuts.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsCheckedIn.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsCheckedIn.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsCheckedout.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsCheckedout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsDerivedObject.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsDerivedObject.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsHijacked.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsHijacked.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsLink.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsLink.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsReservedCheckout.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsReservedCheckout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsUnReservedCheckout.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ElementIsUnReservedCheckout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/IdenticalPredecessor.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/IdenticalPredecessor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/MostRecentNotPredecessor.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/MostRecentNotPredecessor.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/NotSupportedInSnapshotView.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/NotSupportedInSnapshotView.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ObjectNotInsideVob.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ObjectNotInsideVob.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulAdd.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulAdd.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulCheckin.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulCheckin.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulCheckout.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulCheckout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulDelete.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulDelete.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulMerge.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulMerge.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulMove.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulMove.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulUncheckout.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/SuccessfulUncheckout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/UnableToAccessElement.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/UnableToAccessElement.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/UnableToCreateElement.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/UnableToCreateElement.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ViewPrivateObject.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/commandline/output/strategy/ViewPrivateObject.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/Command.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/Command.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/OperationListenerImpl.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/commandline/net/sourceforge/clearcase/console/OperationListenerImpl.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Log" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Log" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCase.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCase.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseElementState.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseElementState.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseElementStateStream.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseElementStateStream.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseError.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseError.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseException.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseException.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseInterface.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseInterface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseUtil.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ClearCaseUtil.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ElementHistory.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/ElementHistory.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/Messages.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/Messages.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/DisposeListener.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/DisposeListener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/OperationListener.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/events/OperationListener.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/messages.properties" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/messages.properties" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/ListenerList.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/ListenerList.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/Os.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/common/net/sourceforge/clearcase/utils/Os.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Log" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Log" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/AbstractOutputTestCase.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/AbstractOutputTestCase.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/AddOutputScenariosTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/AddOutputScenariosTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/AllTests.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/AllTests.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries.Extra" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries.Extra" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries.Extra.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries.Extra.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries.Old" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Entries.Old" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Repository" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Repository" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Root" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CVS/Root" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CheckinOutputScenariosTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CheckinOutputScenariosTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CheckoutOutputScenariosTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/CheckoutOutputScenariosTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/DeleteOutputScenarios.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/DeleteOutputScenarios.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/ElementIsCheckedInTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/ElementIsCheckedInTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/ElementIsCheckedOutTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/ElementIsCheckedOutTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/MergeOutputScenariosTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/MergeOutputScenariosTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/MoveOutputScenarioTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/MoveOutputScenarioTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/OutputUtilTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/OutputUtilTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/SymbolicLinkTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/SymbolicLinkTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/UncheckoutOutputScenariosTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/UncheckoutOutputScenariosTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/UpdateOutputScenariosTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/UpdateOutputScenariosTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/ref/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/ViewPrivateObjectTest.java" afterPath="$PROJECT_DIR$/lib/clearcase-java_cvs/src/tests/net/sourceforge/clearcase/tests/output/ViewPrivateObjectTest.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Revert.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/UndoCheckout.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/AnnotationProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/IntellijAnnotationProvider.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/IntellijFileAnnotation.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CommunityCase.iml" afterPath="$PROJECT_DIR$/CommunityCase.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CommunityCase.ipr" afterPath="$PROJECT_DIR$/CommunityCase.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CommunityCase.iws" afterPath="$PROJECT_DIR$/CommunityCase.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" afterPath="$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/src/META-INF/plugin.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Util.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Util.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/QuickListContentProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/QuickListContentProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/CheckinEnvironment.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/CheckinEnvironment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/update/UpdateLocallyModifiedDialog.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/update/UpdateLocallyModifiedDialog.java" />
     </list>
     <ignored path="CommunityCase.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -106,11 +397,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/Handler.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushActiveBranchesDialog.form" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/VcsPanel.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/diff/DiffProvider.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/merge/PullDialog.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/CheckoutDialog.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeUtils.java" />
@@ -119,9 +405,14 @@
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/BigTableTableModel.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Checkout.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/i18n/Bundle.properties" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Add.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeProvider.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Add.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/AnnotationProvider.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/QuickListContentProvider.java" />
+        <option value="$PROJECT_DIR$/src/META-INF/plugin.xml" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/CheckinEnvironment.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Util.java" />
       </list>
     </option>
   </component>
@@ -177,6 +468,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -191,13 +483,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="communitycase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
               <option name="myItemId" value="CommunityCase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="communitycase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CommunityCase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="communitycase" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="META-INF" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -208,22 +527,22 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Favorites" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="119" />
-    <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="132" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="137" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="MemberChooser.sorted" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="138" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="811" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="817" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="811" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="132" />
     <property name="GoToClass.includeJavaFiles" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="126" />
@@ -238,11 +557,11 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="preferences.sourceCode.General" />
+    <property name="options.lastSelected" value="editing.templates" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -271,24 +590,6 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -314,6 +615,24 @@
       <envs />
       <properties />
       <listeners />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -372,6 +691,22 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="UPDATE_RUN_STATUS" value="false" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="DETECT_NESTED_COPIES" value="true" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <configuration useDefault="true">$USER_HOME$/.subversion_IDEA</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
       <are-packages-shown value="false" />
@@ -393,7 +728,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1288" height="1002" extended-state="6" />
+    <frame x="-3" y="24" width="1406" height="1004" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32983682" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -406,7 +741,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3901515" sideWeight="0.23252688" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.67016315" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967638" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1828479" sideWeight="0.67016315" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17455621" sideWeight="0.67016315" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.67016315" order="2" side_tool="false" content_ui="tabs" />
@@ -465,66 +800,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/vcs/VcsDataKeys.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="17" selection-start="166" selection-end="166" vertical-scroll-proportion="0.1271028" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/git4idea/src/git4idea/vfs/GitRootTracker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="12" selection-start="5362" selection-end="5363" vertical-scroll-proportion="4.5121493" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/SshIdeaService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="5" selection-start="1826" selection-end="1826" vertical-scroll-proportion="0.8029197" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/BigTableTableModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="32" selection-start="748" selection-end="748" vertical-scroll-proportion="-0.58878505" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/LogUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="115" selection-start="2573" selection-end="2573" vertical-scroll-proportion="0.61869156" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/i18n/Bundle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="13" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Checkout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="0" selection-start="1334" selection-end="1482" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/eclipse-plugin/src/net/sourceforge/eclipseccase/StateCacheFactory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="13" selection-start="2333" selection-end="2333" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/BasicAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="244" column="21" selection-start="9096" selection-end="9096" vertical-scroll-proportion="0.5551402" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Add.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="19" selection-start="2879" selection-end="2879" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/FileUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="174" column="21" selection-start="5213" selection-end="5213" vertical-scroll-proportion="0.33271027" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ref/eclipse-plugin/src/net/sourceforge/eclipseccase/ClearCaseModificationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="16" selection-start="2956" selection-end="2956" vertical-scroll-proportion="0.05291971" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ref/eclipse-plugin/src/net/sourceforge/eclipseccase/ClearCaseProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="891" column="0" selection-start="24858" selection-end="26611" vertical-scroll-proportion="0.61869156" />
@@ -537,19 +812,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="13" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.4987775">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="38" column="13" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.4987775" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/IntellijFileAnnotation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="13" selection-start="1795" selection-end="1795" vertical-scroll-proportion="0.61251503" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/browser/SelectGitBranchesPopup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="7" selection-start="1039" selection-end="1039" vertical-scroll-proportion="0.13711151" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Checkout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="20" selection-start="600" selection-end="600" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/vcsUtil/VcsUtil.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="50" selection-start="4334" selection-end="4334" vertical-scroll-proportion="0.33333334" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/IntellijAnnotationProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="44" selection-start="3439" selection-end="3439" vertical-scroll-proportion="-2.2790263" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="2792" selection-end="2792" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java">
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Add.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="13" selection-start="1795" selection-end="1795" vertical-scroll-proportion="0.61251503">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="71" column="0" selection-start="2806" selection-end="2806" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/QuickListContentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="0" selection-start="2375" selection-end="2375" vertical-scroll-proportion="0.43975905">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="371" column="0" selection-start="12971" selection-end="13002" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/update/StashUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="155" column="48" selection-start="6434" selection-end="6434" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/CheckinEnvironment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="421" column="38" selection-start="15415" selection-end="15415" vertical-scroll-proportion="0.29638556">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Util.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="169" column="6" selection-start="5839" selection-end="5839" vertical-scroll-proportion="0.3686747">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
