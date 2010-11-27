@@ -22,7 +22,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.*;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.community.intellij.plugins.communitycase.CcContentRevision;
+import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
@@ -36,14 +36,14 @@ import java.util.Set;
 /**
  * repository change provider
  */
-public class CcChangeProvider implements com.intellij.openapi.vcs.changes.ChangeProvider {
-  private static final Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.changes.CcChangeProvider");
+public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangeProvider {
+  private static final Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.changes.ChangeProvider");
   private final Project myProject;
   private final ChangeListManager myChangeListManager;
   private FileDocumentManager myFileDocumentManager;
   private final ProjectLevelVcsManager myVcsManager;
 
-  public CcChangeProvider(@NotNull Project project, ChangeListManager changeListManager, FileDocumentManager fileDocumentManager, ProjectLevelVcsManager vcsManager) {
+  public ChangeProvider(@NotNull Project project, ChangeListManager changeListManager, FileDocumentManager fileDocumentManager, ProjectLevelVcsManager vcsManager) {
     myProject = project;
     myChangeListManager = changeListManager;
     myFileDocumentManager = fileDocumentManager;
@@ -67,7 +67,7 @@ public class CcChangeProvider implements com.intellij.openapi.vcs.changes.Change
         ((VcsModifiableDirtyScope) dirtyScope).addDirtyDirRecursively(new FilePathImpl(file));
       }
     }
-    Collection<VirtualFile> roots = Util.RootsForPaths(affected);
+    Collection<VirtualFile> roots = Util.rootsForPaths(affected);
 
     try {
       final MyNonChangedHolder holder = new MyNonChangedHolder(myProject, dirtyScope.getDirtyFilesNoExpand(), addGate,
@@ -138,8 +138,8 @@ public class CcChangeProvider implements com.intellij.openapi.vcs.changes.Change
             final VirtualFile root = myVcsManager.getVcsRootFor(vf);
             if (root != null) {
               final RevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
-              builder.processChange(new Change(CcContentRevision.createRevision(vf, beforeRevisionNumber, myProject),
-                                               CcContentRevision.createRevision(vf, null, myProject), FileStatus.MODIFIED), Key);
+              builder.processChange(new Change(ContentRevision.createRevision(vf, beforeRevisionNumber, myProject),
+                                               ContentRevision.createRevision(vf, null, myProject), FileStatus.MODIFIED), Key);
             }
           }
         }
