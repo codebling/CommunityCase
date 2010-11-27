@@ -36,7 +36,7 @@ import com.intellij.util.AsynchConsumer;
 import com.intellij.util.Consumer;
 import com.intellij.util.concurrency.Semaphore;
 import org.community.intellij.plugins.communitycase.Branch;
-import org.community.intellij.plugins.communitycase.CcContentRevision;
+import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.FileRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
@@ -640,7 +640,7 @@ public class HistoryUtils {
     final ChangeListManager changeManager = ChangeListManager.getInstance(project);
     final Change change = changeManager.getChange(path);
     if (change != null && change.getType() == Change.Type.MOVED) {
-      CcContentRevision r = (CcContentRevision)change.getBeforeRevision();
+      ContentRevision r = (ContentRevision)change.getBeforeRevision();
       assert r != null : "Move change always have beforeRevision";
       path = r.getFile();
     }

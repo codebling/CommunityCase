@@ -50,7 +50,7 @@ public class ReferenceTracker {
   /**
    * The vcs instance that requested the tracking
    */
-  private final version controlVcs myVcs;
+  private final Vcs myVcs;
   /**
    * The event multicaster
    */
@@ -80,7 +80,7 @@ public class ReferenceTracker {
    * @param vcs      the vcs that created tracker
    * @param listener the listener to use for notifications (multicaster is expected)
    */
-  public ReferenceTracker(Project project, version controlVcs vcs, ReferenceListener listener) {
+  public ReferenceTracker(Project project, Vcs vcs, ReferenceListener listener) {
     myProject = project;
     myVcs = vcs;
     myListener = listener;
@@ -141,13 +141,13 @@ public class ReferenceTracker {
    */
   private void checkRoots() {
     try {
-      List<VirtualFile> roots = version controlUtil.getRoots(myProject, myVcs);
+      List<VirtualFile> roots = Util.getRoots(myProject, myVcs);
       myRoots.set(roots);
       for (VirtualFile root : roots) {
-        final VirtualFile = root.findChild(".");
-        if ( != null) {
+        final VirtualFile vc = root.findChild(".");
+        if (vc != null) {
           for (String name : myRootReferences) {
-            final VirtualFile child = .findChild(name);
+            final VirtualFile child = vc.findChild(name);
             if (child != null) {
               child.getTimeStamp();
             }
@@ -156,7 +156,7 @@ public class ReferenceTracker {
           if (infoRefs != null) {
             infoRefs.getTimeStamp();
           }
-          visitRecursively(.findChild("refs"));
+          visitRecursively(vc.findChild("refs"));
         }
       }
       notifyChanges(null);
@@ -236,25 +236,25 @@ public class ReferenceTracker {
      * @param name   the name check
      */
     private void checkFile(VirtualFile parent, String name) {
-      VirtualFile = parent;
-      while ( != null && !.getName().equals(".")) {
-        = .getParent();
+      VirtualFile vc = parent;
+      while (vc != null && !vc.getName().equals(".")) {
+        vc = vc.getParent();
       }
-      if ( == null) {
+      if (vc == null) {
         return;
       }
-      if (parent == && myRootReferences.contains(name)) {
-        notifyChanges(.getParent());
+      if (parent == vc && myRootReferences.contains(name)) {
+        notifyChanges(vc.getParent());
       }
-      else if (parent.getParent() == && name.equals("refs") && parent.getName().equals("info")) {
-        notifyChanges(.getParent());
+      else if (parent.getParent() == vc && name.equals("refs") && parent.getName().equals("info")) {
+        notifyChanges(vc.getParent());
       }
       else {
-        while (parent != null && parent.getParent() != ) {
+        while (parent != null && parent.getParent() != vc) {
           parent = parent.getParent();
         }
         if (parent != null && parent.isDirectory() && parent.getName().equals("refs")) {
-          notifyChanges(.getParent());
+          notifyChanges(vc.getParent());
         }
       }
     }

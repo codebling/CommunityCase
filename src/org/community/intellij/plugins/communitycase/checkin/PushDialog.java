@@ -24,14 +24,14 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.containers.HashMap;
-import git4idea.GitBranch;
-import git4idea.GitRemote;
-import git4idea.GitTag;
+import org.community.intellij.plugins.communitycase.Branch;
+import org.community.intellij.plugins.communitycase.Remote;
+import org.community.intellij.plugins.communitycase.Tag;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitUIUtil;
+import org.community.intellij.plugins.communitycase.ui.UiUtil;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -133,7 +133,7 @@ public class PushDialog extends DialogWrapper {
     super(project, true);
     setTitle(Bundle.getString("push.title"));
     setOKButtonText(Bundle.getString("push.button"));
-    GitUIUtil.setupRootChooser(project, roots, defaultRoot, myGitRootComboBox, myCurrentBranch);
+    UiUtil.setupRootChooser(project, roots, defaultRoot, myGitRootComboBox, myCurrentBranch);
     myProject = project;
     setupRemotes();
     setupPolicy();
@@ -266,11 +266,11 @@ public class PushDialog extends DialogWrapper {
     // select remote listener
     final DocumentAdapter listener = new DocumentAdapter() {
       VirtualFile myPreviousRoot;
-      GitRemote myPreviousRemote = null;
+      Remote myPreviousRemote = null;
 
       protected void textChanged(final DocumentEvent e) {
         final VirtualFile newRoot = getGitRoot();
-        final GitRemote newRemote = getRemote(getRemoteTextField().getText());
+        final Remote newRemote = getRemote(getRemoteTextField().getText());
         if (newRoot == null) {
           return;
         }
@@ -324,7 +324,7 @@ public class PushDialog extends DialogWrapper {
     Boolean rc = myMirrorChecks.get(name);
     if (rc == null) {
       rc = false;
-      GitRemote remote = getRemote(name);
+      Remote remote = getRemote(name);
       if (remote != null) {
         try {
           rc = ConfigUtil.getBoolValue(myProject, getGitRoot(), "remote." + name + ".mirror");
@@ -348,9 +348,9 @@ public class PushDialog extends DialogWrapper {
    * @return the remote or null
    */
   @Nullable
-  private GitRemote getRemote(final String name) {
+  private Remote getRemote(final String name) {
     for (int i = myRemoteComboBox.getItemCount() - 1; i >= 0; i--) {
-      final GitRemote r = (GitRemote)myRemoteComboBox.getItemAt(i);
+      final Remote r = (Remote)myRemoteComboBox.getItemAt(i);
       if (name.equals(r.toString())) {
         return r;
       }
@@ -369,8 +369,8 @@ public class PushDialog extends DialogWrapper {
         myBranchNames.clear();
         myTagNames.clear();
         try {
-          GitBranch.listAsStrings(myProject, getGitRoot(), false, true, myBranchNames, null);
-          GitTag.listAsStrings(myProject, getGitRoot(), myTagNames, null);
+          Branch.listAsStrings(myProject, getGitRoot(), false, true, myBranchNames, null);
+          Tag.listAsStrings(myProject, getGitRoot(), myTagNames, null);
         }
         catch (VcsException ex) {
           LOG.warn("Exception in branch list: \n" + StringUtil.getThrowableText(ex));
@@ -385,7 +385,7 @@ public class PushDialog extends DialogWrapper {
    * Update remotes
    */
   private void updateRemotes() {
-    GitUIUtil.setupRemotes(myProject, getGitRoot(), myRemoteComboBox, false);
+    UiUtil.setupRemotes(myProject, getGitRoot(), myRemoteComboBox, false);
   }
 
   /**

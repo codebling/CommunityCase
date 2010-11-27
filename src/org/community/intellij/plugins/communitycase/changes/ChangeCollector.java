@@ -22,11 +22,10 @@ import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
-import com.intellij.openapi.vcs.changes.ContentRevision;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
-import org.community.intellij.plugins.communitycase.CcContentRevision;
+import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
@@ -245,7 +244,7 @@ class ChangeCollector {
         StringTokenizer tokenizer = new StringTokenizer(output, "\n\r");
         while (tokenizer.hasMoreTokens()) {
           final String s = tokenizer.nextToken();
-          Change ch = new Change(null, CcContentRevision.createRevision(myVcsRoot, s, null, myProject, false, false), FileStatus.ADDED);
+          Change ch = new Change(null, ContentRevision.createRevision(myVcsRoot, s, null, myProject, false, false), FileStatus.ADDED);
           myChanges.add(ch);
         }
       }
@@ -300,7 +299,7 @@ class ChangeCollector {
       sc.skipChars(2);
       if ('?' == status) {
         VirtualFile file = myVcsRoot.findFileByRelativePath(Util.unescapePath(sc.line()));
-        if (Util.RootOrNull(file) == myVcsRoot) {
+        if (Util.rootOrNull(file) == myVcsRoot) {
           myUnversioned.add(file);
         }
       }
@@ -309,7 +308,7 @@ class ChangeCollector {
           sc.boundedToken('\t');
           String file = Util.unescapePath(sc.line());
           VirtualFile vFile = myVcsRoot.findFileByRelativePath(file);
-          if (Util.RootOrNull(vFile) != myVcsRoot) {
+          if (Util.rootOrNull(vFile) != myVcsRoot) {
             continue;
           }
           if (!myUnmergedNames.add(file)) {
@@ -320,8 +319,8 @@ class ChangeCollector {
           // TODO handle conflict delete-modify
           // TODO handle conflict rename-delete
           // assume modify-modify conflict
-          ContentRevision before = CcContentRevision.createRevision(myVcsRoot, file, new RevisionNumber("orig_head"), myProject, false, true);
-          ContentRevision after = CcContentRevision.createRevision(myVcsRoot, file, null, myProject, false, false);
+          com.intellij.openapi.vcs.changes.ContentRevision before = ContentRevision.createRevision(myVcsRoot, file, new RevisionNumber("orig_head"), myProject, false, true);
+          com.intellij.openapi.vcs.changes.ContentRevision after = ContentRevision.createRevision(myVcsRoot, file, null, myProject, false, false);
           myChanges.add(new Change(before, after, FileStatus.MERGED_WITH_CONFLICTS));
         }
         else {

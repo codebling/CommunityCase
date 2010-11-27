@@ -22,14 +22,14 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.ArrayUtil;
-import git4idea.GitRemote;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Remote;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.HandlerUtil;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitUIUtil;
+import org.community.intellij.plugins.communitycase.ui.UiUtil;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -103,7 +103,7 @@ public class PullDialog extends DialogWrapper {
     super(project, true);
     setTitle(Bundle.getString("pull.title"));
     myProject = project;
-    GitUIUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranch);
+    UiUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranch);
     myGitRoot.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent e) {
         updateRemotes();
@@ -120,9 +120,9 @@ public class PullDialog extends DialogWrapper {
     };
     myBranchChooser.addElementsMarkListener(listener);
     listener.elementMarkChanged(null, true);
-    GitUIUtil.imply(mySquashCommitCheckBox, true, myNoCommitCheckBox, true);
-    GitUIUtil.imply(mySquashCommitCheckBox, true, myAddLogInformationCheckBox, false);
-    GitUIUtil.exclusive(mySquashCommitCheckBox, true, myNoFastForwardCheckBox, true);
+    UiUtil.imply(mySquashCommitCheckBox, true, myNoCommitCheckBox, true);
+    UiUtil.imply(mySquashCommitCheckBox, true, myAddLogInformationCheckBox, false);
+    UiUtil.exclusive(mySquashCommitCheckBox, true, myNoFastForwardCheckBox, true);
     MergeUtil.setupStrategies(myBranchChooser, myStrategy);
     init();
   }
@@ -226,10 +226,10 @@ public class PullDialog extends DialogWrapper {
     try {
       String item = getRemote();
       myBranchChooser.removeAllElements();
-      GitRemote r = null;
+      Remote r = null;
       final int count = myRemote.getItemCount();
       for (int i = 0; i < count; i++) {
-        GitRemote candidate = (GitRemote)myRemote.getItemAt(i);
+        Remote candidate = (Remote)myRemote.getItemAt(i);
         if (candidate.name().equals(item)) {
           r = candidate;
           break;
@@ -238,14 +238,14 @@ public class PullDialog extends DialogWrapper {
       if (r == null) {
         return;
       }
-      GitRemote.Info ri = r.localInfo(myProject, gitRoot());
+      Remote.Info ri = r.localInfo(myProject, root());
       String toSelect = ri.getRemoteForLocal(currentBranch());
       for (String trackedBranch : ri.trackedBranches()) {
         myBranchChooser.addElement(trackedBranch, trackedBranch.equals(toSelect));
       }
     }
     catch (VcsException e) {
-      GitVcs.getInstance(myProject).showErrors(Collections.singletonList(e), Bundle.getString("pull.retrieving.remotes"));
+      Vcs.getInstance(myProject).showErrors(Collections.singletonList(e), Bundle.getString("pull.retrieving.remotes"));
     }
     finally {
       validateDialog();
@@ -258,20 +258,20 @@ public class PullDialog extends DialogWrapper {
   @Nullable
   private String currentBranch() {
     String text = myCurrentBranch.getText();
-    return text.equals(GitUIUtil.NO_CURRENT_BRANCH) ? null : text;
+    return text.equals(UiUtil.NO_CURRENT_BRANCH) ? null : text;
   }
 
   /**
    * Update remotes for the git root
    */
   private void updateRemotes() {
-    GitUIUtil.setupRemotes(myProject, gitRoot(), currentBranch(), myRemote, true);
+    UiUtil.setupRemotes(myProject, root(), currentBranch(), myRemote, true);
   }
 
   /**
    * @return a currently selected git root
    */
-  public VirtualFile gitRoot() {
+  public VirtualFile root() {
     return (VirtualFile)myGitRoot.getSelectedItem();
   }
 

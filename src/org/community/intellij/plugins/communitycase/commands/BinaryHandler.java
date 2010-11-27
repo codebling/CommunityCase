@@ -19,8 +19,8 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitUtil;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -168,7 +168,7 @@ public class BinaryHandler extends Handler {
       public void processTerminated(int exitCode) {
         if (exitCode != 0 && !isIgnoredErrorCode(exitCode)) {
           Charset cs = getCharset();
-          cs = cs == null ? GitUtil.UTF8_CHARSET : cs;
+          cs = cs == null ? Util.UTF8_CHARSET : cs;
           String message = new String(myStderr.toByteArray(), cs);
           if (message.length() == 0) {
             //noinspection ThrowableResultOfMethodCallIgnored
@@ -181,7 +181,7 @@ public class BinaryHandler extends Handler {
           }
           else {
             if (!isStderrSuppressed()) {
-              GitVcs.getInstance(myProject).showErrorMessages(message);
+              Vcs.getInstance(myProject).showErrorMessages(message);
             }
           }
           if (message != null) {

@@ -20,7 +20,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitBranch;
+import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.LineHandlerAdapter;
@@ -46,7 +46,7 @@ public class PushUtils {
    */
   @Nullable
   public static LineHandler preparePush(Project project, VirtualFile vcsRoot) throws VcsException {
-    GitBranch current = GitBranch.current(project, vcsRoot);
+    Branch current = Branch.current(project, vcsRoot);
     if (current == null) {
       return null;
     }

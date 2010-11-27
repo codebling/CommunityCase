@@ -206,7 +206,7 @@ class LogRecord {
       case 'A':
         before = null;
         status = FileStatus.ADDED;
-        after = ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
+        after = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
         break;
       case 'U':
         status = FileStatus.MERGED_WITH_CONFLICTS;
@@ -214,21 +214,21 @@ class LogRecord {
         if (status == null) {
           status = FileStatus.MODIFIED;
         }
-        final FilePath filePath = ContentRevision.createPath(vcsRoot, path, false, true);
-        before = ContentRevision.createMultipleParentsRevision(project, filePath, parentRevisions);
-        after = ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
+        final FilePath filePath = org.community.intellij.plugins.communitycase.ContentRevision.createPath(vcsRoot, path, false, true);
+        before = org.community.intellij.plugins.communitycase.ContentRevision.createMultipleParentsRevision(project, filePath, parentRevisions);
+        after = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
         break;
       case 'D':
         status = FileStatus.DELETED;
-        final FilePath filePathDeleted = ContentRevision.createPath(vcsRoot, path, true, true);
-        before = ContentRevision.createMultipleParentsRevision(project, filePathDeleted, parentRevisions);
+        final FilePath filePathDeleted = org.community.intellij.plugins.communitycase.ContentRevision.createPath(vcsRoot, path, true, true);
+        before = org.community.intellij.plugins.communitycase.ContentRevision.createMultipleParentsRevision(project, filePathDeleted, parentRevisions);
         after = null;
         break;
       case 'R':
         status = FileStatus.MODIFIED;
-        final FilePath filePathAfterRename = ContentRevision.createPath(vcsRoot, parts.get(2), false, false);
-        after = ContentRevision.createMultipleParentsRevision(project, filePathAfterRename, parentRevisions);
-        before = ContentRevision.createRevision(vcsRoot, path, thisRevision, project, true, true);
+        final FilePath filePathAfterRename = org.community.intellij.plugins.communitycase.ContentRevision.createPath(vcsRoot, parts.get(2), false, false);
+        after = org.community.intellij.plugins.communitycase.ContentRevision.createMultipleParentsRevision(project, filePathAfterRename, parentRevisions);
+        before = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, thisRevision, project, true, true);
         break;
       default:
         throw new VcsException("Unknown file status: " + Arrays.asList(parts));

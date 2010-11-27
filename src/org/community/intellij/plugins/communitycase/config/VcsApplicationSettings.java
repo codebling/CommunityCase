@@ -62,7 +62,7 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   /**
    * @return the default executable name depending on the platform
    */
-  public String defaultGit() {
+  public String defaultVcs() {
     if (myPathToGit == null) {
       String[] paths;
       String program;
@@ -96,14 +96,14 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   }
 
   public void loadState(State state) {
-    myPathToGit = state.PATH_TO_GIT == null ? defaultGit() : state.PATH_TO_GIT;
+    myPathToGit = state.PATH_TO_GIT == null ? defaultVcs() : state.PATH_TO_GIT;
   }
 
   /**
    * @return get last set path to git or null
    */
-  public String getPathToGit() {
-    return myPathToGit == null ? defaultGit() : myPathToGit;
+  public String getPathToVcs() {
+    return myPathToGit == null ? defaultVcs() : myPathToGit;
   }
 
   /**

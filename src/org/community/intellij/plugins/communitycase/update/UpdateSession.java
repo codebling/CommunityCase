@@ -16,7 +16,6 @@
 package org.community.intellij.plugins.communitycase.update;
 
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.update.UpdateSession;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

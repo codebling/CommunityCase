@@ -18,12 +18,11 @@ package org.community.intellij.plugins.communitycase.config;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
 import com.intellij.execution.process.ProcessOutput;
-import com.intellij.execution.util.ExecutableValidator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.CharsetToolkit;
-import git4idea.GitVcs;
-import git4idea.i18n.GitBundle;
+import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.i18n.Bundle;
 
 /**
  * Project service that is used to check whether currently set git executable is valid (just calls 'git version' and parses the output),
@@ -32,23 +31,23 @@ import git4idea.i18n.GitBundle;
  */
 public class ExecutableValidator extends com.intellij.execution.util.ExecutableValidator {
 
-  private GitVcs myVcs;
+  private Vcs myVcs;
 
   public ExecutableValidator(Project project) {
-    super(project, GitVcs.NOTIFICATION_GROUP_ID, GitVcs.getInstance(project).getConfigurable());
-    myVcs = GitVcs.getInstance(project);
-    setMessagesAndTitles(GitBundle.message("git.executable.notification.title"),
-                         GitBundle.message("git.executable.notification.description"),
-                         GitBundle.message("git.executable.dialog.title"),
-                         GitBundle.message("git.executable.dialog.description"),
-                         GitBundle.message("git.executable.dialog.error"),
-                         GitBundle.message("git.executable.filechooser.title"),
-                         GitBundle.message("git.executable.filechooser.description"));
+    super(project, Vcs.NOTIFICATION_GROUP_ID, Vcs.getInstance(project).getConfigurable());
+    myVcs = Vcs.getInstance(project);
+    setMessagesAndTitles(Bundle.message("git.executable.notification.title"),
+                         Bundle.message("git.executable.notification.description"),
+                         Bundle.message("git.executable.dialog.title"),
+                         Bundle.message("git.executable.dialog.description"),
+                         Bundle.message("git.executable.dialog.error"),
+                         Bundle.message("git.executable.filechooser.title"),
+                         Bundle.message("git.executable.filechooser.description"));
   }
 
   @Override
   protected String getCurrentExecutable() {
-    return myVcs.getAppSettings().getPathToGit();
+    return myVcs.getAppSettings().getPathToVcs();
   }
 
   @Override

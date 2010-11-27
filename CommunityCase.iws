@@ -2,73 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="624ca59d-ea6e-48f5-832f-84f91714a65d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Branch.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/BranchesSearcher.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/CcContentRevision.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/FileRevision.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Reference.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Remote.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/RevisionNumber.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/RootConverter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Tag.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Util.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\GitCheckoutDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\GitCloneDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitBranchConfiguration.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitBranchConfigurationChangedDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitBranchConfigurationChangedDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitBranchConfigurations.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitBranchConfigurationsListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitBranchesWidget.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitCheckoutProcess.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitManageConfigurationsDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitManageConfigurationsDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitSwitchBranchesDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\branches\GitSwitchBranchesDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitLineHandlerListener.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitTextHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitVcsPanel.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitVcsPanel.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\SSHConnectionSettings.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\i18n\GitBundle.properties" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\GitMergeDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\GitMergeDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\GitMergeProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\GitPullDialog.form" afterPath="" />
-      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\GitPullDialog.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitCheckinEnvironment.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/CheckinEnvironment.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitCommitAndPushExecutor.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/CommitAndPushExecutor.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitPushActiveBranchesDialog.form" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushActiveBranchesDialog.form" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitPushActiveBranchesDialog.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushActiveBranchesDialog.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitPushDialog.form" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushDialog.form" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitPushDialog.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushDialog.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitPushRebaseProcess.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushRebaseProcess.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkin\GitPushUtils.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushUtils.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\GitCheckoutDialog.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/CheckoutDialog.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\GitCheckoutProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/CheckoutProvider.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\checkout\GitCloneDialog.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/CloneDialog.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitBinaryHandler.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/BinaryHandler.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitCommand.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/Command.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitFileUtils.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/FileUtils.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitHandler.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/Handler.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitHandlerListener.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/HandlerListener.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitHandlerUtil.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/HandlerUtil.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitLineHandler.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/LineHandler.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitLineHandlerAdapter.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/RevisionSelector.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitSSHGUIHandler.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/SshGuiHandler.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitSSHIdeaService.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/SshIdeaService.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\GitSimpleHandler.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/SimpleHandler.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\commands\StringScanner.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/StringScanner.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitConfigUtil.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/ConfigUtil.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitExecutableValidator.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/ExecutableValidator.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitVcsApplicationSettings.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/VcsApplicationSettings.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitVcsConfigurable.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/VcsConfigurable.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitVcsSettings.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/VcsSettings.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\config\GitVersion.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/Version.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\i18n\GitBundle.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/i18n/Bundle.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\GitMergeUtil.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/merge/MergeUtil.java" />
-      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\ref\git4idea\src\git4idea\merge\MergeChangeCollector.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/merge/MergeChangeCollector.java" />
+      <change type="DELETED" beforePath="C:\ccplugins\CommunityCase\src\org\community\intellij\plugins\communitycase\history\browser\SelectGitBranchesPopup.java" afterPath="" />
+      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\src\org\community\intellij\plugins\communitycase\annotate\CcFileAnnotation.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java" />
+      <change type="MOVED" beforePath="C:\ccplugins\CommunityCase\src\org\community\intellij\plugins\communitycase\changes\CcChangeProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/AnnotationProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/AnnotationProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeCollector.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeCollector.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeUtils.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/CommittedChangeListProvider.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/CommittedChangeListProvider.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/RepositoryLocation.java" afterPath="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/RepositoryLocation.java" />
     </list>
     <ignored path="CommunityCase.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -165,22 +106,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/ui/UiUtil.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/Handler.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkin/PushActiveBranchesDialog.form" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/config/VcsPanel.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/diff/DiffProvider.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/merge/PullDialog.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/CheckoutDialog.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeUtils.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/SshIdeaService.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/LogUI.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/BigTableTableModel.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Checkout.java" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/i18n/Bundle.properties" />
         <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Add.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/ContentRevision.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeCollector.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/MultipleContentsRevision.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/LogAssembler.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/CommitToCommitConvertor.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/CheckoutProvider.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/GitBranch.java" />
-        <option value="$PROJECT_DIR$/ref/git4idea/src/git4idea/GitBranchesSearcher.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/BranchesSearcher.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Branch.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/CcChangeProvider.java" />
-        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/LogParser.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeProvider.java" />
+        <option value="$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java" />
       </list>
     </option>
   </component>
@@ -236,7 +177,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Favorites" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -255,76 +195,9 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="communitycase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="communitycase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="history" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CommunityCase" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ref" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -335,23 +208,24 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Favorites" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="119" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="132" />
     <property name="project.structure.proportion" value="0.15" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="132" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="137" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="MemberChooser.sorted" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="137" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="138" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="817" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="811" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="817" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="132" />
+    <property name="GoToClass.includeJavaFiles" value="true" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="126" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
@@ -364,11 +238,11 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="preferences.sourceCode" />
+    <property name="options.lastSelected" value="preferences.sourceCode.General" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -397,6 +271,24 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -422,24 +314,6 @@
       <envs />
       <properties />
       <listeners />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -523,21 +397,21 @@
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32983682" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.67016315" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3901515" sideWeight="0.23252688" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967638" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2184466" sideWeight="0.67016315" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37995338" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32983682" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37995338" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293011" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3901515" sideWeight="0.23252688" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.67016315" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967638" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1828479" sideWeight="0.67016315" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.67016315" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32983682" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -591,118 +465,88 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/BranchesSearcher.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/openapi.jar!/com/intellij/openapi/vcs/VcsDataKeys.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.12274368">
-          <folding />
-        </state>
+        <state line="5" column="17" selection-start="166" selection-end="166" vertical-scroll-proportion="0.1271028" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ref/git4idea/src/git4idea/GitBranchesSearcher.java">
+    <entry file="file://$PROJECT_DIR$/ref/git4idea/src/git4idea/vfs/GitRootTracker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="66" selection-start="955" selection-end="955" vertical-scroll-proportion="0.14320096" />
+        <state line="156" column="12" selection-start="5362" selection-end="5363" vertical-scroll-proportion="4.5121493" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Tag.java">
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/SshIdeaService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="6" selection-start="2029" selection-end="2029" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="57" column="5" selection-start="1826" selection-end="1826" vertical-scroll-proportion="0.8029197" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/AbstractRebaseResumeAction.java">
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/BigTableTableModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="22" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0" />
+        <state line="18" column="32" selection-start="748" selection-end="748" vertical-scroll-proportion="-0.58878505" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/wholeTree/LogUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="115" selection-start="2573" selection-end="2573" vertical-scroll-proportion="0.61869156" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/i18n/Bundle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="3" selection-start="1472" selection-end="1472" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="40" column="13" selection-start="1538" selection-end="1538" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Checkout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="0" selection-start="1334" selection-end="1482" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/eclipse-plugin/src/net/sourceforge/eclipseccase/StateCacheFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="13" selection-start="2333" selection-end="2333" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/BasicAction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="244" column="21" selection-start="9096" selection-end="9096" vertical-scroll-proportion="0.5551402" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/actions/Add.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="19" selection-start="2879" selection-end="2879" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/commands/FileUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="21" selection-start="5213" selection-end="5213" vertical-scroll-proportion="0.33271027" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/eclipse-plugin/src/net/sourceforge/eclipseccase/ClearCaseModificationHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="16" selection-start="2956" selection-end="2956" vertical-scroll-proportion="0.05291971" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ref/eclipse-plugin/src/net/sourceforge/eclipseccase/ClearCaseProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="891" column="0" selection-start="24858" selection-end="26611" vertical-scroll-proportion="0.61869156" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/i18n/Bundle.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="21" selection-start="2889" selection-end="2889" vertical-scroll-proportion="0.0" />
+        <state line="1" column="37" selection-start="106" selection-end="106" vertical-scroll-proportion="0.033333335" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Branch.java">
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/ChangeProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="101" selection-start="3103" selection-end="3103" vertical-scroll-proportion="0.0">
+        <state line="38" column="13" selection-start="1442" selection-end="1442" vertical-scroll-proportion="0.4987775">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Vcs.java">
+    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/annotate/FileAnnotation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="57" selection-start="3725" selection-end="3725" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/CcChangeProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="13" selection-start="1444" selection-end="1444" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/TestOutgoingAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="13" selection-start="1387" selection-end="1387" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/changes/VersionFilterComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="0" selection-start="1314" selection-end="1314" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/checkout/branches/BranchesWidget.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="13" selection-start="3061" selection-end="3061" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/browser/ProjectLogManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="16" selection-start="4606" selection-end="4606" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/CcContentRevision.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="13" selection-start="1459" selection-end="1459" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/Util.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="56" selection-start="5354" selection-end="5354" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/community/intellij/plugins/communitycase/history/LogParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="51" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.32762837">
+        <state line="44" column="13" selection-start="1795" selection-end="1795" vertical-scroll-proportion="0.61251503">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -712,91 +556,14 @@
   </component>
   <component name="masterDetails">
     <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
       <state key="Copyright.UI">
         <settings>
           <splitter-proportions />
         </settings>
       </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>Android</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>IDEA IC-98.382</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <last-edited>clearcase-java_cvs</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-                <option value="0.5" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
       <state key="ScopeChooserConfigurable.UI">
         <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
+          <splitter-proportions />
         </settings>
       </state>
     </states>

@@ -55,7 +55,7 @@ public class VfsListener extends VcsVFSListener {
    * @param project a project
    * @param vcs     a vcs for that project
    */
-  public VfsListener(final Project project, final version controlVcs vcs) {
+  public VfsListener(final Project project, final Vcs vcs) {
     super(project, vcs);
   }
 
@@ -111,7 +111,7 @@ public class VfsListener extends VcsVFSListener {
     // Filter added files before further processing
     final Map<VirtualFile, List<VirtualFile>> sortedFiles;
     try {
-      sortedFiles = version controlUtil.sortFilesByRoot(addedFiles, true);
+      sortedFiles = Util.sortFilesByRoot(addedFiles, true);
     }
     catch (VcsException e) {
       throw new RuntimeException("The exception is not expected here", e);
@@ -134,7 +134,7 @@ public class VfsListener extends VcsVFSListener {
               h.addParameters(paths);
               for (StringScanner s = new StringScanner(h.run()); s.hasMoreData();) {
                 String l = s.line();
-                String p = version controlUtil.unescapePath(l);
+                String p = Util.unescapePath(l);
                 VirtualFile f = root.findFileByRelativePath(p);
                 assert f != null : "The virtual file must be available at this point: " + p + " (" + root.getPresentableUrl() + ")";
                 retainedFiles.add(f);
@@ -176,7 +176,7 @@ public class VfsListener extends VcsVFSListener {
   protected void performAdding(final Collection<VirtualFile> addedFiles, final Map<VirtualFile, VirtualFile> copyFromMap) {
     final Map<VirtualFile, List<VirtualFile>> sortedFiles;
     try {
-      sortedFiles = version controlUtil.sortFilesByRoot(addedFiles, true);
+      sortedFiles = Util.sortFilesByRoot(addedFiles, true);
     }
     catch (VcsException e) {
       Vcs().showMessages(e.getMessage());
@@ -191,7 +191,7 @@ public class VfsListener extends VcsVFSListener {
             final VirtualFile root = e.getKey();
             indicator.setText(root.getPresentableUrl());
             FileUtils.addFiles(myProject, root, e.getValue());
-            version controlUtil.markFilesDirty(myProject, e.getValue());
+            Util.markFilesDirty(myProject, e.getValue());
           }
           catch (final VcsException ex) {
             UIUtil.invokeLaterIfNeeded(new Runnable() {
@@ -208,7 +208,7 @@ public class VfsListener extends VcsVFSListener {
   /**
    * @return casted vcs instance
    */
-  private version controlVcs Vcs() {
+  private Vcs Vcs() {
     return ((Vcs)myVcs);
   }
 
@@ -220,7 +220,7 @@ public class VfsListener extends VcsVFSListener {
   private void performAdding(Collection<FilePath> addedFiles) {
     final Map<VirtualFile, List<FilePath>> sortedFiles;
     try {
-      sortedFiles = version controlUtil.sortFilePathsByRoot(addedFiles, true);
+      sortedFiles = Util.sortFilePathsByRoot(addedFiles, true);
     }
     catch (VcsException e) {
       Vcs().showMessages(e.getMessage());
@@ -234,7 +234,7 @@ public class VfsListener extends VcsVFSListener {
             final VirtualFile root = e.getKey();
             indicator.setText(root.getPresentableUrl());
             FileUtils.addPaths(myProject, root, e.getValue());
-            version controlUtil.markFilesDirty(myProject, e.getValue());
+            Util.markFilesDirty(myProject, e.getValue());
           }
           catch (final VcsException ex) {
             UIUtil.invokeLaterIfNeeded(new Runnable() {
@@ -275,7 +275,7 @@ public class VfsListener extends VcsVFSListener {
   protected void performDeletion(final List<FilePath> filesToDelete) {
     final Map<VirtualFile, List<FilePath>> sortedFiles;
     try {
-      sortedFiles = version controlUtil.sortFilePathsByRoot(filesToDelete, true);
+      sortedFiles = Util.sortFilePathsByRoot(filesToDelete, true);
     }
     catch (VcsException e) {
       Vcs().showMessages(e.getMessage());
@@ -291,7 +291,7 @@ public class VfsListener extends VcsVFSListener {
             indicator.setText(root.getPresentableUrl());
             FileUtils.delete(myProject, root, e.getValue(), "--ignore-unmatch");
             if (myProject != null && !myProject.isDisposed()) {
-              version controlUtil.markFilesDirty(myProject, e.getValue());
+              Util.markFilesDirty(myProject, e.getValue());
             }
             for (FilePath p : e.getValue()) {
               for (File f = p.getIOFile(); f != null && !f.equals(rootFile); f = f.getParentFile()) {

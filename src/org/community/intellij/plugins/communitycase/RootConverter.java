@@ -43,7 +43,7 @@ public class RootConverter implements AbstractVcs.RootsConvertor {
     ArrayList<VirtualFile> roots = new ArrayList<VirtualFile>();
     HashSet<VirtualFile> listed = new HashSet<VirtualFile>();
     for (VirtualFile f : result) {
-      VirtualFile r = Util.RootOrNull(f);
+      VirtualFile r = Util.rootOrNull(f);
       if (r != null && listed.add(r)) {
         roots.add(r);
       }

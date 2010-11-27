@@ -18,13 +18,11 @@ package org.community.intellij.plugins.communitycase.commands;
 import com.intellij.ide.XmlRpcServer;
 import com.intellij.openapi.components.ServiceManager;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.git4idea.ssh.GitSSHHandler;
-import org.jetbrains.git4idea.ssh.GitSSHService;
 
 /**
  * The git ssh service implementation that uses IDEA XML RCP service
  */
-public class SshIdeaService extends GitSSHService {
+public class SshIdeaService { //extends SshService {
   /**
    * XML RPC server
    */
@@ -54,8 +52,8 @@ public class SshIdeaService extends GitSSHService {
   public int getXmlRcpPort() {
     return myXmlRpcServer.getPortNumber();
   }
-
-  protected void registerInternalHandler(final String handlerName, final GitSSHHandler handler) {
+/*
+  protected void registerInternalHandler(final String handlerName, final SshHandler handler) {
     myXmlRpcServer.addHandler(handlerName, handler);
-  }
+  }*/
 }

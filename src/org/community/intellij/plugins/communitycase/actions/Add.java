@@ -56,7 +56,6 @@ public class Add extends BasicAction {
         }
       }
     });
-
   }
 
   /**
@@ -73,6 +72,67 @@ public class Add extends BasicAction {
       pi.setText(entry.getKey().getPresentableUrl());
       FileUtils.addFiles(project, entry.getKey(), entry.getValue());
     }
+    /* Eclipse version...
+    private final class AddOperation implements IRecursiveOperation {
+
+      ArrayList<IResource> privateElement = new ArrayList<IResource>();
+
+      public IStatus visit(IResource resource, IProgressMonitor monitor) {
+        try {
+          monitor.beginTask(
+              "Adding " + resource.getFullPath().toString(), 100);
+          IStatus result = OK_STATUS;
+          // Sanity check - can't add something that already is under VC
+          if (isClearCaseElement(resource))
+            // return status with severity OK
+            return new Status(
+                IStatus.OK,
+                ID,
+                TeamException.UNABLE,
+                MessageFormat
+                    .format(
+                        "Resource \"{0}\" is already under source control!",
+                        new Object[] { resource
+                            .getFullPath().toString() }),
+                null);
+          result = findPrivateElements(resource, monitor);
+
+          if (result.isOK()) {
+            Collections.reverse(privateElement);
+            for (Object element : privateElement) {
+              IResource myResource = (IResource) element;
+              if (myResource.getType() == IResource.FOLDER) {
+                result = makeFolderElement(myResource, monitor);
+              } else if (myResource.getType() == IResource.FILE) {
+                result = makeFileElement(myResource, monitor);
+              }
+
+            }
+          }
+
+          // Add check recursive checkin of files.
+          if (ClearCasePlugin.isAddWithCheckin() && result == OK_STATUS) {
+            for (Object element : privateElement) {
+              IResource res = (IResource) element;
+              if (isCheckedOut(res)) {
+                ClearCasePlugin.getEngine().checkin(
+                    new String[] { res.getLocation()
+                        .toOSString() }, getComment(),
+                    ClearCase.NONE, opListener);
+
+              }
+
+            }
+          }
+
+          monitor.worked(40);
+          return result;
+        } finally {
+          monitor.done();
+          privateElement.clear();
+        }
+      }
+    */
   }
 
   @Override

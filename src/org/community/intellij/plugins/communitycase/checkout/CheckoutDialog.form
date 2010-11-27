@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <labelFor value="6937e"/>
-          <text resource-bundle="git4idea/i18n/GitBundle" key="common.git.root"/>
+          <text resource-bundle="git4idea/i18n/Bundle" key="common.git.root"/>
           <toolTipText value=""/>
         </properties>
       </component>
@@ -33,7 +33,7 @@
           <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="common.git.root.tooltip"/>
+          <toolTipText resource-bundle="git4idea/i18n/Bundle" key="common.git.root.tooltip"/>
         </properties>
       </component>
       <component id="a2e4b" class="javax.swing.JLabel">
@@ -41,7 +41,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="git4idea/i18n/GitBundle" key="common.current.branch"/>
+          <text resource-bundle="git4idea/i18n/Bundle" key="common.current.branch"/>
         </properties>
       </component>
       <component id="fbe3a" class="javax.swing.JLabel" binding="myCurrentBranch">
@@ -50,7 +50,7 @@
         </constraints>
         <properties>
           <text value="  "/>
-          <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="common.current.branch.tooltip"/>
+          <toolTipText resource-bundle="git4idea/i18n/Bundle" key="common.current.branch.tooltip"/>
         </properties>
       </component>
       <component id="2bb02" class="javax.swing.JComboBox" binding="myBranchToCkeckout">
@@ -59,7 +59,7 @@
         </constraints>
         <properties>
           <editable value="true"/>
-          <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.ref.tooltip"/>
+          <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.ref.tooltip"/>
         </properties>
       </component>
       <component id="9e316" class="javax.swing.JLabel">
@@ -68,7 +68,7 @@
         </constraints>
         <properties>
           <labelFor value="2bb02"/>
-          <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.branch.label"/>
+          <text resource-bundle="git4idea/i18n/Bundle" key="checkout.branch.label"/>
         </properties>
       </component>
       <component id="48cb5" class="javax.swing.JLabel">
@@ -77,7 +77,7 @@
         </constraints>
         <properties>
           <labelFor value="a307d"/>
-          <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.new.branch"/>
+          <text resource-bundle="git4idea/i18n/Bundle" key="checkout.new.branch"/>
         </properties>
       </component>
       <component id="a307d" class="javax.swing.JTextField" binding="myNewBranchName">
@@ -87,7 +87,7 @@
           </grid>
         </constraints>
         <properties>
-          <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.new.branch.tooltip"/>
+          <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.new.branch.tooltip"/>
         </properties>
       </component>
       <grid id="60ee2" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -104,8 +104,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.create.ref.log"/>
-              <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.create.ref.log.tooltip"/>
+              <text resource-bundle="git4idea/i18n/Bundle" key="checkout.create.ref.log"/>
+              <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.create.ref.log.tooltip"/>
             </properties>
           </component>
           <hspacer id="dd579">
@@ -119,8 +119,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.override.branch"/>
-              <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.override.tooltip"/>
+              <text resource-bundle="git4idea/i18n/Bundle" key="checkout.override.branch"/>
+              <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.override.tooltip"/>
             </properties>
           </component>
           <component id="a41e" class="javax.swing.JCheckBox" binding="myTrackBranchCheckBox" default-binding="true">
@@ -130,8 +130,8 @@
             <properties>
               <enabled value="false"/>
               <selected value="false"/>
-              <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.track.branch"/>
-              <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.track.tooltip"/>
+              <text resource-bundle="git4idea/i18n/Bundle" key="checkout.track.branch"/>
+              <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.track.tooltip"/>
             </properties>
           </component>
         </children>
@@ -141,8 +141,8 @@
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.include.tags"/>
-          <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.include.tags.tooltip"/>
+          <text resource-bundle="git4idea/i18n/Bundle" key="checkout.include.tags"/>
+          <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.include.tags.tooltip"/>
         </properties>
       </component>
       <component id="a4cb0" class="javax.swing.JButton" binding="myValidateButton" default-binding="true">
@@ -150,8 +150,8 @@
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="git4idea/i18n/GitBundle" key="checkout.validate"/>
-          <toolTipText resource-bundle="git4idea/i18n/GitBundle" key="checkout.validate.tooltip"/>
+          <text resource-bundle="git4idea/i18n/Bundle" key="checkout.validate"/>
+          <toolTipText resource-bundle="git4idea/i18n/Bundle" key="checkout.validate.tooltip"/>
           <verticalAlignment value="0"/>
         </properties>
       </component>

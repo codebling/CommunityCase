@@ -35,17 +35,17 @@ import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.util.Function;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.tree.TreeUtil;
-import git4idea.GitBranch;
-import git4idea.GitRevisionNumber;
-import git4idea.GitUtil;
-import git4idea.GitVcs;
-import git4idea.actions.GitRepositoryAction;
-import git4idea.actions.GitShowAllSubmittedFilesAction;
+import org.community.intellij.plugins.communitycase.Branch;
+import org.community.intellij.plugins.communitycase.RevisionNumber;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.actions.RepositoryAction;
+import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 import org.community.intellij.plugins.communitycase.commands.*;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitUIUtil;
-import git4idea.update.UpdatePolicyUtils;
+import org.community.intellij.plugins.communitycase.ui.UiUtil;
+import org.community.intellij.plugins.communitycase.update.UpdatePolicyUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -84,7 +84,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
 
   private JRadioButton myStashRadioButton; // Save files policy option
   private JRadioButton myShelveRadioButton;
-  private GitVcs myVcs;
+  private Vcs myVcs;
 
   /**
    * A modification of Runnable with the roots-parameter.
@@ -102,7 +102,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
    */
   private PushActiveBranchesDialog(final Project project, List<VirtualFile> vcsRoots, List<Root> roots) {
     super(project, true);
-    myVcs = GitVcs.getInstance(project);
+    myVcs = Vcs.getInstance(project);
     myProject = project;
     myVcsRoots = vcsRoots;
 
@@ -144,7 +144,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
           return;
         }
         Commit c = (Commit)node.getUserObject();
-        GitShowAllSubmittedFilesAction.showSubmittedFiles(project, c.revision.asString(), c.root.root);
+        ShowAllSubmittedFilesAction.showSubmittedFiles(project, c.revision.asString(), c.root.root);
       }
     });
     myFetchButton.addActionListener(new ActionListener() {
@@ -173,8 +173,8 @@ public class PushActiveBranchesDialog extends DialogWrapper {
    * Show dialog for the project
    */
   public static void showDialogForProject(final Project project) {
-    GitVcs vcs = GitVcs.getInstance(project);
-    List<VirtualFile> roots = GitRepositoryAction.getGitRoots(project, vcs);
+    Vcs vcs = Vcs.getInstance(project);
+    List<VirtualFile> roots = RepositoryAction.getRoots(project, vcs);
     if (roots == null) {
       return;
     }
@@ -231,7 +231,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
             notifyExceptionWhenClosed("Failed to rebase.", exceptions);
             return;
           }
-          GitUtil.refreshFiles(myProject, rebaseInfo.roots);
+          Util.refreshFiles(myProject, rebaseInfo.roots);
         } while (isRebaseNeeded());
 
         final Collection<Root> rootsToPush = getRootsToPush(); // collect roots from the dialog
@@ -254,7 +254,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
         return e.getLocalizedMessage();
       }
     }, "<br/>");
-    Notifications.Bus.notify(new Notification(GitVcs.NOTIFICATION_GROUP_ID, title, content, NotificationType.ERROR), myProject);
+    Notifications.Bus.notify(new Notification(Vcs.NOTIFICATION_GROUP_ID, title, content, NotificationType.ERROR), myProject);
   }
 
   /**
@@ -270,7 +270,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
       }
     }, Bundle.getString("push.active.pushing"), true, myProject);
     if (errors.get() != null && !errors.get().isEmpty()) {
-      GitUIUtil.showOperationErrors(myProject, errors.get(), Bundle.getString("push.active.pushing"));
+      UiUtil.showOperationErrors(myProject, errors.get(), Bundle.getString("push.active.pushing"));
     }
     refreshTree(false, null);
   }
@@ -392,14 +392,14 @@ public class PushActiveBranchesDialog extends DialogWrapper {
       }
     }, Bundle.getString("push.active.rebasing"), true, myProject);
     if (!exceptions.isEmpty()) {
-      GitUIUtil.showOperationErrors(myProject, exceptions, "git rebase");
+      UiUtil.showOperationErrors(myProject, exceptions, "git rebase");
     }
     refreshTree(false, rebaseInfo.uncheckedCommits);
-    GitUtil.refreshFiles(myProject, rebaseInfo.roots);
+    Util.refreshFiles(myProject, rebaseInfo.roots);
   }
 
   private void executeRebase(final List<VcsException> exceptions, final RebaseInfo rebaseInfo) {
-    PushRebaseProcess process = new PushRebaseProcess(GitVcs.getInstance(myProject), myProject, exceptions, rebaseInfo.policy, rebaseInfo.reorderedCommits, rebaseInfo.rootsWithMerges);
+    PushRebaseProcess process = new PushRebaseProcess(Vcs.getInstance(myProject), myProject, exceptions, rebaseInfo.policy, rebaseInfo.reorderedCommits, rebaseInfo.rootsWithMerges);
     process.doUpdate(ProgressManager.getInstance().getProgressIndicator(), rebaseInfo.roots);
   }
 
@@ -655,7 +655,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
         Root r = new Root();
         rc.add(r);
         r.root = root;
-        GitBranch b = GitBranch.current(project, root);
+        Branch b = Branch.current(project, root);
         if (b != null) {
           r.branch = b.getFullName();
           r.remote = b.getTrackedRemoteName(project, root);
@@ -667,7 +667,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
               Collection<VcsException> exs = HandlerUtil.doSynchronouslyWithExceptions(fetch);
               exceptions.addAll(exs);
             }
-            GitBranch tracked = b.tracked(project, root);
+            Branch tracked = b.tracked(project, root);
             assert tracked != null : "Tracked branch cannot be null here";
             SimpleHandler unmerged = new SimpleHandler(project, root, Command.LOG);
             unmerged.addParameters("--pretty=format:%H", r.branch + ".." + tracked.getFullName());
@@ -693,7 +693,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
               c.root = r;
               String hash = sp.spaceToken();
               String time = sp.spaceToken();
-              c.revision = new GitRevisionNumber(hash, new Date(Long.parseLong(time) * 1000L));
+              c.revision = new RevisionNumber(hash, new Date(Long.parseLong(time) * 1000L));
               c.authorTime = sp.spaceToken();
               c.message = sp.line();
               c.isMerge = sp.line().indexOf(' ') != -1;
@@ -843,7 +843,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
     /**
      * The revision
      */
-    GitRevisionNumber revision;
+    RevisionNumber revision;
     /**
      * The message
      */

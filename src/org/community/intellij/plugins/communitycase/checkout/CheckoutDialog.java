@@ -20,17 +20,17 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.DocumentAdapter;
-import git4idea.GitBranch;
-import git4idea.GitTag;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Branch;
+import org.community.intellij.plugins.communitycase.Tag;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitReferenceValidator;
-import git4idea.ui.GitUIUtil;
-import git4idea.validators.GitBranchNameValidator;
+import org.community.intellij.plugins.communitycase.ui.ReferenceValidator;
+import org.community.intellij.plugins.communitycase.ui.UiUtil;
+import org.community.intellij.plugins.communitycase.validators.BranchNameValidator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,7 +86,7 @@ public class CheckoutDialog extends DialogWrapper {
   /**
    * The validator for branch to checkout
    */
-  private final GitReferenceValidator myBranchToCkeckoutValidator;
+  private final ReferenceValidator myBranchToCkeckoutValidator;
   /**
    * The validate button
    */
@@ -117,12 +117,12 @@ public class CheckoutDialog extends DialogWrapper {
     assert roots.size() > 0;
     myProject = project;
     mySettings = VcsSettings.getInstance(myProject);
-    GitUIUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranch);
+    UiUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranch);
     setupIncludeTags();
     setupBranches();
     setOKButtonText(Bundle.getString("checkout.branch"));
     myBranchToCkeckoutValidator =
-      new GitReferenceValidator(project, myGitRoot, getBranchToCheckoutTextField(), myValidateButton, new Runnable() {
+      new ReferenceValidator(project, myGitRoot, getBranchToCheckoutTextField(), myValidateButton, new Runnable() {
         public void run() {
           checkOkButton();
         }
@@ -148,7 +148,7 @@ public class CheckoutDialog extends DialogWrapper {
       return;
     }
     final String newBranchName = myNewBranchName.getText();
-    if (newBranchName.length() != 0 && !GitBranchNameValidator.INSTANCE.checkInput(newBranchName)) {
+    if (newBranchName.length() != 0 && !BranchNameValidator.INSTANCE.checkInput(newBranchName)) {
       setErrorText(Bundle.getString("checkout.invalid.new.branch.name"));
       setOKActionEnabled(false);
       return;
@@ -179,7 +179,7 @@ public class CheckoutDialog extends DialogWrapper {
           disableCheckboxes();
         }
         else {
-          if (GitBranchNameValidator.INSTANCE.checkInput(text)) {
+          if (BranchNameValidator.INSTANCE.checkInput(text)) {
             if (existingBranches.contains(text)) {
               myOverrideCheckBox.setEnabled(true);
             }
@@ -230,7 +230,7 @@ public class CheckoutDialog extends DialogWrapper {
    * @return the branch, tag, or expression to checkout
    */
   public String getSourceBranch() {
-    return GitUIUtil.getTextField(myBranchToCkeckout).getText();
+    return UiUtil.getTextField(myBranchToCkeckout).getText();
   }
 
   /**
@@ -242,14 +242,14 @@ public class CheckoutDialog extends DialogWrapper {
         try {
           List<String> branchesAndTags = new ArrayList<String>();
           // get branches
-          GitBranch.listAsStrings(myProject, gitRoot(), true, true, branchesAndTags, null);
+          Branch.listAsStrings(myProject, gitRoot(), true, true, branchesAndTags, null);
           existingBranches.clear();
           existingBranches.addAll(branchesAndTags);
           Collections.sort(branchesAndTags);
           // get tags
           if (myIncludeTagsCheckBox.isSelected()) {
             int mark = branchesAndTags.size();
-            GitTag.listAsStrings(myProject, gitRoot(), branchesAndTags, null);
+            Tag.listAsStrings(myProject, gitRoot(), branchesAndTags, null);
             Collections.sort(branchesAndTags.subList(mark, branchesAndTags.size()));
           }
           myBranchToCkeckout.removeAllItems();
@@ -259,7 +259,7 @@ public class CheckoutDialog extends DialogWrapper {
           myBranchToCkeckout.setSelectedItem("");
         }
         catch (VcsException ex) {
-          GitVcs.getInstance(myProject)
+          Vcs.getInstance(myProject)
             .showErrors(Collections.singletonList(ex), Bundle.getString("checkout.retrieving.branches.and.tags"));
         }
       }
@@ -313,7 +313,7 @@ public class CheckoutDialog extends DialogWrapper {
   /**
    * @return a currently selected git root
    */
-  public VirtualFile gitRoot() {
+  public VirtualFile root() {
     VirtualFile file = (VirtualFile)myGitRoot.getSelectedItem();
     assert file != null;
     return file;

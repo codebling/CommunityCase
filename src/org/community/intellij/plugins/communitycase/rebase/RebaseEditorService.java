@@ -21,7 +21,6 @@ import com.intellij.openapi.components.ServiceManager;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
-import org.jetbrains.org.community.intellij.plugins.communitycase.util.ScriptGenerator;
 import gnu.trove.THashMap;
 import org.apache.commons.codec.DecoderException;
 import org.apache.xmlrpc.XmlRpcClientLite;
@@ -123,10 +122,10 @@ public class RebaseEditorService implements ApplicationComponent {
   public synchronized String getEditorCommand() {
     synchronized (myScriptLock) {
       if (myEditorCommand == null) {
-        ScriptGenerator generator = new ScriptGenerator(_REBASE_EDITOR_PREFIX, RebaseEditorMain.class);
+/*        ScriptGenerator generator = new ScriptGenerator(_REBASE_EDITOR_PREFIX, RebaseEditorMain.class);
         generator.addInternal(Integer.toString(myXmlRpcServer.getPortNumber()));
         generator.addClasses(XmlRpcClientLite.class, DecoderException.class);
-        myEditorCommand = generator.commandLine();
+        myEditorCommand = generator.commandLine();*/
       }
       return myEditorCommand;
     }
@@ -195,7 +194,7 @@ public class RebaseEditorService implements ApplicationComponent {
    * @param editorNo the editor number
    */
   public void configureHandler(LineHandler h, int editorNo) {
-    h.setEnvironment(Command._EDITOR_ENV, getEditorCommand());
+    h.setEnvironment(Command.CC_EDITOR_ENV, getEditorCommand());
     h.setEnvironment(RebaseEditorMain.IDEA_REBASE_HANDER_NO, Integer.toString(editorNo));
   }
 

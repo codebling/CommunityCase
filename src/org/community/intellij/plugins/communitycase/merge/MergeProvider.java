@@ -26,14 +26,14 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.ColumnInfo;
 import com.intellij.vcsUtil.VcsRunnable;
 import com.intellij.vcsUtil.VcsUtil;
-import git4idea.GitFileRevision;
-import git4idea.GitRevisionNumber;
-import git4idea.GitUtil;
+import org.community.intellij.plugins.communitycase.FileRevision;
+import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
+import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -97,15 +97,15 @@ public class MergeProvider implements MergeProvider2 {
   public MergeData loadRevisions(final VirtualFile file) throws VcsException {
     final MergeData mergeData = new MergeData();
     if (file == null) return mergeData;
-    final VirtualFile root = GitUtil.getGitRoot(file);
+    final VirtualFile root = Util.getRoot(file);
     final FilePath path = VcsUtil.getFilePath(file.getPath());
 
     VcsRunnable runnable = new VcsRunnable() {
       @SuppressWarnings({"ConstantConditions"})
       public void run() throws VcsException {
-        GitFileRevision original = new GitFileRevision(myProject, path, new GitRevisionNumber(":" + ORIGINAL_REVISION_NUM));
-        GitFileRevision current = new GitFileRevision(myProject, path, new GitRevisionNumber(":" + yoursRevision()));
-        GitFileRevision last = new GitFileRevision(myProject, path, new GitRevisionNumber(":" + theirsRevision()));
+        FileRevision original = new FileRevision(myProject, path, new RevisionNumber(":" + ORIGINAL_REVISION_NUM));
+        FileRevision current = new FileRevision(myProject, path, new RevisionNumber(":" + yoursRevision()));
+        FileRevision last = new FileRevision(myProject, path, new RevisionNumber(":" + theirsRevision()));
         try {
           try {
             mergeData.ORIGINAL = original.getContent();
@@ -118,7 +118,7 @@ public class MergeProvider implements MergeProvider2 {
           mergeData.CURRENT = current.getContent();
           mergeData.LAST = last.getContent();
           try {
-            mergeData.LAST_REVISION_NUMBER = GitRevisionNumber.resolve(myProject, root, myReverse ? "HEAD" : "MERGE_HEAD");
+            mergeData.LAST_REVISION_NUMBER = RevisionNumber.resolve(myProject, root, myReverse ? "HEAD" : "MERGE_HEAD");
           }
           catch (VcsException e) {
             // ignore exception, the null value will be used
@@ -153,7 +153,7 @@ public class MergeProvider implements MergeProvider2 {
   public void conflictResolvedForFile(VirtualFile file) {
     if (file == null) return;
     try {
-      FileUtils.addFiles(myProject, GitUtil.getGitRoot(file), file);
+      FileUtils.addFiles(myProject, Util.getRoot(file), file);
     }
     catch (VcsException e) {
       log.error("Confirming conflict resolution failed", e);
@@ -234,7 +234,7 @@ public class MergeProvider implements MergeProvider2 {
     MyMergeSession(List<VirtualFile> filesToMerge) {
       // get conflict type by the file
       try {
-        for (Map.Entry<VirtualFile, List<VirtualFile>> e : GitUtil.sortFilesByGitRoot(filesToMerge).entrySet()) {
+        for (Map.Entry<VirtualFile, List<VirtualFile>> e : Util.sortFilesByRoot(filesToMerge).entrySet()) {
           Map<String, Conflict> cs = new HashMap<String, Conflict>();
           VirtualFile root = e.getKey();
           List<VirtualFile> files = e.getValue();
@@ -271,7 +271,7 @@ public class MergeProvider implements MergeProvider2 {
             }
           }
           for (VirtualFile f : files) {
-            String path = GitUtil.relativePath(root, f);
+            String path = Util.relativePath(root, f);
             Conflict c = cs.get(path);
             assert c != null : "The conflict not found for the file: " + f.getPath() + "(" + path + ")";
             c.myFile = f;

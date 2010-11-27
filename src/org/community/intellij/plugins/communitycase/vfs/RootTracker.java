@@ -76,7 +76,7 @@ public class RootTracker implements VcsListener {
   /**
    * The vcs instance
    */
-  private final version controlVcs myVcs;
+  private final Vcs myVcs;
   /**
    * If true, the tracking is enabled.
    */
@@ -245,7 +245,7 @@ public class RootTracker implements VcsListener {
             path = baseDir.getPath();
           }
           VirtualFile root = lookupFile(path);
-          VirtualFile actual = version controlUtil.RootOrNull(root);
+          VirtualFile actual = Util.rootOrNull(root);
           if (root == null || rootSet.contains(root) || actual != root) {
             return true;
           }
@@ -373,7 +373,7 @@ public class RootTracker implements VcsListener {
             i.remove();
             continue;
           }
-          final VirtualFile actual = version controlUtil.RootOrNull(file);
+          final VirtualFile actual = Util.rootOrNull(file);
           if (file == null || actual == null) {
             removed.add(path);
           }
@@ -391,7 +391,7 @@ public class RootTracker implements VcsListener {
           if (removed.contains(m)) {
             continue;
           }
-          VirtualFile root = version controlUtil.RootOrNull(file);
+          VirtualFile root = Util.rootOrNull(file);
           assert root != null;
           for (String o : mapped) {
             // the mapped collection is not modified here, so order is being kept
@@ -401,7 +401,7 @@ public class RootTracker implements VcsListener {
             if (o.startsWith(m)) {
               VirtualFile otherFile = lookupFile(m);
               assert otherFile != null;
-              VirtualFile otherRoot = version controlUtil.RootOrNull(otherFile);
+              VirtualFile otherRoot = Util.rootOrNull(otherFile);
               assert otherRoot != null;
               if (otherRoot == root) {
                 removed.add(o);

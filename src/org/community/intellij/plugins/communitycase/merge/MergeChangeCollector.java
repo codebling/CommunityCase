@@ -22,9 +22,9 @@ import com.intellij.openapi.vcs.VcsKey;
 import com.intellij.openapi.vcs.update.FileGroup;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitRevisionNumber;
-import git4idea.GitUtil;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.RevisionNumber;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
@@ -58,7 +58,7 @@ public class MergeChangeCollector {
   /**
    * Revision number before update (used for diff)
    */
-  private final GitRevisionNumber myStart;
+  private final RevisionNumber myStart;
 
   /**
    * A constructor
@@ -68,7 +68,7 @@ public class MergeChangeCollector {
    * @param start   the start revision
    * @param updates a container for updates
    */
-  public MergeChangeCollector(final Project project, final VirtualFile root, final GitRevisionNumber start, final UpdatedFiles updates) {
+  public MergeChangeCollector(final Project project, final VirtualFile root, final RevisionNumber start, final UpdatedFiles updates) {
     myStart = start;
     myProject = project;
     myRoot = root;
@@ -81,7 +81,7 @@ public class MergeChangeCollector {
    * @param exceptions a list of exceptions
    */
   public void collect(List<VcsException> exceptions) {
-    final VcsKey vcsKey = GitVcs.getKey();
+    final VcsKey vcsKey = Vcs.getKey();
     try {
       // collect unmerged
       String root = myRoot.getPath();
@@ -99,10 +99,10 @@ public class MergeChangeCollector {
         if (!myUnmergedPaths.add(relative)) {
           continue;
         }
-        String path = root + "/" + GitUtil.unescapePath(relative);
+        String path = root + "/" + Util.unescapePath(relative);
         myUpdates.getGroupById(FileGroup.MERGED_WITH_CONFLICT_ID).add(path, vcsKey, null);
       }
-      GitRevisionNumber currentHead = GitRevisionNumber.resolve(myProject, myRoot, "HEAD");
+      RevisionNumber currentHead = RevisionNumber.resolve(myProject, myRoot, "HEAD");
       // collect other changes (ignoring unmerged)
       TreeSet<String> updated = new TreeSet<String>();
       TreeSet<String> created = new TreeSet<String>();
@@ -116,7 +116,7 @@ public class MergeChangeCollector {
         File mergeHeadsFile = new File(root, ".git/MERGE_HEAD");
         try {
           if (mergeHeadsFile.exists()) {
-            String mergeHeads = new String(FileUtil.loadFileText(mergeHeadsFile, GitUtil.UTF8_ENCODING));
+            String mergeHeads = new String(FileUtil.loadFileText(mergeHeadsFile, Util.UTF8_ENCODING));
             for (StringScanner s = new StringScanner(mergeHeads); s.hasMoreData();) {
               String head = s.line();
               if (head.length() == 0) {
@@ -176,7 +176,7 @@ public class MergeChangeCollector {
       if (myUnmergedPaths.contains(relative)) {
         continue;
       }
-      String path = root + "/" + GitUtil.unescapePath(relative);
+      String path = root + "/" + Util.unescapePath(relative);
       switch (status) {
         case 'M':
           updated.add(path);
@@ -201,7 +201,7 @@ public class MergeChangeCollector {
    */
   private void addAll(String id, TreeSet<String> paths) {
     FileGroup fileGroup = myUpdates.getGroupById(id);
-    final VcsKey vcsKey = GitVcs.getKey();
+    final VcsKey vcsKey = Vcs.getKey();
     for (String path : paths) {
       fileGroup.add(path, vcsKey, null);
     }

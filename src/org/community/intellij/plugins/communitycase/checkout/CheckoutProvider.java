@@ -22,8 +22,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.changes.VcsDirtyScopeManager;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitVcs;
-import git4idea.actions.BasicAction;
+import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.actions.BasicAction;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.HandlerUtil;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
@@ -114,7 +114,7 @@ public class CheckoutProvider implements com.intellij.openapi.vcs.CheckoutProvid
    */
   public static LineHandler clone(Project project, final String url, final File directory, final String name, final String originName) {
     LineHandler handler = new LineHandler(project, directory, Command.CLONE);
-    if (VERBOSE_CLONE_SUPPORTED.isLessOrEqual(GitVcs.getInstance(project).version())) {
+    if (VERBOSE_CLONE_SUPPORTED.isLessOrEqual(Vcs.getInstance(project).version())) {
       handler.addParameters("-v");
     }
     if (originName != null && originName.length() > 0) {

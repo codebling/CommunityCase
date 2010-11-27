@@ -129,7 +129,7 @@ public class StashUtils {
     // Do unshevle
     UIUtil.invokeAndWaitIfNeeded(new Runnable() {
       public void run() {
-        VfsListener l = Vcs.getInstance(project).getVFSListener();
+        VfsListener l = Vcs.getInstance(project).getVfsListener();
         l.setEventsSuppressed(true);
         try {
           shelveManager

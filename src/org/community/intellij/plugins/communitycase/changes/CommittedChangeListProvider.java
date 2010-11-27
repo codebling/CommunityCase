@@ -189,10 +189,10 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
           h.addParameters("--author=" + author);
         }
         if (beforeDate != null) {
-          h.addParameters("--before=" + Util.Time(beforeDate));
+          h.addParameters("--before=" + Util.vcsTime(beforeDate));
         }
         if (afterDate != null) {
-          h.addParameters("--after=" + Util.Time(afterDate));
+          h.addParameters("--after=" + Util.vcsTime(afterDate));
         }
         if (maxCount != getUnlimitedCountValue()) {
           h.addParameters("-n" + maxCount);

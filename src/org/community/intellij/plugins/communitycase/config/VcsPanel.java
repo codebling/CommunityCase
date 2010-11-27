@@ -21,9 +21,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.openapi.vcs.VcsException;
-import git4idea.GitVcs;
-import git4idea.checkout.branches.GitBranchConfigurations;
-import git4idea.i18n.GitBundle;
+import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.checkout.branches.BranchConfigurations;
+import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -44,10 +44,10 @@ public class VcsPanel {
   private final Project myProject;
   private final VcsApplicationSettings myAppSettings;
   private final VcsSettings myProjectSettings;
-  private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + GitBundle.getString("git.vcs.config.ssh.mode.idea"); // IDEA ssh value
-  private static final String NATIVE_SSH = GitBundle.getString("git.vcs.config.ssh.mode.native"); // Native SSH value
-  private static final String CRLF_CONVERT_TO_PROJECT = GitBundle.getString("git.vcs.config.convert.project");
-  private static final String CRLF_DO_NOT_CONVERT = GitBundle.getString("git.vcs.config.convert.do.not.convert");
+  private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + Bundle.getString("git.vcs.config.ssh.mode.idea"); // IDEA ssh value
+  private static final String NATIVE_SSH = Bundle.getString("git.vcs.config.ssh.mode.native"); // Native SSH value
+  private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("git.vcs.config.convert.project");
+  private static final String CRLF_DO_NOT_CONVERT = Bundle.getString("git.vcs.config.convert.do.not.convert");
 
   /**
    * The constructor
@@ -62,7 +62,7 @@ public class VcsPanel {
     mySSHExecutableComboBox.addItem(NATIVE_SSH);
     mySSHExecutableComboBox.setSelectedItem(VcsSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     mySSHExecutableComboBox
-      .setToolTipText(GitBundle.message("git.vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
+      .setToolTipText(Bundle.message("git.vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
     myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.askBeforeLineSeparatorConversion());
     myTestButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -72,9 +72,9 @@ public class VcsPanel {
     myConvertTextFilesComboBox.addItem(CRLF_DO_NOT_CONVERT);
     myConvertTextFilesComboBox.addItem(CRLF_CONVERT_TO_PROJECT);
     myConvertTextFilesComboBox.setSelectedItem(CRLF_CONVERT_TO_PROJECT);
-    myGitField.addBrowseFolderListener(GitBundle.getString("find.git.title"), GitBundle.getString("find.git.description"), project,
+    myGitField.addBrowseFolderListener(Bundle.getString("find.git.title"), Bundle.getString("find.git.description"), project,
                                        new FileChooserDescriptor(true, false, false, false, false, false));
-    myEnableBranchesWidgetCheckBox.setSelected(GitBranchConfigurations.getInstance(myProject).isWidgetEnabled());
+    myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
   }
 
   /**
@@ -86,18 +86,18 @@ public class VcsPanel {
     }
     final String s;
     try {
-      s = GitVcs.version(myProject);
+      s = Vcs.version(myProject);
     }
     catch (VcsException e) {
-      Messages.showErrorDialog(myProject, e.getMessage(), GitBundle.getString("find.git.error.title"));
+      Messages.showErrorDialog(myProject, e.getMessage(), Bundle.getString("find.git.error.title"));
       return;
     }
     if (Version.parse(s).isSupported()) {
-      Messages.showInfoMessage(myProject, s, GitBundle.getString("find.git.success.title"));
+      Messages.showInfoMessage(myProject, s, Bundle.getString("find.git.success.title"));
     }
     else {
-      Messages.showWarningDialog(myProject, GitBundle.message("find.git.unsupported.message", s, Version.MIN),
-                                 GitBundle.getString("find.git.success.title"));
+      Messages.showWarningDialog(myProject, Bundle.message("find.git.unsupported.message", s, Version.MIN),
+                                 Bundle.getString("find.git.success.title"));
     }
   }
 
@@ -114,11 +114,11 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public void load(@NotNull VcsSettings settings) {
-    myGitField.setText(settings.getAppSettings().getPathToGit());
+    myGitField.setText(settings.getAppSettings().getPathToVcs());
     mySSHExecutableComboBox.setSelectedItem(settings.isIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     myAskBeforeConversionsCheckBox.setSelected(settings.askBeforeLineSeparatorConversion());
     myConvertTextFilesComboBox.setSelectedItem(crlfPolicyItem(settings));
-    myEnableBranchesWidgetCheckBox.setSelected(GitBranchConfigurations.getInstance(myProject).isWidgetEnabled());
+    myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
   }
 
   /**
@@ -149,11 +149,11 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public boolean isModified(@NotNull VcsSettings settings) {
-    return !settings.getAppSettings().getPathToGit().equals(myGitField.getText()) ||
+    return !settings.getAppSettings().getPathToVcs().equals(myGitField.getText()) ||
            (settings.isIdeaSsh() != IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem())) ||
            !crlfPolicyItem(settings).equals(myConvertTextFilesComboBox.getSelectedItem()) ||
            settings.askBeforeLineSeparatorConversion() != myAskBeforeConversionsCheckBox.isSelected() ||
-           GitBranchConfigurations.getInstance(myProject).isWidgetEnabled() != myEnableBranchesWidgetCheckBox.isSelected();
+           BranchConfigurations.getInstance(myProject).isWidgetEnabled() != myEnableBranchesWidgetCheckBox.isSelected();
   }
 
   /**
@@ -177,6 +177,6 @@ public class VcsPanel {
     }
     settings.setLineSeparatorsConversion(conversionPolicy);
     settings.setAskBeforeLineSeparatorConversion(myAskBeforeConversionsCheckBox.isSelected());
-    GitBranchConfigurations.getInstance(myProject).setWidgetEnabled(myEnableBranchesWidgetCheckBox.isSelected());
+    BranchConfigurations.getInstance(myProject).setWidgetEnabled(myEnableBranchesWidgetCheckBox.isSelected());
   }
 }

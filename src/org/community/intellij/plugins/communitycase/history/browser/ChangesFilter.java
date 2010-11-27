@@ -323,7 +323,7 @@ public class ChangesFilter {
   }
 
   private static String formatDate(final Date date) {
-    return Util.Time(date);
+    return Util.vcsTime(date);
   }
 
   public static class StructureFilter implements Filter {

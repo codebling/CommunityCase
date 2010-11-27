@@ -63,10 +63,8 @@ public class Command {
     }
   }
 
-  /**
-   * Name of environment variable that specifies editor for the git
-   */
-  public static final String GIT_EDITOR_ENV = "GIT_EDITOR";
+  /** Name of environment variable that specifies editor for the git */
+  public static final String CC_EDITOR_ENV = "CC_EDITOR";
 
   @NotNull @NonNls private final String myName; // command name passed to git
   @NotNull private final LockingPolicy myLocking; // Locking policy for the command

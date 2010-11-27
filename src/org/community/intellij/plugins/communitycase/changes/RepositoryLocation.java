@@ -16,7 +16,6 @@
 
 package org.community.intellij.plugins.communitycase.changes;
 
-import com.intellij.openapi.vcs.RepositoryLocation;
 import com.intellij.openapi.vcs.VcsException;
 
 import java.io.File;

@@ -180,7 +180,7 @@ public class ChangeUtils {
         case 'A':
           before = null;
           status = FileStatus.ADDED;
-          after = ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
+          after = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
           break;
         case 'U':
           status = FileStatus.MERGED_WITH_CONFLICTS;
@@ -188,18 +188,18 @@ public class ChangeUtils {
           if (status == null) {
             status = FileStatus.MODIFIED;
           }
-          before = ContentRevision.createRevision(vcsRoot, path, parentRevision, project, false, true);
-          after = ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
+          before = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, parentRevision, project, false, true);
+          after = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
           break;
         case 'D':
           status = FileStatus.DELETED;
-          before = ContentRevision.createRevision(vcsRoot, path, parentRevision, project, true, true);
+          before = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, parentRevision, project, true, true);
           after = null;
           break;
         case 'R':
           status = FileStatus.MODIFIED;
-          before = ContentRevision.createRevision(vcsRoot, tokens[1], parentRevision, project, true, true);
-          after = ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
+          before = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, tokens[1], parentRevision, project, true, true);
+          after = org.community.intellij.plugins.communitycase.ContentRevision.createRevision(vcsRoot, path, thisRevision, project, false, false);
           break;
         default:
           throw new VcsException("Unknown file status: " + Arrays.asList(tokens));

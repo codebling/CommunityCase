@@ -46,11 +46,11 @@ public class Checkout extends RepositoryAction {
    * {@inheritDoc}
    */
   protected void perform(@NotNull final Project project,
-                         @NotNull final List<VirtualFile> Roots,
+                         @NotNull final List<VirtualFile> roots,
                          @NotNull final VirtualFile defaultRoot,
                          final Set<VirtualFile> affectedRoots,
                          final List<VcsException> exceptions) throws VcsException {
-    CheckoutDialog dialog = new CheckoutDialog(project, Roots, defaultRoot);
+    CheckoutDialog dialog = new CheckoutDialog(project, roots, defaultRoot);
     dialog.show();
     if (!dialog.isOK()) {
       return;
@@ -60,7 +60,7 @@ public class Checkout extends RepositoryAction {
       branch.run();
     }
     LineHandler checkout = dialog.checkoutHandler();
-    affectedRoots.add(dialog.Root());
+    affectedRoots.add(dialog.root());
     try {
       HandlerUtil.doSynchronously(checkout, Bundle.message("checking.out", dialog.getSourceBranch()), " checkout");
     }

@@ -22,17 +22,17 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.text.DateFormatUtil;
-import git4idea.GitBranch;
-import git4idea.GitUtil;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Branch;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
-import git4idea.rebase.GitInteractiveRebaseEditorHandler;
-import git4idea.rebase.GitRebaseEditorService;
-import git4idea.update.GitBaseRebaseProcess;
+import org.community.intellij.plugins.communitycase.rebase.InteractiveRebaseEditorHandler;
+import org.community.intellij.plugins.communitycase.rebase.RebaseEditorService;
+import org.community.intellij.plugins.communitycase.update.BaseRebaseProcess;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,7 +47,7 @@ import java.util.TreeMap;
  * This is subclass of {@link git4idea.update.GitBaseRebaseProcess} that implement rebase operation for {@link PushActiveBranchesDialog}.
  * This operation reorders commits if needed.
  */
-public class PushRebaseProcess extends GitBaseRebaseProcess {
+public class PushRebaseProcess extends BaseRebaseProcess {
   /**
    * The logger
    */
@@ -71,7 +71,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
   /**
    * The rebase editor service
    */
-  private final GitRebaseEditorService myRebaseEditorService;
+  private final RebaseEditorService myRebaseEditorService;
 
   /**
    * The constructor
@@ -82,7 +82,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
    * @param savePolicy      the save policy for the rebase process
    * @param rootsWithMerges a set of roots with merges
    */
-  public PushRebaseProcess(final GitVcs vcs,
+  public PushRebaseProcess(final Vcs vcs,
                            final Project project,
                            List<VcsException> exceptions,
                            VcsSettings.UpdateChangesPolicy savePolicy,
@@ -92,7 +92,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
     mySavePolicy = savePolicy;
     myReorderedCommits = reorderedCommits;
     myRootsWithMerges = rootsWithMerges;
-    myRebaseEditorService = GitRebaseEditorService.getInstance();
+    myRebaseEditorService = RebaseEditorService.getInstance();
   }
 
   /**
@@ -113,9 +113,9 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
       }
     }
     h.addParameters("-m", "-v");
-    GitBranch currentBranch = GitBranch.current(myProject, root);
+    Branch currentBranch = Branch.current(myProject, root);
     assert currentBranch != null;
-    GitBranch trackedBranch = currentBranch.tracked(myProject, root);
+    Branch trackedBranch = currentBranch.tracked(myProject, root);
     assert trackedBranch != null;
     h.addParameters(trackedBranch.getFullName());
     return h;
@@ -137,7 +137,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
    */
   @Override
   protected void configureRebaseEditor(VirtualFile root, LineHandler h) {
-    GitInteractiveRebaseEditorHandler editorHandler = new GitInteractiveRebaseEditorHandler(myRebaseEditorService, myProject, root, h);
+    InteractiveRebaseEditorHandler editorHandler = new InteractiveRebaseEditorHandler(myRebaseEditorService, myProject, root, h);
     editorHandler.setRebaseEditorShown();
     myRebaseEditorNo = editorHandler.getHandlerNo();
     myRebaseEditorService.configureHandler(h, myRebaseEditorNo);
@@ -163,7 +163,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
   /**
    * The rebase editor that just overrides the list of commits
    */
-  class PushRebaseEditor extends GitInteractiveRebaseEditorHandler {
+  class PushRebaseEditor extends InteractiveRebaseEditorHandler {
     /**
      * The reordered commits
      */
@@ -175,7 +175,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
 
     /**
      * The constructor from fields that is expected to be
-     * accessed only from {@link git4idea.rebase.GitRebaseEditorService}.
+     * accessed only from {@link git4idea.rebase.RebaseEditorService}.
      *
      * @param root      the git repository root
      * @param commits   the reordered commits
@@ -198,7 +198,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
         }
         try {
           TreeMap<String, String> pickLines = new TreeMap<String, String>();
-          StringScanner s = new StringScanner(new String(FileUtil.loadFileText(new File(path), GitUtil.UTF8_ENCODING)));
+          StringScanner s = new StringScanner(new String(FileUtil.loadFileText(new File(path), Util.UTF8_ENCODING)));
           while (s.hasMoreData()) {
             if (!s.tryConsume("pick ")) {
               s.line();
@@ -207,7 +207,7 @@ public class PushRebaseProcess extends GitBaseRebaseProcess {
             String commit = s.spaceToken();
             pickLines.put(commit, "pick " + commit + " " + s.line());
           }
-          PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(path), GitUtil.UTF8_ENCODING));
+          PrintWriter w = new PrintWriter(new OutputStreamWriter(new FileOutputStream(path), Util.UTF8_ENCODING));
           try {
             for (String commit : myCommits) {
               String key = pickLines.headMap(commit + "\u0000").lastKey();

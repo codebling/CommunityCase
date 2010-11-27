@@ -31,9 +31,9 @@ import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitRevisionNumber;
-import git4idea.GitVcs;
-import git4idea.actions.GitRepositoryAction;
+import org.community.intellij.plugins.communitycase.RevisionNumber;
+import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.actions.RepositoryAction;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
@@ -150,11 +150,11 @@ public class MergeUtil {
    * @param actionName  the action name
    * @param actionInfo  the information about the action
    */
-  public static void showUpdates(GitRepositoryAction action,
+  public static void showUpdates(RepositoryAction action,
                                  final Project project,
                                  final List<VcsException> exceptions,
                                  final VirtualFile root,
-                                 final GitRevisionNumber currentRev,
+                                 final RevisionNumber currentRev,
                                  final Label beforeLabel,
                                  final String actionName,
                                  final ActionInfo actionInfo) {
@@ -184,7 +184,7 @@ public class MergeUtil {
               unmerged.add(f);
             }
           }
-          AbstractVcsHelper.getInstance(project).showMergeDialog(unmerged, GitVcs.getInstance(project).getMergeProvider());
+          AbstractVcsHelper.getInstance(project).showMergeDialog(unmerged, Vcs.getInstance(project).getMergeProvider());
         }
       });
     }

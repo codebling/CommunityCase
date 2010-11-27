@@ -73,7 +73,7 @@ public abstract class RepositoryAction extends DumbAwareAction {
     VirtualFile defaultRootVar = null;
     if (vFiles != null) {
       for (VirtualFile file : vFiles) {
-        final VirtualFile root = Util.RootOrNull(file);
+        final VirtualFile root = Util.rootOrNull(file);
         if (root != null) {
           defaultRootVar = root;
           break;

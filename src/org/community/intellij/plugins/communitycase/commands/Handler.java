@@ -26,14 +26,12 @@ import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.Processor;
-import git4idea.GitUtil;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.git4idea.ssh.GitSSHHandler;
-import org.jetbrains.git4idea.ssh.GitSSHService;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -81,7 +79,7 @@ public abstract class Handler {
   @SuppressWarnings({"FieldAccessedSynchronizedAndUnsynchronized"})
   private boolean mySilent; // if true, the command execution is not logged in version control view
 
-  protected final GitVcs myVcs;
+  protected final Vcs myVcs;
   private final Map<String, String> myEnv;
   private VcsApplicationSettings myAppSettings;
   private VcsSettings myProjectSettings;
@@ -109,14 +107,14 @@ public abstract class Handler {
         myEnv.put("HOME", home);
       }
     }
-    myVcs = GitVcs.getInstance(project);
+    myVcs = Vcs.getInstance(project);
     if (myVcs != null) {
       myVcs.checkVersion();
     }
     myWorkingDirectory = directory;
     myCommandLine = new GeneralCommandLine();
     if (myAppSettings != null) {
-      myCommandLine.setExePath(myAppSettings.getPathToGit());
+      myCommandLine.setExePath(myAppSettings.getPathToVcs());
     }
     myCommandLine.setWorkingDirectory(myWorkingDirectory);
     if (command.name().length() > 0) {
@@ -279,7 +277,7 @@ public abstract class Handler {
   public void addRelativePaths(@NotNull final Collection<FilePath> filePaths) {
     checkNotStarted();
     for (FilePath path : filePaths) {
-      myCommandLine.addParameter(GitUtil.relativePath(myWorkingDirectory, path));
+      myCommandLine.addParameter(Util.relativePath(myWorkingDirectory, path));
     }
   }
 
@@ -292,7 +290,7 @@ public abstract class Handler {
   public void addRelativePathsForFiles(@NotNull final Collection<File> files) {
     checkNotStarted();
     for (File file : files) {
-      myCommandLine.addParameter(GitUtil.relativePath(myWorkingDirectory, file));
+      myCommandLine.addParameter(Util.relativePath(myWorkingDirectory, file));
     }
   }
 
@@ -306,7 +304,7 @@ public abstract class Handler {
   public void addRelativeFiles(@NotNull final Collection<VirtualFile> files) {
     checkNotStarted();
     for (VirtualFile file : files) {
-      myCommandLine.addParameter(GitUtil.relativePath(myWorkingDirectory, file));
+      myCommandLine.addParameter(Util.relativePath(myWorkingDirectory, file));
     }
   }
 
@@ -379,12 +377,12 @@ public abstract class Handler {
         log.debug("running git: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
       }
       if (!myNoSSHFlag && myProjectSettings.isIdeaSsh()) {
-        GitSSHService ssh = SshIdeaService.getInstance();
+/*        GitSSHService ssh = SshIdeaService.getInstance();
         myEnv.put(GitSSHHandler.GIT_SSH_ENV, ssh.getScriptPath().getPath());
         myHandlerNo = ssh.registerHandler(new SshGuiHandler(myProject));
         myEnvironmentCleanedUp = false;
         myEnv.put(GitSSHHandler.SSH_HANDLER_ENV, Integer.toString(myHandlerNo));
-        myEnv.put(GitSSHHandler.SSH_PORT_ENV, Integer.toString(ssh.getXmlRcpPort()));
+        myEnv.put(GitSSHHandler.SSH_PORT_ENV, Integer.toString(ssh.getXmlRcpPort()));*/
       }
       myCommandLine.setEnvParams(myEnv);
       // start process
@@ -453,9 +451,9 @@ public abstract class Handler {
    */
   protected synchronized void cleanupEnv() {
     if (!myNoSSHFlag && !myEnvironmentCleanedUp) {
-      GitSSHService ssh = SshIdeaService.getInstance();
+/*      GitSSHService ssh = SshIdeaService.getInstance();
       myEnvironmentCleanedUp = true;
-      ssh.unregisterHandler(myHandlerNo);
+      ssh.unregisterHandler(myHandlerNo);*/
     }
   }
 

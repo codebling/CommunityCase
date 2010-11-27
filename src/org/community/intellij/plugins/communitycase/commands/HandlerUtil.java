@@ -23,9 +23,9 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitUIUtil;
+import org.community.intellij.plugins.communitycase.ui.UiUtil;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -185,7 +185,7 @@ public class HandlerUtil {
    * @param postStartAction an action that is executed
    */
   static void runInCurrentThread(final Handler handler, @Nullable final Runnable postStartAction) {
-    final GitVcs vcs = GitVcs.getInstance(handler.myProject);
+    final Vcs vcs = Vcs.getInstance(handler.myProject);
     if (vcs == null) { return; }
 
     boolean suspendable = false;
@@ -379,7 +379,7 @@ public class HandlerUtil {
         if (myShowErrors) {
           EventQueue.invokeLater(new Runnable() {
             public void run() {
-              GitUIUtil.showOperationErrors(myHandler.project(), myHandler.errors(), myOperationName);
+              UiUtil.showOperationErrors(myHandler.project(), myHandler.errors(), myOperationName);
             }
           });
         }
@@ -419,7 +419,7 @@ public class HandlerUtil {
       if (myShowErrors) {
         EventQueue.invokeLater(new Runnable() {
           public void run() {
-            GitUIUtil.showOperationError(myHandler.project(), myOperationName, exception.getMessage());
+            UiUtil.showOperationError(myHandler.project(), myOperationName, exception.getMessage());
           }
         });
       }

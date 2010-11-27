@@ -61,7 +61,7 @@ public class Pull extends RepositoryAction {
     }
     Label beforeLabel = LocalHistory.getInstance().putSystemLabel(project, "Before update");
     LineHandler h = dialog.pullHandler();
-    final VirtualFile root = dialog.Root();
+    final VirtualFile root = dialog.root();
     affectedRoots.add(root);
     RevisionNumber currentRev = RevisionNumber.resolve(project, root, "HEAD");
     try {

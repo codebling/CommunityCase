@@ -26,6 +26,10 @@ import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
+import org.community.intellij.plugins.communitycase.FileRevision;
+import org.community.intellij.plugins.communitycase.RevisionNumber;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import gnu.trove.THashSet;
@@ -113,7 +117,7 @@ public class DiffProvider implements com.intellij.openapi.vcs.diff.DiffProvider 
       return null;
     }
     final String path = selectedFile.getPath();
-    if (Util.RootOrNull(selectedFile) == null) {
+    if (Util.rootOrNull(selectedFile) == null) {
       return null;
     }
     try {
@@ -121,11 +125,11 @@ public class DiffProvider implements com.intellij.openapi.vcs.diff.DiffProvider 
       for (VcsFileRevision f : HistoryUtils.history(myProject, filePath)) {
         FileRevision Revision = (FileRevision)f;
         if (f.getRevisionNumber().equals(revisionNumber)) {
-          return new ContentRevision(Revision.getPath(), (RevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
+          return new org.community.intellij.plugins.communitycase.ContentRevision(Revision.getPath(), (RevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
         }
       }
       ContentRevision candidate =
-        new ContentRevision(filePath, (RevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
+        new org.community.intellij.plugins.communitycase.ContentRevision(filePath, (RevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
       try {
         candidate.getContent();
         return candidate;

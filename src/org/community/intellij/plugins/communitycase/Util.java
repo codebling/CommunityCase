@@ -109,7 +109,7 @@ public class Util {
     throws VcsException {
     Map<VirtualFile, List<VirtualFile>> result = new HashMap<VirtualFile, List<VirtualFile>>();
     for (VirtualFile file : virtualFiles) {
-      final VirtualFile vcsRoot = RootOrNull(file);
+      final VirtualFile vcsRoot = rootOrNull(file);
       if (vcsRoot == null) {
         if (ignoreNon) {
           continue;
@@ -155,10 +155,10 @@ public class Util {
    * @return the map from root to the files under the root
    * @throws com.intellij.openapi.vcs.VcsException if non  files are passed
    */
-  public static Map<VirtualFile, List<FilePath>> sortFilePathsByRoot(final Collection<FilePath> files) throws VcsException {
+/*  public static Map<VirtualFile, List<FilePath>> sortFilePathsByRoot(final Collection<FilePath> files) throws VcsException {
     return sortFilePathsByRoot(files, false);
   }
-
+*/
   /**
    * Sort files by vcs root
    *
@@ -321,7 +321,7 @@ public class Util {
    * @param roots  content roots
    * @return a content root
    */
-  public static Set<VirtualFile> RootsForPaths(final Collection<VirtualFile> roots) {
+  public static Set<VirtualFile> rootsForPaths(final Collection<VirtualFile> roots) {
     HashSet<VirtualFile> rc = new HashSet<VirtualFile>();
     for (VirtualFile root : roots) {
       VirtualFile f = root;
@@ -379,7 +379,7 @@ public class Util {
    * @throws com.intellij.openapi.vcs.VcsException if the file is not under
    */
   public static VirtualFile getRoot(@NotNull final VirtualFile file) throws VcsException {
-    final VirtualFile root = RootOrNull(file);
+    final VirtualFile root = rootOrNull(file);
     if (root != null) {
       return root;
     }
@@ -395,7 +395,7 @@ public class Util {
    * @return  root for the file or null if the file is not not under
    */
   @Nullable
-  public static VirtualFile RootOrNull(final VirtualFile file) {
+  public static VirtualFile rootOrNull(final VirtualFile file) {
     if (file instanceof AbstractVcsVirtualFile) {
       return getRootOrNull(VcsUtil.getFilePath(file.getPath()));
     }
@@ -423,7 +423,7 @@ public class Util {
     if (contentRoots == null || contentRoots.length == 0) {
       throw new VcsException(Bundle.getString("repository.action.missing.roots.unconfigured.message"));
     }
-    final List<VirtualFile> roots = new ArrayList<VirtualFile>(RootsForPaths(Arrays.asList(contentRoots)));
+    final List<VirtualFile> roots = new ArrayList<VirtualFile>(rootsForPaths(Arrays.asList(contentRoots)));
     if (roots.size() == 0) {
       throw new VcsException(Bundle.getString("repository.action.missing.roots.misconfigured"));
     }
@@ -439,7 +439,7 @@ public class Util {
    * @return true if the file is under
    */
   public static boolean isUnder(final VirtualFile vFile) {
-    return RootOrNull(vFile) != null;
+    return rootOrNull(vFile) != null;
   }
 
   /**
@@ -669,7 +669,7 @@ public class Util {
    * @param filePaths the context paths
    * @return a set of  roots
    */
-  public static Set<VirtualFile> Roots(final Collection<FilePath> filePaths) {
+  public static Set<VirtualFile> roots(final Collection<FilePath> filePaths) {
     HashSet<VirtualFile> rc = new HashSet<VirtualFile>();
     for (FilePath path : filePaths) {
       final VirtualFile root = getRootOrNull(path);
@@ -686,7 +686,7 @@ public class Util {
    * @param time the time to convert
    * @return the time in  format
    */
-  public static String Time(Date time) {
+  public static String vcsTime(Date time) {
     long t = time.getTime() / 1000;
     return Long.toString(t);
   }

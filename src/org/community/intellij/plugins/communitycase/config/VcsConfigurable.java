@@ -18,7 +18,7 @@ package org.community.intellij.plugins.communitycase.config;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.project.Project;
-import git4idea.GitVcs;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +41,7 @@ public class VcsConfigurable implements Configurable {
    * {@inheritDoc}
    */
   public String getDisplayName() {
-    return GitVcs.NAME;
+    return Vcs.NAME;
   }
 
   /**

@@ -61,7 +61,7 @@ public class IgnoreTracker {
   /**
    * The vcs instance
    */
-  private final version controlVcs myVcs;
+  private final Vcs myVcs;
   /**
    * The local exclude path
    */
@@ -109,7 +109,7 @@ public class IgnoreTracker {
    * @param project the context project
    * @param vcs     the vcs instance
    */
-  public IgnoreTracker(Project project, version controlVcs vcs) {
+  public IgnoreTracker(Project project, Vcs vcs) {
     myProject = project;
     myVcs = vcs;
     myVcsManager = ProjectLevelVcsManager.getInstance(project);
@@ -214,7 +214,7 @@ public class IgnoreTracker {
         return String.valueOf(file.charAt(1)) + ":" + file.substring(2);
       }
       // otherwise the path is relative to "bin/.exe"
-      File Dir = new File(myVcs.getAppSettings().getPathTo()).getParentFile();
+      File Dir = new File(myVcs.getAppSettings().getPathToVcs()).getParentFile();
       if (Dir != null) {
         Dir = Dir.getParentFile();
       }
@@ -327,7 +327,7 @@ public class IgnoreTracker {
         }
         return;
       }
-      final VirtualFile base = version controlUtil.getPossibleBase(file, LOCAL_EXCLUDE_ARRAY);
+      final VirtualFile base = Util.getPossibleBase(file, LOCAL_EXCLUDE_ARRAY);
       if (base != null) {
         myDirtyScopeManager.dirDirtyRecursively(base);
         return;

@@ -34,15 +34,15 @@ import com.intellij.util.PairConsumer;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.vcsUtil.VcsUtil;
-import git4idea.GitUtil;
+import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
-import git4idea.history.NewGitUsersComponent;
+import org.community.intellij.plugins.communitycase.history.NewUsersComponent;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitConvertFilesDialog;
+import org.community.intellij.plugins.communitycase.ui.ConvertFilesDialog;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -89,7 +89,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   @Nullable
   public String getDefaultMessageFor(FilePath[] filesToCheckin) {
     StringBuilder rc = new StringBuilder();
-    for (VirtualFile root : GitUtil.gitRoots(Arrays.asList(filesToCheckin))) {
+    for (VirtualFile root : Util.roots(Arrays.asList(filesToCheckin))) {
       VirtualFile mergeMsg = root.findFileByRelativePath(".git/MERGE_MSG");
       VirtualFile squashMsg = root.findFileByRelativePath(".git/SQUASH_MSG");
       if (mergeMsg != null || squashMsg != null) {
@@ -133,7 +133,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
       return exceptions;
     }
     Map<VirtualFile, List<Change>> sortedChanges = sortChangesByGitRoot(changes, exceptions);
-    if (GitConvertFilesDialog.showDialogIfNeeded(myProject, mySettings, sortedChanges, exceptions)) {
+    if (ConvertFilesDialog.showDialogIfNeeded(myProject, mySettings, sortedChanges, exceptions)) {
       for (Map.Entry<VirtualFile, List<Change>> entry : sortedChanges.entrySet()) {
         Set<FilePath> files = new HashSet<FilePath>();
         final VirtualFile root = entry.getKey();
@@ -406,7 +406,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     ArrayList<VcsException> rc = new ArrayList<VcsException>();
     Map<VirtualFile, List<FilePath>> sortedFiles;
     try {
-      sortedFiles = GitUtil.sortFilePathsByGitRoot(files);
+      sortedFiles = Util.sortFilePathsByRoot(files);
     }
     catch (VcsException e) {
       rc.add(e);
@@ -472,7 +472,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     ArrayList<VcsException> rc = new ArrayList<VcsException>();
     Map<VirtualFile, List<VirtualFile>> sortedFiles;
     try {
-      sortedFiles = GitUtil.sortFilesByGitRoot(files);
+      sortedFiles = Util.sortFilesByRoot(files);
     }
     catch (VcsException e) {
       rc.add(e);
@@ -512,7 +512,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
         // the parent paths for calculating roots in order to account for submodules that contribute
         // to the parent change. The path "." is never is valid change, so there should be no problem
         // with it.
-        vcsRoot = GitUtil.getGitRoot(filePath.getParentPath());
+        vcsRoot = Util.getRoot(filePath.getParentPath());
       }
       catch (VcsException e) {
         exceptions.add(e);
@@ -609,7 +609,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     }
 
     private List<String> getUsersList(final Project project, final Collection<VirtualFile> roots) {
-      return NewGitUsersComponent.getInstance(project).get();
+      return NewUsersComponent.getInstance(project).get();
     }
 
     /**

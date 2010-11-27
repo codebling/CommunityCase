@@ -20,12 +20,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitVcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.ui.GitUIUtil;
+import org.community.intellij.plugins.communitycase.ui.UiUtil;
+import org.community.intellij.plugins.communitycase.Vcs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -103,11 +103,11 @@ public class MergeDialog extends DialogWrapper {
     initBranchChooser();
     setOKActionEnabled(false);
     setOKButtonText(Bundle.getString("merge.branch.button"));
-    GitUIUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranchText);
-    GitUIUtil.imply(mySquashCommitCheckBox, true, myNoCommitCheckBox, true);
-    GitUIUtil.imply(mySquashCommitCheckBox, true, myAddLogInformationCheckBox, false);
-    GitUIUtil.implyDisabled(mySquashCommitCheckBox, true, myCommitMessage);
-    GitUIUtil.exclusive(mySquashCommitCheckBox, true, myNoFastForwardCheckBox, true);
+    UiUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranchText);
+    UiUtil.imply(mySquashCommitCheckBox, true, myNoCommitCheckBox, true);
+    UiUtil.imply(mySquashCommitCheckBox, true, myAddLogInformationCheckBox, false);
+    UiUtil.implyDisabled(mySquashCommitCheckBox, true, myCommitMessage);
+    UiUtil.exclusive(mySquashCommitCheckBox, true, myNoFastForwardCheckBox, true);
     myGitRoot.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent e) {
         updateBranches();
@@ -160,7 +160,7 @@ public class MergeDialog extends DialogWrapper {
       }
     }
     catch (VcsException e) {
-      GitVcs.getInstance(myProject).showErrors(Collections.singletonList(e), Bundle.getString("merge.retrieving.branches"));
+      Vcs.getInstance(myProject).showErrors(Collections.singletonList(e), Bundle.getString("merge.retrieving.branches"));
     }
   }
 

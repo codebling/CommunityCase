@@ -23,7 +23,7 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.HandlerUtil;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import git4idea.validators.GitBranchNameValidator;
+import org.community.intellij.plugins.communitycase.validators.BranchNameValidator;
 import org.jetbrains.annotations.NonNls;
 
 import javax.swing.*;
@@ -203,7 +203,7 @@ public class CloneDialog extends DialogWrapper {
    */
   private boolean checkOrigin() {
     String origin = myOriginName.getText();
-    if (origin.length() != 0 && !GitBranchNameValidator.INSTANCE.checkInput(origin)) {
+    if (origin.length() != 0 && !BranchNameValidator.INSTANCE.checkInput(origin)) {
       setErrorText(Bundle.getString("clone.invalid.origin"));
       setOKActionEnabled(false);
       return false;

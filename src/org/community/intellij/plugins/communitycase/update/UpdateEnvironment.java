@@ -79,7 +79,7 @@ public class UpdateEnvironment implements com.intellij.openapi.vcs.update.Update
                                          ProgressIndicator progressIndicator,
                                          @NotNull Ref<SequentialUpdatesContext> sequentialUpdatesContextRef)
     throws ProcessCanceledException {
-    Set<VirtualFile> roots = Util.Roots(Arrays.asList(filePaths));
+    Set<VirtualFile> roots = Util.roots(Arrays.asList(filePaths));
     List<VcsException> exceptions = new ArrayList<VcsException>();
     new UpdateProcess(myProject, mySettings, myVcs, updatedFiles, exceptions).doUpdate( progressIndicator, roots);
     return new UpdateSession(exceptions);

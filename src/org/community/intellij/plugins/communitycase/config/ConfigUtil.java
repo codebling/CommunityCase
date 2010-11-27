@@ -19,9 +19,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitUtil;
-import git4idea.commands.GitCommand;
-import git4idea.commands.GitSimpleHandler;
+import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.commands.Command;
+import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Git utilities for working with configuration
+ *  utilities for working with configuration
  */
 public class ConfigUtil {
   /**
@@ -41,16 +41,16 @@ public class ConfigUtil {
   }
 
   /**
-   * Get configuration values for the repository. Note that the method executes a git command.
+   * Get configuration values for the repository. Note that the method executes a  command.
    *
    * @param project the context project
-   * @param root    the git root
+   * @param root    the  root
    * @param keyMask the keys to be queried
    * @param result  the map to put results to
-   * @throws VcsException if there is a problem with running git
+   * @throws VcsException if there is a problem with running
    */
   public static void getValues(Project project, VirtualFile root, String keyMask, Map<String, String> result) throws VcsException {
-    GitSimpleHandler h = new GitSimpleHandler(project, root, GitCommand.CONFIG);
+    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
     h.setNoSSH(true);
     h.setSilent(true);
     h.addParameters("--null", "--get-regexp", keyMask);
@@ -80,7 +80,7 @@ public class ConfigUtil {
    */
   public static List<Pair<String, String>> getAllValues(Project project, VirtualFile root, @NonNls String key) throws VcsException {
     List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
-    GitSimpleHandler h = new GitSimpleHandler(project, root, GitCommand.CONFIG);
+    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
     h.setNoSSH(true);
     h.setSilent(true);
     h.addParameters("--null", "--get-all", key);
@@ -107,7 +107,7 @@ public class ConfigUtil {
    */
   @Nullable
   public static String getValue(Project project, VirtualFile root, @NonNls String key) throws VcsException {
-    GitSimpleHandler h = new GitSimpleHandler(project, root, GitCommand.CONFIG);
+    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
     h.setNoSSH(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);
@@ -171,7 +171,7 @@ public class ConfigUtil {
       // ignore exception
     }
     if (encoding == null || encoding.length() == 0) {
-      encoding = GitUtil.UTF8_ENCODING;
+      encoding = Util.UTF8_ENCODING;
     }
     return encoding;
   }
@@ -216,7 +216,7 @@ public class ConfigUtil {
    * @throws VcsException if there is a problem with running git
    */
   public static void unsetValue(Project project, VirtualFile root, String key) throws VcsException {
-    GitSimpleHandler h = new GitSimpleHandler(project, root, GitCommand.CONFIG);
+    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
     h.setNoSSH(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);
@@ -234,7 +234,7 @@ public class ConfigUtil {
    * @throws VcsException if there is a problem with running git
    */
   public static void setValue(Project project, VirtualFile root, String key, String value) throws VcsException {
-    GitSimpleHandler h = new GitSimpleHandler(project, root, GitCommand.CONFIG);
+    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
     h.setNoSSH(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);

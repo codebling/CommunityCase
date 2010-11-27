@@ -28,7 +28,6 @@ import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.ChangeProvider;
 import com.intellij.openapi.vcs.changes.CommitExecutor;
-import com.intellij.openapi.vcs.checkin.CheckinEnvironment;
 import com.intellij.openapi.vcs.diff.DiffProvider;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsHistoryProvider;
@@ -44,7 +43,6 @@ import com.intellij.util.containers.ComparatorDelegate;
 import com.intellij.util.containers.Convertor;
 import com.intellij.util.ui.UIUtil;
 import org.community.intellij.plugins.communitycase.annotate.AnnotationProvider;
-import org.community.intellij.plugins.communitycase.changes.CcChangeProvider;
 import org.community.intellij.plugins.communitycase.changes.ChangeUtils;
 import org.community.intellij.plugins.communitycase.changes.CommittedChangeListProvider;
 import org.community.intellij.plugins.communitycase.changes.OutgoingChangesProvider;
@@ -54,15 +52,11 @@ import org.community.intellij.plugins.communitycase.checkout.branches.BranchConf
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.*;
-import org.community.intellij.plugins.communitycase.diff.DiffProvider;
 import org.community.intellij.plugins.communitycase.diff.TreeDiffProvider;
 import org.community.intellij.plugins.communitycase.history.HistoryProvider;
 import org.community.intellij.plugins.communitycase.history.NewUsersComponent;
 import org.community.intellij.plugins.communitycase.history.browser.ProjectLogManager;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import org.community.intellij.plugins.communitycase.merge.MergeProvider;
-import org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment;
-import org.community.intellij.plugins.communitycase.update.UpdateEnvironment;
 import org.community.intellij.plugins.communitycase.vfs.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -100,7 +94,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   private final MergeProvider myReverseMergeProvider;
   private final CommittedChangeListProvider myCommittedChangeListProvider;
 
-  private VFSListener myVFSListener; // a VFS listener that tracks file addition, deletion, and renaming.
+  private VfsListener myVfsListener; // a VFS listener that tracks file addition, deletion, and renaming.
   @SuppressWarnings({"FieldAccessedSynchronizedAndUnsynchronized"}) private Version myVersion; // The currently detected  version or null.
   private final Object myCheckingVersion = new Object(); // Checking the version lock (used to prevent infinite recursion)
   private String myVersionCheckExcecutable = ""; // The path to executable at the time of version check
@@ -125,33 +119,33 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   }
 
   public Vcs(@NotNull Project project,
-             @NotNull final ChangeProvider ChangeProvider,
-             @NotNull final CheckinEnvironment CheckinEnvironment,
-             @NotNull final ProjectLevelVcsManager VcsManager,
-             @NotNull final AnnotationProvider AnnotationProvider,
-             @NotNull final DiffProvider DiffProvider,
-             @NotNull final HistoryProvider HistoryProvider,
-             @NotNull final RollbackEnvironment RollbackEnvironment,
-             @NotNull final VcsApplicationSettings Settings,
-             @NotNull final VcsSettings ProjectSettings) {
+             @NotNull final ChangeProvider changeProvider,
+             @NotNull final CheckinEnvironment checkinEnvironment,
+             @NotNull final ProjectLevelVcsManager vcsManager,
+             @NotNull final AnnotationProvider annotationProvider,
+             @NotNull final DiffProvider diffProvider,
+             @NotNull final HistoryProvider historyProvider,
+             @NotNull final RollbackEnvironment rollbackEnvironment,
+             @NotNull final VcsApplicationSettings settings,
+             @NotNull final VcsSettings projectSettings) {
     super(project, NAME);
-    myVcsManager = VcsManager;
-    myAppSettings = Settings;
-    myChangeProvider = ChangeProvider;
-    myCheckinEnvironment = CheckinEnvironment;
-    myAnnotationProvider = AnnotationProvider;
-    myDiffProvider = DiffProvider;
-    myHistoryProvider = HistoryProvider;
-    myRollbackEnvironment = RollbackEnvironment;
+    myVcsManager = vcsManager;
+    myAppSettings = settings;
+    myChangeProvider = changeProvider;
+    myCheckinEnvironment = checkinEnvironment;
+    myAnnotationProvider = annotationProvider;
+    myDiffProvider = diffProvider;
+    myHistoryProvider = historyProvider;
+    myRollbackEnvironment = rollbackEnvironment;
     myRevSelector = new RevisionSelector();
-    myConfigurable = new VcsConfigurable(ProjectSettings, myProject);
-    myUpdateEnvironment = new UpdateEnvironment(myProject, this, ProjectSettings);
-    myMergeProvider = new MergeProvider(myProject);
-    myReverseMergeProvider = new MergeProvider(myProject, true);
+    myConfigurable = new VcsConfigurable(projectSettings, myProject);
+    myUpdateEnvironment = new org.community.intellij.plugins.communitycase.update.UpdateEnvironment(myProject, this, projectSettings);
+    myMergeProvider = new org.community.intellij.plugins.communitycase.merge.MergeProvider(myProject);
+    myReverseMergeProvider = new org.community.intellij.plugins.communitycase.merge.MergeProvider(myProject, true);
     myCommittedChangeListProvider = new CommittedChangeListProvider(myProject);
     myOutgoingChangesProvider = new OutgoingChangesProvider(myProject);
     myTreeDiffProvider = new TreeDiffProvider(myProject);
-    myCommitAndPushExecutor = new CommitAndPushExecutor(CheckinEnvironment);
+    myCommitAndPushExecutor = new CommitAndPushExecutor(checkinEnvironment);
     myReferenceTracker = new ReferenceTracker(myProject, this, myReferenceListeners.getMulticaster());
     myTaskQueue = new BackgroundTaskQueue(myProject, Bundle.getString("task.queue.title"));
     myIndexChangeListener = new RepositoryChangeListener(myProject, "./index");
@@ -160,8 +154,8 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   /**
    * @return the vfs listener instance
    */
-  public VFSListener getVFSListener() {
-    return myVFSListener;
+  public VfsListener getVfsListener() {
+    return myVfsListener;
   }
 
   /**
@@ -387,7 +381,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    */
   @Override
   public boolean isVersionedDirectory(VirtualFile dir) {
-    return dir.isDirectory() && Util.RootOrNull(dir) != null;
+    return dir.isDirectory() && Util.rootOrNull(dir) != null;
   }
 
   /**
@@ -415,8 +409,8 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     if (!myProject.isDefault() && myRootTracker == null) {
       myRootTracker = new RootTracker(this, myProject, myRootListeners.getMulticaster());
     }
-    if (myVFSListener == null) {
-      myVFSListener = new VFSListener(myProject, this);
+    if (myVfsListener == null) {
+      myVfsListener = new VfsListener(myProject, this);
     }
     if (myConfigTracker == null) {
       myConfigTracker = new ConfigTracker(myProject, this, myConfigListeners.getMulticaster());
@@ -442,9 +436,9 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
       myRootTracker.dispose();
       myRootTracker = null;
     }
-    if (myVFSListener != null) {
-      Disposer.dispose(myVFSListener);
-      myVFSListener = null;
+    if (myVfsListener != null) {
+      Disposer.dispose(myVfsListener);
+      myVfsListener = null;
     }
     if (myIgnoreTracker != null) {
       myIgnoreTracker.dispose();
@@ -534,7 +528,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    * Check version and report problem
    */
   public void checkVersion() {
-    final String executable = myAppSettings.getPathTo();
+    final String executable = myAppSettings.getPathToVcs();
     synchronized (myCheckingVersion) {
       if (myVersion != null && myVersionCheckExcecutable.equals(executable)) {
         return;
@@ -622,7 +616,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     for (int i = 1; i < in.size(); i++) {
       final S sChild = in.get(i);
       final VirtualFile child = convertor.convert(sChild);
-      final VirtualFile childRoot = Util.RootOrNull(child);
+      final VirtualFile childRoot = Util.rootOrNull(child);
       if (childRoot == null) {
         // non- file actually, skip it
         continue;

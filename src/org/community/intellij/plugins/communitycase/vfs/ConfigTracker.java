@@ -43,7 +43,7 @@ public class ConfigTracker implements RootsListener {
   /**
    * The vcs object
    */
-  private final version controlVcs myVcs;
+  private final Vcs myVcs;
   /**
    * The vcs manager that tracks content roots
    */
@@ -72,7 +72,7 @@ public class ConfigTracker implements RootsListener {
    * @param vcs         the vcs object
    * @param multicaster the listener collection to use
    */
-  public ConfigTracker(Project project, version controlVcs vcs, ConfigListener multicaster) {
+  public ConfigTracker(Project project, Vcs vcs, ConfigListener multicaster) {
     myProject = project;
     myVcs = vcs;
     myMulticaster = multicaster;
@@ -92,7 +92,7 @@ public class ConfigTracker implements RootsListener {
     if (contentRoots == null || contentRoots.length == 0) {
       return;
     }
-    Set<VirtualFile> currentRootSet = version controlUtil.RootsForPaths(Arrays.asList(contentRoots));
+    Set<VirtualFile> currentRootSet = Util.rootsForPaths(Arrays.asList(contentRoots));
     HashSet<VirtualFile> newRoots = new HashSet<VirtualFile>(currentRootSet);
     synchronized (myReportedRoots) {
       for (Iterator<VirtualFile> i = myReportedRoots.iterator(); i.hasNext();) {
@@ -161,7 +161,7 @@ public class ConfigTracker implements RootsListener {
         }
         return;
       }
-      VirtualFile base = version controlUtil.getPossibleBase(file, ".", "config");
+      VirtualFile base = Util.getPossibleBase(file, ".", "config");
       if (base != null) {
         boolean reported;
         synchronized (myReportedRoots) {

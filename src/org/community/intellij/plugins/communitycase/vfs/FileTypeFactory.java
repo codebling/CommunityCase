@@ -18,7 +18,6 @@ package org.community.intellij.plugins.communitycase.vfs;
 
 import com.intellij.openapi.fileTypes.ExactFileNameMatcher;
 import com.intellij.openapi.fileTypes.FileTypeConsumer;
-import com.intellij.openapi.fileTypes.FileTypeFactory;
 import com.intellij.openapi.fileTypes.PlainTextFileType;
 import org.jetbrains.annotations.NotNull;
 

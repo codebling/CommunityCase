@@ -19,7 +19,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import git4idea.GitUtil;
+import org.community.intellij.plugins.communitycase.Util;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class FileUtils {
    * @return chunked relative paths
    */
   public static List<List<String>> chunkPaths(VirtualFile root, Collection<FilePath> files) {
-    return chunkRelativePaths(GitUtil.toRelativePaths(root, files));
+    return chunkRelativePaths(Util.toRelativePaths(root, files));
   }
 
   /**
@@ -97,7 +97,7 @@ public class FileUtils {
    * @return chunked relative paths
    */
   public static List<List<String>> chunkFiles(VirtualFile root, Collection<VirtualFile> files) {
-    return chunkRelativePaths(GitUtil.toRelativeFiles(root, files));
+    return chunkRelativePaths(Util.toRelativeFiles(root, files));
   }
 
   /**

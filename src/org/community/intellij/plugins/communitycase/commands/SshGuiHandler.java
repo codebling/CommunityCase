@@ -23,7 +23,6 @@ import com.intellij.util.ui.UIUtil;
 import org.community.intellij.plugins.communitycase.config.SshConnectionSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.git4idea.ssh.GitSSHService;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -36,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Swing GUI handler for the SSH events
  */
-public class SshGuiHandler implements GitSSHService.Handler {
+public class SshGuiHandler {
   /**
    * the project for the handler (used for popups)
    */
@@ -164,7 +163,6 @@ public class SshGuiHandler implements GitSSHService.Handler {
   /**
    * {@inheritDoc}
    */
-  @Override
   public String getLastSuccessful(String userName) {
     SshConnectionSettings s = SshConnectionSettings.getInstance();
     String rc = s.getLastSuccessful(userName);
@@ -174,7 +172,6 @@ public class SshGuiHandler implements GitSSHService.Handler {
   /**
    * {@inheritDoc}
    */
-  @Override
   public void setLastSuccessful(String userName, String method, final String error) {
     SshConnectionSettings s = SshConnectionSettings.getInstance();
     s.setLastSuccessful(userName, method);

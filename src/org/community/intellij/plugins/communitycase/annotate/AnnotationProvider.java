@@ -21,7 +21,6 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
@@ -71,18 +70,18 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
   /**
    * {@inheritDoc}
    */
-  public FileAnnotation annotate(@NotNull VirtualFile file) throws VcsException {
+  public com.intellij.openapi.vcs.annotate.FileAnnotation annotate(@NotNull VirtualFile file) throws VcsException {
     return annotate(file, null);
   }
 
   /**
    * {@inheritDoc}
    */
-  public FileAnnotation annotate(@NotNull final VirtualFile file, final VcsFileRevision revision) throws VcsException {
+  public com.intellij.openapi.vcs.annotate.FileAnnotation annotate(@NotNull final VirtualFile file, final VcsFileRevision revision) throws VcsException {
     if (file.isDirectory()) {
       throw new VcsException("Cannot annotate a directory");
     }
-    final FileAnnotation[] annotation = new FileAnnotation[1];
+    final com.intellij.openapi.vcs.annotate.FileAnnotation[] annotation = new com.intellij.openapi.vcs.annotate.FileAnnotation[1];
     final Exception[] exception = new Exception[1];
     Runnable command = new Runnable() {
       public void run() {
@@ -103,7 +102,7 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
           if (progress != null) {
             progress.setText(Bundle.message("computing.annotation", file.getName()));
           }
-          final FileAnnotation result = annotate(realFilePath, revision, revisions, file);
+          final com.intellij.openapi.vcs.annotate.FileAnnotation result = annotate(realFilePath, revision, revisions, file);
           annotation[0] = result;
         }
         catch (Exception e) {
@@ -134,7 +133,7 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
    * @return a file annotation object
    * @throws VcsException if there is a problem with running
    */
-  private FileAnnotation annotate(final FilePath repositoryFilePath,
+  private com.intellij.openapi.vcs.annotate.FileAnnotation annotate(final FilePath repositoryFilePath,
                                      final VcsFileRevision revision,
                                      final List<VcsFileRevision> revisions,
                                      final VirtualFile file) throws VcsException {
@@ -152,7 +151,7 @@ public class AnnotationProvider implements com.intellij.openapi.vcs.annotate.Ann
     h.endOptions();
     h.addRelativePaths(repositoryFilePath);
     String output = h.run();
-    CcFileAnnotation annotation = new CcFileAnnotation(myProject, file, revision == null);
+    FileAnnotation annotation = new FileAnnotation(myProject, file, revision == null);
     class CommitInfo {
       Date date;
       String author;
