@@ -36,7 +36,7 @@ import java.util.List;
 /**
  *  content revision
  */
-public class CcContentRevision implements com.intellij.openapi.vcs.changes.ContentRevision {
+public class ContentRevision implements com.intellij.openapi.vcs.changes.ContentRevision {
   /**
    * the file path
    */
@@ -54,14 +54,14 @@ public class CcContentRevision implements com.intellij.openapi.vcs.changes.Conte
    */
   @NotNull private Charset myCharset;
 
-  public CcContentRevision(@NotNull FilePath file, @NotNull RevisionNumber revision, @NotNull Project project, Charset charset) {
+  public ContentRevision(@NotNull FilePath file, @NotNull RevisionNumber revision, @NotNull Project project, Charset charset) {
     myProject = project;
     myFile = file;
     myRevision = revision;
     myCharset = charset;
   }
 
-  public CcContentRevision(@NotNull FilePath file, @NotNull RevisionNumber revision, @NotNull Project project) {
+  public ContentRevision(@NotNull FilePath file, @NotNull RevisionNumber revision, @NotNull Project project) {
     this(file, revision, project, null);
   }
 
@@ -92,7 +92,7 @@ public class CcContentRevision implements com.intellij.openapi.vcs.changes.Conte
     if (this == obj) return true;
     if ((obj == null) || (obj.getClass() != getClass())) return false;
 
-    CcContentRevision test = (CcContentRevision)obj;
+    ContentRevision test = (ContentRevision)obj;
     return (myFile.equals(test.myFile) && myRevision.equals(test.myRevision));
   }
 
@@ -103,7 +103,7 @@ public class CcContentRevision implements com.intellij.openapi.vcs.changes.Conte
   public static com.intellij.openapi.vcs.changes.ContentRevision createMultipleParentsRevision(Project project,
                                                               final FilePath file,
                                                               final List<RevisionNumber> revisions) throws VcsException {
-    final CcContentRevision contentRevision = new CcContentRevision(file, revisions.get(0), project);
+    final ContentRevision contentRevision = new ContentRevision(file, revisions.get(0), project);
     if (revisions.size() == 1) {
       return contentRevision;
     } else {
@@ -130,7 +130,7 @@ public class CcContentRevision implements com.intellij.openapi.vcs.changes.Conte
                                                boolean isDeleted, final boolean canBeDeleted) throws VcsException {
     final FilePath file = createPath(vcsRoot, path, isDeleted, canBeDeleted);
     if (revisionNumber != null) {
-      return new CcContentRevision(file, (RevisionNumber)revisionNumber, project);
+      return new ContentRevision(file, (RevisionNumber)revisionNumber, project);
     }
     else {
       return CurrentContentRevision.create(file);
@@ -151,7 +151,7 @@ public class CcContentRevision implements com.intellij.openapi.vcs.changes.Conte
     throws VcsException {
     final FilePathImpl filePath = new FilePathImpl(file);
     if (revisionNumber != null) {
-      return new CcContentRevision(filePath, (RevisionNumber)revisionNumber, project);
+      return new ContentRevision(filePath, (RevisionNumber)revisionNumber, project);
     }
     else {
       return CurrentContentRevision.create(filePath);
