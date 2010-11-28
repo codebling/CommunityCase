@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase
+END
+ClearCaseException.java
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/ClearCaseException.java
+END
+ClearCase.java
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/ClearCase.java
+END
+Disposable.java
+K 25
+svn:wc:ra_dav:version-url
+V 149
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/Disposable.java
+END
+OperationListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 156
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/OperationListener.java
+END
+ClearCaseFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 155
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/ClearCaseFactory.java
+END
+DisposeListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 154
+/svnroot/clearcase-java/!svn/ver/8/net.sourceforge.clearcase/branches/migration/clearcase-api/src/main/java/net/sourceforge/clearcase/DisposeListener.java
+END

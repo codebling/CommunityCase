@@ -439,15 +439,18 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ref/ClearCaseJava_cvs/ClearCaseJava_cvs.iml" filepath="$PROJECT_DIR$/ref/ClearCaseJava_cvs/ClearCaseJava_cvs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ref/ClearCaseJava_svn/ClearCaseJava_svn.iml" filepath="$PROJECT_DIR$/ref/ClearCaseJava_svn/ClearCaseJava_svn.iml" />
       <module fileurl="file://$PROJECT_DIR$/CommunityCase.iml" filepath="$PROJECT_DIR$/CommunityCase.iml" />
       <module fileurl="file://$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" filepath="$PROJECT_DIR$/ref/eclipse-plugin/eclipse-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/ref/git4idea/git4idea.iml" filepath="$PROJECT_DIR$/ref/git4idea/git4idea.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ref/transparent/transparent.iml" filepath="$PROJECT_DIR$/ref/transparent/transparent.iml" />
     </modules>
   </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IntelliJ CE 10.b.98 (IDEA IC-98.402)" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IntelliJ CE v10.b.98 (IDEA IC-98.402)" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ResourceManagerContainer">

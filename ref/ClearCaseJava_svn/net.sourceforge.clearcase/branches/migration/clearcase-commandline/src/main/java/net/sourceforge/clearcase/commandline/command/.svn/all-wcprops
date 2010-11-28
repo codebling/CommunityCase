@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/command
+END
+CommandLauncher.java
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/command/CommandLauncher.java
+END
+CommandLine.java
+K 25
+svn:wc:ra_dav:version-url
+V 178
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/command/CommandLine.java
+END
+StreamReaderThread.java
+K 25
+svn:wc:ra_dav:version-url
+V 185
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/main/java/net/sourceforge/clearcase/commandline/command/StreamReaderThread.java
+END

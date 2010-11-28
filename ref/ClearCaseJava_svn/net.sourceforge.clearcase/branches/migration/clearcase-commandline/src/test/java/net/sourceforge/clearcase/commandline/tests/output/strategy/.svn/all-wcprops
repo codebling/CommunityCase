@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy
+END
+DirectoryIsNotCheckedOutTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 209
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/DirectoryIsNotCheckedOutTest.java
+END
+SuccessfulDeleteTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 201
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/SuccessfulDeleteTest.java
+END
+MostRecentNotPredecessorTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 209
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/MostRecentNotPredecessorTest.java
+END
+SuccessfulCheckinTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 202
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/SuccessfulCheckinTest.java
+END
+SuccessfulCheckoutTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 203
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/SuccessfulCheckoutTest.java
+END
+SuccessfulMoveTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 199
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/SuccessfulMoveTest.java
+END
+UnableToCreateElementTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 206
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/UnableToCreateElementTest.java
+END
+SuccessfulAddTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 198
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/SuccessfulAddTest.java
+END
+SuccessfulUncheckoutTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 205
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/SuccessfulUncheckoutTest.java
+END
+ElementAlreadyCheckedOutTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 209
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/ElementAlreadyCheckedOutTest.java
+END
+ElementAlreadyExistsTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 205
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/ElementAlreadyExistsTest.java
+END
+IdenticalPredecessorTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 205
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/IdenticalPredecessorTest.java
+END
+ElementCheckedOutReservedInOtherViewTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 221
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/ElementCheckedOutReservedInOtherViewTest.java
+END
+ElementHasCheckOutsTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 204
+/svnroot/clearcase-java/!svn/ver/9/net.sourceforge.clearcase/branches/migration/clearcase-commandline/src/test/java/net/sourceforge/clearcase/commandline/tests/output/strategy/ElementHasCheckOutsTest.java
+END
