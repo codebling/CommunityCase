@@ -1,10 +1,19 @@
-<idea-plugin>
-  <name>CommunityCaseName</name>
-  <id>CommunityCaseId</id>
+<idea-plugin url="http://www.bettercodes.org/communitycase">
+  <name>CommunityCase</name>
+  <id>CommunityCase</id>
   <description>Provides version control integration with ClearCase</description>
   <version>10-0.1</version>
+  <idea-version since-build="IC-98.486"/>
   <category>VCS Integration</category>
   <vendor url="http://www.bettercodes.org/communitycase" logo="/general/ijLogo.png">community</vendor>
+
+<!--
+  <change-notes>
+    <![CDATA[=== 1.36.5, 2006.1.12 by Curtis George<br>
+                * Modified Properties Action to use openapi dialog<br>
+    ]]>
+  </change-notes>
+-->
 
   <depends>com.intellij.modules.vcs</depends>
 
