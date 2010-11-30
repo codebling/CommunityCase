@@ -13,7 +13,7 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="4idea/i18n/Bundle" key="update.locally.modified..root"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="update.locally.modified.root"/>
         </properties>
       </component>
       <component id="24443" class="javax.swing.JLabel" binding="myRoot">
@@ -42,7 +42,7 @@
           <component id="5d604" class="com.intellij.ui.components.JBList" binding="myFilesList" default-binding="true">
             <constraints/>
             <properties>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="update.locally.modified.files.tooltip"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="update.locally.modified.files.tooltip"/>
             </properties>
           </component>
         </children>
@@ -52,8 +52,8 @@
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="4idea/i18n/Bundle" key="update.locally.modified.rescan"/>
-          <toolTipText resource-bundle="4idea/i18n/Bundle" key="update.locally.modified.rescan.tooltip"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="update.locally.modified.rescan"/>
+          <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="update.locally.modified.rescan.tooltip"/>
         </properties>
       </component>
       <component id="ab434" class="javax.swing.JLabel">
@@ -62,7 +62,7 @@
         </constraints>
         <properties>
           <labelFor value="bde6e"/>
-          <text resource-bundle="4idea/i18n/Bundle" key="update.locally.modified.files"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="update.locally.modified.files"/>
           <verticalAlignment value="0"/>
         </properties>
       </component>

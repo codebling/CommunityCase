@@ -22,8 +22,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="4idea/i18n/Bundle" key="rebase.editor.move.up"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="rebase.editor.move.up.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.move.up"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.move.up.tooltip"/>
             </properties>
           </component>
           <vspacer id="23afb">
@@ -37,8 +37,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="4idea/i18n/Bundle" key="rebase.editor.move.down"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="rebase.editor.move.down.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.move.down"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.move.down.tooltip"/>
             </properties>
           </component>
           <component id="578eb" class="javax.swing.JButton" binding="myViewButton" default-binding="true">
@@ -47,8 +47,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="4idea/i18n/Bundle" key="rebase.editor.view"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="rebase.editor.view.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.view"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.view.tooltip"/>
             </properties>
           </component>
         </children>
@@ -72,7 +72,7 @@
         </constraints>
         <properties>
           <labelFor value="2f6c5"/>
-          <text resource-bundle="4idea/i18n/Bundle" key="rebase.editor.message"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="rebase.editor.message"/>
         </properties>
       </component>
     </children>

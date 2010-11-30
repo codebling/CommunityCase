@@ -315,7 +315,7 @@ public class RefspecAddRefsDialog extends DialogWrapper {
    */
   @Override
   protected String getHelpId() {
-    return "reference.VersionControl..Fetch.AddReference";
+    return "reference.VersionControl.Fetch.AddReference";
   }
 
 

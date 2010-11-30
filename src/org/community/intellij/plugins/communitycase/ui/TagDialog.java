@@ -284,6 +284,6 @@ public class TagDialog extends DialogWrapper {
    */
   @Override
   protected String getHelpId() {
-    return "reference.VersionControl..TagFiles";
+    return "reference.VersionControl.TagFiles";
   }
 }

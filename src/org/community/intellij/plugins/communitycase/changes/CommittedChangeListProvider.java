@@ -139,11 +139,12 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
     return null;
   }
 
+  @Override
   public void loadCommittedChanges(ChangeBrowserSettings settings,
-                                   RepositoryLocation location,
+                                   com.intellij.openapi.vcs.RepositoryLocation location,
                                    int maxCount,
                                    AsynchConsumer<CommittedChangeList> consumer)
-    throws VcsException {
+        throws VcsException {
     try {
       getCommittedChangesImpl(settings, location, maxCount, consumer);
     }
@@ -155,8 +156,11 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
   /**
    * {@inheritDoc}
    */
-  public List<CommittedChangeList> getCommittedChanges(ChangeBrowserSettings settings, RepositoryLocation location, final int maxCount)
-    throws VcsException {
+  @Override
+  public List<CommittedChangeList> getCommittedChanges(ChangeBrowserSettings settings,
+                                                       com.intellij.openapi.vcs.RepositoryLocation location,
+                                                       final int maxCount)
+        throws VcsException {
 
     final List<CommittedChangeList> result = new ArrayList<CommittedChangeList>();
 
@@ -169,9 +173,11 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
     return result;
   }
 
-  private void getCommittedChangesImpl(ChangeBrowserSettings settings, RepositoryLocation location, final int maxCount,
-                                                            final Consumer<CommittedChangeList> consumer)
-    throws VcsException {
+  private void getCommittedChangesImpl(ChangeBrowserSettings settings,
+                                       com.intellij.openapi.vcs.RepositoryLocation location,
+                                       final int maxCount,
+                                       final Consumer<CommittedChangeList> consumer)
+      throws VcsException {
     RepositoryLocation l = (RepositoryLocation)location;
     final Long beforeRev = settings.getChangeBeforeFilter();
     final Long afterRev = settings.getChangeBeforeFilter();
@@ -220,8 +226,10 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
   /**
    * {@inheritDoc}
    */
-  public VcsCommittedViewAuxiliary createActions(DecoratorManager manager, RepositoryLocation location) {
-    return null;
+  @Override
+  public VcsCommittedViewAuxiliary createActions(DecoratorManager manager,
+                                                 com.intellij.openapi.vcs.RepositoryLocation location) {
+      return null;
   }
 
   /**

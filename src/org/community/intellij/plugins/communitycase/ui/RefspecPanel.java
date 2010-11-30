@@ -68,7 +68,7 @@ public class RefspecPanel extends JPanel {
    */
   private final SortedSet<String> myRemoteHeads = new TreeSet<String>();
   /**
-   * Remote tags (for Add.. dialog)
+   * Remote tags (for Add... dialog)
    */
   private final SortedSet<String> myRemoteTags = new TreeSet<String>();
   /**

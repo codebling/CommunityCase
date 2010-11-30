@@ -41,7 +41,7 @@ public class RebaseEditorMain {
   /**
    * Rebase editor handler name
    */
-  @NonNls static final String HANDLER_NAME = "4ideaRebaseEditorHandler";
+  @NonNls static final String HANDLER_NAME = "CommunityCaseRebaseEditorHandler";
   /**
    * The prefix for cygwin files
    */

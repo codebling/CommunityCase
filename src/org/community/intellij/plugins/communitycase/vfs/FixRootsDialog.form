@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <labelFor value="70a36"/>
-          <text resource-bundle="4idea/i18n/Bundle" key="fix.roots.message"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="fix.roots.message"/>
         </properties>
       </component>
       <scrollpane class="com.intellij.ui.components.JBScrollPane" id="70a36">
@@ -27,7 +27,7 @@
           <component id="704d2" class="com.intellij.ui.components.JBList" binding="myRoots">
             <constraints/>
             <properties>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="fix.roots.list.tooltip"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="fix.roots.list.tooltip"/>
             </properties>
           </component>
         </children>

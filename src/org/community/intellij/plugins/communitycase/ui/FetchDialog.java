@@ -229,6 +229,6 @@ public class FetchDialog extends DialogWrapper {
    */
   @Override
   protected String getHelpId() {
-    return "reference.VersionControl..Fetch";
+    return "reference.VersionControl.Fetch";
   }
 }

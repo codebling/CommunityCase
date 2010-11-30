@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <labelFor value="9bc84"/>
-          <text resource-bundle="4idea/i18n/Bundle" key="crlf.convert.label"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="crlf.convert.label"/>
         </properties>
       </component>
       <scrollpane class="com.intellij.ui.components.JBScrollPane" id="9bc84">
@@ -37,8 +37,8 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text resource-bundle="4idea/i18n/Bundle" key="common.do.not.show"/>
-          <toolTipText resource-bundle="4idea/i18n/Bundle" key="common.do.not.show.tooltip"/>
+          <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="common.do.not.show"/>
+          <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="common.do.not.show.tooltip"/>
         </properties>
       </component>
     </children>

@@ -44,7 +44,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * This is subclass of {@link git4idea.update.GitBaseRebaseProcess} that implement rebase operation for {@link PushActiveBranchesDialog}.
+ * This is subclass of {@link org.community.intellij.plugins.communitycase.update.BaseRebaseProcess} that implement rebase operation for {@link PushActiveBranchesDialog}.
  * This operation reorders commits if needed.
  */
 public class PushRebaseProcess extends BaseRebaseProcess {
@@ -175,7 +175,7 @@ public class PushRebaseProcess extends BaseRebaseProcess {
 
     /**
      * The constructor from fields that is expected to be
-     * accessed only from {@link git4idea.rebase.RebaseEditorService}.
+     * accessed only from {@link org.community.intellij.plugins.communitycase.rebase.RebaseEditorService}.
      *
      * @param root      the git repository root
      * @param commits   the reordered commits

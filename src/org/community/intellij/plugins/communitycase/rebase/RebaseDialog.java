@@ -397,6 +397,6 @@ public class RebaseDialog extends DialogWrapper {
    */
   @Override
   protected String getHelpId() {
-    return "reference.VersionControl..Rebase";
+    return "reference.VersionControl.Rebase";
   }
 }

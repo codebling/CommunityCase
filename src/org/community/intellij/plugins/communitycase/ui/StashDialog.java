@@ -83,7 +83,7 @@ public class StashDialog extends DialogWrapper {
 
   @Override
   protected String getHelpId() {
-    return "reference.VersionControl..Stash";
+    return "reference.VersionControl.Stash";
   }
 
   @Override

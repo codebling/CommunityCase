@@ -199,7 +199,7 @@ public class RebaseEditor extends DialogWrapper {
    */
   @Override
   protected String getHelpId() {
-    return "reference.VersionControl..RebaseCommits";
+    return "reference.VersionControl.RebaseCommits";
   }
 
   /**

@@ -153,13 +153,22 @@ public class StashUtils {
         paths.add(VcsUtil.getFilePath(projectPath + f.AFTER_PATH));
       }
     }
-    Map<VirtualFile, List<FilePath>> map = Util.sortFilePathsByRoot(paths);
-    for (Map.Entry<VirtualFile, List<FilePath>> e : map.entrySet()) {
-      try {
-        FileUtils.addPaths(project, e.getKey(), e.getValue());
-      }
-      catch (VcsException e1) {
-        exceptions.add(e1);
+
+    Map<VirtualFile, List<FilePath>> map = null;
+    try {
+      map = Util.sortFilePathsByRoot(paths);
+    } catch (VcsException e) {
+      exceptions.add(e);
+    }
+
+    if (map != null) {
+      for (Map.Entry<VirtualFile, List<FilePath>> e : map.entrySet()) {
+        try {
+          FileUtils.addPaths(project, e.getKey(), e.getValue());
+        }
+        catch (VcsException e1) {
+          exceptions.add(e1);
+        }
       }
     }
   }

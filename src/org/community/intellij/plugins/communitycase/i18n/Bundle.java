@@ -36,7 +36,7 @@ import java.lang.ref.SoftReference;
 import java.util.ResourceBundle;
 
 /**
- * Git4Idea package I18N localization bundle helper
+ * i18n localization bundle helper
  */
 public class Bundle {
   private static Reference<ResourceBundle> ourBundle;

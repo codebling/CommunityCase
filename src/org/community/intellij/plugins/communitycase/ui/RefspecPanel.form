@@ -6,7 +6,7 @@
       <xy x="20" y="20" width="401" height="236"/>
     </constraints>
     <properties/>
-    <border type="none" title-resource-bundle="4idea/i18n/Bundle" title-key="refspec.title" title-position="2">
+    <border type="none" title-resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" title-key="refspec.title" title-position="2">
       <font/>
     </border>
     <children>
@@ -36,8 +36,8 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text resource-bundle="4idea/i18n/Bundle" key="refspec.add.all.branches"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="refspec.add.all.branches.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.add.all.branches"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.add.all.branches.tooltip"/>
             </properties>
           </component>
           <vspacer id="ce0bf">
@@ -51,8 +51,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="4idea/i18n/Bundle" key="refspec.add.ref"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="refspec.add.ref.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.add.ref"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.add.ref.tooltip"/>
             </properties>
           </component>
           <component id="4baeb" class="javax.swing.JButton" binding="myRemoveButton" default-binding="true">
@@ -60,8 +60,8 @@
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text resource-bundle="4idea/i18n/Bundle" key="refspec.remove"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="refspec.remove.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.remove"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.remove.tooltip"/>
             </properties>
           </component>
           <component id="b3517" class="javax.swing.JButton" binding="myAddAllTagsButton" default-binding="true">
@@ -69,8 +69,8 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text resource-bundle="4idea/i18n/Bundle" key="refspec.add.all.tags"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="refspec.add.all.tags.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.add.all.tags"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.add.all.tags.tooltip"/>
             </properties>
           </component>
           <component id="8c8a2" class="javax.swing.JButton" binding="myDefaultButton" default-binding="true">
@@ -79,8 +79,8 @@
             </constraints>
             <properties>
               <enabled value="false"/>
-              <text resource-bundle="4idea/i18n/Bundle" key="refspec.default"/>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="refspec.default.tooltip"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.default"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.default.tooltip"/>
             </properties>
           </component>
         </children>
@@ -99,7 +99,7 @@
             </constraints>
             <properties>
               <labelFor value="5f8b9"/>
-              <text resource-bundle="4idea/i18n/Bundle" key="refspec.branch.prefix"/>
+              <text resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.branch.prefix"/>
             </properties>
           </component>
           <component id="5f8b9" class="javax.swing.JTextField" binding="myRemoteNameTextField" default-binding="true">
@@ -109,7 +109,7 @@
               </grid>
             </constraints>
             <properties>
-              <toolTipText resource-bundle="4idea/i18n/Bundle" key="refspec.branch.prefix.tooltip"/>
+              <toolTipText resource-bundle="org/community/intellij/plugins/communitycase/i18n/Bundle" key="refspec.branch.prefix.tooltip"/>
             </properties>
           </component>
         </children>

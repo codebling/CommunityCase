@@ -263,6 +263,6 @@ public class CurrentBranchDialog extends DialogWrapper {
    */
   @Override
   protected String getHelpId() {
-    return "reference.vcs..current.branch";
+    return "reference.vcs.current.branch";
   }
 }
