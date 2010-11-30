@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Git VCS settings
+ * VCS settings
  */
 @State(
   name = "Git.Settings",
