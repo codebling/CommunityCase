@@ -1,0 +1,5 @@
+-periods in comments:
+    ALWAYS in /** description */
+    NEVER on @param or @return or @throws
+-brace brackets for ifs:
+    ALWAYS if next statement is an if

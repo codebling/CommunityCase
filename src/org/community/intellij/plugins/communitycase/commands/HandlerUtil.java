@@ -168,7 +168,7 @@ public class HandlerUtil {
     runInCurrentThread(handler, new Runnable() {
       public void run() {
         if (indicator != null) {
-          indicator.setText(operationName == null ? Bundle.message("git.running", handler.printableCommandLine()) : operationName);
+          indicator.setText(operationName == null ? Bundle.message("running", handler.printableCommandLine()) : operationName);
           indicator.setText2("");
           if (setIndeterminateFlag) {
             indicator.setIndeterminate(true);
@@ -396,7 +396,7 @@ public class HandlerUtil {
         String text = getErrorText();
         if ((text == null || text.length() == 0) && myHandler.errors().isEmpty()) {
           //noinspection ThrowableInstanceNeverThrown
-          myHandler.addError(new VcsException(Bundle.message("git.error.exit", exitCode)));
+          myHandler.addError(new VcsException(Bundle.message("error.exit", exitCode)));
         }
         else {
           //noinspection ThrowableInstanceNeverThrown

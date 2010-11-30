@@ -62,7 +62,7 @@ public class VcsPanel {
     mySSHExecutableComboBox.addItem(NATIVE_SSH);
     mySSHExecutableComboBox.setSelectedItem(VcsSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     mySSHExecutableComboBox
-      .setToolTipText(Bundle.message("git.vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
+      .setToolTipText(Bundle.message("vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
     myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.askBeforeLineSeparatorConversion());
     myTestButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {

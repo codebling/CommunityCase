@@ -42,7 +42,7 @@ public class Bundle {
   private static Reference<ResourceBundle> ourBundle;
 
   @NonNls
-  private static final String BUNDLE = "git4idea.i18n.Bundle";
+  private static final String BUNDLE = "org.community.intellij.plugins.communitycase.i18n.Bundle";
 
   private Bundle() {
   }

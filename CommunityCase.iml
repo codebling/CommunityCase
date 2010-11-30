@@ -9,12 +9,14 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library>
+      <library name="eclipsecasejni">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/eclipsecasejni.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/lib/eclipsecasejni-src.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

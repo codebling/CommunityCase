@@ -204,7 +204,7 @@ public class SimpleHandler extends TextHandler {
               msg = getStdout();
             }
             if (msg.length() == 0) {
-              msg = Bundle.message("git.error.exit", exitCode);
+              msg = Bundle.message("error.exit", exitCode);
             }
             ex[0] = new VcsException(msg);
           }

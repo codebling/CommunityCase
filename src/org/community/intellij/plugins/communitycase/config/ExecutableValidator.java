@@ -36,13 +36,13 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
   public ExecutableValidator(Project project) {
     super(project, Vcs.NOTIFICATION_GROUP_ID, Vcs.getInstance(project).getConfigurable());
     myVcs = Vcs.getInstance(project);
-    setMessagesAndTitles(Bundle.message("git.executable.notification.title"),
-                         Bundle.message("git.executable.notification.description"),
-                         Bundle.message("git.executable.dialog.title"),
-                         Bundle.message("git.executable.dialog.description"),
-                         Bundle.message("git.executable.dialog.error"),
-                         Bundle.message("git.executable.filechooser.title"),
-                         Bundle.message("git.executable.filechooser.description"));
+    setMessagesAndTitles(Bundle.message("executable.notification.title"),
+                         Bundle.message("executable.notification.description"),
+                         Bundle.message("executable.dialog.title"),
+                         Bundle.message("executable.dialog.description"),
+                         Bundle.message("executable.dialog.error"),
+                         Bundle.message("executable.filechooser.title"),
+                         Bundle.message("executable.filechooser.description"));
   }
 
   @Override
