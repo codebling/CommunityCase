@@ -165,7 +165,7 @@ public class PullDialog extends DialogWrapper {
     listener.changedUpdate(null);
     myGetBranchesButton.addActionListener(new ActionListener() {
       public void actionPerformed(final ActionEvent e) {
-        SimpleHandler h = new SimpleHandler(myProject, gitRoot(), Command.LS_REMOTE);
+        SimpleHandler h = new SimpleHandler(myProject, root(), Command.LS_REMOTE);
         h.addParameters("--heads", myRemote.getSelectedItem().toString());
         String output = HandlerUtil.doSynchronously(h, Bundle.getString("pull.getting.remote.branches"), h.printableCommandLine());
         if (output == null) {
@@ -190,7 +190,7 @@ public class PullDialog extends DialogWrapper {
    * @return a pull handler configured according to dialog options
    */
   public LineHandler pullHandler() {
-    LineHandler h = new LineHandler(myProject, gitRoot(), Command.PULL);
+    LineHandler h = new LineHandler(myProject, root(), Command.PULL);
     // ignore merge failure for the pull
     h.ignoreErrorCode(1);
     h.addParameters("--no-stat");
