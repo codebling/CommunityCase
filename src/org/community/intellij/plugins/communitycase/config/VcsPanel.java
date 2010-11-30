@@ -44,10 +44,10 @@ public class VcsPanel {
   private final Project myProject;
   private final VcsApplicationSettings myAppSettings;
   private final VcsSettings myProjectSettings;
-  private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + Bundle.getString("git.vcs.config.ssh.mode.idea"); // IDEA ssh value
-  private static final String NATIVE_SSH = Bundle.getString("git.vcs.config.ssh.mode.native"); // Native SSH value
-  private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("git.vcs.config.convert.project");
-  private static final String CRLF_DO_NOT_CONVERT = Bundle.getString("git.vcs.config.convert.do.not.convert");
+  private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + Bundle.getString("vcs.config.ssh.mode.idea"); // IDEA ssh value
+  private static final String NATIVE_SSH = Bundle.getString("vcs.config.ssh.mode.native"); // Native SSH value
+  private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
+  private static final String CRLF_DO_NOT_CONVERT = Bundle.getString("vcs.config.convert.do.not.convert");
 
   /**
    * The constructor
@@ -72,7 +72,7 @@ public class VcsPanel {
     myConvertTextFilesComboBox.addItem(CRLF_DO_NOT_CONVERT);
     myConvertTextFilesComboBox.addItem(CRLF_CONVERT_TO_PROJECT);
     myConvertTextFilesComboBox.setSelectedItem(CRLF_CONVERT_TO_PROJECT);
-    myGitField.addBrowseFolderListener(Bundle.getString("find.git.title"), Bundle.getString("find.git.description"), project,
+    myGitField.addBrowseFolderListener(Bundle.getString("find.title"), Bundle.getString("find.description"), project,
                                        new FileChooserDescriptor(true, false, false, false, false, false));
     myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
   }
@@ -89,15 +89,15 @@ public class VcsPanel {
       s = Vcs.version(myProject);
     }
     catch (VcsException e) {
-      Messages.showErrorDialog(myProject, e.getMessage(), Bundle.getString("find.git.error.title"));
+      Messages.showErrorDialog(myProject, e.getMessage(), Bundle.getString("find.error.title"));
       return;
     }
     if (Version.parse(s).isSupported()) {
-      Messages.showInfoMessage(myProject, s, Bundle.getString("find.git.success.title"));
+      Messages.showInfoMessage(myProject, s, Bundle.getString("find.success.title"));
     }
     else {
-      Messages.showWarningDialog(myProject, Bundle.message("find.git.unsupported.message", s, Version.MIN),
-                                 Bundle.getString("find.git.success.title"));
+      Messages.showWarningDialog(myProject, Bundle.message("find.unsupported.message", s, Version.MIN),
+                                 Bundle.getString("find.success.title"));
     }
   }
 

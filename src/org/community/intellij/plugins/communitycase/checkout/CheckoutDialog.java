@@ -54,7 +54,7 @@ public class CheckoutDialog extends DialogWrapper {
   /**
    * Git root field
    */
-  private JComboBox myGitRoot;
+  private JComboBox myRoot;
   /**
    * Branch/tag to check out
    */
@@ -117,12 +117,12 @@ public class CheckoutDialog extends DialogWrapper {
     assert roots.size() > 0;
     myProject = project;
     mySettings = VcsSettings.getInstance(myProject);
-    UiUtil.setupRootChooser(myProject, roots, defaultRoot, myGitRoot, myCurrentBranch);
+    UiUtil.setupRootChooser(myProject, roots, defaultRoot, myRoot, myCurrentBranch);
     setupIncludeTags();
     setupBranches();
     setOKButtonText(Bundle.getString("checkout.branch"));
     myBranchToCkeckoutValidator =
-      new ReferenceValidator(project, myGitRoot, getBranchToCheckoutTextField(), myValidateButton, new Runnable() {
+      new ReferenceValidator(project, myRoot, getBranchToCheckoutTextField(), myValidateButton, new Runnable() {
         public void run() {
           checkOkButton();
         }
@@ -242,14 +242,14 @@ public class CheckoutDialog extends DialogWrapper {
         try {
           List<String> branchesAndTags = new ArrayList<String>();
           // get branches
-          Branch.listAsStrings(myProject, gitRoot(), true, true, branchesAndTags, null);
+          Branch.listAsStrings(myProject, root(), true, true, branchesAndTags, null);
           existingBranches.clear();
           existingBranches.addAll(branchesAndTags);
           Collections.sort(branchesAndTags);
           // get tags
           if (myIncludeTagsCheckBox.isSelected()) {
             int mark = branchesAndTags.size();
-            Tag.listAsStrings(myProject, gitRoot(), branchesAndTags, null);
+            Tag.listAsStrings(myProject, root(), branchesAndTags, null);
             Collections.sort(branchesAndTags.subList(mark, branchesAndTags.size()));
           }
           myBranchToCkeckout.removeAllItems();
@@ -264,7 +264,7 @@ public class CheckoutDialog extends DialogWrapper {
         }
       }
     };
-    myGitRoot.addActionListener(l);
+    myRoot.addActionListener(l);
     l.actionPerformed(null);
     myIncludeTagsCheckBox.addActionListener(l);
   }
@@ -278,7 +278,7 @@ public class CheckoutDialog extends DialogWrapper {
     if (branch.length() == 0) {
       return null;
     }
-    SimpleHandler h = new SimpleHandler(myProject, gitRoot(), Command.BRANCH);
+    SimpleHandler h = new SimpleHandler(myProject, root(), Command.BRANCH);
     h.setNoSSH(true);
     if (myTrackBranchCheckBox.isSelected()) {
       h.addParameters("--track");
@@ -297,7 +297,7 @@ public class CheckoutDialog extends DialogWrapper {
    * @return a handler that checkouts branch
    */
   public LineHandler checkoutHandler() {
-    LineHandler h = new LineHandler(myProject, gitRoot(), Command.CHECKOUT);
+    LineHandler h = new LineHandler(myProject, root(), Command.CHECKOUT);
     h.setNoSSH(true);
     final String newBranch = myNewBranchName.getText();
     if (newBranch.length() == 0) {
@@ -314,7 +314,7 @@ public class CheckoutDialog extends DialogWrapper {
    * @return a currently selected git root
    */
   public VirtualFile root() {
-    VirtualFile file = (VirtualFile)myGitRoot.getSelectedItem();
+    VirtualFile file = (VirtualFile) myRoot.getSelectedItem();
     assert file != null;
     return file;
   }
