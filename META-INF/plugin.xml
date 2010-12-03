@@ -39,7 +39,7 @@
       <!-- <reference id="ChangesView.Browse"/> -->
       <separator/>
 
-      <action id="Cc.CurrentBranch" class="org.community.intellij.plugins.communitycase.actions.CurrentBranch" text="Current Branch..."/>
+      <action id="Cc.CurrentBranch" class="org.community.intellij.plugins.communitycase.actions.CurrentBranch"/>
       <action id="Cc.Checkout" class="org.community.intellij.plugins.communitycase.actions.Checkout" text="Checkout Branch..."/>
       <action id="Cc.Add" class="org.community.intellij.plugins.communitycase.actions.Add" text="Add" icon="/actions/include.png">
         <keyboard-shortcut first-keystroke="control alt A" keymap="$default"/>

@@ -30,13 +30,17 @@ import java.util.Set;
  */
 public class CurrentBranch extends RepositoryAction {
 
+  public CurrentBranch() {
+    super(Bundle.getString("current.branch.action.name"));
+  }
+
   /**
    * {@inheritDoc}
    */
   @Override
   @NotNull
   protected String getActionName() {
-    return Bundle.getString("current.branch.action.name");
+    return Bundle.getString("current.branch.action.shortname");
   }
 
   /**

@@ -35,6 +35,7 @@ import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +50,17 @@ public abstract class RepositoryAction extends DumbAwareAction {
    * The task delayed until end of the primary action. These tasks happen after repository refresh.
    */
   final List<TransactionRunnable> myDelayedTasks = new ArrayList<TransactionRunnable>();
+
+  protected RepositoryAction() {
+  }
+
+  protected RepositoryAction(String text) {
+    super(text);
+  }
+
+  protected RepositoryAction(String text, String description, Icon icon) {
+    super(text, description, icon);
+  }
 
   /**
    * {@inheritDoc}
