@@ -26,15 +26,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vcs.*;
-import com.intellij.openapi.vcs.changes.ChangeProvider;
 import com.intellij.openapi.vcs.changes.CommitExecutor;
-import com.intellij.openapi.vcs.diff.DiffProvider;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsHistoryProvider;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
-import com.intellij.openapi.vcs.merge.MergeProvider;
-import com.intellij.openapi.vcs.rollback.RollbackEnvironment;
-import com.intellij.openapi.vcs.update.UpdateEnvironment;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -57,6 +52,8 @@ import org.community.intellij.plugins.communitycase.history.HistoryProvider;
 import org.community.intellij.plugins.communitycase.history.NewUsersComponent;
 import org.community.intellij.plugins.communitycase.history.browser.ProjectLogManager;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
+import org.community.intellij.plugins.communitycase.merge.MergeProvider;
+import org.community.intellij.plugins.communitycase.update.UpdateEnvironment;
 import org.community.intellij.plugins.communitycase.vfs.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -79,12 +76,12 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   private static final Logger log = Logger.getInstance(Vcs.class.getName());
   private static final VcsKey ourKey = createKey(NAME);
 
-  private final ChangeProvider myChangeProvider;
+  private final com.intellij.openapi.vcs.changes.ChangeProvider myChangeProvider;
   private final CheckinEnvironment myCheckinEnvironment;
-  private final RollbackEnvironment myRollbackEnvironment;
+  private final com.intellij.openapi.vcs.rollback.RollbackEnvironment myRollbackEnvironment;
   private final UpdateEnvironment myUpdateEnvironment;
   private final IntellijAnnotationProvider myAnnotationProvider;
-  private final DiffProvider myDiffProvider;
+  private final com.intellij.openapi.vcs.diff.DiffProvider myDiffProvider;
   private final VcsHistoryProvider myHistoryProvider;
   private final ProjectLevelVcsManager myVcsManager;
   private final VcsApplicationSettings myAppSettings;
@@ -119,13 +116,13 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   }
 
   public Vcs(@NotNull Project project,
-             @NotNull final ChangeProvider changeProvider,
+             @NotNull final org.community.intellij.plugins.communitycase.changes.ChangeProvider changeProvider,
              @NotNull final CheckinEnvironment checkinEnvironment,
              @NotNull final ProjectLevelVcsManager vcsManager,
              @NotNull final IntellijAnnotationProvider annotationProvider,
-             @NotNull final DiffProvider diffProvider,
+             @NotNull final org.community.intellij.plugins.communitycase.diff.DiffProvider diffProvider,
              @NotNull final HistoryProvider historyProvider,
-             @NotNull final RollbackEnvironment rollbackEnvironment,
+             @NotNull final org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment rollbackEnvironment,
              @NotNull final VcsApplicationSettings settings,
              @NotNull final VcsSettings projectSettings) {
     super(project, NAME);
@@ -232,7 +229,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    * @return a reverse merge provider for  (with reversed meaning of "theirs" and "yours", needed for the rebase and unstash)
    */
   @NotNull
-  public MergeProvider getReverseMergeProvider() {
+  public com.intellij.openapi.vcs.merge.MergeProvider getReverseMergeProvider() {
     return myReverseMergeProvider;
   }
 
@@ -267,7 +264,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    */
   @NotNull
   @Override
-  public MergeProvider getMergeProvider() {
+  public com.intellij.openapi.vcs.merge.MergeProvider getMergeProvider() {
     return myMergeProvider;
   }
 
@@ -276,7 +273,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    */
   @Override
   @NotNull
-  public RollbackEnvironment getRollbackEnvironment() {
+  public com.intellij.openapi.vcs.rollback.RollbackEnvironment getRollbackEnvironment() {
     return myRollbackEnvironment;
   }
 
@@ -308,7 +305,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    */
   @Override
   @Nullable
-  public UpdateEnvironment getUpdateEnvironment() {
+  public com.intellij.openapi.vcs.update.UpdateEnvironment getUpdateEnvironment() {
     return myUpdateEnvironment;
   }
 
@@ -326,7 +323,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    */
   @Override
   @NotNull
-  public DiffProvider getDiffProvider() {
+  public com.intellij.openapi.vcs.diff.DiffProvider getDiffProvider() {
     return myDiffProvider;
   }
 
@@ -467,7 +464,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    * {@inheritDoc}
    */
   @Nullable
-  public ChangeProvider getChangeProvider() {
+  public com.intellij.openapi.vcs.changes.ChangeProvider getChangeProvider() {
     return myChangeProvider;
   }
 
@@ -543,7 +540,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
       catch (VcsException e) {
         String reason = (e.getCause() != null ? e.getCause() : e).getMessage();
         if (!myProject.isDefault()) {
-          showMessage(Bundle.message("vcs.unable.to.run.", executable, reason), ConsoleViewContentType.SYSTEM_OUTPUT.getAttributes());
+          showMessage(Bundle.message("vcs.unable.to.run", executable, reason), ConsoleViewContentType.SYSTEM_OUTPUT.getAttributes());
         }
         return;
       }
