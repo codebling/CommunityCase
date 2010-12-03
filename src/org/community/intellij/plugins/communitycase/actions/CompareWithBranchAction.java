@@ -44,6 +44,7 @@ import org.community.intellij.plugins.communitycase.FileRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
+import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -58,6 +59,10 @@ import java.util.*;
 public class CompareWithBranchAction extends DumbAwareAction {
 
   private static final Logger LOG = Logger.getInstance(CompareWithBranchAction.class.getName());
+
+  public CompareWithBranchAction() {
+    super(Bundle.getString("compare.action.name"));
+  }
 
   @Override
   public void actionPerformed(final AnActionEvent event) {
@@ -75,7 +80,7 @@ public class CompareWithBranchAction extends DumbAwareAction {
     final VirtualFile file = vFiles[0];
     final VirtualFile vcsRoot = VcsUtil.getVcsRootFor(project, file);
     if (vcsRoot == null) {
-      notifyError(project, "The file " + file + " is not under version control.", null);
+      notifyError(project, "Could not determine version control system root for file " + file, null);
       return;
     }
 
@@ -110,7 +115,7 @@ public class CompareWithBranchAction extends DumbAwareAction {
 
     JBPopupFactory.getInstance()
       .createListPopupBuilder(list)
-      .setTitle("Select branch to compare")
+      .setTitle(Bundle.getString("compare.branch.title"))
       .setItemChoosenCallback(
         new Runnable() {
           public void run() {

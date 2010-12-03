@@ -23,19 +23,19 @@
       <add-to-group group-id="Vcs.Import"/>
     </action>
 
-    <group id="Cc.Menu" class="org.community.intellij.plugins.communitycase.actions.Menu" popup="true" text="_ClearCase">
+    <group id="Cc.Menu" class="org.community.intellij.plugins.communitycase.actions.Menu" popup="true" text="C_learCase">
       <reference ref="CheckinFiles"/>
       <!-- <reference id="CheckinProject"/>
-   <reference id="UpdateFiles"/>
-   <reference id="Compare.SameVersion"/>
-   <reference id="IntegrateFiles"/>  -->
+      <reference id="UpdateFiles"/>
+      <reference id="Compare.SameVersion"/>
+      <reference id="IntegrateFiles"/>  -->
       <reference ref="Annotate"/>
       <reference ref="Compare.SameVersion"/>
       <reference ref="Compare.LastVersion"/>
       <reference ref="Compare.Selected"/>
       <reference ref="Vcs.ShowTabbedFileHistory"/>
       <reference id="Vcs.ShowHistoryForBlock"/>
-      <action id="Cc.CompareWithBranch" class="org.community.intellij.plugins.communitycase.actions.CompareWithBranchAction" text="Compare with branch" />
+      <action id="Cc.CompareWithBranch" class="org.community.intellij.plugins.communitycase.actions.CompareWithBranchAction"/>
       <!-- <reference id="ChangesView.Browse"/> -->
       <separator/>
 
@@ -44,7 +44,7 @@
       <action id="Cc.Add" class="org.community.intellij.plugins.communitycase.actions.Add" text="Add" icon="/actions/include.png">
         <keyboard-shortcut first-keystroke="control alt A" keymap="$default"/>
       </action>
-      <action id="Cc.Revert" class="org.community.intellij.plugins.communitycase.actions.UndoCheckout" text="Revert File" icon="/actions/org.community.intellij.plugins.communitycase.rollback.png"/>
+      <action id="Cc.Revert" class="org.community.intellij.plugins.communitycase.actions.UndoCheckout" text="Revert File" icon="/actions/rollback.png"/>
       <!--<action id="Resolve" class="org.jetbrains.idea.perforce.actions.ResolveAction"/>-->
       <!--<action id="ResolveAll" class="org.jetbrains.idea.perforce.actions.ResolveAllAction"/>-->
       <!-- <action id="TimeLapseView" class="org.jetbrains.idea.perforce.actions.TimeLapseViewAction"/> -->

@@ -466,7 +466,6 @@ public class LogUI implements Disposable {
     group.add(myBranchSelectorAction);
     // first create filters...
     //group.add(myFilterAction);
-    group.add(new MyCherryPick());
     group.add(ActionManager.getInstance().getAction("ChangesView.CreatePatchFromChanges"));
     group.add(new MyRefreshAction());
     final ActionToolbar actionToolbar = ActionManager.getInstance().createActionToolbar(" log", group, true);
@@ -1218,74 +1217,6 @@ public class LogUI implements Disposable {
     public String getResult() {
       tryHighlight(myText);
       return mySb.toString();
-    }
-  }
-
-  private class MyCherryPick extends DumbAwareAction {
-    private final Set<AbstractHash> myIdsInProgress;
-
-    private MyCherryPick() {
-      super("Cherry-pick", "Cherry-pick", IconLoader.getIcon("/icons/cherryPick.png"));
-      myIdsInProgress = new HashSet<AbstractHash>();
-    }
-
-    @Override
-    public void actionPerformed(AnActionEvent e) {
-      final MultiMap<VirtualFile, Commit> commits = getSelectedCommitsAndCheck();
-      if (commits == null) return;
-      final int result = Messages.showOkCancelDialog("You are going to cherry-pick changes into current branch. Continue?", "Cherry-pick",
-                                                     Messages.getQuestionIcon());
-      if (result != 0) return;
-      for (Commit commit : commits.values()) {
-        myIdsInProgress.add(commit.getShortHash());
-      }
-
-      final Application application = ApplicationManager.getApplication();
-      application.executeOnPooledThread(new Runnable() {
-        public void run() {
-          for (VirtualFile file : commits.keySet()) {
-            final List<Commit> part = (List<Commit>)commits.get(file);
-            // earliest first!!!
-            Collections.reverse(part);
-            new CherryPicker(Vcs.getInstance(myProject), part, new LowLevelAccessImpl(myProject, file)).execute();
-          }
-
-          application.invokeLater(new Runnable() {
-            public void run() {
-              for (Commit commit : commits.values()) {
-                myIdsInProgress.remove(commit.getShortHash());
-              }
-            }
-          });
-        }
-      });
-    }
-
-    // newest first
-    @Nullable
-    private MultiMap<VirtualFile, Commit> getSelectedCommitsAndCheck() {
-      if (myJBTable == null) return null;
-      final int[] rows = myJBTable.getSelectedRows();
-      final MultiMap<VirtualFile, Commit> hashes = new MultiMap<VirtualFile, Commit>();
-
-      for (int row : rows) {
-        final CommitI commitI = myTableModel.getCommitAt(row);
-        if (commitI == null) return null;
-        if (commitI.holdsDecoration()) return null;
-        if (myIdsInProgress.contains(commitI.getHash())) return null;
-        final VirtualFile root = commitI.selectRepository(myRootsUnderVcs);
-        final Commit Commit = myDetailsCache.convert(root, commitI.getHash());
-        if (Commit == null) return null;
-        hashes.putValue(root, Commit);
-      }
-      return hashes;
-    }
-
-    @Override
-    public void update(AnActionEvent e) {
-      super.update(e);
-      final boolean enabled = getSelectedCommitsAndCheck() != null;
-      e.getPresentation().setEnabled(enabled);
     }
   }
 }
