@@ -244,7 +244,17 @@ public abstract class Handler {
   @SuppressWarnings({"WeakerAccess"})
   public void addParameters(@NonNls @NotNull String... parameters) {
     checkNotStarted();
-    myCommandLine.addParameters(parameters);
+    String[] fixedParameters = fixSpaces(parameters);
+    myCommandLine.addParameters(fixedParameters);
+  }
+
+  private String[] fixSpaces(String[] parameters) {
+    List<String> fixedParams = new ArrayList<String>();
+    for(String s : parameters) {
+      String[] separated = s.trim().split(" ");
+      fixedParams.addAll(Arrays.asList(separated)); //add all of the components separately
+    }
+    return fixedParams.toArray(new String[fixedParams.size()]);
   }
 
   /**
@@ -374,6 +384,7 @@ public abstract class Handler {
         myVcs.showCommandLine(printableCommandLine());
       }
       if (log.isDebugEnabled()) {
+//        log.debug(new Exception("stack trace please!"));
         log.debug("running: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
       }
       if (!myRemoteFlag && myProjectSettings.isIdeaSsh()) {

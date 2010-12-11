@@ -48,6 +48,7 @@ import org.community.intellij.plugins.communitycase.history.browser.SymbolicRefs
 import org.community.intellij.plugins.communitycase.history.wholeTree.AbstractHash;
 import org.community.intellij.plugins.communitycase.history.wholeTree.CommitHashPlusParents;
 import org.jetbrains.annotations.Nullable;
+import org.community.intellij.plugins.communitycase.history.LogParser.LogOption;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,8 +57,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-
-import static org.community.intellij.plugins.communitycase.history.LogParser.LogOption.*;
 
 /**
  * A collection of methods for retrieving history information from native .
@@ -82,11 +81,11 @@ public class HistoryUtils {
     final VirtualFile root = Util.getRoot(filePath);
     filePath = getLastCommitName(project, filePath);
     SimpleHandler h = new SimpleHandler(project, Util.getRoot(filePath), Command.LOG);
-    LogParser parser = new LogParser(HASH, COMMIT_TIME);
+    LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME);
     h.setRemote(true);
     h.setSilent(true);
-/*    h.addParameters("-n1", parser.getPretty());
-    if (branch != null && !branch.isEmpty()) {
+    h.addParameters("-last 1", parser.getFormatOption());
+/*    if (branch != null && !branch.isEmpty()) {
       h.addParameters(branch);
     }
 */    h.endOptions();
@@ -96,7 +95,7 @@ public class HistoryUtils {
       return null;
     }
     final LogRecord record = parser.parseOneRecord(result);
-    return new RevisionNumber(record.getHash(), record.getDate());
+    return new RevisionNumber(record.getVersion(), record.getDate());
   }
 
   /**
@@ -117,7 +116,10 @@ public class HistoryUtils {
     }
     filePath = getLastCommitName(project, filePath);
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
-    LogParser parser = new LogParser(HASH, COMMIT_TIME, SHORT_PARENTS);
+
+    //do we still need to explicitly ask for parent revisions?
+    LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME); //LogParser parser = new LogParser(HASH, COMMIT_TIME, SHORT_PARENTS);
+
     parser.parseStatusBeforeName(true);
     h.setRemote(true);
     h.setSilent(true);
@@ -131,7 +133,7 @@ public class HistoryUtils {
     LogRecord record = parser.parseOneRecord(result);
     final List<Change> changes = record.coolChangesParser(project, root);
     boolean exists = ! FileStatus.DELETED.equals(changes.get(0).getFileStatus());
-    return new ItemLatestState(new RevisionNumber(record.getHash(), record.getDate()), exists, false);
+    return new ItemLatestState(new RevisionNumber(record.getVersion(), record.getDate()), exists, false);
   }
 
   /*
@@ -175,7 +177,8 @@ public class HistoryUtils {
     // adjust path using change manager
     path = getLastCommitName(project, path);
     final VirtualFile finalRoot = (root == null ? Util.getRoot(path) : root);
-    final LogParser logParser = new LogParser(HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, PARENTS, SUBJECT, BODY);
+    final LogParser logParser = new LogParser(LogOption.VERSION,LogOption.TIME,LogOption.USER,LogOption.ACTION_NAME_DESC,LogOption.COMMENT);
+    //final LogParser logParser = new LogParser(HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, PARENTS, SUBJECT, BODY);
     logParser.parseStatusBeforeName(false);
 
     final AtomicReference<String> firstCommit = new AtomicReference<String>("HEAD");
@@ -188,8 +191,8 @@ public class HistoryUtils {
           exceptionConsumer.consume(new VcsException("revision details are null."));
           return;
         }
-        final RevisionNumber revision = new RevisionNumber(record.getHash(), record.getDate());
-        firstCommit.set(record.getHash());
+        final RevisionNumber revision = new RevisionNumber(record.getVersion(), record.getDate());
+        firstCommit.set(record.getVersion());
         final String[] parentHashes = record.getParentsHashes();
         if (parentHashes == null || parentHashes.length < 1) {
           firstCommitParent.set(null);
@@ -208,8 +211,8 @@ public class HistoryUtils {
             revisionPath = currentPath.get();
           }
 
-          final Pair<String, String> authorPair = Pair.create(record.getAuthorName(), record.getAuthorEmail());
-          final Pair<String, String> committerPair = record.getCommitterName() == null ? null : Pair.create(record.getCommitterName(), record.getCommitterEmail());
+          final Pair<String, String> authorPair = Pair.create(record.getUser(), record.getUser());
+          final Pair<String, String> committerPair = record.getUser() == null ? null : Pair.create(record.getUser(), record.getUser());
           consumer.consume(new FileRevision(project, revisionPath, revision, Pair.create(authorPair, committerPair), message, null));
         } catch (VcsException e) {
           exceptionConsumer.consume(e);
@@ -261,7 +264,9 @@ public class HistoryUtils {
     final LineHandler h = new LineHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setStdoutSuppressed(true);
+
 //    h.addParameters("--name-only", parser.getPretty(), "--encoding=UTF-8", lastCommit);
+    h.addParameters(parser.getFormatOption());
     if (parameters != null && parameters.length > 0) {
       h.addParameters(parameters);
     }
@@ -280,10 +285,29 @@ public class HistoryUtils {
     // ' show -M --name-status <commit hash>' returns the information about commit and detects renames.
     // NB: we can't specify the filepath, because then rename detection will work only with the '--follow' option, which we don't wanna use.
     final SimpleHandler h = new SimpleHandler(project, root, Command.SHOW);
-    final LogParser parser = new LogParser(HASH, COMMIT_TIME, SHORT_PARENTS);
+
+    //do we still need to explicitly ask for parents? don't think so...
+    final LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME);//final LogParser parser = new LogParser(HASH, COMMIT_TIME, SHORT_PARENTS);
+
     h.setRemote(true);
     h.setStdoutSuppressed(true);
-    //h.addParameters("-M", "--name-status", parser.getPretty(), "--encoding=UTF-8", commit);
+
+    //h.addParameters("-M", "--name-status", parser.getFormatOption(), "--encoding=UTF-8", commit);
+    h.addParameters(parser.getFormatOption());
+    /*
+    -M[<n>]
+           If generating diffs, detect and report renames for each commit. For
+           following files across renames while traversing history, see
+           --follow. If n is specified, it is a is a threshold on the
+           similarity index (i.e. amount of addition/deletions compared to the
+           file's size). For example, -M90% means git should consider a
+           delete/add pair to be a rename if more than 90% of the file hasn't
+           changed.
+    --name-status
+           Show only names and status of changed files. See the description of
+           the --diff-filter option on what the status letters mean.
+    */
+
     h.endOptions();
     parser.parseStatusBeforeName(true);
     final String output = h.run();
@@ -390,7 +414,7 @@ public class HistoryUtils {
     // adjust path using change manager
     path = getLastCommitName(project, path);
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
-    LogParser parser = new LogParser(HASH, COMMIT_TIME);
+    LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME);
     h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
@@ -401,7 +425,7 @@ public class HistoryUtils {
 
     final List<Pair<SHAHash, Date>> rc = new ArrayList<Pair<SHAHash, Date>>();
     for (LogRecord record : parser.parse(output)) {
-      rc.add(new Pair<SHAHash, Date>(new SHAHash(record.getHash()), record.getDate()));
+      rc.add(new Pair<SHAHash, Date>(new SHAHash(record.getVersion()), record.getDate()));
     }
     return rc;
   }
@@ -416,7 +440,10 @@ public class HistoryUtils {
     path = getLastCommitName(project, path);
     final VirtualFile root = Util.getRoot(path);
     final LineHandler h = new LineHandler(project, root, Command.LOG);
-    final LogParser parser = new LogParser(SHORT_HASH, HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_TIME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, SHORT_PARENTS, REF_NAMES, SUBJECT, BODY);
+
+    final LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME,LogOption.USER,LogOption.ACTION_NAME_DESC,LogOption.COMMENT);
+    //final LogParser parser = new LogParser(SHORT_HASH, HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_TIME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, SHORT_PARENTS, REF_NAMES, SUBJECT, BODY);
+
     h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
@@ -503,12 +530,12 @@ public class HistoryUtils {
     List<String> remotes = new ArrayList<String>();
     List<String> tags = new ArrayList<String>();
     final String s = parseRefs(refs, currentRefs, locals, remotes, tags);
-    Commit = new Commit(AbstractHash.create(record.getShortHash()), new SHAHash(record.getHash()), record.getAuthorName(),
-                                      record.getCommitterName(),
+    Commit = new Commit(AbstractHash.create(record.getVersion()), new SHAHash(record.getVersion()), record.getUser(),
+                                      record.getUser(),
                                       record.getDate(), record.getFullMessage(),
                                       new HashSet<String>(Arrays.asList(record.getParentsShortHashes())), record.getFilePaths(root),
-                                      record.getAuthorEmail(),
-                                      record.getCommitterEmail(), tags, locals, remotes,
+                                      record.getUser(),
+                                      record.getUser(), tags, locals, remotes,
                                       record.coolChangesParser(project, root), record.getAuthorTimeStamp() * 1000
     );
     Commit.setCurrentBranch(s);
@@ -551,12 +578,20 @@ public class HistoryUtils {
     path = getLastCommitName(project, path);
     final VirtualFile root = Util.getRoot(path);
     SimpleHandler h = new SimpleHandler(project, root, Command.SHOW);
-    LogParser parser = new LogParser(SHORT_HASH, HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_TIME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, SHORT_PARENTS, REF_NAMES, SUBJECT, BODY);
+    LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME,LogOption.USER,LogOption.ACTION_NAME_DESC,LogOption.COMMENT);
     h.setRemote(true);
     h.setStdoutSuppressed(true);
-    //h.addParameters("--name-status", parser.getPretty(), "--encoding=UTF-8");
+
+    //h.addParameters("--name-status", parser.getFormatOption(), "--encoding=UTF-8");
+    h.addParameters(parser.getFormatOption());
+    /*
+    --name-status
+           Show only names and status of changed files. See the description of
+           the --diff-filter option on what the status letters mean.
+    */
+
     parser.parseStatusBeforeName(true);
-    //h.addParameters(new ArrayList<String>(commitsIds));
+    h.addParameters(new ArrayList<String>(commitsIds));
 
     h.endOptions();
     h.addRelativePaths(path);
@@ -582,12 +617,12 @@ public class HistoryUtils {
     path = getLastCommitName(project, path);
     final VirtualFile root = Util.getRoot(path);
     final LineHandler h = new LineHandler(project, root, Command.LOG);
-    final LogParser parser = new LogParser(SHORT_HASH, COMMIT_TIME, SHORT_PARENTS, AUTHOR_NAME);
+    final LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME,LogOption.USER);
     parser.parseStatusBeforeName(false);
     h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
-    //h.addParameters(parser.getPretty(), "--encoding=UTF-8");
+    h.addParameters(parser.getFormatOption());// h.addParameters(parser.getFormatOption(), "--encoding=UTF-8");
 
     h.endOptions();
     h.addRelativePaths(path);
@@ -603,9 +638,9 @@ public class HistoryUtils {
               return;
             }
             LogRecord record = parser.parseOneRecord(line);
-            consumer.consume(new CommitHashPlusParents(record.getShortHash(),
+            consumer.consume(new CommitHashPlusParents(record.getVersion(),
                                                        record.getParentsShortHashes(), record.getLongTimeStamp() * 1000,
-                                                       record.getAuthorName()));
+                                                       record.getUser()));
           }
         } catch (ProcessCanceledException e) {
           h.cancel();

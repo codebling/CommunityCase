@@ -27,7 +27,7 @@ import java.util.*;
  * <p>
  * Usage:
  * 1. Pass options you want to have in the output to the constructor using the {@link LogOption} enum constants.
- * 2. Get the custom format pattern for ' log' by calling {@link #getPretty()}
+ * 2. Get the custom format pattern for ' log' by calling {@link #getFormatOption()}
  * 3. Call the command and retrieve the output.
  * 4. Parse the output via {@link #parse(String)} or {@link #parseOneRecord(String)} (if you want the output to be parsed line by line).</p>
  *
@@ -37,7 +37,7 @@ import java.util.*;
  * <p>Note that you may pass one set of options to the LogParser constructor and then execute log with other set of options.
  * In that case {@link #parse(String)} will parse only those options which you've specified in the constructor.
  * Others will be ignored since the parser knows nothing about them: it just gets the ' log' output to parse.
- * Moreover you really <b>must</b> use {@link #getPretty()} to pass "--pretty=format" pattern to ' log' - otherwise the parser won't be able
+ * Moreover you really <b>must</b> use {@link #getFormatOption()} to pass "--pretty=format" pattern to ' log' - otherwise the parser won't be able
  * to parse output of ' log' (because special separator characters are used for that).</p>
  *
  * <p>If you use '--name-status' or '--name-only' flags in ' log' you also <b>must</b> call {@link #parseStatusBeforeName(boolean)} with
@@ -50,11 +50,11 @@ class LogParser {
   // each character is declared twice - for pattern format and for actual character in the output.
   // separators are declared as String instead of char, because String#split() is heavily used in parsing.
   public static final String RECORD_START = "\u0001";
-  public static final String RECORD_START_ = "%x01";
+  public static final String RECORD_START_ = "\\001";
   private static final String ITEMS_SEPARATOR = "\u0002";
-  private static final String ITEMS_SEPARATOR_ = "%x02";
+  private static final String ITEMS_SEPARATOR_ = "\\002";
   private static final String RECORD_END = "\u0003";
-  private static final String RECORD_END_ = "%x03";
+  private static final String RECORD_END_ = "\\003";
 
   private final String myFormat;  // pretty custom format generated in the constructor
   private final LogOption[] myOptions;
@@ -67,8 +67,63 @@ class LogParser {
    * These are the pieces of information about a commit which we want to get from ' log'.
    */
   enum LogOption {
+    ELEMENT_NAME("En"),VERSION("Vn"),TIME("Nd"),ACTION_NAME("o"),ACTION_DESC("e"),ACTION_NAME_DESC("o/%e"),USER("u"),COMMENT("Nc");
+    /*
     SHORT_HASH("h"), HASH("H"), COMMIT_TIME("ct"), AUTHOR_NAME("an"), AUTHOR_TIME("at"), AUTHOR_EMAIL("ae"), COMMITTER_NAME("cn"), COMMITTER_EMAIL("ce"), SUBJECT("s"), BODY("b"),
     SHORT_PARENTS("p"), PARENTS("P"), REF_NAMES("d");
+    */
+    /*
+           ·    %H: commit hash
+           ·    %h: abbreviated commit hash
+           ·    %T: tree hash
+           ·    %t: abbreviated tree hash
+           ·    %P: parent hashes
+           ·    %p: abbreviated parent hashes
+           ·    %an: author name
+           ·    %aN: author name (respecting .mailmap, see git-shortlog(1) or
+               git-blame(1))
+           ·    %ae: author email
+           ·    %aE: author email (respecting .mailmap, see git-shortlog(1) or
+               git-blame(1))
+           ·    %ad: author date (format respects --date= option)
+           ·    %aD: author date, RFC2822 style
+           ·    %ar: author date, relative
+           ·    %at: author date, UNIX timestamp
+           ·    %ai: author date, ISO 8601 format
+           ·    %cn: committer name
+           ·    %cN: committer name (respecting .mailmap, see git-shortlog(1)
+               or git-blame(1))
+           ·    %ce: committer email
+           ·    %cE: committer email (respecting .mailmap, see git-shortlog(1)
+               or git-blame(1))
+           ·    %cd: committer date
+           ·    %cD: committer date, RFC2822 style
+           ·    %cr: committer date, relative
+           ·    %ct: committer date, UNIX timestamp
+           ·    %ci: committer date, ISO 8601 format
+           ·    %d: ref names, like the --decorate option of git-log(1)
+           ·    %e: encoding
+           ·    %s: subject
+           ·    %f: sanitized subject line, suitable for a filename
+           ·    %b: body
+           ·    %B: raw body (unwrapped subject and body)
+           ·    %N: commit notes
+           ·    %gD: reflog selector, e.g., refs/stash@{1}
+           ·    %gd: shortened reflog selector, e.g., stash@{1}
+           ·    %gs: reflog subject
+           ·    %Cred: switch color to red
+           ·    %Cgreen: switch color to green
+           ·    %Cblue: switch color to blue
+           ·    %Creset: reset color
+           ·    %C(...): color specification, as described in color.branch.*
+               config option
+           ·    %m: left, right or boundary mark
+           ·    %n: newline
+           ·    %%: a raw %
+           ·    %x00: print a byte from a hex code
+           ·    %w([<w>[,<i1>[,<i2>]]]): switch line wrapping, like the -w
+               option of git-shortlog(1).
+     */
 
     private String myPlaceholder;
     private LogOption(String placeholder) { myPlaceholder = placeholder; }
@@ -90,8 +145,8 @@ class LogParser {
     myOptions = options;
   }
 
-  String getPretty() {
-    return "--pretty=format:" + myFormat;
+  String getFormatOption() {
+    return "-fmt \"" + myFormat + "\\n%" + LogOption.ELEMENT_NAME.name() + "\\n\\n" + "\"";
   }
 
   /**
@@ -105,7 +160,7 @@ class LogParser {
   }
 
   /**
-   * Parses the output returned from ' log' which was executed with '--pretty=format:' pattern retrieved from {@link #getPretty()}.
+   * Parses the output returned from ' log' which was executed with '--pretty=format:' pattern retrieved from {@link #getFormatOption()}.
    * @param output ' log' output to be parsed.
    * @return The list of LogRecords with information for each revision. The list is sorted as usual for log - the first is the newest,
    * the last is the oldest.
@@ -135,23 +190,14 @@ class LogParser {
    * @return LogRecord with information about the revision.
    */
   LogRecord parseOneRecord(String line) {
-    // each record is:
-    // <record start> - this may be splitted out in parse().
-    // <commit info, possibly multilined if body is multilined> <record end mark>
-    // <blank line (optional)>
-    // <name status (optional)> <path (optional)>
-    // last line appears only if --name-status or --name-only. So is blank line, but it also can absent (e.g. in --pretty=oneline format)
-    // Moreover, the last line may be absent in some cases (deletion) even if --name-status is given.
-    // Example:
-    // 2c815939f45fbcfda9583f84b14fe9d393ada790<ITEM_SEPARATOR>sample commit<RECORD_END>
-    //
-    // D       a.txt
+    //using -fmt "%En|%Vn|%Nd|%o/%e|%u|%Nc\n|$~DELIM&^\n"
+    /*
+    base.iml|\main\bl144_integration\2|20101103.063829|checkin/create version|ascher
+    |phnix00119574 [...].
+    |$~DELIM&^
+     */
 
     if (line.isEmpty()) { return null; }
-    // may have <RECORD_START> indicator, may not. If we have, get rid of it.
-    if (line.charAt(0) == RECORD_START.charAt(0)) {
-      line = line.substring(1);
-    }
 
     // parsing status and path (if given)
     char nameStatus = 0;

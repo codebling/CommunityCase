@@ -22,6 +22,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.CharsetToolkit;
 import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 
 /**
@@ -55,7 +56,7 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
     try {
       GeneralCommandLine commandLine = new GeneralCommandLine();
       commandLine.setExePath(executable);
-      commandLine.addParameter("--version");
+      commandLine.addParameter(Command.VERSION.name());
       CapturingProcessHandler handler = new CapturingProcessHandler(commandLine.createProcess(), CharsetToolkit.getDefaultSystemCharset());
       ProcessOutput result = handler.runProcess(30 * 1000);
       return !result.isTimeout() && (result.getExitCode() == 0) && result.getStderr().isEmpty();

@@ -31,7 +31,7 @@ import java.util.List;
  * VCS settings
  */
 @State(
-  name = "Git.Settings",
+  name = "ClearCase.Settings",
   storages = {@Storage(
     id = "ws",
     file = "$WORKSPACE_FILE$")})

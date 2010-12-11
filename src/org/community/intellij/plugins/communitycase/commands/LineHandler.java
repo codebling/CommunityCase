@@ -112,6 +112,13 @@ public class LineHandler extends TextHandler {
    * @param lineBuilder a line builder
    */
   private void notifyLines(final Key outputType, final Iterator<String> lines, final StringBuilder lineBuilder) {
+/*
+    while(lines.hasNext()) {
+      String line = lines.next();
+      //lineBuilder.append(line);
+      notifyLine(line, outputType);
+    }
+*/
     if (!lines.hasNext()) return;
     if (lineBuilder.length() > 0) {
       lineBuilder.append(lines.next());

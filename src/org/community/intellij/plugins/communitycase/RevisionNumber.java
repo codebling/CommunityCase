@@ -100,7 +100,7 @@ public class RevisionNumber implements ShortVcsRevisionNumber {
 
   @Override
   public String toShortString() {
-    return asString().substring(0, 7);
+    return toString();
   }
 
   /**

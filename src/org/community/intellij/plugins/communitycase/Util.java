@@ -42,6 +42,8 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -307,7 +309,12 @@ public class Util {
    * @return timestamp as {@link java.util.Date} object
    */
   public static Date parseTimestamp(String value) {
-    return new Date(Long.parseLong(value.trim()) * 1000);
+    //20101116.152312
+    try {
+      return new SimpleDateFormat("yyyyMMdd.HHmmss").parse(value);
+    } catch (ParseException e) {
+      throw new IllegalArgumentException(e);
+    }
   }
 
   /**

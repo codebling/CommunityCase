@@ -29,6 +29,7 @@ import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.history.wholeTree.AbstractHash;
 import org.jetbrains.annotations.NotNull;
+import org.community.intellij.plugins.communitycase.history.LogParser.LogOption;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,8 +37,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import static org.community.intellij.plugins.communitycase.history.LogParser.LogOption.*;
 
 /**
  * One record (commit information) returned by log output.
@@ -81,53 +80,43 @@ class LogRecord {
   }
 
   // trivial access methods
-  String getHash() { return lookup(HASH); }
-  String getShortHash() { return lookup(SHORT_HASH); }
-  String getAuthorName() { return lookup(AUTHOR_NAME); }
-  String getAuthorEmail() { return lookup(AUTHOR_EMAIL); }
-  String getCommitterName() { return lookup(COMMITTER_NAME); }
-  String getCommitterEmail() { return lookup(COMMITTER_EMAIL); }
-  String getSubject() { return lookup(SUBJECT); }
-  String getBody() { return lookup(BODY); }
+  String getVersion() { return lookup(LogOption.VERSION); }
+  String getUser() { return lookup(LogOption.USER); }
+  String getActionNameAndDescription() { return lookup(LogOption.ACTION_NAME_DESC); }
+  String getComment() { return lookup(LogOption.COMMENT); }
 
   // access methods with some formatting or conversion
 
   Date getDate() {
-    return Util.parseTimestamp(myOptions.get(COMMIT_TIME));
+    return Util.parseTimestamp(myOptions.get(LogOption.TIME));
   }
 
   long getLongTimeStamp() {
-    return Long.parseLong(myOptions.get(COMMIT_TIME).trim());
+    return getDate().getTime();
   }
 
   long getAuthorTimeStamp() {
-    return Long.parseLong(myOptions.get(AUTHOR_TIME).trim());
-  }
-
-  String getAuthorAndCommitter() {
-    String author = String.format("%s <%s>", myOptions.get(AUTHOR_NAME), myOptions.get(AUTHOR_EMAIL));
-    String committer = String.format("%s <%s>", myOptions.get(COMMITTER_NAME), myOptions.get(COMMITTER_EMAIL));
-    return Util.adjustAuthorName(author, committer);
+    return Long.parseLong(myOptions.get(LogOption.TIME));
   }
 
   String getFullMessage() {
-    return (getSubject() + "\n\n" + getBody()).trim();
+    return (getActionNameAndDescription() + ": " + getComment()).trim();
   }
 
   String[] getParentsShortHashes() {
-    final String parents = lookup(SHORT_PARENTS);
+    final String parents = lookup(LogOption.VERSION);
     if (parents.trim().length() == 0) return ArrayUtil.EMPTY_STRING_ARRAY;
     return parents.split(" ");
   }
 
   String[] getParentsHashes() {
-    final String parents = lookup(PARENTS);
+    final String parents = lookup(LogOption.VERSION);
     if (parents.trim().length() == 0) return ArrayUtil.EMPTY_STRING_ARRAY;
     return parents.split(" ");
   }
 
   public Collection<String> getRefs() {
-    final String decorate = myOptions.get(REF_NAMES);
+    final String decorate = myOptions.get(LogOption.VERSION);
     final String[] refNames = parseRefNames(decorate);
     final List<String> result = new ArrayList<String>(refNames.length);
     for (String refName : refNames) {
@@ -135,7 +124,7 @@ class LogRecord {
     }
     return result;
   }
-  /**
+  /*
    * Returns the list of tags and the list of branches.
    * A single method is used to return both, because they are returned together by and we don't want to parse them twice.
    * @return
@@ -175,7 +164,7 @@ class LogRecord {
 
   public List<Change> coolChangesParser(Project project, VirtualFile vcsRoot) throws VcsException {
     final List<Change> result = new ArrayList<Change>();
-    final RevisionNumber thisRevision = new RevisionNumber(getHash(), getDate());
+    final RevisionNumber thisRevision = new RevisionNumber(getVersion(), getDate());
     final String[] parentsShortHashes = getParentsShortHashes();
     final List<AbstractHash> parents = new ArrayList<AbstractHash>(parentsShortHashes.length);
     for (String parentsShortHash : parentsShortHashes) {

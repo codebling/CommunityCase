@@ -37,19 +37,19 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
    * the default executable
    */
   @NonNls static final String[] DEFAULT_WINDOWS_PATHS =
-    {"C:\\cygwin\\bin", "C:\\Program Files\\Git\\bin", "C:\\Program Files (x86)\\Git\\bin"};
+    {"C:\\Program Files\\ibm\\RationalSDLC\\ClearCase\\bin", "C:\\Program Files (x86)\\ibm\\RationalSDLC\\ClearCase\\bin"};
   /**
    * Windows executable name
    */
-  @NonNls static final String DEFAULT_WINDOWS_GIT = "git.exe";
+  @NonNls static final String DEFAULT_WINDOWS_GIT = "cleartool.exe";
   /**
    * Default UNIX paths
    */
-  @NonNls static final String[] DEFAULT_UNIX_PATHS = {"/usr/local/bin", "/usr/bin", "/opt/local/bin", "/opt/bin", "/usr/local/git/bin"};
+  @NonNls static final String[] DEFAULT_UNIX_PATHS = {"/usr/local/bin", "/usr/bin", "/opt/local/bin", "/opt/bin"};
   /**
    * UNIX executable name
    */
-  @NonNls static final String DEFAULT_UNIX_GIT = "git";
+  @NonNls static final String DEFAULT_UNIX_GIT = "cleartool";
   /**
    * The last used path to git
    */

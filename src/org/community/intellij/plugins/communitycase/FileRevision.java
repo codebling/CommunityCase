@@ -72,14 +72,17 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
     return path;
   }
 
+  @Override
   public VcsRevisionNumber getRevisionNumber() {
     return revision;
   }
 
+  @Override
   public Date getRevisionDate() {
     return revision.getTimestamp();
   }
 
+  @Override
   public String getAuthor() {
     return authorAndCommitter.getFirst().getFirst();
   }
@@ -103,10 +106,12 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
     return message;
   }
 
+  @Override
   public String getBranchName() {
     return branch;
   }
 
+  @Override
   public synchronized void loadContent() throws VcsException {
     final VirtualFile root = Util.getRoot(path);
     if (content == null) {
@@ -117,6 +122,7 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
     }
   }
 
+  @Override
   public synchronized byte[] getContent() throws IOException {
     if (content == null) {
       try {
@@ -129,6 +135,7 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
     return content;
   }
 
+  @Override
   public int compareTo(VcsFileRevision rev) {
     if (rev instanceof FileRevision) return revision.compareTo(((FileRevision)rev).revision);
     return getRevisionDate().compareTo(rev.getRevisionDate());
