@@ -134,7 +134,7 @@ public class UpdateLocallyModifiedDialog extends DialogWrapper {
     String rootPath = root.getPath();
     SimpleHandler h = new SimpleHandler(project, root, Command.DIFF);
     h.addParameters("--name-status");
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
     StringScanner s = new StringScanner(h.run());
     while (s.hasMoreData()) {

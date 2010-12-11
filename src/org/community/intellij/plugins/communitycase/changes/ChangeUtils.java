@@ -66,7 +66,7 @@ public class ChangeUtils {
     HashSet<VirtualFile> unmerged = new HashSet<VirtualFile>();
     String rootPath = root.getPath();
     SimpleHandler h = new SimpleHandler(project, root, Command.LS_FILES);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--unmerged");
     LocalFileSystem lfs = LocalFileSystem.getInstance();
@@ -225,7 +225,7 @@ public class ChangeUtils {
     SimpleHandler handler = new SimpleHandler(project, vcsRoot, Command.REV_LIST);
     handler.addParameters("--timestamp", "--max-count=1", revisionNumber);
     handler.endOptions();
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     //handler.setSilent(true);
     String output = handler.run();
     StringTokenizer stk = new StringTokenizer(output, "\n\r \t", false);
@@ -262,7 +262,7 @@ public class ChangeUtils {
    */
   public static CommittedChangeList getRevisionChanges(Project project, VirtualFile root, String revisionName, boolean skipDiffsForMerge) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.SHOW);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--name-status", "--no-abbrev", "-M", "--pretty=format:" + COMMITTED_CHANGELIST_FORMAT, "--encoding=UTF-8",
                     revisionName, "--");
@@ -285,7 +285,7 @@ public class ChangeUtils {
   @Nullable
   public static String getCommitAbbreviation(final Project project, final VirtualFile root, final SHAHash hash) {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--max-count=1", "--pretty=%h", "--encoding=UTF-8", "\"" + hash.getValue() + "\"", "--");
     try {
@@ -301,7 +301,7 @@ public class ChangeUtils {
   @Nullable
   public static SHAHash commitExists(final Project project, final VirtualFile root, final String anyReference) {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--max-count=1", "--pretty=%H", "--encoding=UTF-8", "\"" + anyReference + "\"", "--");
     try {
@@ -317,7 +317,7 @@ public class ChangeUtils {
   @Nullable
   public static SHAHash commitExistsByComment(final Project project, final VirtualFile root, final String anyReference) {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     final String grepParam = "--grep=" + StringUtil.escapeQuotes(anyReference);
     h.addParameters("--max-count=1", "--pretty=%H", "--all", "--encoding=UTF-8", grepParam, "--");
@@ -386,7 +386,7 @@ public class ChangeUtils {
           continue;
         }
         SimpleHandler diffHandler = new SimpleHandler(project, root, Command.DIFF);
-        diffHandler.setNoSSH(true);
+        diffHandler.setRemote(true);
         diffHandler.setSilent(true);
         diffHandler.addParameters("--name-status", "-M", parentRevision.getRev(), thisRevision.getRev());
         String diff = diffHandler.run();

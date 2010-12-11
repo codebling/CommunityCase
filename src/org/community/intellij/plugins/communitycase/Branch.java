@@ -138,7 +138,7 @@ public class Branch extends Reference {
                                @Nullable final Collection<Branch> branches, @Nullable final String containingCommit) throws VcsException {
     // preparing native command executor
     final SimpleHandler handler = new SimpleHandler(project, root, Command.BRANCH);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setSilent(true);
     handler.addParameters("--no-color");
     if (remoteWanted && localWanted) {
@@ -269,7 +269,7 @@ public class Branch extends Reference {
   public RevisionNumber getMergeBase(@NotNull Project project, @NotNull VirtualFile root, @NotNull Branch branch)
     throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.MERGE_BASE);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters(this.getFullName(), branch.getFullName());
     String output = h.run().trim();

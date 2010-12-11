@@ -23,8 +23,8 @@ public class ClearCaseFunctionalityExposer {
    * @param file the file to add to version control
    * @throws ClearCaseException if an exception occurs during the operation
    */
-  public void add(File file) throws ClearCaseException {
-    add(file, "");
+  public void addToSourceControl(File file) throws ClearCaseException {
+    addToSourceControl(file, "");
   }
 
   /**
@@ -36,8 +36,8 @@ public class ClearCaseFunctionalityExposer {
    * @param comment the comment to apply to the added file
    * @throws ClearCaseException if an exception occurs during the operation
    */
-  public void add(File file, String comment) throws ClearCaseException {
-    add(file, comment, isLeaveCheckedOutAfterAdd());
+  public void addToSourceControl(File file, String comment) throws ClearCaseException {
+    addToSourceControl(file, comment, isLeaveCheckedOutAfterAdd());
   }
 
   /**
@@ -55,7 +55,7 @@ public class ClearCaseFunctionalityExposer {
    * @param leaveCheckedOutAfterAdd whether the file should be in the checked out state after the add or not
    * @throws ClearCaseException if an exception occurs during the operation
    */
-  public void add(File file, String comment, boolean leaveCheckedOutAfterAdd) throws ClearCaseException {
+  public void addToSourceControl(File file, String comment, boolean leaveCheckedOutAfterAdd) throws ClearCaseException {
     throw new NotYetImplementedException();
 
     //how do we control whether it is checked out after it is added?
@@ -82,7 +82,7 @@ public class ClearCaseFunctionalityExposer {
   public void checkIn(File file, String comment) throws ClearCaseException {
     if(!isCheckedOut(file)) {
       if(!isVersionControlled(file))
-        add(file, comment, isLeaveCheckedOutAfterAdd());
+        addToSourceControl(file, comment, isLeaveCheckedOutAfterAdd());
       else
         if(isHijacked(file))
           convertHijackToCheckOut(file);
@@ -114,7 +114,7 @@ public class ClearCaseFunctionalityExposer {
    */
   public void checkOut(File file, String comment, boolean checkOutReserved) throws ClearCaseException {
     if(!isVersionControlled(file))
-      add(file, comment, isLeaveCheckedOutAfterAdd());
+      addToSourceControl(file, comment, isLeaveCheckedOutAfterAdd());
     else
       if(isHijacked(file))
         convertHijackToCheckOut(file);

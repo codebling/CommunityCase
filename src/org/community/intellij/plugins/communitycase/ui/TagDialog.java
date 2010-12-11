@@ -177,7 +177,7 @@ public class TagDialog extends DialogWrapper {
     }
     try {
       SimpleHandler h = new SimpleHandler(myProject, getRoot(), Command.TAG);
-      h.setNoSSH(true);
+      h.setRemote(true);
       if (hasMessage) {
         h.addParameters("-a");
       }
@@ -245,7 +245,7 @@ public class TagDialog extends DialogWrapper {
   private void fetchTags() {
     myExistingTags.clear();
     SimpleHandler h = new SimpleHandler(myProject, getRoot(), Command.TAG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     String output = HandlerUtil.doSynchronously(h, Bundle.getString("tag.getting.existing.tags"), h.printableCommandLine());
     for (StringScanner s = new StringScanner(output); s.hasMoreData();) {

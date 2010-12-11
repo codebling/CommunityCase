@@ -649,7 +649,7 @@ public class BranchConfigurations implements PersistentStateComponent<BranchConf
     try {
       SimpleHandler h = new SimpleHandler(myProject, root, Command.DESCRIBE);
       h.addParameters("--tags", "--exact", ref);
-      h.setNoSSH(true);
+      h.setRemote(true);
       return h.run().trim();
     }
     catch (VcsException e) {

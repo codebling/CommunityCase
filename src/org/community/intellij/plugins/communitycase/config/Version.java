@@ -28,13 +28,9 @@ public final class Version implements Comparable<Version> {
   /**
    * The format of the "git version" (four components)
    */
-  @NonNls private static final MessageFormat FORMAT_4 =
-    new MessageFormat("git version {0,number,integer}.{1,number,integer}.{2,number,integer}.{3,number,integer}", Locale.US);
-  /**
-   * The format of the "git version" (three components)
-   */
-  @NonNls private static final MessageFormat FORMAT_3 =
-    new MessageFormat("git version {0,number,integer}.{1,number,integer}.{2,number,integer}", Locale.US);
+  @NonNls private static final MessageFormat FORMAT =
+    new MessageFormat("{0}cleartool                         {1,number,integer}.{2,number,integer}.{3,number,integer}.{4,number,integer}{5}", Locale.US);
+            //"git version {0,number,integer}.{1,number,integer}.{2,number,integer}.{3,number,integer}", Locale.US);
   /**
    * Invalid version number
    */
@@ -77,32 +73,22 @@ public final class Version implements Comparable<Version> {
   }
 
   /**
-   * Parse output of "git version" command
+   * Parse output of version command
    *
-   * @param version a a version number
-   * @return a git version
+   * @param version the output of the vcs executable's version command
+   * @return the version of the vcs executable tool
    */
   public static Version parse(String version) {
     try {
-      Object[] parsed = FORMAT_4.parse(version);
-      int major = ((Long)parsed[0]).intValue();
-      int minor = ((Long)parsed[1]).intValue();
-      int revision = ((Long)parsed[2]).intValue();
-      int patchLevel = ((Long)parsed[3]).intValue();
+      Object[] parsed = FORMAT.parse(version);
+      int major = ((Long)parsed[1]).intValue();
+      int minor = ((Long)parsed[2]).intValue();
+      int revision = ((Long)parsed[3]).intValue();
+      int patchLevel = ((Long)parsed[4]).intValue();
       return new Version(major, minor, revision, patchLevel);
     }
-    catch (ParseException e) {
-      try {
-        Object[] parsed = FORMAT_3.parse(version);
-        int major = ((Long)parsed[0]).intValue();
-        int minor = ((Long)parsed[1]).intValue();
-        int revision = ((Long)parsed[2]).intValue();
-        int patchLevel = 0;
-        return new Version(major, minor, revision, patchLevel);
-      }
-      catch (ParseException ex) {
-        throw new IllegalArgumentException("Unsupported format of git --version output: " + version);
-      }
+    catch (ParseException ex) {
+      throw new IllegalArgumentException("Unsupported format of version command output: " + version);
     }
   }
 

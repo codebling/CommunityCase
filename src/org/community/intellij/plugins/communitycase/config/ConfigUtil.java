@@ -51,7 +51,7 @@ public class ConfigUtil {
    */
   public static void getValues(Project project, VirtualFile root, String keyMask, Map<String, String> result) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--null", "--get-regexp", keyMask);
     String output = h.run();
@@ -81,7 +81,7 @@ public class ConfigUtil {
   public static List<Pair<String, String>> getAllValues(Project project, VirtualFile root, @NonNls String key) throws VcsException {
     List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
     SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--null", "--get-all", key);
     String output = h.run();
@@ -108,7 +108,7 @@ public class ConfigUtil {
   @Nullable
   public static String getValue(Project project, VirtualFile root, @NonNls String key) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);
     h.addParameters("--null", "--get", key);
@@ -217,7 +217,7 @@ public class ConfigUtil {
    */
   public static void unsetValue(Project project, VirtualFile root, String key) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);
     h.addParameters("--unset", key);
@@ -235,7 +235,7 @@ public class ConfigUtil {
    */
   public static void setValue(Project project, VirtualFile root, String key, String value) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);
     h.addParameters(key, value);

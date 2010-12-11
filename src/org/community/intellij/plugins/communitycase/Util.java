@@ -737,7 +737,7 @@ public class Util {
                                               final Consumer<CommittedChangeList> consumer, boolean skipDiffsForMerge) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setSilent(true);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.addParameters("--pretty=format:%x00%x01" + ChangeUtils.COMMITTED_CHANGELIST_FORMAT, "--name-status");
     parametersSpecifier.consume(h);
 

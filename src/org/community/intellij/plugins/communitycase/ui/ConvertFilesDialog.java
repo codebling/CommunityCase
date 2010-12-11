@@ -265,7 +265,7 @@ public class ConvertFilesDialog extends DialogWrapper {
       }
       h.addParameters("crlf");
       h.setSilent(true);
-      h.setNoSSH(true);
+      h.setRemote(true);
       final HashMap<String, VirtualFile> filesToCheck = new HashMap<String, VirtualFile>();
       Set<VirtualFile> fileSet = e.getValue();
       for (VirtualFile file : fileSet) {

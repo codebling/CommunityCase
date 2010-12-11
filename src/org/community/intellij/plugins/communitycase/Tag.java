@@ -65,7 +65,7 @@ public class Tag extends Reference {
   public static void listAsStrings(final Project project, final VirtualFile root, final Collection<String> tags,
                                    @Nullable final String containingCommit) throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, root, Command.TAG);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setSilent(true);
     handler.addParameters("-l");
     if (containingCommit != null) {

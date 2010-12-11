@@ -161,7 +161,7 @@ public final class Remote {
    */
   public static List<Remote> list(Project project, VirtualFile root) throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, root, Command.REMOTE);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setSilent(true);
     handler.addParameters("-v");
     String output = handler.run();
@@ -224,7 +224,7 @@ public final class Remote {
   @Nullable
   public static Remote find(Project project, VirtualFile root, String name) throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, root, Command.REMOTE);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setSilent(true);
     handler.ignoreErrorCode(1);
     handler.addParameters("show", "-n", name);
@@ -283,7 +283,7 @@ public final class Remote {
    */
   public Info localInfo(Project project, VirtualFile root) throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, root, Command.REMOTE);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setSilent(true);
     handler.addParameters("show", "-n", myName);
     String output = handler.run();

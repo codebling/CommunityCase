@@ -296,7 +296,7 @@ public class CheckoutProcess {
       myProgress.setText2(root.getPath());
       startedRoots.add(root);
       LineHandler h = new LineHandler(myProject, root, Command.CHECKOUT);
-      h.setNoSSH(true);
+      h.setRemote(true);
       h.addParameters("-f", myDescribedRoots.get(root));
       Collection<VcsException> exceptions = HandlerUtil.doSynchronouslyWithExceptions(h, myProgress, h.printableCommandLine());
       myExceptions.addAll(exceptions);
@@ -356,7 +356,7 @@ public class CheckoutProcess {
       }
       SimpleHandler d = new SimpleHandler(myProject, root, Command.DIFF);
       d.addParameters("--name-only", prev.asString() + "..HEAD");
-      d.setNoSSH(true);
+      d.setRemote(true);
       d.setSilent(true);
       d.endOptions();
       try {

@@ -66,7 +66,7 @@ public class StashUtils {
    */
   public static boolean saveStash(@NotNull Project project, @NotNull VirtualFile root, final String message) throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, root, Command.STASH);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.addParameters("save", message);
     String output = handler.run();
     return !output.startsWith("No local changes to save");
@@ -80,7 +80,7 @@ public class StashUtils {
    */
   public static void popLastStash(@NotNull Project project, @NotNull VirtualFile root) throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, root, Command.STASH);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.addParameters("pop");
     handler.ignoreErrorCode(1);
     if (QUIET_STASH_SUPPORTED.isLessOrEqual(Vcs.getInstance(project).version())) {

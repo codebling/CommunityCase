@@ -67,7 +67,7 @@ public class Init extends DumbAwareAction {
     final VirtualFile root = files[0];
     if (Util.isUnder(root)) {
       final int v = Messages.showYesNoDialog(project,
-                                             Bundle.message("init.warning.already.under.",
+                                             Bundle.message("init.warning.already.under.git",
                                                      StringUtil.escapeXml(root.getPresentableUrl())),
                                              Bundle.getString("init.warning.title"),
                                              Messages.getWarningIcon());
@@ -76,7 +76,7 @@ public class Init extends DumbAwareAction {
       }
     }
     LineHandler h = new LineHandler(project, root, Command.INIT);
-    h.setNoSSH(true);
+    h.setRemote(true);
     HandlerUtil.doSynchronously(h, Bundle.getString("initializing.title"), h.printableCommandLine());
     if (!h.errors().isEmpty()) {
       UiUtil.showOperationErrors(project, h.errors(), " init");

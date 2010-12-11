@@ -279,7 +279,7 @@ public class CheckoutDialog extends DialogWrapper {
       return null;
     }
     SimpleHandler h = new SimpleHandler(myProject, root(), Command.BRANCH);
-    h.setNoSSH(true);
+    h.setRemote(true);
     if (myTrackBranchCheckBox.isSelected()) {
       h.addParameters("--track");
     }
@@ -298,7 +298,7 @@ public class CheckoutDialog extends DialogWrapper {
    */
   public LineHandler checkoutHandler() {
     LineHandler h = new LineHandler(myProject, root(), Command.CHECKOUT);
-    h.setNoSSH(true);
+    h.setRemote(true);
     final String newBranch = myNewBranchName.getText();
     if (newBranch.length() == 0) {
       h.addParameters(getSourceBranch());

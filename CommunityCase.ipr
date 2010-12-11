@@ -466,7 +466,6 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/ref/git4idea" vcs="Git" />
   </component>
   <component name="XPathView.XPathProjectComponent">
     <history />

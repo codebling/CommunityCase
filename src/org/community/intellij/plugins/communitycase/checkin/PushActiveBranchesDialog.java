@@ -671,7 +671,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
             assert tracked != null : "Tracked branch cannot be null here";
             SimpleHandler unmerged = new SimpleHandler(project, root, Command.LOG);
             unmerged.addParameters("--pretty=format:%H", r.branch + ".." + tracked.getFullName());
-            unmerged.setNoSSH(true);
+            unmerged.setRemote(true);
             unmerged.setStdoutSuppressed(true);
             StringScanner su = new StringScanner(unmerged.run());
             while (su.hasMoreData()) {
@@ -681,7 +681,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
             }
             SimpleHandler toPush = new SimpleHandler(project, root, Command.LOG);
             toPush.addParameters("--pretty=format:%H%x20%ct%x20%at%x20%s%n%P", tracked.getFullName() + ".." + r.branch);
-            toPush.setNoSSH(true);
+            toPush.setRemote(true);
             toPush.setStdoutSuppressed(true);
             StringScanner sp = new StringScanner(toPush.run());
             while (sp.hasMoreData()) {

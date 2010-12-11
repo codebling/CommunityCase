@@ -149,7 +149,7 @@ public class MergeDialog extends DialogWrapper {
     try {
       VirtualFile root = getSelectedRoot();
       SimpleHandler handler = new SimpleHandler(myProject, root, Command.BRANCH);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.setSilent(true);
       handler.addParameters("--no-color", "-a", "--no-merged");
       String output = handler.run();
@@ -175,7 +175,7 @@ public class MergeDialog extends DialogWrapper {
     LineHandler h = new LineHandler(myProject, root, Command.MERGE);
     // ignore merge failure
     h.ignoreErrorCode(1);
-    h.setNoSSH(true);
+    h.setRemote(true);
     if (myNoCommitCheckBox.isSelected()) {
       h.addParameters("--no-commit");
     }

@@ -139,7 +139,7 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
                                      final List<VcsFileRevision> revisions,
                                      final VirtualFile file) throws VcsException {
     SimpleHandler h = new SimpleHandler(myProject, Util.getRoot(repositoryFilePath), Command.ANNOTATE);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.setCharset(file.getCharset());
     h.addParameters("-p", "-l", "-t", "-M");

@@ -98,7 +98,7 @@ class ChangeCollector {
     SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.UPDATE_INDEX);
     handler.addParameters("--refresh", "--ignore-missing");
     handler.setSilent(true);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setStdoutSuppressed(true);
     handler.ignoreErrorCode(1);
     handler.run();
@@ -208,7 +208,7 @@ class ChangeCollector {
     }
     SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.DIFF);
     handler.addParameters("--name-status", "--diff-filter=ADCMRUX", "-M", "HEAD");
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setSilent(true);
     handler.setStdoutSuppressed(true);
     handler.endOptions();
@@ -217,7 +217,7 @@ class ChangeCollector {
       // if there are too much files, just get all changes for the project
       handler = new SimpleHandler(myProject, myVcsRoot, Command.DIFF);
       handler.addParameters("--name-status", "--diff-filter=ADCMRUX", "-M", "HEAD");
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.setSilent(true);
       handler.setStdoutSuppressed(true);
       handler.endOptions();
@@ -233,7 +233,7 @@ class ChangeCollector {
       }
       handler = new SimpleHandler(myProject, myVcsRoot, Command.LS_FILES);
       handler.addParameters("--cached");
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.setSilent(true);
       handler.setStdoutSuppressed(true);
       // During init diff does not works because HEAD
@@ -265,7 +265,7 @@ class ChangeCollector {
     SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.LS_FILES);
     handler.addParameters("-v", "--unmerged");
     handler.setSilent(true);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setStdoutSuppressed(true);
     // run handler and collect changes
     parseFiles(handler.run());
@@ -273,7 +273,7 @@ class ChangeCollector {
     handler = new SimpleHandler(myProject, myVcsRoot, Command.LS_FILES);
     handler.addParameters("-v", "--others", "--exclude-standard");
     handler.setSilent(true);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.setStdoutSuppressed(true);
     handler.endOptions();
     handler.addRelativePaths(dirtyPaths);
@@ -281,7 +281,7 @@ class ChangeCollector {
       handler = new SimpleHandler(myProject, myVcsRoot, Command.LS_FILES);
       handler.addParameters("-v", "--others", "--exclude-standard");
       handler.setSilent(true);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.setStdoutSuppressed(true);
       handler.endOptions();
     }

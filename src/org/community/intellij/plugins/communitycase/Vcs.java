@@ -570,7 +570,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   public static String version(Project project) throws VcsException {
     final String s;
     SimpleHandler h = new SimpleHandler(project, new File("."), Command.VERSION);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     s = h.run();
     return s;

@@ -73,7 +73,7 @@ public abstract class Handler {
   private Charset myCharset = Charset.forName("UTF-8"); // Character set to use for IO
 
   @SuppressWarnings({"FieldAccessedSynchronizedAndUnsynchronized"})
-  private boolean myNoSSHFlag = false;
+  private boolean myRemoteFlag = false;
 
   private final EventDispatcher<HandlerListener> myListeners = EventDispatcher.create(HandlerListener.class);
   @SuppressWarnings({"FieldAccessedSynchronizedAndUnsynchronized"})
@@ -207,17 +207,17 @@ public abstract class Handler {
    * @param value if value is true, the custom ssh is not used for the command.
    */
   @SuppressWarnings({"WeakerAccess", "SameParameterValue"})
-  public void setNoSSH(boolean value) {
+  public void setRemote(boolean value) {
     checkNotStarted();
-    myNoSSHFlag = value;
+    myRemoteFlag = value;
   }
 
   /**
    * @return true if SSH is not invoked by this command.
    */
   @SuppressWarnings({"WeakerAccess"})
-  public boolean isNoSSH() {
-    return myNoSSHFlag;
+  public boolean isRemote() {
+    return myRemoteFlag;
   }
 
   /**
@@ -374,9 +374,9 @@ public abstract class Handler {
         myVcs.showCommandLine(printableCommandLine());
       }
       if (log.isDebugEnabled()) {
-        log.debug("running git: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
+        log.debug("running: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
       }
-      if (!myNoSSHFlag && myProjectSettings.isIdeaSsh()) {
+      if (!myRemoteFlag && myProjectSettings.isIdeaSsh()) {
 /*        GitSSHService ssh = SshIdeaService.getInstance();
         myEnv.put(GitSSHHandler.GIT_SSH_ENV, ssh.getScriptPath().getPath());
         myHandlerNo = ssh.registerHandler(new SshGuiHandler(myProject));
@@ -450,7 +450,7 @@ public abstract class Handler {
    * Cleanup environment
    */
   protected synchronized void cleanupEnv() {
-    if (!myNoSSHFlag && !myEnvironmentCleanedUp) {
+    if (!myRemoteFlag && !myEnvironmentCleanedUp) {
 /*      GitSSHService ssh = SshIdeaService.getInstance();
       myEnvironmentCleanedUp = true;
       ssh.unregisterHandler(myHandlerNo);*/

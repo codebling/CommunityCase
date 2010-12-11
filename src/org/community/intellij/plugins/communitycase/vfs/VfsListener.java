@@ -128,7 +128,7 @@ public class VfsListener extends VcsVFSListener {
             pi.setText2(paths.get(0) + "...");
             try {
               SimpleHandler h = new SimpleHandler(myProject, root, Command.LS_FILES);
-              h.setNoSSH(true);
+              h.setRemote(true);
               h.addParameters("--exclude-standard", "--others");
               h.endOptions();
               h.addParameters(paths);

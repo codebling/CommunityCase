@@ -54,7 +54,7 @@ public class TreeDiffProvider implements com.intellij.openapi.vcs.TreeDiffProvid
       for (List<String> pathList : FileUtils.chunkPaths(vcsRoot, files)) {
         SimpleHandler handler = new SimpleHandler(myProject, vcsRoot, Command.DIFF);
         handler.addParameters("--name-status", "--diff-filter=ADCRUX", "-M", "HEAD..." + searcher.getRemote().getFullName());
-        handler.setNoSSH(true);
+        handler.setRemote(true);
         handler.setSilent(true);
         handler.setStdoutSuppressed(true);
         handler.endOptions();

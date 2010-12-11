@@ -93,11 +93,13 @@ public class VcsPanel {
       return;
     }
     if (Version.parse(s).isSupported()) {
-      Messages.showInfoMessage(myProject, s, Bundle.getString("find.success.title"));
+      Messages.showInfoMessage(myProject,
+              Bundle.message("find.success.message",Vcs.getInstance(myProject).version().toString()),
+              Bundle.getString("find.success.title"));
     }
     else {
       Messages.showWarningDialog(myProject, Bundle.message("find.unsupported.message", s, Version.MIN),
-                                 Bundle.getString("find.success.title"));
+                                 Bundle.getString("find.unsupported.title"));
     }
   }
 

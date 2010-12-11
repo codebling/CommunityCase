@@ -246,7 +246,7 @@ public class RevisionNumber implements ShortVcsRevisionNumber {
    */
   public static RevisionNumber resolve(Project project, VirtualFile vcsRoot, @NonNls String rev) throws VcsException {
     SimpleHandler h = new SimpleHandler(project, vcsRoot, Command.REV_LIST);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters("--timestamp", "--max-count=1", rev);
     h.endOptions();

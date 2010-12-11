@@ -244,7 +244,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     HashSet<FilePath> realRemoved = new HashSet<FilePath>();
     // perform diff
     SimpleHandler diff = new SimpleHandler(project, root, Command.DIFF);
-    diff.setNoSSH(true);
+    diff.setRemote(true);
     diff.setSilent(true);
     diff.setStdoutSuppressed(true);
     diff.addParameters("--diff-filter=ADMRUX", "--name-status", "HEAD");
@@ -326,7 +326,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     // perform merge commit
     try {
       SimpleHandler handler = new SimpleHandler(project, root, Command.COMMIT);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.addParameters("-F", messageFile.getAbsolutePath());
       if (author != null) {
         handler.addParameters("--author=" + author);
@@ -460,7 +460,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     boolean amend = nextCommitAmend;
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
       SimpleHandler handler = new SimpleHandler(project, root, Command.COMMIT);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       if (amend) {
         handler.addParameters("--amend");
       }

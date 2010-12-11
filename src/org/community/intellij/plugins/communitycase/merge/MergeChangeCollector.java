@@ -86,7 +86,7 @@ public class MergeChangeCollector {
       // collect unmerged
       String root = myRoot.getPath();
       SimpleHandler h = new SimpleHandler(myProject, myRoot, Command.LS_FILES);
-      h.setNoSSH(true);
+      h.setRemote(true);
       h.setSilent(true);
       h.addParameters("--unmerged");
       for (StringScanner s = new StringScanner(h.run()); s.hasMoreData();) {
@@ -161,7 +161,7 @@ public class MergeChangeCollector {
     throws VcsException {
     SimpleHandler h = new SimpleHandler(myProject, myRoot, Command.DIFF);
     h.setSilent(true);
-    h.setNoSSH(true);
+    h.setRemote(true);
     // note that moves are not detected here
     h.addParameters("--name-status", "--diff-filter=ADMRUX", revisions);
     for (StringScanner s = new StringScanner(h.run()); s.hasMoreData();) {

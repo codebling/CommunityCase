@@ -157,7 +157,7 @@ public class RebaseDialog extends DialogWrapper {
 
   public LineHandler handler() {
     LineHandler h = new LineHandler(myProject, Root(), Command.REBASE);
-    h.setNoSSH(true);
+    h.setRemote(true);
     if (myInteractiveCheckBox.isSelected() && myInteractiveCheckBox.isEnabled()) {
       h.addParameters("-i");
     }

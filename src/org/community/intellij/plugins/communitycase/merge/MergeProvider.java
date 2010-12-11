@@ -239,7 +239,7 @@ public class MergeProvider implements MergeProvider2 {
           VirtualFile root = e.getKey();
           List<VirtualFile> files = e.getValue();
           SimpleHandler h = new SimpleHandler(myProject, root, Command.LS_FILES);
-          h.setNoSSH(true);
+          h.setRemote(true);
           h.setStdoutSuppressed(true);
           h.addParameters("--exclude-standard", "--unmerged", "-t", "-z");
           h.endOptions();

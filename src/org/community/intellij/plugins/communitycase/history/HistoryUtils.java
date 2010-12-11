@@ -83,13 +83,13 @@ public class HistoryUtils {
     filePath = getLastCommitName(project, filePath);
     SimpleHandler h = new SimpleHandler(project, Util.getRoot(filePath), Command.LOG);
     LogParser parser = new LogParser(HASH, COMMIT_TIME);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-n1", parser.getPretty());
+/*    h.addParameters("-n1", parser.getPretty());
     if (branch != null && !branch.isEmpty()) {
       h.addParameters(branch);
     }
-    h.endOptions();
+*/    h.endOptions();
     h.addRelativePaths(filePath);
     String result = h.run();
     if (result.length() == 0) {
@@ -119,9 +119,9 @@ public class HistoryUtils {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     LogParser parser = new LogParser(HASH, COMMIT_TIME, SHORT_PARENTS);
     parser.parseStatusBeforeName(true);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-n1", parser.getPretty(), "--name-status", t.getFullName());
+//    h.addParameters("-n1", parser.getPretty(), "--name-status", t.getFullName());
     h.endOptions();
     h.addRelativePaths(filePath);
     String result = h.run();
@@ -259,9 +259,9 @@ public class HistoryUtils {
 
   private static LineHandler getLogHandler(Project project, VirtualFile root, LogParser parser, FilePath path, String lastCommit, String... parameters) {
     final LineHandler h = new LineHandler(project, root, Command.LOG);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
-    h.addParameters("--name-only", parser.getPretty(), "--encoding=UTF-8", lastCommit);
+//    h.addParameters("--name-only", parser.getPretty(), "--encoding=UTF-8", lastCommit);
     if (parameters != null && parameters.length > 0) {
       h.addParameters(parameters);
     }
@@ -281,9 +281,9 @@ public class HistoryUtils {
     // NB: we can't specify the filepath, because then rename detection will work only with the '--follow' option, which we don't wanna use.
     final SimpleHandler h = new SimpleHandler(project, root, Command.SHOW);
     final LogParser parser = new LogParser(HASH, COMMIT_TIME, SHORT_PARENTS);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
-    h.addParameters("-M", "--name-status", parser.getPretty(), "--encoding=UTF-8", commit);
+    //h.addParameters("-M", "--name-status", parser.getPretty(), "--encoding=UTF-8", commit);
     h.endOptions();
     parser.parseStatusBeforeName(true);
     final String output = h.run();
@@ -391,10 +391,10 @@ public class HistoryUtils {
     path = getLastCommitName(project, path);
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     LogParser parser = new LogParser(HASH, COMMIT_TIME);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
-    h.addParameters(parser.getPretty(), "--encoding=UTF-8");
+//    h.addParameters(parser.getPretty(), "--encoding=UTF-8");
     h.endOptions();
     h.addRelativePaths(path);
     String output = h.run();
@@ -417,11 +417,11 @@ public class HistoryUtils {
     final VirtualFile root = Util.getRoot(path);
     final LineHandler h = new LineHandler(project, root, Command.LOG);
     final LogParser parser = new LogParser(SHORT_HASH, HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_TIME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, SHORT_PARENTS, REF_NAMES, SUBJECT, BODY);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
     parser.parseStatusBeforeName(true);
-    h.addParameters("--name-status", parser.getPretty(), "--encoding=UTF-8");       // todo ?
+//    h.addParameters("--name-status", parser.getPretty(), "--encoding=UTF-8");       // todo ?
     h.endOptions();
     h.addRelativePaths(path);
 
@@ -552,11 +552,11 @@ public class HistoryUtils {
     final VirtualFile root = Util.getRoot(path);
     SimpleHandler h = new SimpleHandler(project, root, Command.SHOW);
     LogParser parser = new LogParser(SHORT_HASH, HASH, COMMIT_TIME, AUTHOR_NAME, AUTHOR_TIME, AUTHOR_EMAIL, COMMITTER_NAME, COMMITTER_EMAIL, SHORT_PARENTS, REF_NAMES, SUBJECT, BODY);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
-    h.addParameters("--name-status", parser.getPretty(), "--encoding=UTF-8");
+    //h.addParameters("--name-status", parser.getPretty(), "--encoding=UTF-8");
     parser.parseStatusBeforeName(true);
-    h.addParameters(new ArrayList<String>(commitsIds));
+    //h.addParameters(new ArrayList<String>(commitsIds));
 
     h.endOptions();
     h.addRelativePaths(path);
@@ -584,10 +584,10 @@ public class HistoryUtils {
     final LineHandler h = new LineHandler(project, root, Command.LOG);
     final LogParser parser = new LogParser(SHORT_HASH, COMMIT_TIME, SHORT_PARENTS, AUTHOR_NAME);
     parser.parseStatusBeforeName(false);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
-    h.addParameters(parser.getPretty(), "--encoding=UTF-8");
+    //h.addParameters(parser.getPretty(), "--encoding=UTF-8");
 
     h.endOptions();
     h.addRelativePaths(path);

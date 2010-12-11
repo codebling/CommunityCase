@@ -117,7 +117,7 @@ public class FileUtils {
       handler.addParameters(additionalOptions);
       handler.endOptions();
       handler.addParameters(paths);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.run();
     }
   }
@@ -127,7 +127,7 @@ public class FileUtils {
     handler.addParameters("-x", "-n", hash);
     handler.endOptions();
     //handler.addRelativePaths(new FilePathImpl(root));
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     handler.run();
   }
 
@@ -145,7 +145,7 @@ public class FileUtils {
       SimpleHandler handler = new SimpleHandler(project, root, Command.RM);
       handler.endOptions();
       handler.addParameters(paths);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.run();
     }
   }
@@ -177,7 +177,7 @@ public class FileUtils {
       SimpleHandler handler = new SimpleHandler(project, root, Command.ADD);
       handler.endOptions();
       handler.addParameters(paths);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.run();
     }
   }
@@ -209,7 +209,7 @@ public class FileUtils {
       SimpleHandler handler = new SimpleHandler(project, root, Command.ADD);
       handler.endOptions();
       handler.addParameters(paths);
-      handler.setNoSSH(true);
+      handler.setRemote(true);
       handler.run();
     }
   }
@@ -227,7 +227,7 @@ public class FileUtils {
   @Nullable
   public static byte[] getFileContent(Project project, VirtualFile root, String revisionOrBranch, String relativePath) throws VcsException {
     BinaryHandler h = new BinaryHandler(project, root, Command.SHOW);
-    h.setNoSSH(true);
+    h.setRemote(true);
     h.setSilent(true);
     h.addParameters(revisionOrBranch + ":" + relativePath);
     byte[] result;
@@ -254,7 +254,7 @@ public class FileUtils {
    */
   //@Nullable
   //public static VcsFileRevision getFileRevision(Project project, VirtualFile vcsRoot, String revisionOrBranch, String relativePath, boolean loadContent) {
-  //  SimpleHandler h = new SimpleHandler(project, vcsRoot, Command.SHOW);
+  //  SimpleHandler h = new SimpleHandler(project, vcsRoot, Command.LSHISTORY);
   //  h.setNoSSH(true);
   //  h.setSilent(true);
   //  h.addParameters(revisionOrBranch + ":" + relativePath);

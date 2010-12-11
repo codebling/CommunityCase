@@ -117,7 +117,7 @@ public class ResetDialog extends DialogWrapper {
    */
   public LineHandler handler() {
     LineHandler handler = new LineHandler(myProject, getRoot(), Command.RESET);
-    handler.setNoSSH(true);
+    handler.setRemote(true);
     String type = (String)myResetTypeComboBox.getSelectedItem();
     if (SOFT.equals(type)) {
       handler.addParameters("--soft");
