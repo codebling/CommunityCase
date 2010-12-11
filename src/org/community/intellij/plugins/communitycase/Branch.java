@@ -36,7 +36,7 @@ import java.util.Collection;
  */
 public class Branch extends Reference {
   @NonNls public static final String NO_BRANCH_NAME = "(no branch)"; // The name that specifies that  is on specific commit rather then on some branch ({@value})
-  @NonNls public static final String REFS_HEADS_PREFIX = "refs/heads/"; // Prefix for local branches ({@value})
+  @NonNls public static final String REFS_HEADS_PREFIX = "/main/"; // Prefix for local branches ({@value})
   @NonNls public static final String REFS_REMOTES_PREFIX = "refs/remotes/"; // Prefix for remote branches ({@value})
 
   private final boolean myRemote;
@@ -140,14 +140,14 @@ public class Branch extends Reference {
     final SimpleHandler handler = new SimpleHandler(project, root, Command.BRANCH);
     handler.setRemote(true);
     handler.setSilent(true);
-    handler.addParameters("--no-color");
+    //handler.addParameters("--no-color");
     if (remoteWanted && localWanted) {
-      handler.addParameters("-a");
+//      handler.addParameters("-a");
     } else if (remoteWanted) {
-      handler.addParameters("-r");
+//      handler.addParameters("-r");
     }
     if (containingCommit != null) {
-      handler.addParameters("--contains", containingCommit);
+//      handler.addParameters("--contains", containingCommit);
     }
     final String output = handler.run();
 
@@ -174,17 +174,19 @@ public class Branch extends Reference {
     final String[] split = output.split("\n");
     Branch currentBranch = null;
     for (String b : split) {
+/*
       boolean current = b.charAt(0) == '*';
       b = b.substring(2).trim();
       if (b.equals(NO_BRANCH_NAME)) { continue; }
+*/
 
-      boolean isRemote = b.startsWith("remotes/") || b.startsWith(REFS_REMOTES_PREFIX);
-//      boolean isRemote = (! localWanted) || b.startsWith("remotes");
-      final Branch branch = new Branch(b, current, isRemote);
-      if (current) {
+      //boolean isRemote = b.startsWith("remotes/") || b.startsWith(REFS_REMOTES_PREFIX);
+      final Branch branch = new Branch(b, false, false);
+      //if (current) {
         currentBranch = branch;
-      }
-      if (branches != null && ((isRemote && remoteWanted) || (!isRemote && localWanted))) {
+      //}
+      //if (branches != null && ((isRemote && remoteWanted) || (!isRemote && localWanted))) {
+      if (branches != null) {
         branches.add(branch);
       }
     }

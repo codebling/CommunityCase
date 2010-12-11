@@ -199,6 +199,10 @@ class LogParser {
 
     if (line.isEmpty()) { return null; }
 
+    if(line.indexOf(RECORD_START) == 0) {
+      line = line.substring(RECORD_START.length());
+    }
+
     // parsing status and path (if given)
     char nameStatus = 0;
     final List<String> paths = new ArrayList<String>(1);

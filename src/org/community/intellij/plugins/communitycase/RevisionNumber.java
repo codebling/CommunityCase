@@ -36,7 +36,7 @@ public class RevisionNumber implements ShortVcsRevisionNumber {
   /**
    * the name of tip revision
    */
-  @NonNls public static final String TIP = "HEAD";
+  @NonNls public static final String TIP = "LATEST";
   /**
    * the hash from 40 zeros representing not yet created commit
    */

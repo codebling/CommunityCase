@@ -229,7 +229,8 @@ public class FileUtils {
     BinaryHandler h = new BinaryHandler(project, root, Command.SHOW);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters(revisionOrBranch + ":" + relativePath);
+    h.addParameters("-to con");
+    h.addParameters(relativePath + "@@" + revisionOrBranch);
     byte[] result;
     try {
       result = h.run();

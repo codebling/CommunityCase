@@ -25,7 +25,7 @@ public class Command {
 
   public static final Command ADD = write("mkelem");
   public static final Command ANNOTATE = read("annotate");            //fixme
-  public static final Command BRANCH = meta("branch");                //fixme
+  public static final Command BRANCH = meta("lstype -kind brtype -s");
   public static final Command CHECKOUT = write("checkout");           //fixme
   public static final Command COMMIT = write("commit");               //fixme
   public static final Command CONFIG = meta("config");                //fixme
@@ -49,7 +49,7 @@ public class Command {
   public static final Command RESET = write("reset");                 //fixme
   public static final Command REV_LIST = meta("rev-list");            //fixme
   public static final Command RM = write("rmelem");
-  public static final Command SHOW = write("show");                   //fixme
+  public static final Command SHOW = write("get");                   //fixme
   public static final Command STASH = write("stash");                 //fixme
   public static final Command TAG = meta("tag");                      //fixme
   public static final Command UPDATE_INDEX = write("update-index");   //fixme

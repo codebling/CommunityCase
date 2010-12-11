@@ -118,7 +118,7 @@ public abstract class Handler {
     }
     myCommandLine.setWorkingDirectory(myWorkingDirectory);
     if (command.name().length() > 0) {
-      myCommandLine.addParameter(command.name());
+      addParameters(command.name());
     }
   }
 
@@ -248,15 +248,6 @@ public abstract class Handler {
     myCommandLine.addParameters(fixedParameters);
   }
 
-  private String[] fixSpaces(String[] parameters) {
-    List<String> fixedParams = new ArrayList<String>();
-    for(String s : parameters) {
-      String[] separated = s.trim().split(" ");
-      fixedParams.addAll(Arrays.asList(separated)); //add all of the components separately
-    }
-    return fixedParams.toArray(new String[fixedParams.size()]);
-  }
-
   /**
    * Add parameters from the list
    *
@@ -265,6 +256,15 @@ public abstract class Handler {
   public void addParameters(List<String> parameters) {
     checkNotStarted();
     myCommandLine.addParameters(parameters);
+  }
+
+  private String[] fixSpaces(String[] parameters) {
+    List<String> fixedParams = new ArrayList<String>();
+    for(String s : parameters) {
+      String[] separated = s.trim().split(" ");
+      fixedParams.addAll(Arrays.asList(separated)); //add all of the components separately
+    }
+    return fixedParams.toArray(new String[fixedParams.size()]);
   }
 
   /**

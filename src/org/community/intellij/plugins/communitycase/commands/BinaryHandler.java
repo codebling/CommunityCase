@@ -170,6 +170,7 @@ public class BinaryHandler extends Handler {
           Charset cs = getCharset();
           cs = cs == null ? Util.UTF8_CHARSET : cs;
           String message = new String(myStderr.toByteArray(), cs);
+          //if(message != null && message.indexOf("cleartool: Error: con: Bad file descriptor") == -1) {
           if (message.length() == 0) {
             //noinspection ThrowableResultOfMethodCallIgnored
             if (myException.get() != null) {
@@ -191,6 +192,7 @@ public class BinaryHandler extends Handler {
               LOG.warn("Dropping previous exception: ", e);
             }
           }
+          //} //else, do nothing.
         }
       }
 
