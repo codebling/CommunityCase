@@ -16,19 +16,25 @@
 package org.community.intellij.plugins.communitycase.commands;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.refactoring.rename.inplace.VariableInplaceRenamer;
 import org.community.intellij.plugins.communitycase.Util;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * File utilities for the git
+ * File utilities
  */
 public class FileUtils {
   /**
@@ -229,7 +235,20 @@ public class FileUtils {
     BinaryHandler h = new BinaryHandler(project, root, Command.SHOW);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-to con");
+
+    File temp = null;
+    try {
+      temp = FileUtil.createTempFile(root.getNameWithoutExtension() + revisionOrBranch.replaceAll("/","-"), "tmp");
+    } catch(IOException e) {
+      throw new VcsException(e);
+    }
+    if(temp.exists()) {
+      temp.delete();
+    }
+    temp.deleteOnExit();
+
+    h.addParameters("-to "+temp.getAbsolutePath());
+
     h.addParameters(relativePath + "@@" + revisionOrBranch);
     byte[] result;
     try {
@@ -244,7 +263,56 @@ public class FileUtils {
         throw e;
       }
     }
-    return result;
+    byte[] bytes=null;
+    FileInputStream savedVersionInputStream=null;
+    try {
+      savedVersionInputStream=new FileInputStream(temp);
+
+      bytes=new byte[savedVersionInputStream.available()];
+
+      int readCount=0;
+      readCount=savedVersionInputStream.read(bytes);
+      if(readCount!=bytes.length)
+        throw new VcsException("Couldn't read appropriate number of bytes");
+
+      /*
+      List<byte[]> allBytes = new ArrayList<byte[]>();
+      byte[] someBytes = new byte[4048];
+      int readCount = 0;
+
+      while(readCount != -1) { // savedVersionInputStream.available()) {
+        readCount = savedVersionInputStream.read(someBytes);
+        if(readCount > 0) {
+          if(readCount!=4048) {
+            allBytes.add(Arrays.copyOf(someBytes,readCount));
+          }else{ //don't waste time resizing/copying the array if it has the right amount of data in it.
+            allBytes.add(someBytes);
+          }
+        }
+      }
+
+      int totalSize=0;
+      for(byte[] b:allBytes) {
+        totalSize+=b.length;
+      }
+
+      byte[] fixedAllBytes=new byte[totalSize];
+
+      for(byte[] b:allBytes) {
+        System.arraycopy();
+      }
+      */
+
+    } catch(IOException e) {
+      throw new VcsException(e);
+    } finally {
+      try {
+        savedVersionInputStream.close();
+        temp.delete();
+      } catch(Exception e) {} //sorry, best effort.
+    }
+
+    return bytes;
   }
 
   /**
