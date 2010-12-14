@@ -20,14 +20,13 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.refactoring.rename.inplace.VariableInplaceRenamer;
 import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -112,7 +111,7 @@ public class FileUtils {
    * @param project the project
    * @param root    a vcs root
    * @param files   files to delete
-   * @return a result of operation
+   * @param additionalOptions the additional options to add to the command line
    * @throws VcsException in case of git problem
    */
 
@@ -143,7 +142,6 @@ public class FileUtils {
    * @param project the project
    * @param root    a vcs root
    * @param files   files to delete
-   * @return a result of operation
    * @throws VcsException in case of git problem
    */
   public static void deleteFiles(Project project, VirtualFile root, List<VirtualFile> files) throws VcsException {
@@ -162,7 +160,6 @@ public class FileUtils {
    * @param project the project
    * @param root    a vcs root
    * @param files   files to delete
-   * @return a result of operation
    * @throws VcsException in case of git problem
    */
   public static void deleteFiles(Project project, VirtualFile root, VirtualFile... files) throws VcsException {
@@ -175,7 +172,6 @@ public class FileUtils {
    * @param project the project
    * @param root    a vcs root
    * @param files   files to add
-   * @return a result of operation
    * @throws VcsException in case of git problem
    */
   public static void addFiles(Project project, VirtualFile root, Collection<VirtualFile> files) throws VcsException {
@@ -194,7 +190,6 @@ public class FileUtils {
    * @param project the project
    * @param root    a vcs root
    * @param files   files to add
-   * @return a result of operation
    * @throws VcsException in case of git problem
    */
   public static void addFiles(Project project, VirtualFile root, VirtualFile... files) throws VcsException {
@@ -207,7 +202,6 @@ public class FileUtils {
    * @param project the project
    * @param root    a vcs root
    * @param files   files to add
-   * @return a result of operation
    * @throws VcsException in case of git problem
    */
   public static void addPaths(Project project, VirtualFile root, Collection<FilePath> files) throws VcsException {
@@ -226,7 +220,7 @@ public class FileUtils {
    * @param project      the project
    * @param root         the vcs root
    * @param revisionOrBranch     the revision to find path in or branch 
-   * @param relativePath
+   * @param relativePath the relative path
    * @return the content of file if file is found, null if the file is missing in the revision
    * @throws VcsException if there is a problem with running git
    */
@@ -236,13 +230,14 @@ public class FileUtils {
     h.setRemote(true);
     h.setSilent(true);
 
-    File temp = null;
+    File temp;
     try {
       temp = FileUtil.createTempFile(root.getNameWithoutExtension() + revisionOrBranch.replaceAll("/","-"), "tmp");
     } catch(IOException e) {
       throw new VcsException(e);
     }
     if(temp.exists()) {
+      //noinspection ResultOfMethodCallIgnored
       temp.delete();
     }
     temp.deleteOnExit();
@@ -250,10 +245,9 @@ public class FileUtils {
     h.addParameters("-to "+temp.getAbsolutePath());
 
     h.addParameters(relativePath + "@@" + revisionOrBranch);
-    byte[] result;
-    try {
-      result = h.run();
-    }
+//    try {
+      h.run();
+/*    }
     catch (VcsException e) {
       String m = e.getMessage().trim();
       if (m.startsWith("fatal: ambiguous argument ") || (m.startsWith("fatal: Path '") && m.contains("' exists on disk, but not in '"))) {
@@ -262,7 +256,7 @@ public class FileUtils {
       else {
         throw e;
       }
-    }
+    }*/
     byte[] bytes=null;
     FileInputStream savedVersionInputStream=null;
     try {
@@ -270,68 +264,22 @@ public class FileUtils {
 
       bytes=new byte[savedVersionInputStream.available()];
 
-      int readCount=0;
-      readCount=savedVersionInputStream.read(bytes);
+      int readCount=savedVersionInputStream.read(bytes);
       if(readCount!=bytes.length)
-        throw new VcsException("Couldn't read appropriate number of bytes");
-
-      /*
-      List<byte[]> allBytes = new ArrayList<byte[]>();
-      byte[] someBytes = new byte[4048];
-      int readCount = 0;
-
-      while(readCount != -1) { // savedVersionInputStream.available()) {
-        readCount = savedVersionInputStream.read(someBytes);
-        if(readCount > 0) {
-          if(readCount!=4048) {
-            allBytes.add(Arrays.copyOf(someBytes,readCount));
-          }else{ //don't waste time resizing/copying the array if it has the right amount of data in it.
-            allBytes.add(someBytes);
-          }
-        }
-      }
-
-      int totalSize=0;
-      for(byte[] b:allBytes) {
-        totalSize+=b.length;
-      }
-
-      byte[] fixedAllBytes=new byte[totalSize];
-
-      for(byte[] b:allBytes) {
-        System.arraycopy();
-      }
-      */
+        throw new VcsException(Bundle.message("version.tempfile.error",Bundle.getString("error.file.read")));
 
     } catch(IOException e) {
       throw new VcsException(e);
     } finally {
+      //noinspection EmptyCatchBlock
       try {
+        //noinspection ConstantConditions
         savedVersionInputStream.close();
+        //noinspection ResultOfMethodCallIgnored
         temp.delete();
       } catch(Exception e) {} //sorry, best effort.
     }
 
     return bytes;
   }
-
-  /**
-   * Returns the GitFileRevision for given parameters.
-   * @param revisionOrBranch full hash of the revision, or branch name, or tag name - any will do.
-   * @param loadContent should the content be preloaded in the returned VcsFileRevision.
-   * @return VcsFileRevision for the given parameters.
-   */
-  //@Nullable
-  //public static VcsFileRevision getFileRevision(Project project, VirtualFile vcsRoot, String revisionOrBranch, String relativePath, boolean loadContent) {
-  //  SimpleHandler h = new SimpleHandler(project, vcsRoot, Command.LSHISTORY);
-  //  h.setNoSSH(true);
-  //  h.setSilent(true);
-  //  h.addParameters(revisionOrBranch + ":" + relativePath);
-  //
-  //  if (!loadContent) {
-  //    h.addParameters("--name-only");
-  //  }
-  //
-  //}
-  
 }
