@@ -295,7 +295,7 @@ public class CheckoutProcess {
     for (VirtualFile root : startedRoots) {
       myProgress.setText2(root.getPath());
       startedRoots.add(root);
-      LineHandler h = new LineHandler(myProject, root, Command.CHECKOUT);
+      LineHandler h = new LineHandler(myProject, root, Command.GIT_CHECKOUT);
       h.setRemote(true);
       h.addParameters("-f", myDescribedRoots.get(root));
       Collection<VcsException> exceptions = HandlerUtil.doSynchronouslyWithExceptions(h, myProgress, h.printableCommandLine());
@@ -334,7 +334,7 @@ public class CheckoutProcess {
       myProgress.setText2(root.getPath());
       startedRoots.add(root);
       RevisionNumber prev = RevisionNumber.resolve(myProject, root, "HEAD");
-      LineHandler h = new LineHandler(myProject, root, Command.CHECKOUT);
+      LineHandler h = new LineHandler(myProject, root, Command.GIT_CHECKOUT);
       h.addParameters("-f");
       Pair<String, Boolean> branchedRef = myNewBranchMapping.get(root);
       String ref = myNewConfiguration.getReference(root.getPath());

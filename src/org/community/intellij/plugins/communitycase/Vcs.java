@@ -70,8 +70,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *  VCS implementation
  */
 public class Vcs extends AbstractVcs<CommittedChangeList> {
-  public static final String NOTIFICATION_GROUP_ID = "";
-  public static final String NAME = ""; // Vcs name
+  public static final String NOTIFICATION_GROUP_ID = "ClearCase";
+  public static final String NAME = "ClearCase"; // Vcs name
 
   private static final Logger log = Logger.getInstance(Vcs.class.getName());
   private static final VcsKey ourKey = createKey(NAME);
@@ -83,6 +83,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   private final IntellijAnnotationProvider myAnnotationProvider;
   private final com.intellij.openapi.vcs.diff.DiffProvider myDiffProvider;
   private final VcsHistoryProvider myHistoryProvider;
+  private final com.intellij.openapi.vcs.EditFileProvider myEditFileProvider;
   private final ProjectLevelVcsManager myVcsManager;
   private final VcsApplicationSettings myAppSettings;
   private final Configurable myConfigurable;
@@ -123,6 +124,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
              @NotNull final org.community.intellij.plugins.communitycase.diff.DiffProvider diffProvider,
              @NotNull final HistoryProvider historyProvider,
              @NotNull final org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment rollbackEnvironment,
+             @NotNull final org.community.intellij.plugins.communitycase.edit.EditFileProvider editFileProvider,
              @NotNull final VcsApplicationSettings settings,
              @NotNull final VcsSettings projectSettings) {
     super(project, NAME);
@@ -134,6 +136,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     myDiffProvider = diffProvider;
     myHistoryProvider = historyProvider;
     myRollbackEnvironment = rollbackEnvironment;
+    myEditFileProvider = editFileProvider;
     myRevSelector = new RevisionSelector();
     myConfigurable = new VcsConfigurable(projectSettings, myProject);
     myUpdateEnvironment = new org.community.intellij.plugins.communitycase.update.UpdateEnvironment(myProject, this, projectSettings);
@@ -647,7 +650,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
 
   @Override
   public VcsType getType() {
-    return VcsType.distibuted;
+    return VcsType.centralized;
   }
 
   private final VcsOutgoingChangesProvider<CommittedChangeList> myOutgoingChangesProvider;
@@ -694,4 +697,9 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     return myIndexChangeListener;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public com.intellij.openapi.vcs.EditFileProvider getEditFileProvider() {
+    return myEditFileProvider;
+  }
 }

@@ -186,9 +186,6 @@ public class SimpleHandler extends TextHandler {
    * @throws VcsException exception if process failed to start.
    */
   public String run() throws VcsException {
-    if (!isRemote()) {
-      throw new IllegalStateException("Commands that require SSH could not be run using this method");
-    }
     final VcsException[] ex = new VcsException[1];
     final String[] result = new String[1];
     final Semaphore sem = new Semaphore(0);

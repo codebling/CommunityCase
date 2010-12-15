@@ -33,7 +33,6 @@ import com.intellij.util.NullableFunction;
 import com.intellij.util.PairConsumer;
 import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
-import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
@@ -152,12 +151,15 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
           File messageFile = createMessageFile(root, message);
           try {
             final Set<FilePath> added = new HashSet<FilePath>();
+            final Set<FilePath> modified = new HashSet<FilePath>();
             final Set<FilePath> removed = new HashSet<FilePath>();
             for (Change change : entry.getValue()) {
               switch (change.getType()) {
                 case NEW:
-                case MODIFICATION:
                   added.add(change.getAfterRevision().getFile());
+                  break;
+                case MODIFICATION:
+                  modified.add(change.getAfterRevision().getFile());
                   break;
                 case DELETED:
                   removed.add(change.getBeforeRevision().getFile());
@@ -181,7 +183,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
                   if (!isMergeCommit(ex)) {
                     throw ex;
                   }
-                  if (!mergeCommit(myProject, root, added, removed, messageFile, myNextCommitAuthor, exceptions)) {
+                  if (!mergeCommit(myProject, root, added, removed, modified, messageFile, myNextCommitAuthor, exceptions)) {
                     throw ex;
                   }
                 }
@@ -224,23 +226,25 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   /**
    * Preform a merge commit
    *
+   *
    * @param project     a project
    * @param root        a vcs root
    * @param added       added files
    * @param removed     removed files
-   * @param messageFile a message file for commit
+   * @param modified
+   *@param messageFile a message file for commit
    * @param author      an author
-   * @param exceptions  the list of exceptions to report
-   * @return true if merge commit was successful
+   * @param exceptions  the list of exceptions to report    @return true if merge commit was successful
    */
   private static boolean mergeCommit(final Project project,
                                      final VirtualFile root,
                                      final Set<FilePath> added,
                                      final Set<FilePath> removed,
+                                     final Set<FilePath> modified,
                                      final File messageFile,
                                      final String author,
                                      List<VcsException> exceptions) {
-    HashSet<FilePath> realAdded = new HashSet<FilePath>();
+/*    HashSet<FilePath> realAdded = new HashSet<FilePath>();
     HashSet<FilePath> realRemoved = new HashSet<FilePath>();
     // perform diff
     SimpleHandler diff = new SimpleHandler(project, root, Command.DIFF);
@@ -278,60 +282,70 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     }
     realAdded.removeAll(added);
     realRemoved.removeAll(removed);
-    if (realAdded.size() != 0 || realRemoved.size() != 0) {
-      TreeSet<String> files = new TreeSet<String>();
+*/
+    //if (realAdded.size() != 0 || realRemoved.size() != 0) {
+    TreeSet<String> files = new TreeSet<String>();
+    /*
       for (FilePath f : realAdded) {
         files.add(f.getPresentableUrl());
       }
       for (FilePath f : realRemoved) {
         files.add(f.getPresentableUrl());
       }
-      final StringBuilder fileList = new StringBuilder();
-      for (String f : files) {
-        //noinspection HardCodedStringLiteral
-        fileList.append("<li>");
-        fileList.append(StringUtil.escapeXml(f));
-        fileList.append("</li>");
-      }
-      final int[] rc = new int[1];
-      try {
-        EventQueue.invokeAndWait(new Runnable() {
-          public void run() {
-            rc[0] = Messages.showOkCancelDialog(project, Bundle.message("commit.partial.merge.message", fileList.toString()),
-                                                Bundle.getString("commit.partial.merge.title"), null);
-
-          }
-        });
-      }
-      catch (RuntimeException ex) {
-        throw ex;
-      }
-      catch (Exception ex) {
-        throw new RuntimeException("Unable to invoke a message box on AWT thread", ex);
-      }
-      if (rc[0] != 0) {
-        return false;
-      }
-      // update non-indexed files
-      if (!updateIndex(project, root, realAdded, realRemoved, exceptions)) {
-        return false;
-      }
-      for (FilePath f : realAdded) {
-        VcsDirtyScopeManager.getInstance(project).fileDirty(f);
-      }
-      for (FilePath f : realRemoved) {
-        VcsDirtyScopeManager.getInstance(project).fileDirty(f);
-      }
+      */
+    for (FilePath f : added) {
+      files.add(f.getPresentableUrl());
     }
+    for (FilePath f : removed) {
+      files.add(f.getPresentableUrl());
+    }
+    for (FilePath f : modified) {
+      files.add(f.getPresentableUrl());
+    }
+    final StringBuilder fileList = new StringBuilder();
+    for (String f : files) {
+      //noinspection HardCodedStringLiteral
+      fileList.append("<li>");
+      fileList.append(StringUtil.escapeXml(f));
+      fileList.append("</li>");
+    }
+    final int[] rc = new int[1];
+    try {
+      EventQueue.invokeAndWait(new Runnable() {
+        public void run() {
+          rc[0] = Messages.showOkCancelDialog(project, Bundle.message("commit.partial.merge.message", fileList.toString()),
+                                              Bundle.getString("commit.partial.merge.title"), null);
+
+        }
+      });
+    }
+    catch (RuntimeException ex) {
+      throw ex;
+    }
+    catch (Exception ex) {
+      throw new RuntimeException("Unable to invoke a message box on AWT thread", ex);
+    }
+    if (rc[0] != 0) {
+      return false;
+    }
+    // update non-indexed files
+    /*if (!updateIndex(project, root, realAdded, realRemoved, exceptions)) {
+      return false;
+    }
+    for (FilePath f : realAdded) {
+      VcsDirtyScopeManager.getInstance(project).fileDirty(f);
+    }
+    for (FilePath f : realRemoved) {
+      VcsDirtyScopeManager.getInstance(project).fileDirty(f);
+    }*/
+    //}
     // perform merge commit
     try {
-      SimpleHandler handler = new SimpleHandler(project, root, Command.COMMIT);
-      handler.setRemote(true);
-      handler.addParameters("-F", messageFile.getAbsolutePath());
-      if (author != null) {
-        handler.addParameters("--author=" + author);
-      }
+      SimpleHandler handler = new SimpleHandler(project, root, Command.CHECKIN);
+      handler.addParameters("-cfi", messageFile.getAbsolutePath());
       handler.endOptions();
+      //todo: fixme
+      //handler.addParameters(paths);
       handler.run();
     }
     catch (VcsException ex) {
@@ -459,7 +473,8 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     throws VcsException {
     boolean amend = nextCommitAmend;
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
-      SimpleHandler handler = new SimpleHandler(project, root, Command.COMMIT);
+      SimpleHandler handler = new SimpleHandler(project, root, Command.
+              CHECKIN);
       handler.setRemote(true);
       if (amend) {
         handler.addParameters("--amend");

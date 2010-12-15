@@ -297,7 +297,7 @@ public class CheckoutDialog extends DialogWrapper {
    * @return a handler that checkouts branch
    */
   public LineHandler checkoutHandler() {
-    LineHandler h = new LineHandler(myProject, root(), Command.CHECKOUT);
+    LineHandler h = new LineHandler(myProject, root(), Command.GIT_CHECKOUT);
     h.setRemote(true);
     final String newBranch = myNewBranchName.getText();
     if (newBranch.length() == 0) {

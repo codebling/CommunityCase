@@ -24,39 +24,40 @@ import org.jetbrains.annotations.NotNull;
 public class Command {
 
   public static final Command ADD = write("mkelem");
-  public static final Command ANNOTATE = read("annotate");            //fixme
+  public static final Command ANNOTATE = read("NOTIMPLEMENTED");            //fixme
   public static final Command BRANCH = meta("lstype -kind brtype -s");
-  public static final Command CHECKOUT = write("checkout");           //fixme
-  public static final Command COMMIT = write("commit");               //fixme
-  public static final Command CONFIG = meta("config");                //fixme
-  public static final Command CHECK_ATTR = read("check-attr");        //fixme
-  public static final Command CHERRY_PICK = write("cherry-pick");     //fixme
-  public static final Command CLONE = write("clone");                 //fixme
-  public static final Command DESCRIBE = meta("describe");            //fixme
-  public static final Command DIFF = read("diff");                    //fixme
-  public static final Command DIFF_INDEX = read("diff-index");        //fixme
-  public static final Command FETCH = write("fetch");                 //fixme
-  public static final Command INIT = write("init");                   //fixme
+  public static final Command CHECKIN = write("ci");
+  public static final Command CHECKOUT= write("co");
+  public static final Command GIT_CHECKOUT= write("NOTIMPLEMENTED");           //fixme
+  public static final Command CONFIG = meta("NOTIMPLEMENTED");                //fixme
+  public static final Command CHECK_ATTR = read("NOTIMPLEMENTED");        //fixme
+  public static final Command CHERRY_PICK = write("NOTIMPLEMENTED");     //fixme
+  public static final Command CLONE = write("NOTIMPLEMENTED");                 //fixme
+  public static final Command DESCRIBE = meta("NOTIMPLEMENTED");            //fixme
+  public static final Command DIFF = read("NOTIMPLEMENTED");                    //fixme
+  public static final Command DIFF_INDEX = read("NOTIMPLEMENTED");        //fixme
+  public static final Command FETCH = write("NOTIMPLEMENTED");                 //fixme
+  public static final Command INIT = write("NOTIMPLEMENTED");                   //fixme
   public static final Command LOG = meta("lsh");
-  public static final Command LS_FILES = read("ls-files");            //fixme
-  public static final Command LS_REMOTE = meta("ls-remote");          //fixme
-  public static final Command MERGE = write("merge");                 //fixme
-  public static final Command MERGE_BASE = meta("merge-base");        //fixme
-  public static final Command PULL = write("pull");                   //fixme
-  public static final Command PUSH = write("push");                   //fixme
-  public static final Command REBASE = writeSuspendable("rebase");    //fixme
-  public static final Command REMOTE = meta("remote");                //fixme
-  public static final Command RESET = write("reset");                 //fixme
-  public static final Command REV_LIST = meta("rev-list");            //fixme
+  public static final Command LS_FILES = read("NOTIMPLEMENTED");            //fixme
+  public static final Command LS_REMOTE = meta("NOTIMPLEMENTED");          //fixme
+  public static final Command MERGE = write("NOTIMPLEMENTED");                 //fixme
+  public static final Command MERGE_BASE = meta("NOTIMPLEMENTED");        //fixme
+  public static final Command PULL = write("NOTIMPLEMENTED");                   //fixme
+  public static final Command PUSH = write("NOTIMPLEMENTED");                   //fixme
+  public static final Command REBASE = writeSuspendable("NOTIMPLEMENTED");    //fixme
+  public static final Command REMOTE = meta("NOTIMPLEMENTED");                //fixme
+  public static final Command RESET = write("NOTIMPLEMENTED");                 //fixme
+  public static final Command REV_LIST = meta("NOTIMPLEMENTED");            //fixme
   public static final Command RM = write("rmelem");
-  public static final Command SHOW = write("get");                   //fixme
-  public static final Command STASH = write("stash");                 //fixme
-  public static final Command TAG = meta("tag");                      //fixme
-  public static final Command UPDATE_INDEX = write("update-index");   //fixme
+  public static final Command SHOW = write("get");
+  public static final Command STASH = write("NOTIMPLEMENTED");        //fixme
+  public static final Command TAG = meta("NOTIMPLEMENTED");           //fixme
+  public static final Command UPDATE_INDEX = write("NOTIMPLEMENTED"); //fixme
   public static final Command VERSION = meta("-ver");
 
   // these commands modify .git/index
-  private static final Command[] INDEX_MODIFIERS = {ADD, BRANCH, CHECKOUT, COMMIT, MERGE, RESET, RM, STASH};
+  private static final Command[] INDEX_MODIFIERS = {ADD, CHECKIN, BRANCH,GIT_CHECKOUT,CHECKIN, MERGE, RESET, RM, STASH};
   static {
     for (Command command : INDEX_MODIFIERS) {
       command.myModifiesIndex = true;

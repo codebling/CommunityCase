@@ -100,6 +100,9 @@
         serviceInterface="org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment"
         serviceImplementation="org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment"/>
     <projectService
+      serviceInterface="org.community.intellij.plugins.communitycase.edit.EditFileProvider"
+      serviceImplementation="org.community.intellij.plugins.communitycase.edit.EditFileProvider"/>
+    <projectService
         serviceInterface="org.community.intellij.plugins.communitycase.config.VcsSettings"
         serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsSettings"/>
     <projectService
