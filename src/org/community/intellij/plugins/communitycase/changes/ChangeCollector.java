@@ -126,13 +126,13 @@ class ChangeCollector {
             case NEW:
             case DELETED:
             case MOVED:
+            case MODIFICATION:
               if (c.getAfterRevision() != null) {
                 addToPaths(rootPath, paths, c.getAfterRevision().getFile());
               }
               if (c.getBeforeRevision() != null) {
                 addToPaths(rootPath, paths, c.getBeforeRevision().getFile());
               }
-            case MODIFICATION:
             default:
               // do nothing
           }
