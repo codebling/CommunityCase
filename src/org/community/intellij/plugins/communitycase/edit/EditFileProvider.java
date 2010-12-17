@@ -25,8 +25,9 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
   public void editFiles(VirtualFile[] virtualFiles) throws VcsException {
     final VirtualFile vcsRoot = VcsUtil.getVcsRootFor(myProject, virtualFiles[0]);
     final SimpleHandler handler = new SimpleHandler(myProject, vcsRoot, Command.CHECKOUT);
-    handler.addParameters("-res");//reserved
-    handler.addParameters("-nc");//no comment
+    handler.addParameters("-res");//reserved    //todo wc read from settings whether to reserve or unreserve (–unr)
+    handler.addParameters("-nc");//no comment   //todo wc optionally prompt for this
+    handler.endOptions();
     for(VirtualFile f:virtualFiles)
       handler.addParameters(f.getName());
     handler.setSilent(false);

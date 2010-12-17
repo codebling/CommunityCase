@@ -88,6 +88,8 @@ public class CompareWithBranchAction extends DumbAwareAction {
       return;
     }
 
+    //todo wc popup a "loading branches.." window before we try to list the branches since this can be slow and context menu stays open during this time
+
     // get branches information
     final List<Branch> branches = new ArrayList<Branch>();
     Branch curBranch = null;
@@ -101,6 +103,8 @@ public class CompareWithBranchAction extends DumbAwareAction {
       return;
     }
     final String currentBranch = curBranch.getName();
+
+    //todo wc filter branches from regex in settings
 
     // prepare and invoke popup
     final JBList list = new JBList(branches);
