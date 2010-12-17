@@ -121,9 +121,6 @@
         serviceInterface="org.community.intellij.plugins.communitycase.config.VcsApplicationSettings"
         serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsApplicationSettings"/>
     <applicationService
-        serviceInterface="org.community.intellij.plugins.communitycase.commands.SshIdeaService"
-        serviceImplementation="org.community.intellij.plugins.communitycase.commands.SshIdeaService"/>
-    <applicationService
         serviceInterface="org.community.intellij.plugins.communitycase.rebase.RebaseEditorService"
         serviceImplementation="org.community.intellij.plugins.communitycase.rebase.RebaseEditorService"/>
     <applicationService

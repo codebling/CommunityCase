@@ -384,16 +384,9 @@ public abstract class Handler {
         myVcs.showCommandLine(printableCommandLine());
       }
       if (log.isDebugEnabled()) {
-//        log.debug(new Exception("stack trace please!"));
         log.debug("running: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
       }
       if (!myRemoteFlag && myProjectSettings.isIdeaSsh()) {
-/*        GitSSHService ssh = SshIdeaService.getInstance();
-        myEnv.put(GitSSHHandler.GIT_SSH_ENV, ssh.getScriptPath().getPath());
-        myHandlerNo = ssh.registerHandler(new SshGuiHandler(myProject));
-        myEnvironmentCleanedUp = false;
-        myEnv.put(GitSSHHandler.SSH_HANDLER_ENV, Integer.toString(myHandlerNo));
-        myEnv.put(GitSSHHandler.SSH_PORT_ENV, Integer.toString(ssh.getXmlRcpPort()));*/
       }
       myCommandLine.setEnvParams(myEnv);
       // start process
@@ -461,11 +454,6 @@ public abstract class Handler {
    * Cleanup environment
    */
   protected synchronized void cleanupEnv() {
-    if (!myRemoteFlag && !myEnvironmentCleanedUp) {
-/*      GitSSHService ssh = SshIdeaService.getInstance();
-      myEnvironmentCleanedUp = true;
-      ssh.unregisterHandler(myHandlerNo);*/
-    }
   }
 
   /**
