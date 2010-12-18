@@ -23,21 +23,21 @@ import java.util.Set;
 
 // when you're not at first page, or when your filter moved tags out, you might still want to filter by them
 public class TagBridge {
-  final Set<SHAHash> myParentsInterestedIn;
+  final Set<ShaHash> myParentsInterestedIn;
   private final LowLevelAccess myAccess;
 
-  final MultiMap<SHAHash, String> myTagsForHashes;
-  final MultiMap<String, SHAHash> myHashesForTags;
+  final MultiMap<ShaHash, String> myTagsForHashes;
+  final MultiMap<String,ShaHash> myHashesForTags;
 
-  public TagBridge(final Set<SHAHash> parentsInterestedIn, final LowLevelAccess access) {
+  public TagBridge(final Set<ShaHash> parentsInterestedIn, final LowLevelAccess access) {
     myParentsInterestedIn = parentsInterestedIn;
     myAccess = access;
-    myTagsForHashes = new MultiMap<SHAHash, String>();
-    myHashesForTags = new MultiMap<String, SHAHash>();
+    myTagsForHashes = new MultiMap<ShaHash, String>();
+    myHashesForTags = new MultiMap<String,ShaHash>();
   }
 
   public void load() throws VcsException {
-    for (SHAHash hash : myParentsInterestedIn) {
+    for (ShaHash hash : myParentsInterestedIn) {
       final Collection<String> refs = myAccess.getBranchesWithCommit(hash);
       refs.addAll(myAccess.getTagsWithCommit(hash));
 
@@ -49,12 +49,12 @@ public class TagBridge {
   }
 
   // todo +-
-  public MultiMap<String, SHAHash> getHashesForTags() {
+  public MultiMap<String,ShaHash> getHashesForTags() {
     return myHashesForTags;
   }
 
   // todo +-
-  public MultiMap<SHAHash, String> getTagsForHashes() {
+  public MultiMap<ShaHash, String> getTagsForHashes() {
     return myTagsForHashes;
   }
 }

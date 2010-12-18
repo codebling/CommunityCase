@@ -36,38 +36,56 @@ public class ChangeList extends LocalChangeList {
     this.changes = changes;
   }
 
+  /** {@inheritDoc} */
+  @Override
   @NotNull
   public String getName() {
     return name;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public void setName(@NotNull String name) {
     this.name = name;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public String getComment() {
     return comment;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public void setComment(String comment) {
     this.comment = comment;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public boolean isDefault() {
     return true;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public boolean isReadOnly() {
     return true;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public void setReadOnly(boolean isReadOnly) {
   }
 
+  /** {@inheritDoc} */
+  @Override
   public Collection<Change> getChanges() {
     return changes;
   }
 
+  /** {@inheritDoc} */
+  @Override
   public LocalChangeList copy() {
     return new org.community.intellij.plugins.communitycase.changes.ChangeList(name, comment, changes);
   }

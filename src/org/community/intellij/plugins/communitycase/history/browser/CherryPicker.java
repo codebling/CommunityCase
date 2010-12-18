@@ -129,7 +129,7 @@ public class CherryPicker {
 
   private void cherryPickStep(CheckinEnvironment ce, int i) {
     final Commit commit = myCommits.get(i);
-    final SHAHash hash = commit.getHash();
+    final ShaHash hash = commit.getHash();
     try {
       myAccess.cherryPick(hash);
     }

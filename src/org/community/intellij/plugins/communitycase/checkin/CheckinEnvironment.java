@@ -93,26 +93,9 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   @Override
   public String getDefaultMessageFor(FilePath[] filesToCheckin) {
     StringBuilder rc = new StringBuilder();
-    for (VirtualFile root : Util.roots(Arrays.asList(filesToCheckin))) {
-      VirtualFile mergeMsg = root.findFileByRelativePath(".git/MERGE_MSG");
-      VirtualFile squashMsg = root.findFileByRelativePath(".git/SQUASH_MSG");
-      if (mergeMsg != null || squashMsg != null) {
-        try {
-          String encoding = ConfigUtil.getCommitEncoding(myProject, root);
-          if (mergeMsg != null) {
-            rc.append(FileUtil.loadFileText(new File(mergeMsg.getPath()), encoding));
-          }
-          if (squashMsg != null) {
-            rc.append(FileUtil.loadFileText(new File(squashMsg.getPath()), encoding));
-          }
-        }
-        catch (IOException e) {
-          if (log.isDebugEnabled()) {
-            log.debug("Unable to load merge message", e);
-          }
-        }
-      }
-    }
+
+    //todo wc get use the checkout message from the first file that has one
+
     if (rc.length() != 0) {
       return rc.toString();
     }
@@ -344,8 +327,12 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
       SimpleHandler handler = new SimpleHandler(project, root, Command.CHECKIN);
       handler.addParameters("-cfi", messageFile.getAbsolutePath());
       handler.endOptions();
-      //todo: fixme
-      //handler.addParameters(paths);
+      for(FilePath path:added)
+        handler.addParameters(path.getName());
+      for(FilePath path:modified)
+        handler.addParameters(path.getName());
+      for(FilePath path:removed)
+        handler.addParameters(path.getName());
       handler.run();
     }
     catch (VcsException ex) {

@@ -107,7 +107,7 @@ public class ConfigUtil {
    */
   @Nullable
   public static String getValue(Project project, VirtualFile root, @NonNls String key) throws VcsException {
-    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
+/*    SimpleHandler h = new SimpleHandler(project, root, Command.CONFIG);
     h.setRemote(true);
     h.setSilent(true);
     h.ignoreErrorCode(1);
@@ -118,6 +118,8 @@ public class ConfigUtil {
       return null;
     }
     return output.substring(0, pos);
+*/
+    return null;
   }
 
   /**

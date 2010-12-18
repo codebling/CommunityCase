@@ -120,27 +120,20 @@ class ChangeCollector {
     ArrayList<FilePath> candidatePaths = new ArrayList<FilePath>();
     candidatePaths.addAll(myDirtyScope.getDirtyFilesNoExpand());
     if (includeChanges) {
-      try {
+//      try {
         for (Change c : myChangeListManager.getChangesIn(myVcsRoot)) {
-          switch (c.getType()) {
-            case NEW:
-            case DELETED:
-            case MOVED:
-            case MODIFICATION:
-              if (c.getAfterRevision() != null) {
-                addToPaths(rootPath, paths, c.getAfterRevision().getFile());
-              }
-              if (c.getBeforeRevision() != null) {
-                addToPaths(rootPath, paths, c.getBeforeRevision().getFile());
-              }
-            default:
-              // do nothing
+          if (c.getAfterRevision() != null) {
+            addToPaths(rootPath, paths, c.getAfterRevision().getFile());
+          }
+          if (c.getBeforeRevision() != null) {
+            addToPaths(rootPath, paths, c.getBeforeRevision().getFile());
           }
         }
-      }
+/*      }
       catch (Exception t) {
         // ignore exceptions
       }
+*/
     }
     for (FilePath p : candidatePaths) {
       addToPaths(rootPath, paths, p);

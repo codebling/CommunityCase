@@ -143,14 +143,14 @@ public class LowLevelAccessImpl implements LowLevelAccess {
             refs, consumer, isCanceled, parameters.toArray(new String[parameters.size()]));
   }
 
-  public List<String> getBranchesWithCommit(final SHAHash hash) throws VcsException {
+  public List<String> getBranchesWithCommit(final ShaHash hash) throws VcsException {
     final List<String> result = new ArrayList<String>();
     Branch.listAsStrings(myProject, myRoot, true, true, result, hash.getValue());
     //Branch.listAsStrings(myProject, myRoot, true, false, result, hash.getValue());
     return result;
   }
 
-  public Collection<String> getTagsWithCommit(final SHAHash hash) throws VcsException {
+  public Collection<String> getTagsWithCommit(final ShaHash hash) throws VcsException {
     final List<String> result = new ArrayList<String>();
     Tag.listAsStrings(myProject, myRoot, result, hash.getValue());
     return result;
@@ -175,7 +175,7 @@ public class LowLevelAccessImpl implements LowLevelAccess {
     Tag.listAsStrings(myProject, myRoot, sink, null);
   }
 
-  public void cherryPick(SHAHash hash) throws VcsException {
+  public void cherryPick(ShaHash hash) throws VcsException {
     FileUtils.cherryPick(myProject, myRoot, hash.getValue());
   }
 }

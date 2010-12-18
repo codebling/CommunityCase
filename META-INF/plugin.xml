@@ -29,7 +29,7 @@
       <reference id="UpdateFiles"/>
       <reference id="Compare.SameVersion"/>
       <reference id="IntegrateFiles"/>  -->
-      <reference ref="Annotate"/>
+<!--      <reference ref="Annotate"/> -->
       <reference ref="Compare.SameVersion"/>
       <reference ref="Compare.LastVersion"/>
       <reference ref="Compare.Selected"/>
@@ -44,11 +44,12 @@
       <action id="Cc.Add" class="org.community.intellij.plugins.communitycase.actions.Add" text="Add" icon="/actions/include.png">
         <keyboard-shortcut first-keystroke="control alt A" keymap="$default"/>
       </action>
-      <action id="Cc.Revert" class="org.community.intellij.plugins.communitycase.actions.UndoCheckout" text="Revert File" icon="/actions/rollback.png"/>
+      <action id="Cc.Revert" class="org.community.intellij.plugins.communitycase.actions.UndoCheckout" text="Undo checkout" icon="/actions/rollback.png"/>
+      <action id="Cc.VersionTree" class="org.community.intellij.plugins.communitycase.actions.VersionTree" text="Version Tree" icon="/actions/rollback.png"/>
       <!--<action id="Resolve" class="org.jetbrains.idea.perforce.actions.ResolveAction"/>-->
       <!--<action id="ResolveAll" class="org.jetbrains.idea.perforce.actions.ResolveAllAction"/>-->
       <!-- <action id="TimeLapseView" class="org.jetbrains.idea.perforce.actions.TimeLapseViewAction"/> -->
-      <separator/>
+<!--      <separator/>
 
       <action id="Cc.Tag" class="org.community.intellij.plugins.communitycase.actions.Tag" text="Tag Files..."/>
       <action id="Cc.Merge" class="org.community.intellij.plugins.communitycase.actions.Merge" text="Merge Changes..." icon="/vcs/mergeSourcesTree.png"/>
@@ -65,7 +66,7 @@
       <action id="Cc.Rebase.Continue" class="org.community.intellij.plugins.communitycase.actions.RebaseContinue" text="Continue Rebasing"/>
       <action id="Cc.Rebase.Skip" class="org.community.intellij.plugins.communitycase.actions.RebaseSkip" text="Skip Commit in Rebasing"/>
       <separator/>
-
+-->
       <add-to-group group-id="VcsGroup" anchor="last"/>
       <add-to-group group-id="VcsGlobalGroup" anchor="after" relative-to-action="Vcs.Specific"/>
       <!--           <add-to-group anchor="last" group-id="VcsGlobalGroup" /> -->

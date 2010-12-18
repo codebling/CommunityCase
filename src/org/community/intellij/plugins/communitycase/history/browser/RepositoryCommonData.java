@@ -22,7 +22,7 @@ public interface RepositoryCommonData {
   List<String> getAllTagsOrdered();
   List<String> getAllBranchesOrdered();
   List<String> getKnownUsers();
-  void cherryPick(final Collection<SHAHash> hash);
+  void cherryPick(final Collection<ShaHash> hash);
   // todo remove
-  SHAHash commitExists(String reference);
+  ShaHash commitExists(String reference);
 }

@@ -43,8 +43,8 @@ public interface LowLevelAccess {
                    int useMaxCnt,
                    Getter<Boolean> isCanceled, SymbolicRefs refs) throws VcsException;
 
-  Collection<String> getBranchesWithCommit(final SHAHash hash) throws VcsException;
-  Collection<String> getTagsWithCommit(final SHAHash hash) throws VcsException;
+  Collection<String> getBranchesWithCommit(final ShaHash hash) throws VcsException;
+  Collection<String> getTagsWithCommit(final ShaHash hash) throws VcsException;
 
   @Nullable
   Branch loadLocalBranches(Collection<String> sink) throws VcsException;
@@ -56,7 +56,7 @@ public interface LowLevelAccess {
 
   void loadAllTags(final Collection<String> sink) throws VcsException;
 
-  void cherryPick(SHAHash hash) throws VcsException;
+  void cherryPick(ShaHash hash) throws VcsException;
   void loadHashesWithParents(final @NotNull Collection<String> startingPoints, @NotNull final Collection<ChangesFilter.Filter> filters,
                              final AsynchConsumer<CommitHashPlusParents> consumer, Getter<Boolean> isCanceled, int useMaxCnt) throws VcsException;
   List<Commit> getCommitDetails(final Collection<String> commitIds, SymbolicRefs refs) throws VcsException;

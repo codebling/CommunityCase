@@ -43,7 +43,7 @@ import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.*;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.history.browser.Commit;
-import org.community.intellij.plugins.communitycase.history.browser.SHAHash;
+import org.community.intellij.plugins.communitycase.history.browser.ShaHash;
 import org.community.intellij.plugins.communitycase.history.browser.SymbolicRefs;
 import org.community.intellij.plugins.communitycase.history.wholeTree.AbstractHash;
 import org.community.intellij.plugins.communitycase.history.wholeTree.CommitHashPlusParents;
@@ -403,13 +403,13 @@ public class HistoryUtils {
     return rc;
   }
 
-  public static List<Pair<SHAHash, Date>> onlyHashesHistory(Project project, FilePath path, final String... parameters)
+  public static List<Pair<ShaHash, Date>> onlyHashesHistory(Project project, FilePath path, final String... parameters)
     throws VcsException {
     final VirtualFile root = Util.getRoot(path);
     return onlyHashesHistory(project, path, root, parameters);
   }
 
-  public static List<Pair<SHAHash, Date>> onlyHashesHistory(Project project, FilePath path, final VirtualFile root, final String... parameters)
+  public static List<Pair<ShaHash, Date>> onlyHashesHistory(Project project, FilePath path, final VirtualFile root, final String... parameters)
     throws VcsException {
     // adjust path using change manager
     path = getLastCommitName(project, path);
@@ -423,9 +423,9 @@ public class HistoryUtils {
     h.addRelativePaths(path);
     String output = h.run();
 
-    final List<Pair<SHAHash, Date>> rc = new ArrayList<Pair<SHAHash, Date>>();
+    final List<Pair<ShaHash, Date>> rc = new ArrayList<Pair<ShaHash, Date>>();
     for (LogRecord record : parser.parse(output)) {
-      rc.add(new Pair<SHAHash, Date>(new SHAHash(record.getVersion()), record.getDate()));
+      rc.add(new Pair<ShaHash, Date>(new ShaHash(record.getVersion()), record.getDate()));
     }
     return rc;
   }
@@ -530,7 +530,7 @@ public class HistoryUtils {
     List<String> remotes = new ArrayList<String>();
     List<String> tags = new ArrayList<String>();
     final String s = parseRefs(refs, currentRefs, locals, remotes, tags);
-    Commit = new Commit(AbstractHash.create(record.getVersion()), new SHAHash(record.getVersion()), record.getUser(),
+    Commit = new Commit(AbstractHash.create(record.getVersion()), new ShaHash(record.getVersion()), record.getUser(),
                                       record.getUser(),
                                       record.getDate(), record.getFullMessage(),
                                       new HashSet<String>(Arrays.asList(record.getParentsShortHashes())), record.getFilePaths(root),

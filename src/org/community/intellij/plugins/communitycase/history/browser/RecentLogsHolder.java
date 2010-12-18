@@ -19,7 +19,7 @@ package org.community.intellij.plugins.communitycase.history.browser;
 public interface RecentLogsHolder {
   //boolean isReachable(final String childHash, final String parentHash);
   // todo move out
-  boolean isReachable(final Commit commit, SHAHash parentHash);
-  SHAHash getHashByName(final String name);
-  Commit getByHash(final SHAHash hash);
+  boolean isReachable(final Commit commit, ShaHash parentHash);
+  ShaHash getHashByName(final String name);
+  Commit getByHash(final ShaHash hash);
 }

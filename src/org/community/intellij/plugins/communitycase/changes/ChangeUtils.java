@@ -32,7 +32,7 @@ import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
-import org.community.intellij.plugins.communitycase.history.browser.SHAHash;
+import org.community.intellij.plugins.communitycase.history.browser.ShaHash;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
 
@@ -283,7 +283,7 @@ public class ChangeUtils {
   }
 
   @Nullable
-  public static String getCommitAbbreviation(final Project project, final VirtualFile root, final SHAHash hash) {
+  public static String getCommitAbbreviation(final Project project, final VirtualFile root, final ShaHash hash) {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
@@ -299,7 +299,7 @@ public class ChangeUtils {
   }
 
   @Nullable
-  public static SHAHash commitExists(final Project project, final VirtualFile root, final String anyReference) {
+  public static ShaHash commitExists(final Project project, final VirtualFile root, final String anyReference) {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
@@ -307,7 +307,7 @@ public class ChangeUtils {
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;
-      return new SHAHash(output);
+      return new ShaHash(output);
     }
     catch (VcsException e) {
       return null;
@@ -315,7 +315,7 @@ public class ChangeUtils {
   }
 
   @Nullable
-  public static SHAHash commitExistsByComment(final Project project, final VirtualFile root, final String anyReference) {
+  public static ShaHash commitExistsByComment(final Project project, final VirtualFile root, final String anyReference) {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
@@ -324,7 +324,7 @@ public class ChangeUtils {
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;
-      return new SHAHash(output);
+      return new ShaHash(output);
     }
     catch (VcsException e) {
       return null;
@@ -367,7 +367,7 @@ public class ChangeUtils {
     }
     RevisionNumber thisRevision = new RevisionNumber(revisionNumber, commitDate);
 
-    long number = longForSHAHash(revisionNumber);
+    long number = longForShaHash(revisionNumber);
     if (skipDiffsForMerge || (parents.length <= 1)) {
       final RevisionNumber parentRevision = parents.length > 0 ? loadRevision(project, root, parents[0]) : null;
       // This is the first or normal commit with the single parent.
@@ -401,7 +401,7 @@ public class ChangeUtils {
                                        changes);
   }
 
-  public static long longForSHAHash(String revisionNumber) {
+  public static long longForShaHash(String revisionNumber) {
     return Long.parseLong(revisionNumber.substring(0, 15), 16) << 4 + Integer.parseInt(revisionNumber.substring(15, 16), 16);
   }
 }

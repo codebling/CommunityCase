@@ -24,14 +24,14 @@ import java.util.Set;
 
 public interface TreeViewI {
   void controllerReady();
-  void refreshView(@NotNull final List<Commit> commitsToShow, final TravelTicket ticket, SHAHash jumpTarget);
+  void refreshView(@NotNull final List<Commit> commitsToShow, final TravelTicket ticket, ShaHash jumpTarget);
   void showStatusMessage(@NotNull final String message);
 
   void refreshStarted();
   void refreshFinished();
 
   void acceptError(String text, VcsException e);
-  void acceptHighlighted(final Set<SHAHash> ids);
+  void acceptHighlighted(final Set<ShaHash> ids);
   void clearHighlighted();
 
   void acceptDetails(List<CommittedChangeList> changeList);

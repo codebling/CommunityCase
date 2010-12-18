@@ -15,10 +15,10 @@
  */
 package org.community.intellij.plugins.communitycase.history.browser;
 
-public class SHAHash {
+public class ShaHash {
   private final String myValue;
 
-  public SHAHash(final String value) {
+  public ShaHash(final String value) {
     myValue = value;
     assert myValue.length() == 40 : myValue;
   }
@@ -37,7 +37,7 @@ public class SHAHash {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    SHAHash shaHash = (SHAHash)o;
+    ShaHash shaHash = (ShaHash)o;
 
     if (!myValue.equals(shaHash.myValue)) return false;
 

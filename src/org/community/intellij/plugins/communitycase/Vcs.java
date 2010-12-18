@@ -359,7 +359,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
         return RevisionNumber.resolve(myProject, root, revision);
       }
       catch (VcsException e) {
-        log.error("Unexpected problem with resolving the  revision number: ", e);
+        log.error("Unexpected problem with resolving the revision number: ", e);
       }
     }
     return new RevisionNumber(revision);

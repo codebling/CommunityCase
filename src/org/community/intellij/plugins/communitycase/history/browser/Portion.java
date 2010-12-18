@@ -24,7 +24,7 @@ import java.util.*;
 
 // todo introduce synchronization here?
 public class Portion implements AsynchConsumer<Commit> {
-  private final Map<String, SHAHash> myNameToHash;
+  private final Map<String,ShaHash> myNameToHash;
   private final Map<String, Integer> myHolder;
   private boolean myStartFound;
 
@@ -41,13 +41,13 @@ public class Portion implements AsynchConsumer<Commit> {
   private final List<Commit> myRoots;
   // what was passed into log command
   private final List<Commit> myLeafs;
-  @Nullable private final List<SHAHash> myStartingPoints;
+  @Nullable private final List<ShaHash> myStartingPoints;
 
-  public Portion(@Nullable final List<SHAHash> startingPoints) {
+  public Portion(@Nullable final List<ShaHash> startingPoints) {
     myStartingPoints = startingPoints;
     myChildrenWasSet = startingPoints == null || startingPoints.isEmpty();
     
-    myNameToHash = new HashMap<String, SHAHash>();
+    myNameToHash = new HashMap<String,ShaHash>();
     myHolder = new HashMap<String, Integer>();
     myOrdered = new ArrayList<Commit>();
     
@@ -79,14 +79,14 @@ public class Portion implements AsynchConsumer<Commit> {
 
     final List<String> referencies = commit.getLocalBranches();
     if (! referencies.isEmpty()) {
-      final SHAHash hash = commit.getHash();
+      final ShaHash hash = commit.getHash();
       for (String reference : referencies) {
         myNameToHash.put(reference, hash);
       }
     }
     final List<String> tags = commit.getTags();
     if (! tags.isEmpty()) {
-      final SHAHash hash = commit.getHash();
+      final ShaHash hash = commit.getHash();
       for (String reference : tags) {
         myNameToHash.put(reference, hash);
       }
@@ -138,13 +138,13 @@ public class Portion implements AsynchConsumer<Commit> {
     }
   }
 
-  public SHAHash getHashForReference(final String reference) {
+  public ShaHash getHashForReference(final String reference) {
     return myNameToHash.get(reference);
   }
 
   @Nullable
   public Commit getByHash(final String hash) {
-    final SHAHash shaHash = new SHAHash(hash);
+    final ShaHash shaHash = new ShaHash(hash);
     final Integer idx = myHolder.get(shaHash);
     return idx == null ? null : myOrdered.get(idx);
   }

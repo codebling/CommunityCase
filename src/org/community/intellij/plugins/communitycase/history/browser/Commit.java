@@ -26,7 +26,7 @@ public class Commit {
   @NotNull
   private final AbstractHash myShortHash;
   @NotNull
-  private final SHAHash myHash;
+  private final ShaHash myHash;
   private final String myAuthor;
   private final String myCommitter;
   private final String myDescription;
@@ -54,7 +54,7 @@ public class Commit {
   private boolean myOnTracked;
 
   public Commit(@NotNull final AbstractHash shortHash,
-                @NotNull final SHAHash hash,
+                @NotNull final ShaHash hash,
                 final String author,
                 final String committer,
                 final Date date,
@@ -108,7 +108,7 @@ public class Commit {
   }
 
   @NotNull
-  public SHAHash getHash() {
+  public ShaHash getHash() {
     return myHash;
   }
 

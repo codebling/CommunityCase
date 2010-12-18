@@ -20,9 +20,9 @@ import java.util.Date;
 public class TravelTicket {
   private final boolean myIsBottomReached;
   private final Date myLatestDate;
-  private final SHAHash myLastHash;
+  private final ShaHash myLastHash;
 
-  public TravelTicket(boolean isBottomReached, Date latestDate, SHAHash lastHash) {
+  public TravelTicket(boolean isBottomReached, Date latestDate, ShaHash lastHash) {
     myIsBottomReached = isBottomReached;
     myLatestDate = latestDate;
     myLastHash = lastHash;
@@ -36,7 +36,7 @@ public class TravelTicket {
     return myLatestDate;
   }
 
-  public SHAHash getLastHash() {
+  public ShaHash getLastHash() {
     return myLastHash;
   }
 

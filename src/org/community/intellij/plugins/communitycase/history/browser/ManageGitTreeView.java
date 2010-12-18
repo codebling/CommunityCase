@@ -31,7 +31,7 @@ interface ManageTreeView extends RepositoryCommonData {
 
   void refresh();
 
-  void getDetails(final Collection<SHAHash> hashes);
+  void getDetails(final Collection<ShaHash> hashes);
 
   TreeFiltering getFiltering();
   TreeFiltering getHighlighting();

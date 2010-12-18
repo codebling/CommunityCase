@@ -50,9 +50,7 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
     myVcsManager = vcsManager;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public void getChanges(final VcsDirtyScope dirtyScope,
                          final ChangelistBuilder builder,
@@ -147,16 +145,14 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
+  @Override
   public boolean isModifiedDocumentTrackingRequired() {
     return true;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
+  @Override
   public void doCleanup(final List<VirtualFile> files) {
   }
 }

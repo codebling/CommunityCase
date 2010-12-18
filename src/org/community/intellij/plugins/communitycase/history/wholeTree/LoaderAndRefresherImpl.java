@@ -232,7 +232,7 @@ public class LoaderAndRefresherImpl implements LoaderAndRefresher<CommitHashPlus
     final List<List<AbstractHash>> parents = myLoadParents ? new ArrayList<List<AbstractHash>>() : null;
     for (String hash : hashes) {
       try {
-        final SHAHash shaHash = ChangeUtils.commitExists(myProject, myRootHolder.getRoot(), hash);
+        final ShaHash shaHash = ChangeUtils.commitExists(myProject, myRootHolder.getRoot(), hash);
         if (shaHash == null) continue;
         final List<org.community.intellij.plugins.communitycase.history.browser.Commit> commits = myLowLevelAccess.getCommitDetails(Collections.singletonList(shaHash.getValue()), mySymbolicRefs);
         myDetailsCache.acceptAnswer(commits, myRootHolder.getRoot());

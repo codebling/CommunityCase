@@ -16,6 +16,7 @@
 
 package org.community.intellij.plugins.communitycase.vfs;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
@@ -50,6 +51,8 @@ import java.util.Set;
  * missed.
  */
 public class IgnoreTracker {
+  private static final Logger log = Logger.getInstance(IgnoreTracker.class.getName());
+
   /**
    * The vcs manager that tracks content roots
    */
@@ -156,10 +159,10 @@ public class IgnoreTracker {
       return;
     }
     HashMap<VirtualFile, String> newRoots = new HashMap<VirtualFile, String>();
-    for (VirtualFile root : contentRoots) {
-      VirtualFile Root = scanParents(root);
-      if (!newRoots.containsKey(Root)) {
-        newRoots.put(Root, getExcludeFile(Root));
+    for (VirtualFile r : contentRoots) {
+      VirtualFile root = scanParents(r);
+      if (!newRoots.containsKey(root)) {
+        newRoots.put(root, getExcludeFile(root));
       }
       // note that the component relies on root tracker to scan all children including .ignore files.
     }
@@ -174,13 +177,13 @@ public class IgnoreTracker {
   /**
    * Get normalized path for root and visit config path so it will be noticed by file events
    *
-   * @param Root the root to examine
+   * @param root the root to examine
    * @return the normalized path
    */
   @Nullable
-  private String getExcludeFile(VirtualFile Root) {
+  private String getExcludeFile(VirtualFile root) {
     try {
-      String file = ConfigUtil.getValue(myProject, Root, "core.excludesfile");
+      String file = ConfigUtil.getValue(myProject, root, "core.excludesfile");
       file = fixFileName(file);
       if (file != null && file.trim().length() != 0) {
         // locate path so it will be tracked
@@ -191,7 +194,7 @@ public class IgnoreTracker {
       }
     }
     catch (VcsException e) {
-      // return null
+      log.error(e); //just log and return null
     }
     return null;
   }
@@ -229,6 +232,7 @@ public class IgnoreTracker {
    * Scan this root and parents in the search of .ignore
    *
    * @param root the directory to scan
+   * @return VirtualFile ?
    */
   @Nullable
   private static VirtualFile scanParents(VirtualFile root) {
