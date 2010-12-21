@@ -96,6 +96,7 @@ public class ConfigUtil {
   }
 
 
+  //todo wc getValue should be private
   /**
    * Get configuration value for the repository. Note that the method executes a git command.
    *
