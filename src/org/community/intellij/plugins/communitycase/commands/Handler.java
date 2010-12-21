@@ -413,7 +413,6 @@ public abstract class Handler {
    */
   public String printableCommandLine() {
     final GeneralCommandLine line = myCommandLine.clone();
-    line.setExePath("git");
     return line.getCommandLineString();
   }
 
