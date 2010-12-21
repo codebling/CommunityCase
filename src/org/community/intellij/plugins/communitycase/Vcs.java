@@ -422,7 +422,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     myReferenceTracker.activate();
     NewUsersComponent.getInstance(myProject).activate();
     ProjectLogManager.getInstance(myProject).activate();
-    BranchConfigurations.getInstance(myProject).activate();
+    //BranchConfigurations.getInstance(myProject).activate(); //TODO wc do we need this?
   }
 
   /**
