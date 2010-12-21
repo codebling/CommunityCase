@@ -374,7 +374,7 @@ public class Util {
   }
 
   /**
-   * Return a  root for the file (the parent directory with "." subdirectory)
+   * Return a root for the file (the parent directory with "." subdirectory)
    *
    * @param file the file to check
    * @return  root for the file
