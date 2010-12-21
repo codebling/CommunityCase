@@ -3,7 +3,7 @@ package org.community.intellij.plugins.communitycase.edit;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.vcsUtil.VcsUtil;
+import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.jetbrains.annotations.NotNull;
@@ -23,16 +23,19 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
 
   @Override
   public void editFiles(VirtualFile[] virtualFiles) throws VcsException {
-    final VirtualFile vcsRoot = VcsUtil.getVcsRootFor(myProject, virtualFiles[0]);
-    final SimpleHandler handler = new SimpleHandler(myProject, vcsRoot, Command.CHECKOUT);
+    //just use the first file's parent as execution dir (other files will be relative to this one)
+    VirtualFile execDir=Util.getRoot(virtualFiles[0]).getParent();
+
+    SimpleHandler handler=new SimpleHandler(myProject, execDir, Command.CHECKOUT);
+    handler.setSilent(false);
     handler.addParameters("-res");//reserved    //todo wc read from settings whether to reserve or unreserve (–unr)
     handler.addParameters("-nc");//no comment   //todo wc optionally prompt for this
     handler.endOptions();
-    for(VirtualFile f:virtualFiles)
-      handler.addParameters(f.getName());
-    handler.setSilent(false);
+    for(VirtualFile file:virtualFiles) {
+      handler.addParameters(Util.getRelativeFilePath(file, execDir)); //make all other files relative to the exec dir we chose
+    }
 
-    final String output = handler.run();
+    handler.run();
   }
 
   @Override
