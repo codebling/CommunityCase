@@ -75,6 +75,8 @@ public class NewUsersComponent {
   }
 
   public void deactivate() {
+    if(myState==null)
+      throw new IllegalStateException(NewUsersComponent.class.getName()+".activate() was not called");
     myState.force();
     myState = null;
   }
