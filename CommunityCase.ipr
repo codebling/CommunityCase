@@ -45,6 +45,10 @@
         <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
         <option name="SPACE_BEFORE_SYNCHRONIZED_PARENTHESES" value="false" />
         <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
+        <option name="SPACE_BEFORE_QUEST" value="false" />
+        <option name="SPACE_AFTER_QUEST" value="false" />
+        <option name="SPACE_BEFORE_COLON" value="false" />
+        <option name="SPACE_AFTER_COLON" value="false" />
         <ADDITIONAL_INDENT_OPTIONS fileType="groovy">
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="8" />
