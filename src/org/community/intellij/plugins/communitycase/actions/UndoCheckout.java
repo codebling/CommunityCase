@@ -27,6 +27,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,12 @@ import java.util.List;
  * "revert" action
  */
 public class UndoCheckout extends BasicAction {
+
+  private static final String NAME = Bundle.getString("undocheckout.action.name");
+
+  public UndoCheckout() {
+    super(NAME);
+  }
 
   @Override
   public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] affectedFiles) {
@@ -51,7 +58,7 @@ public class UndoCheckout extends BasicAction {
   @Override
   @NotNull
   protected String getActionName() {
-    return Bundle.getString("revert.action.name");
+    return NAME;
   }
 
   @Override

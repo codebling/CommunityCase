@@ -34,6 +34,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.ui.UiUtil;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +43,19 @@ import java.util.List;
  * Basic abstract action handler for all actions to extend.
  */
 public abstract class BasicAction extends DumbAwareAction {
+
+  protected BasicAction() {
+    super();
+  }
+
+  protected BasicAction(String text) {
+    super(text);
+  }
+
+  protected BasicAction(String text, String description, Icon icon) {
+    super(text, description, icon);
+  }
+
   /**
    * {@inheritDoc}
    */

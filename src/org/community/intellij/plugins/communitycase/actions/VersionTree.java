@@ -39,7 +39,12 @@ import java.util.List;
  * "revert" action
  */
 public class VersionTree extends BasicAction {
-  private static Logger log=Logger.getInstance(VersionTree.class.getName());
+  private static final Logger log=Logger.getInstance(VersionTree.class.getName());
+  private static final String NAME=Bundle.getString("versiontree.action.name");
+
+  public VersionTree() {
+    super(NAME);
+  }
 
   @Override
   public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] affectedFiles) {
@@ -62,7 +67,7 @@ public class VersionTree extends BasicAction {
   @Override
   @NotNull
   protected String getActionName() {
-    return Bundle.getString("versiontree.action.name");
+    return NAME;
   }
 
   @Override
