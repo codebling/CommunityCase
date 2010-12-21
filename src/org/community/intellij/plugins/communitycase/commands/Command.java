@@ -39,6 +39,7 @@ public class Command {
   public static final Command FETCH = write("NOTIMPLEMENTED_FETCH");                 //fixme
   public static final Command INIT = write("NOTIMPLEMENTED_INIT");                   //fixme
   public static final Command LOG = meta("lsh");
+  public static final Command LS = read("ls");
   public static final Command LS_FILES = read("NOTIMPLEMENTED_LS_FILES");            //fixme
   public static final Command LS_REMOTE = meta("NOTIMPLEMENTED_LS_REMOTE");          //fixme
   public static final Command MERGE = write("NOTIMPLEMENTED_MERGE");                 //fixme
@@ -55,6 +56,7 @@ public class Command {
   public static final Command TAG = meta("NOTIMPLEMENTED_TAG");           //fixme
   public static final Command UPDATE_INDEX = write("NOTIMPLEMENTED_UPDATE_INDEX"); //fixme
   public static final Command VERSION = meta("-ver");
+  public static final Command VERSION_TREE_GRAPHICAL = meta("lsvtree -g");
 
   // these commands modify .git/index
   private static final Command[] INDEX_MODIFIERS = {ADD, CHECKIN, BRANCH,GIT_CHECKOUT,CHECKIN, MERGE, RESET, RM, STASH};
