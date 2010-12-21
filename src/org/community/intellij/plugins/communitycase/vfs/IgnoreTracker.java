@@ -183,7 +183,7 @@ public class IgnoreTracker {
   @Nullable
   private String getExcludeFile(VirtualFile root) {
     try {
-      String file = ConfigUtil.getValue(myProject, root, "core.excludesfile");
+      String file = ConfigUtil.getExcludedFiles(myProject, root);
       file = fixFileName(file);
       if (file != null && file.trim().length() != 0) {
         // locate path so it will be tracked
