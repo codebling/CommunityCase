@@ -12,9 +12,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *
+ *
+ 9:10:40 30.12.2010 Config: batch
+ C:\cc\bamain\serverdev> ct lsco -a -me -cvi
+ 9:10:45 30.12.2010 Config: batch
+
+ 9:13:12 30.12.2010 Config: batch
+ C:\cc\bamain\serverdev\server\base\ util\standalone\_src\com\oz\base> ct lsco -a -me -cvi
+ 9:13:14 30.12.2010 Config: batch
+
  */
 package org.community.intellij.plugins.communitycase.changes;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
@@ -31,7 +43,6 @@ import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.commands.StringScanner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,25 +96,33 @@ class ChangeCollector {
    * Ensure that changes has been collected.
    */
   private void ensureCollected() throws VcsException {
-    if (myIsCollected) {
-      if (myIsFailed) {
-        throw new IllegalStateException("The method should not be called after after exception has been thrown.");
-      }
-      else {
-        return;
+    if(!myIsCollected) {
+      myIsCollected = true;
+      //updateIndex();
+/*      ApplicationManager.getApplication().invokeLater(new Runnable() {
+        public void run() {
+          try {
+            collectChanges();
+          } catch(VcsException e) {
+            e.printStackTrace();  //TODO FIX ME
+          }
+        }
+      });
+*/
+      collectChanges();
+      //collectDiffChanges();
+      myIsFailed = false;
+    } else {
+      if(myIsFailed) {
+        throw new IllegalStateException("The method should not be called after an exception has been thrown.");
       }
     }
-    myIsCollected = true;
-    updateIndex();
-    collectUnmergedAndUnversioned();
-    //collectDiffChanges();
-    myIsFailed = false;
   }
 
   private void updateIndex() throws VcsException {
     SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.UPDATE_INDEX);
     handler.addParameters("--refresh", "--ignore-missing");
-    handler.setSilent(true);
+    handler.setSilent(false);
     handler.setRemote(true);
     handler.setStdoutSuppressed(true);
     handler.ignoreErrorCode(1);
@@ -250,12 +269,12 @@ class ChangeCollector {
   }
 
   /**
-   * Collect unversioned and unmerged files
+   * Collect all changes
    *
    * @throws VcsException if there is a problem with running
    */
-  private void collectUnmergedAndUnversioned() throws VcsException {
-    Collection<FilePath> dirtyPaths = dirtyPaths(false);
+  private void collectChanges() throws VcsException {
+    Collection<FilePath> dirtyPaths = dirtyPaths(true);
     if (dirtyPaths.isEmpty()) {
       return;
     }
@@ -264,6 +283,7 @@ class ChangeCollector {
     handler.setRemote(true);
     //handler.setSilent(true);
     //handler.setStdoutSuppressed(true);
+    handler.addParameters("-r -vis");
     handler.endOptions();
     handler.addRelativePaths(dirtyPaths);
     if(handler.isLargeCommandLine()) {
@@ -274,16 +294,21 @@ class ChangeCollector {
       handler.endOptions();
     }
     // run handler and collect changes
-    parseFiles(handler.run());
+    parseLsOutput(handler.run());
   }
 
-  private void parseFiles(String list) throws VcsException {
+  /**
+   * Parse Command.LS output.
+   * @param list
+   * @throws VcsException
+   */
+  private void parseLsOutput(String list) throws VcsException {
     //Line format:
-//    wrapper_32.6223c92a584d4266bcc1b081259b9b2c@@\main\CHECKEDOUT from \main\0               Rule: CHECKEDOUT
-//    wrapper_diameter_loopback.conf.375035980431452ba39e23f44acd7567@@\main\0 [hijacked]      Rule: \main\LATEST
-//    lost+found.iml
-//    wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST
-
+//    wrapper_32.6223c92a584d4266bcc1b081259b9b2c@@\main\CHECKEDOUT from \main\0               Rule: CHECKEDOUT                   //modified
+//    wrapper_diameter_loopback.conf.375035980431452ba39e23f44acd7567@@\main\0 [hijacked]      Rule: \main\LATEST                 //modified
+//    lost+found.iml                                                                                                              //unversioned (added)
+//    wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST                 //(ignored)
+//    rapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [loaded but missing]            Rule: \main\LATEST  //deleted
     BufferedReader reader=new BufferedReader(new StringReader(list));
 
     String line;
@@ -318,9 +343,11 @@ class ChangeCollector {
         } else {
           if(versionStartIndex > 0) {//basic sanity
             //we did find the version tag. Our line looks like one of these:
-            //wrapper_32.6223c92a584d4266bcc1b081259b9b2c@@\main\CHECKEDOUT from \main\0               Rule: CHECKEDOUT
-            //wrapper_diameter_loopback.conf.375035980431452ba39e23f44acd7567@@\main\0 [hijacked]      Rule: \main\LATEST
-            //wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST
+            //file1.ext@@\main\CHECKEDOUT from \main\0               Rule: CHECKEDOUT     //modified
+            //file2.ext@@\main\0 [hijacked]      Rule: \main\LATEST                       //modified
+            //file3.ext@@\main\0 [loaded but missing]            Rule: \main\LATEST       //deleted
+            //file4.ext@@\main\0 [not loaded]    Rule: \main\LATEST                       //(ignored)
+            //file5.ext                                                                   //unversioned (added)
 
             filename=line.substring(0,versionStartIndex); //copy the file name
             //now split everything beyond the version marking at each whitespace
@@ -341,14 +368,17 @@ class ChangeCollector {
                     com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, file.getName(), new RevisionNumber(version), myProject, false, true);
                     com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, file.getName(), null, myProject, false, true);
                     myChanges.add(new Change(before, after, FileStatus.HIJACKED));
-                  } else {
-                    if(parts[1].equals("[not") && parts[2].equals("loaded]")) {
-                      //wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST
-                      com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, file.getName(), new RevisionNumber(version), myProject, false, true);
-                      com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, file.getName(), null, myProject, true, true);
-                      myChanges.add(new Change(before, after, FileStatus.DELETED_FROM_FS));
-                    }
                   }
+                }
+              } else {
+                if(parts.length >= 4 && parts[1].equals("[loaded") && parts[2].equals("but") && parts[3].equals("missing]")) {
+                  //wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST
+                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, filename, new RevisionNumber(version), myProject, false, true);
+                  com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, filename, null, myProject, true, true);
+                  myChanges.add(new Change(before, after, FileStatus.DELETED_FROM_FS));
+                } else {
+                  //default/ignored.
+                  //if(parts[1].equals("[not") && parts[2].equals("loaded]")) {} //ignored
                 }
               }
             }

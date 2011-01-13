@@ -211,6 +211,13 @@ public class Util {
    * @throws com.intellij.openapi.vcs.VcsException if the path in invalid
    */
   public static String unescapePath(String path) throws VcsException {
+    if (File.separatorChar != '/')
+      return path.replace(File.separatorChar, '/');
+    else
+      return path;
+
+    //shouldn't be needed as this was only to unescape paths whose names were escaped by Git. ClearCase doesn't escape paths.
+    /*
     final int l = path.length();
     StringBuilder rc = new StringBuilder(l);
     for (int i = 0; i < path.length(); i++) {
@@ -290,6 +297,7 @@ public class Util {
       }
     }
     return rc.toString();
+    */
   }
 
   /**

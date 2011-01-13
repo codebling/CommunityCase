@@ -135,8 +135,10 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
           if ((! FileStatus.ADDED.equals(myAddGate.getStatus(vf))) && myFileDocumentManager.isFileModifiedAndDocumentUnsaved(vf)) {
             final VirtualFile root = myVcsManager.getVcsRootFor(vf);
             if (root != null) {
-              final RevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
-              builder.processChange(new Change(ContentRevision.createRevision(vf, beforeRevisionNumber, myProject),
+              //todo wc fix this
+              //final RevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
+//              builder.processChange(new Change(ContentRevision.createRevision(vf, beforeRevisionNumber, myProject),
+              builder.processChange(new Change(ContentRevision.createRevision(vf, null, myProject),
                                                ContentRevision.createRevision(vf, null, myProject), FileStatus.MODIFIED), Key);
             }
           }
