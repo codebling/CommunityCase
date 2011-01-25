@@ -18,6 +18,7 @@ package org.community.intellij.plugins.communitycase.config;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.CapturingProcessHandler;
 import com.intellij.execution.process.ProcessOutput;
+import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.CharsetToolkit;
@@ -35,7 +36,7 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
   private Vcs myVcs;
 
   public ExecutableValidator(Project project) {
-    super(project, Vcs.NOTIFICATION_GROUP_ID, Vcs.getInstance(project).getConfigurable());
+    super(project, Vcs.NOTIFICATION_GROUP_ID);
     myVcs = Vcs.getInstance(project);
     setMessagesAndTitles(Bundle.message("executable.notification.title"),
                          Bundle.message("executable.notification.description"),
@@ -49,6 +50,11 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
   @Override
   protected String getCurrentExecutable() {
     return myVcs.getAppSettings().getPathToVcs();
+  }
+
+  @Override
+  protected Configurable getConfigurable(Project project) {
+    return myVcs == null ? null : myVcs.getConfigurable();
   }
 
   @Override

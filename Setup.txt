@@ -1,7 +1,7 @@
 Setting up your environment for developing CommunityCase:
 	*things you need:
 			-JDK 6
-			-IntelliJ IDEA IC-98.486
+			-IntelliJ IDEA IC-102.216
 	
 	-File->Project Structure
 	-add the JDK you just made
