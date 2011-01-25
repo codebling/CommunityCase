@@ -529,7 +529,8 @@ public class Util {
     if (rc == null) {
       throw new IllegalArgumentException("The file " + path + " cannot be made relative to " + root);
     }
-    return rc.replace(File.separatorChar, '/');
+    //return rc.replace(File.separatorChar, '/');
+    return rc;
   }
 
   /**
