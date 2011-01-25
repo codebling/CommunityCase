@@ -56,7 +56,8 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
                          final ChangelistBuilder builder,
                          final ProgressIndicator progress,
                          final ChangeListManagerGate addGate) throws VcsException {
-    
+    progress.start();
+
     final Collection<VirtualFile> affected = dirtyScope.getAffectedContentRootsWithCheck();
     if (dirtyScope.getAffectedContentRoots().size() != affected.size()) {
       final Set<VirtualFile> set = new HashSet<VirtualFile>(affected);
@@ -71,7 +72,7 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
       final MyNonChangedHolder holder = new MyNonChangedHolder(myProject, dirtyScope.getDirtyFilesNoExpand(), addGate,
                                                                myFileDocumentManager, myVcsManager);
       for (VirtualFile root : roots) {
-        ChangeCollector c = new ChangeCollector(myProject, myChangeListManager, dirtyScope, root);
+        ChangeCollector c = new ChangeCollector(myProject, myChangeListManager, progress, dirtyScope, root);
         final Collection<Change> changes = c.changes();
         holder.changed(changes);
         for (Change file : changes) {
@@ -89,6 +90,7 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
         vcs.getExecutableValidator().showNotificationOrThrow(e);
       }
     }
+    progress.stop();
   }
 
   private static class MyNonChangedHolder {
@@ -115,7 +117,7 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
         if (beforePath != null) {
           myDirty.remove(beforePath);
         }
-        final FilePath afterPath = ChangesUtil.getBeforePath(change);
+        final FilePath afterPath = ChangesUtil.getAfterPath(change);
         if (afterPath != null) {
           myDirty.remove(afterPath);
         }
@@ -131,16 +133,16 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
 
       for (FilePath filePath : myDirty) {
         final VirtualFile vf = filePath.getVirtualFile();
-        if (vf != null) {
-          if ((! FileStatus.ADDED.equals(myAddGate.getStatus(vf))) && myFileDocumentManager.isFileModifiedAndDocumentUnsaved(vf)) {
-            final VirtualFile root = myVcsManager.getVcsRootFor(vf);
-            if (root != null) {
-              //todo wc fix this
-              //final RevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
+        if (vf != null
+                && !FileStatus.ADDED.equals(myAddGate.getStatus(vf))
+                && myFileDocumentManager.isFileModifiedAndDocumentUnsaved(vf)) {
+          final VirtualFile root = myVcsManager.getVcsRootFor(vf);
+          if (root != null) {
+            //todo wc fix this
+            //final RevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
 //              builder.processChange(new Change(ContentRevision.createRevision(vf, beforeRevisionNumber, myProject),
-              builder.processChange(new Change(ContentRevision.createRevision(vf, null, myProject),
-                                               ContentRevision.createRevision(vf, null, myProject), FileStatus.MODIFIED), Key);
-            }
+            builder.processChange(new Change(ContentRevision.createRevision(vf, null, myProject),
+                    ContentRevision.createRevision(vf, null, myProject), FileStatus.MODIFIED), Key);
           }
         }
       }

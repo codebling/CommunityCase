@@ -13,24 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *
- *
- 9:10:40 30.12.2010 Config: batch
- C:\cc\bamain\serverdev> ct lsco -a -me -cvi
- 9:10:45 30.12.2010 Config: batch
-
- 9:13:12 30.12.2010 Config: batch
- C:\cc\bamain\serverdev\server\base\ util\standalone\_src\com\oz\base> ct lsco -a -me -cvi
- 9:13:14 30.12.2010 Config: batch
-
  */
 package org.community.intellij.plugins.communitycase.changes;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.openapi.vcs.FilePathImpl;
 import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
@@ -45,6 +36,7 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
@@ -52,6 +44,22 @@ import java.util.*;
 /**
  * A collector for changes in version control. It is introduced because changes are not
  * cannot be got as a sum of stateless operations.
+ *
+ ===================
+ ct lsco -a -me -cvi
+ 5 seconds bamain from anywhere in tree
+
+ format:
+ --12-21T17:09  ascher     checkout version "C:\cc\baplugintest\serverdev\lost+fo
+und\wrapper_32.6223c92a584d4266bcc1b081259b9b2c" from \main\0 (reserved)
+ ===================
+ update -print
+ 9 minutes bamain
+ ===================
+ ls -r
+ 35 minutes for bamain
+ ===================
+ *
  */
 class ChangeCollector {
   private static final String VERSION_KEY = "@@";
@@ -59,17 +67,23 @@ class ChangeCollector {
   private static final Logger log=Logger.getInstance(ChangeCollector.class.getName());
   private final Project myProject;
   private final ChangeListManager myChangeListManager;
+  private final ProgressIndicator myProgressIndicator;
   private final VcsDirtyScope myDirtyScope;
-  private final VirtualFile myVcsRoot;
 
+  private final VirtualFile myVcsRoot;
   private final List<VirtualFile> myUnversioned = new ArrayList<VirtualFile>(); // Unversioned files
   private final Set<String> myUnmergedNames = new HashSet<String>(); // Names of unmerged files
   private final List<Change> myChanges = new ArrayList<Change>(); // all changes
   private boolean myIsCollected = false; // indicates that collecting changes has been started
   private boolean myIsFailed = true; // indicates that collecting changes has been failed.
 
-  public ChangeCollector(final Project project, ChangeListManager changeListManager, VcsDirtyScope dirtyScope, final VirtualFile vcsRoot) {
+  public ChangeCollector(final Project project,
+                         ChangeListManager changeListManager,
+                         final ProgressIndicator progressIndicator,
+                         VcsDirtyScope dirtyScope,
+                         final VirtualFile vcsRoot) {
     myChangeListManager = changeListManager;
+    myProgressIndicator = progressIndicator;
     myDirtyScope = dirtyScope;
     myVcsRoot = vcsRoot;
     myProject = project;
@@ -98,35 +112,9 @@ class ChangeCollector {
   private void ensureCollected() throws VcsException {
     if(!myIsCollected) {
       myIsCollected = true;
-      //updateIndex();
-/*      ApplicationManager.getApplication().invokeLater(new Runnable() {
-        public void run() {
-          try {
-            collectChanges();
-          } catch(VcsException e) {
-            e.printStackTrace();  //TODO FIX ME
-          }
-        }
-      });
-*/
-      collectChanges();
-      //collectDiffChanges();
-      myIsFailed = false;
-    } else {
-      if(myIsFailed) {
-        throw new IllegalStateException("The method should not be called after an exception has been thrown.");
-      }
-    }
-  }
 
-  private void updateIndex() throws VcsException {
-    SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.UPDATE_INDEX);
-    handler.addParameters("--refresh", "--ignore-missing");
-    handler.setSilent(false);
-    handler.setRemote(true);
-    handler.setStdoutSuppressed(true);
-    handler.ignoreErrorCode(1);
-    handler.run();
+      collectVcsChanges();
+    }
   }
 
   /**
@@ -215,86 +203,127 @@ class ChangeCollector {
   }
 
   /**
-   * Collect diff with head
-   *
-   * @throws VcsException if there is a problem with running
-   */
-  private void collectDiffChanges() throws VcsException {
-    Collection<FilePath> dirtyPaths = dirtyPaths(true);
-    if (dirtyPaths.isEmpty()) {
-      return;
-    }
-    SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.LS);
-    handler.setRemote(true);
-    //handler.setSilent(true);
-    //handler.setStdoutSuppressed(true);
-    handler.endOptions();
-    handler.addRelativePaths(dirtyPaths);
-    if (handler.isLargeCommandLine()) {
-      // if there are too much files, just get all changes for the project
-      handler = new SimpleHandler(myProject, myVcsRoot, Command.LS);
-      handler.setRemote(true);
-      //handler.setSilent(true);
-      //handler.setStdoutSuppressed(true);
-      handler.endOptions();
-    }
-    try {
-      String output = handler.run();
-      //TODO wc pass to ChangeUtils.loadRevision either the checkout version or the latest version for this branch
-      //ChangeUtils.parseChanges(myProject, myVcsRoot, null, ChangeUtils.loadRevision(myProject, myVcsRoot, "HEAD"), output, myChanges, myUnmergedNames);
-      ChangeUtils.parseChanges(myProject, myVcsRoot, null, null, output, myChanges, myUnmergedNames);
-    }
-    catch (VcsException ex) {
-      if (!ChangeUtils.isHeadMissing(ex)) {
-        throw ex;
-      }
-      handler = new SimpleHandler(myProject, myVcsRoot, Command.LS_FILES);
-      handler.addParameters("--cached");
-      handler.setRemote(true);
-      handler.setSilent(true);
-      handler.setStdoutSuppressed(true);
-      // During init diff does not works because HEAD
-      // will appear only after the first commit.
-      // In that case added files are cached in index.
-      String output = handler.run();
-      if (output.length() > 0) {
-        StringTokenizer tokenizer = new StringTokenizer(output, "\n\r");
-        while (tokenizer.hasMoreTokens()) {
-          final String s = tokenizer.nextToken();
-          Change ch = new Change(null, ContentRevision.createRevision(myVcsRoot, s, null, myProject, false, false), FileStatus.ADDED);
-          myChanges.add(ch);
-        }
-      }
-    }
-  }
-
-  /**
    * Collect all changes
    *
    * @throws VcsException if there is a problem with running
    */
-  private void collectChanges() throws VcsException {
+  private void collectVcsChanges() throws VcsException {
     Collection<FilePath> dirtyPaths = dirtyPaths(true);
     if (dirtyPaths.isEmpty()) {
       return;
     }
     // prepare handler
-    SimpleHandler handler = new SimpleHandler(myProject, myVcsRoot, Command.LS);
-    handler.setRemote(true);
-    //handler.setSilent(true);
-    //handler.setStdoutSuppressed(true);
-    handler.addParameters("-r -vis");
-    handler.endOptions();
-    handler.addRelativePaths(dirtyPaths);
-    if(handler.isLargeCommandLine()) {
-      handler = new SimpleHandler(myProject, myVcsRoot, Command.LS);
-      handler.setRemote(true);
-      //handler.setSilent(true);
-      //handler.setStdoutSuppressed(true);
-      handler.endOptions();
-    }
+//    LineHandler ls = new LineHandler(myProject, myVcsRoot, Command.LS);
+    SimpleHandler ls= new SimpleHandler(myProject, myVcsRoot, Command.LS);
+    ls.setRemote(true);
+    //ls.setSilent(true);
+    //ls.setStdoutSuppressed(true);
+    ls.addParameters("-r -vis"); //-vis will not list deleted files
+    //ls.addParameters("-r");
+    ls.endOptions();
+    if(!ls.isAddedPathSizeTooGreat(dirtyPaths))
+      ls.addRelativePaths(dirtyPaths);
+
     // run handler and collect changes
-    parseLsOutput(handler.run());
+
+//    HandlerUtil.runInCurrentThread(ls, myProgressIndicator, false, "VCS refresh");
+//    parseLsOutput(ls.getStdout());
+
+//    HandlerUtil.doSynchronously(ls, "VCS refresh", "VCS refresh");
+//    parseLsOutput(ls.getStdout());
+
+    //parseLsOutput(ls.run());
+
+    SimpleHandler lsco= new SimpleHandler(myProject, myVcsRoot, Command.LS_CHECKOUTS);
+    lsco.setRemote(true);
+    //lsco.setSilent(true);
+    //lsco.setStdoutSuppressed(true);
+    lsco.addParameters("-a -me -cvi");
+    lsco.endOptions();
+
+    parseLsCheckoutsOutput(lsco.run());
+  }
+
+  private VirtualFile createFileIfInRoot(String filename) throws VcsException {
+    VirtualFile file=myVcsRoot.findFileByRelativePath(Util.unescapePath(filename));
+    if(file==null)
+      file=myVcsRoot.findFileByRelativePath(Util.unescapePath(Util.relativePath(myVcsRoot,
+                                                                                new FilePathImpl(new File(filename),
+                                                                                                 false))));
+    if(VcsUtil.getVcsRootFor(myProject,file) == myVcsRoot)
+      return file;
+    else
+      return null;
+  }
+  private boolean addFileToListIfExistsAndInRoot(List<VirtualFile> list, String filename) {
+    boolean failed=false;
+    VirtualFile file=null;
+    try {
+      file=createFileIfInRoot(filename);
+    } catch(VcsException e) {
+      failed=true;
+    }
+    if(file!=null && !failed) {
+      list.add(file);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Parse Command.LS_CHECKOUTS output.
+   * @param list
+   * @throws VcsException
+   */
+  private void parseLsCheckoutsOutput(String list) throws VcsException {
+    //Line format:
+//--12-21T17:09  ascher     checkout version "C:\cc\baplugintest\serverdev\lost+found\wrapper_32.6223c92a584d4266bcc1b081259b9b2c" from \main\0 (reserved)
+    BufferedReader reader=new BufferedReader(new StringReader(list));
+
+    final String filenameStartToken="checkout version \"";
+    final String filenameEndToken="\" from ";
+
+    while(true) {
+      String line;
+      try {
+        line=reader.readLine();
+      } catch(IOException e) {
+        log.error(e);
+        break;
+      }
+      if(line==null) {
+        break;
+      } else {
+        int filenameStart=line.indexOf(filenameStartToken);
+        int filenameEnd=line.lastIndexOf(filenameEndToken);
+        if(filenameStart>0 && filenameEnd>0 && filenameEnd-filenameStart>0) {
+          String filename=line.substring(filenameStart+filenameStartToken.length(), filenameEnd);
+          VirtualFile file=createFileIfInRoot(filename);
+          if(file != null) {
+            //this is a checked out file, which we'll automatically consider to be "modified"
+            //in this case, the next string after "from" should be the version number that the checkout came from
+
+            String[] parts=line.substring(filenameEnd+filenameEndToken.length(), line.length()).split("\\s+",0);
+            String relativeFilename=Util.relativePath(myVcsRoot,file);
+
+            com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,
+                                                                                                   relativeFilename,
+                                                                                                   new RevisionNumber(parts[0]),
+                                                                                                   myProject,
+                                                                                                   false,
+                                                                                                   true);
+            com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot,
+                                                                                                  relativeFilename,
+                                                                                                  null,
+                                                                                                  myProject,
+                                                                                                  false,
+                                                                                                  true);
+            myChanges.add(new Change(before, after, FileStatus.MODIFIED));
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -317,7 +346,7 @@ class ChangeCollector {
 
     while(true) {
       line=null;
-      versionStartIndex=-2;
+      versionStartIndex=-2; //bogus value which will be overwritten
       filename=null;
 
       try {
@@ -356,17 +385,19 @@ class ChangeCollector {
               String version=parts[0]; //copy the version
               VirtualFile file=createFileIfInRoot(filename);
               if(file != null) {
+                String relativeFilename=Util.relativePath(myVcsRoot,file);
                 if(parts[1].equals("from")) {
                   //this is a checked out file, which we'll automatically consider to be "modified"
                   //in this case, the next string after "from" should be the version number that the checkout came from
-                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, file.getName(), new RevisionNumber(parts[2]), myProject, false, true);
-                  com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, file.getName(), new RevisionNumber(version), myProject, false, true);
+                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,relativeFilename,new RevisionNumber(parts[2]),myProject,false,true);
+                  //com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, new RevisionNumber(version), myProject, false, true);
+                  com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot,relativeFilename,null,myProject,false,true);
                   myChanges.add(new Change(before, after, FileStatus.MODIFIED));
                 } else {
                   if(parts[1].equals("[hijacked]")) {
                     //wrapper_diameter_loopback.conf.375035980431452ba39e23f44acd7567@@\main\0 [hijacked]      Rule: \main\LATEST
-                    com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, file.getName(), new RevisionNumber(version), myProject, false, true);
-                    com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, file.getName(), null, myProject, false, true);
+                    com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, relativeFilename, new RevisionNumber(version), myProject, false, true);
+                    com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, null, myProject, false, true);
                     myChanges.add(new Change(before, after, FileStatus.HIJACKED));
                   }
                 }
@@ -387,26 +418,5 @@ class ChangeCollector {
       }
     }
   }
-  private VirtualFile createFileIfInRoot(String filename) throws VcsException {
-    VirtualFile file=myVcsRoot.findFileByRelativePath(Util.unescapePath(filename));
-    if(VcsUtil.getVcsRootFor(myProject,file) == myVcsRoot)
-      return file;
-    else
-      return null;
-  }
-  private boolean addFileToListIfExistsAndInRoot(List<VirtualFile> list, String filename) {
-    boolean failed=false;
-    VirtualFile file=null;
-    try {
-      file=createFileIfInRoot(filename);
-    } catch(VcsException e) {
-      failed=true;
-    }
-    if(file!=null && !failed) {
-      list.add(file);
-      return true;
-    } else {
-      return false;
-    }
-  }
+
 }

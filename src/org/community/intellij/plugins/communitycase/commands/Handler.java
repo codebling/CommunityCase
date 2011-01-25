@@ -285,10 +285,37 @@ public abstract class Handler {
    */
   @SuppressWarnings({"WeakerAccess"})
   public void addRelativePaths(@NotNull final Collection<FilePath> filePaths) {
+    addRelativePaths(myCommandLine,myWorkingDirectory,filePaths);
+  }
+
+  /**
+   * Add file path parameters. The parameters are made relative to the working directory
+   *
+   * @param commandLine the command line to which the path will be added
+   * @param workingDirectory directory in which the command will be executed
+   * @param filePaths a parameters to add
+   * @throws IllegalArgumentException if some path is not under root.
+   */
+  private void addRelativePaths(@NotNull GeneralCommandLine commandLine,
+                               @NotNull File workingDirectory,
+                               @NotNull final Collection<FilePath> filePaths) {
     checkNotStarted();
     for (FilePath path : filePaths) {
-      myCommandLine.addParameter(Util.relativePath(myWorkingDirectory, path));
+      commandLine.addParameter(Util.relativePath(workingDirectory, path));
     }
+  }
+
+  /**
+   * Verifies if adding the paths as parameters would make the command line too long
+   *
+   * @param filePaths a parameters to add
+   * @throws IllegalArgumentException if some path is not under root.
+   * @return true if the command line would be too long, false otherwise
+   */
+  public boolean isAddedPathSizeTooGreat(@NotNull final Collection<FilePath> filePaths) {
+    GeneralCommandLine clone=myCommandLine.clone();
+    addRelativePaths(clone,myWorkingDirectory,filePaths);
+    return isLargeCommandLine(clone);
   }
 
   /**
@@ -593,6 +620,14 @@ public abstract class Handler {
    * @return true if the command line is too big
    */
   public boolean isLargeCommandLine() {
-    return myCommandLine.getCommandLineString().length() > FileUtils.FILE_PATH_LIMIT;
+    return isLargeCommandLine(myCommandLine);
   }
+
+  /**
+   * @return true if the command line is too big
+   */
+  private static boolean isLargeCommandLine(GeneralCommandLine commandLine) {
+    return commandLine.getCommandLineString().length() > FileUtils.FILE_PATH_LIMIT;
+  }
+
 }

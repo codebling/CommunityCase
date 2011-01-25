@@ -40,6 +40,7 @@ public class Command {
   public static final Command INIT = write("NOTIMPLEMENTED_INIT");                   //fixme
   public static final Command LOG = meta("lsh");
   public static final Command LS = read("ls");
+  public static final Command LS_CHECKOUTS = read("lsco");
   public static final Command LS_FILES = read("NOTIMPLEMENTED_LS_FILES");            //fixme
   public static final Command LS_REMOTE = meta("NOTIMPLEMENTED_LS_REMOTE");          //fixme
   public static final Command MERGE = write("NOTIMPLEMENTED_MERGE");                 //fixme
@@ -50,10 +51,11 @@ public class Command {
   public static final Command REMOTE = meta("NOTIMPLEMENTED_REMOTE");                //fixme
   public static final Command RESET = write("NOTIMPLEMENTED_RESET");                 //fixme
   public static final Command REV_LIST = meta("NOTIMPLEMENTED_REV_LIST");            //fixme
-  public static final Command RM = write("rmelem");
+  public static final Command RM = write("rmname");
   public static final Command SHOW = write("get");
   public static final Command STASH = write("NOTIMPLEMENTED_STASH");        //fixme
   public static final Command TAG = meta("NOTIMPLEMENTED_TAG");           //fixme
+  public static final Command UNDO_CHECKOUT = write("unco -rm");
   public static final Command UPDATE_INDEX = write("NOTIMPLEMENTED_UPDATE_INDEX"); //fixme
   public static final Command VERSION = meta("-ver");
   public static final Command VERSION_TREE_GRAPHICAL = meta("lsvtree -g");
@@ -177,7 +179,7 @@ public class Command {
     /**
      * Metadata read/write command
      */
-    META,
+    META
   }
 
   /**
