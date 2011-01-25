@@ -224,7 +224,7 @@ public class SimpleHandler extends TextHandler {
       sem.acquire();
     }
     catch (InterruptedException e) {
-      throw new VcsException("The git process is interrupted: " + printableCommandLine(), e);
+      throw new VcsException("Process is interrupted: " + printableCommandLine(), e);
     }
     if (ex[0] != null) {
       throw ex[0];
