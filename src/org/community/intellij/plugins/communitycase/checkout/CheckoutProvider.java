@@ -74,7 +74,7 @@ public class CheckoutProvider implements com.intellij.openapi.vcs.CheckoutProvid
                               final String parentDirectory) {
     final LineHandler handler = clone(project, sourceRepositoryURL, new File(parentDirectory), directoryName, originName);
 
-    handler.addLineListener(new HandlerUtil.GitLineHandlerListenerProgress(ProgressManager.getInstance().getProgressIndicator(), handler, "git clone", true));
+    handler.addLineListener(new HandlerUtil.LineHandlerListenerProgress(ProgressManager.getInstance().getProgressIndicator(), handler, "git clone", true));
     new Task.Backgroundable(project, Bundle.message("cloning.repository", sourceRepositoryURL), true) {
       @Override public void run(@NotNull ProgressIndicator indicator) {
         HandlerUtil.runInCurrentThread(handler, indicator, true, "git clone");
