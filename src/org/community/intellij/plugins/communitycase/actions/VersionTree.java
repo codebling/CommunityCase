@@ -17,22 +17,15 @@ package org.community.intellij.plugins.communitycase.actions;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.FileStatus;
-import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.changes.Change;
-import com.intellij.openapi.vcs.changes.ChangeListManager;
-import com.intellij.openapi.vcs.changes.ui.RollbackChangesDialog;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
-import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
+import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,15 +46,16 @@ public class VersionTree extends BasicAction {
       try {
         root=Util.getRoot(vf);
         root=root.getParent();
-        SimpleHandler handler=new SimpleHandler(project,root,Command.VERSION_TREE_GRAPHICAL);
+        //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
+        LineHandler handler=new LineHandler(project,root,Command.VERSION_TREE_GRAPHICAL);
         handler.endOptions();
         handler.addParameters(vf.getName());
-        handler.run();
+        handler.start();
       } catch(VcsException e) {
         log.error(e);
       }
     }
-    return false;
+    return true;
   }
 
   @Override
