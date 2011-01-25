@@ -513,9 +513,9 @@ public abstract class Handler {
   @SuppressWarnings({"SameParameterValue"})
   public void setSilent(final boolean silent) {
     checkNotStarted();
-    mySilent = silent;
-    setStderrSuppressed(true);
-    setStdoutSuppressed(true);
+    //mySilent = silent;
+    //setStderrSuppressed(true);
+    //setStdoutSuppressed(true);
   }
 
   /**
@@ -549,7 +549,7 @@ public abstract class Handler {
    */
   public void setStdoutSuppressed(final boolean stdoutSuppressed) {
     checkNotStarted();
-    myStdoutSuppressed = stdoutSuppressed;
+    //myStdoutSuppressed = stdoutSuppressed;
   }
 
   /**
@@ -566,7 +566,7 @@ public abstract class Handler {
    */
   public void setStderrSuppressed(final boolean stderrSuppressed) {
     checkNotStarted();
-    myStderrSuppressed = stderrSuppressed;
+    //myStderrSuppressed = stderrSuppressed;
   }
 
   /**
