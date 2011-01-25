@@ -59,7 +59,7 @@ public class HandlerUtil {
    */
   @Nullable
   public static String doSynchronously(final SimpleHandler handler, String operationTitle, @NonNls final String operationName) {
-    handler.addListener(new GitHandlerListenerBase(handler, operationName) {
+    handler.addListener(new HandlerListenerBase(handler, operationName) {
       protected String getErrorText() {
         String text = handler.getStderr();
         if (text.length() == 0) {
@@ -122,7 +122,7 @@ public class HandlerUtil {
     final ProgressManager manager = ProgressManager.getInstance();
     manager.run(new Task.Modal(handler.project(), operationTitle, false) {
       public void run(@NotNull final ProgressIndicator indicator) {
-        handler.addLineListener(new GitLineHandlerListenerProgress(indicator, handler, operationName, showErrors));
+        handler.addLineListener(new LineHandlerListenerProgress(indicator, handler, operationName, showErrors));
         runInCurrentThread(handler, indicator, setIndeterminateFlag, operationTitle);
       }
     });
@@ -321,7 +321,7 @@ public class HandlerUtil {
   public static Collection<VcsException> doSynchronouslyWithExceptions(final LineHandler handler,
                                                                        final ProgressIndicator progressIndicator,
                                                                        @Nullable String operationName) {
-    handler.addLineListener(new GitLineHandlerListenerProgress(progressIndicator, handler, operationName, false));
+    handler.addLineListener(new LineHandlerListenerProgress(progressIndicator, handler, operationName, false));
     runInCurrentThread(handler, progressIndicator, false, operationName);
     return handler.errors();
   }
@@ -333,7 +333,7 @@ public class HandlerUtil {
   /**
    * A base class for handler listener that implements error handling logic
    */
-  private abstract static class GitHandlerListenerBase implements HandlerListener {
+  private abstract static class HandlerListenerBase implements HandlerListener {
     /**
      * a handler
      */
@@ -353,7 +353,7 @@ public class HandlerUtil {
      * @param handler       a handler instance
      * @param operationName an operation name
      */
-    public GitHandlerListenerBase(final Handler handler, final String operationName) {
+    public HandlerListenerBase(final Handler handler, final String operationName) {
       this(handler, operationName, true);
     }
 
@@ -364,7 +364,7 @@ public class HandlerUtil {
      * @param operationName an operation name
      * @param showErrors    if true, the errors are shown when process is terminated
      */
-    public GitHandlerListenerBase(final Handler handler, final String operationName, boolean showErrors) {
+    public HandlerListenerBase(final Handler handler, final String operationName, boolean showErrors) {
       myHandler = handler;
       myOperationName = operationName;
       myShowErrors = showErrors;
@@ -429,7 +429,7 @@ public class HandlerUtil {
   /**
    * A base class for line handler listeners
    */
-  private abstract static class GitLineHandlerListenerBase extends GitHandlerListenerBase implements LineHandlerListener {
+  private abstract static class LineHandlerListenerBase extends HandlerListenerBase implements LineHandlerListener {
     /**
      * A constructor
      *
@@ -437,7 +437,7 @@ public class HandlerUtil {
      * @param operationName an operation name
      * @param showErrors    if true, the errors are shown when process is terminated
      */
-    public GitLineHandlerListenerBase(Handler handler, String operationName, boolean showErrors) {
+    public LineHandlerListenerBase(Handler handler, String operationName, boolean showErrors) {
       super(handler, operationName, showErrors);
     }
 
@@ -467,7 +467,7 @@ public class HandlerUtil {
   /**
    * A base class for line handler listeners
    */
-  public static class GitLineHandlerListenerProgress extends GitLineHandlerListenerBase {
+  public static class LineHandlerListenerProgress extends LineHandlerListenerBase {
     /**
      * a progress manager to use
      */
@@ -481,7 +481,7 @@ public class HandlerUtil {
      * @param operationName an operation name
      * @param showErrors    if true, the errors are shown when process is terminated
      */
-    public GitLineHandlerListenerProgress(final ProgressIndicator manager, Handler handler, String operationName, boolean showErrors) {
+    public LineHandlerListenerProgress(final ProgressIndicator manager, Handler handler, String operationName, boolean showErrors) {
       super(handler, operationName, showErrors);    //To change body of overridden methods use File | Settings | File Templates.
       myProgressIndicator = manager;
     }
