@@ -180,9 +180,8 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
    */
   public void revert(final VirtualFile root, final List<FilePath> files) throws VcsException {
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
-      SimpleHandler handler = new SimpleHandler(myProject, root, Command.GIT_CHECKOUT);
+      SimpleHandler handler = new SimpleHandler(myProject, root, Command.UNDO_CHECKOUT);
       handler.setRemote(true);
-      handler.addParameters("HEAD");
       handler.endOptions();
       handler.addParameters(paths);
       handler.run();
@@ -197,7 +196,8 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
    * @throws VcsException if there is a problem with running
    */
   private void unindex(final VirtualFile root, final List<FilePath> files) throws VcsException {
-    FileUtils.delete(myProject, root, files, "--cached", "-f");
+    //TODO wc see if method still needed.
+    //FileUtils.delete(myProject, root, files, "--cached", "-f");
   }
 
 
