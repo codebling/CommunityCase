@@ -33,7 +33,9 @@ import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
+import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -60,6 +62,9 @@ und\wrapper_32.6223c92a584d4266bcc1b081259b9b2c" from \main\0 (reserved)
  35 minutes for bamain
  ===================
  *
+ *
+ * dir not checked out, file checked out,     file deleted      -> deleted (CC won't restore the file on an update)
+ * dir not checked out, file not checked out, file deleted      -> missing (CC will restore the file on an update) (deleted from fs status)
  */
 class ChangeCollector {
   private static final String VERSION_KEY = "@@";
@@ -113,8 +118,45 @@ class ChangeCollector {
     if(!myIsCollected) {
       myIsCollected = true;
 
-      collectVcsChanges();
+      collectVcsModifiedList();
+      Set<VirtualFile> addedOrHijackedOrCheckedOutFiles=getFsAddedOrChanged();
+      //we already have all the info we need about checked out files, so remove those from the list
+      for(Change change:myChanges)
+        addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //VirtualFile has no equals method, but since it is unique for this
+                                                                          //IntelliJ aka VM instance, we're ok to use Object's default one.
+      checkStatusAndAddToChangeList(addedOrHijackedOrCheckedOutFiles);
     }
+  }
+
+  private void checkStatusAndAddToChangeList(Collection<VirtualFile> files) throws VcsException {
+    SimpleHandler ls= new SimpleHandler(myProject, myVcsRoot, Command.LS);
+    ls.setRemote(true);
+    //ls.setSilent(true);
+    //ls.setStdoutSuppressed(true);
+    //ls.addParameters("-r -vis"); //-vis will not list deleted files
+    //ls.addParameters("-r");
+    ls.endOptions();
+    addPaths(ls, Util.virtualFileToFilePath(files));
+
+    parseLsOutput(ls.run());
+  }
+  private void addPaths(Handler handler,Collection<FilePath> filePaths) {
+    if(handler.isAddedPathSizeTooGreat(filePaths)) {
+      Collection<FilePath> firstHalfBigPaths=new HashSet<FilePath>();
+      //Collection<FilePath> secondHalfBigPaths=new HashSet<FilePath>();
+      Iterator<FilePath> iterator=filePaths.iterator();
+      int i=0;
+      while(++i<filePaths.size()/2) {
+        firstHalfBigPaths.add(iterator.next());
+        iterator.remove();
+      }
+      firstHalfBigPaths.addAll(filePaths);
+      addPaths(handler,firstHalfBigPaths);
+      addPaths(handler,filePaths);
+    } else {
+      handler.addRelativePaths(filePaths);
+    }
+    //return handler;
   }
 
   /**
@@ -207,7 +249,7 @@ class ChangeCollector {
    *
    * @throws VcsException if there is a problem with running
    */
-  private void collectVcsChanges() throws VcsException {
+  private void collectVcsModifiedList() throws VcsException {
     Collection<FilePath> dirtyPaths = dirtyPaths(true);
     if (dirtyPaths.isEmpty()) {
       return;
@@ -244,17 +286,66 @@ class ChangeCollector {
     parseLsCheckoutsOutput(lsco.run());
   }
 
+  private @NotNull Set<VirtualFile> getFsAddedOrChanged() throws VcsException {
+    Collection<FilePath> dirtyPaths = dirtyPaths(true);
+    Set<VirtualFile> writableFiles=new HashSet<VirtualFile>();
+    for(FilePath path:dirtyPaths)
+      recurseHijackedFiles(path.getVirtualFile(),writableFiles);
+    return writableFiles;
+  }
+
+  private void recurseHijackedFiles(VirtualFile file,Set<VirtualFile> writableFiles) throws VcsException {
+    //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
+    if(file.isDirectory()) {
+      for(VirtualFile child:file.getChildren())
+        recurseHijackedFiles(child,writableFiles);
+    } else { //is a file
+      //check if it's read-only
+      //if yes, skip
+      //if no, add to dirty list or add to changes right away
+      if(file.isWritable()) {
+        String relativeFilename=Util.relativePath(myVcsRoot,file);
+
+        //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
+        writableFiles.add(file);
+        /*com.intellij.openapi.vcs.changes.ContentRevision before=
+                ContentRevision.createRevision(myVcsRoot,
+                                               relativeFilename,
+                                               null,
+                                               myProject,
+                                               false,
+                                               true);
+        com.intellij.openapi.vcs.changes.ContentRevision after=
+                ContentRevision.createRevision(myVcsRoot,
+                                               relativeFilename,
+                                               null,
+                                               myProject,
+                                               false,
+                                               true);
+        myChanges.add(new Change(before, after, FileStatus.HIJACKED));
+        */
+      }
+    }
+  }
+
   private VirtualFile createFileIfInRoot(String filename) throws VcsException {
+    VirtualFile file=getVirtualFile(filename);
+    return isInRoot(file) ? file : null;
+  }
+
+  private VirtualFile getVirtualFile(String filename) throws VcsException {
     VirtualFile file=myVcsRoot.findFileByRelativePath(Util.unescapePath(filename));
     if(file==null)
-      file=myVcsRoot.findFileByRelativePath(Util.unescapePath(Util.relativePath(myVcsRoot,
-                                                                                new FilePathImpl(new File(filename),
-                                                                                                 false))));
-    if(VcsUtil.getVcsRootFor(myProject,file) == myVcsRoot)
-      return file;
-    else
-      return null;
+      file=myVcsRoot.findFileByRelativePath(
+              Util.unescapePath(
+                      Util.relativePath(myVcsRoot,new FilePathImpl(new File(filename),false))));
+    return file;
   }
+
+  private boolean isInRoot(VirtualFile file) throws VcsException {
+    return VcsUtil.getVcsRootFor(myProject,file) == myVcsRoot;
+  }
+
   private boolean addFileToListIfExistsAndInRoot(List<VirtualFile> list, String filename) {
     boolean failed=false;
     VirtualFile file=null;
@@ -299,27 +390,49 @@ class ChangeCollector {
         int filenameEnd=line.lastIndexOf(filenameEndToken);
         if(filenameStart>0 && filenameEnd>0 && filenameEnd-filenameStart>0) {
           String filename=line.substring(filenameStart+filenameStartToken.length(), filenameEnd);
-          VirtualFile file=createFileIfInRoot(filename);
-          if(file != null) {
-            //this is a checked out file, which we'll automatically consider to be "modified"
-            //in this case, the next string after "from" should be the version number that the checkout came from
 
+          File file=new File(filename);
+          if(file != null) {
             String[] parts=line.substring(filenameEnd+filenameEndToken.length(), line.length()).split("\\s+",0);
             String relativeFilename=Util.relativePath(myVcsRoot,file);
 
-            com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,
-                                                                                                   relativeFilename,
-                                                                                                   new RevisionNumber(parts[0]),
-                                                                                                   myProject,
-                                                                                                   false,
-                                                                                                   true);
-            com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot,
-                                                                                                  relativeFilename,
-                                                                                                  null,
-                                                                                                  myProject,
-                                                                                                  false,
-                                                                                                  true);
-            myChanges.add(new Change(before, after, FileStatus.MODIFIED));
+            VirtualFile vfile=createFileIfInRoot(filename);
+            if(vfile !=null && vfile.exists() && isInRoot(vfile)) {
+              //this is a checked out file, which we'll automatically consider to be "modified"
+              //in this case, the next string after "from" should be the version number that the checkout came from
+              com.intellij.openapi.vcs.changes.ContentRevision before=
+                      ContentRevision.createRevision(myVcsRoot,
+                                                     relativeFilename,
+                                                     new RevisionNumber(parts[0]),
+                                                     myProject,
+                                                     false,
+                                                     true);
+              com.intellij.openapi.vcs.changes.ContentRevision after=
+                      ContentRevision.createRevision(myVcsRoot,
+                                                     relativeFilename,
+                                                     null,
+                                                     myProject,
+                                                     false,
+                                                     true);
+              myChanges.add(new Change(before, after, FileStatus.MODIFIED));
+            } else { //it's a checked-out file that's been deleted
+              com.intellij.openapi.vcs.changes.ContentRevision before=
+                      ContentRevision.createRevision(myVcsRoot,
+                                                     relativeFilename,
+                                                     new RevisionNumber(parts[0]),
+                                                     myProject,
+                                                     false,
+                                                     true);
+              com.intellij.openapi.vcs.changes.ContentRevision after=
+                      ContentRevision.createRevision(myVcsRoot,
+                                                     relativeFilename,
+                                                     null,
+                                                     myProject,
+                                                     false,
+                                                     true);
+              myChanges.add(new Change(before, after, FileStatus.DELETED));
+
+            }
           }
         }
       }

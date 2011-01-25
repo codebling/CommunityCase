@@ -20,6 +20,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.openapi.vcs.FilePathImpl;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.VcsDirtyScopeManager;
@@ -28,6 +29,7 @@ import com.intellij.openapi.vcs.vfs.AbstractVcsVirtualFile;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.util.Consumer;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.changes.ChangeUtils;
@@ -497,8 +499,20 @@ public class Util {
    * @return a relative path
    * @throws IllegalArgumentException if path is not under root.
    */
-  public static String relativePath(final VirtualFile root, VirtualFile file) {
+  public static String relativePath(@NotNull final VirtualFile root, @NotNull VirtualFile file) {
     return relativePath(VfsUtil.virtualToIoFile(root), VfsUtil.virtualToIoFile(file));
+  }
+
+  /**
+   * Get relative path
+   *
+   * @param root a root file
+   * @param file a virtual file
+   * @return a relative path
+   * @throws IllegalArgumentException if path is not under root.
+   */
+  public static String relativePath(@NotNull final VirtualFile root, File file) {
+    return relativePath(VfsUtil.virtualToIoFile(root), file);
   }
 
   /**
@@ -816,4 +830,39 @@ public class Util {
     }
     return new VcsException(t.getMessage(), t);
   }
+
+  public static VirtualFile filePathToVirtualFile(@NotNull FilePath filePath) {
+    return filePath.getVirtualFile();
+  }
+
+  public static FilePath virtualFileToFilePath(@NotNull VirtualFile virtualFile) {
+    return new FilePathImpl(virtualFile);
+  }
+
+  public static Collection<VirtualFile> filePathToVirtualFile(@NotNull Collection<FilePath> filePaths) {
+    Collection<VirtualFile> virtualFiles;
+    if(List.class.isAssignableFrom(filePaths.getClass()))
+      virtualFiles=new ArrayList<VirtualFile>();
+    else
+      virtualFiles=new HashSet<VirtualFile>();
+
+    for(FilePath filePath : filePaths)
+      virtualFiles.add(filePathToVirtualFile(filePath));
+
+    return virtualFiles;
+  }
+
+  public static Collection<FilePath> virtualFileToFilePath(@NotNull Collection<VirtualFile> virtualFiles) {
+    Collection<FilePath> filePaths;
+    if(List.class.isAssignableFrom(virtualFiles.getClass()))
+      filePaths=new ArrayList<FilePath>();
+    else
+      filePaths=new HashSet<FilePath>();
+
+    for(VirtualFile virtualFile:virtualFiles)
+      filePaths.add(virtualFileToFilePath(virtualFile));
+
+    return filePaths;
+  }
+
 }
