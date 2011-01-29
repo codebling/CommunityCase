@@ -547,6 +547,12 @@ public class Util {
     return rc;
   }
 
+/*
+  public static String relativePath(String root, String path) {
+    return FileUtil.getRelativePath(root,path,File.separatorChar);
+  }
+*/
+
   /**
    * Covert list of files to relative paths
    *
@@ -723,7 +729,7 @@ public class Util {
    * @return the revision string
    */
   public static String formatLongRev(long rev) {
-    return String.format("%015x%x", (rev >>> 4), rev & 0xF);
+    return String.format("%015x%x", (rev >>> 4), rev&0xF);
   }
 
   /**
@@ -839,6 +845,14 @@ public class Util {
     return new FilePathImpl(virtualFile);
   }
 
+  public static File virtualFileToFile(@NotNull VirtualFile virtualFile) {
+    return virtualFileToFilePath(virtualFile).getIOFile();
+  }
+
+  public static VirtualFile fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull File file) throws VcsException {
+    return vcsRoot.findFileByRelativePath(unescapePath(relativePath(vcsRoot,file)));
+  }
+
   public static Collection<VirtualFile> filePathToVirtualFile(@NotNull Collection<FilePath> filePaths) {
     Collection<VirtualFile> virtualFiles;
     if(List.class.isAssignableFrom(filePaths.getClass()))
@@ -863,6 +877,19 @@ public class Util {
       filePaths.add(virtualFileToFilePath(virtualFile));
 
     return filePaths;
+  }
+
+  public static Collection<VirtualFile> fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull Collection<File> files) throws VcsException {
+    Collection<VirtualFile> virtualFiles;
+    if(List.class.isAssignableFrom(files.getClass()))
+      virtualFiles=new ArrayList<VirtualFile>();
+    else
+      virtualFiles=new HashSet<VirtualFile>();
+
+    for(File file : files)
+      virtualFiles.add(fileToVirtualFile(vcsRoot,file));
+
+    return virtualFiles;
   }
 
 }

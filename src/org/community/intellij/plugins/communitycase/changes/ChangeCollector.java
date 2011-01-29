@@ -16,9 +16,15 @@
  */
 package org.community.intellij.plugins.communitycase.changes;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectFileIndex;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.ui.popup.BalloonHandler;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.FilePathImpl;
@@ -28,10 +34,12 @@ import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -75,6 +83,8 @@ class ChangeCollector {
   private final ProgressIndicator myProgressIndicator;
   private final VcsDirtyScope myDirtyScope;
 
+  private final ProjectFileIndex myFileIndex;
+
   private final VirtualFile myVcsRoot;
   private final List<VirtualFile> myUnversioned = new ArrayList<VirtualFile>(); // Unversioned files
   private final Set<String> myUnmergedNames = new HashSet<String>(); // Names of unmerged files
@@ -92,6 +102,7 @@ class ChangeCollector {
     myDirtyScope = dirtyScope;
     myVcsRoot = vcsRoot;
     myProject = project;
+    myFileIndex=ProjectRootManager.getInstance(myProject).getFileIndex();
   }
 
   /**
@@ -119,12 +130,26 @@ class ChangeCollector {
       myIsCollected = true;
 
       collectVcsModifiedList();
-      Set<VirtualFile> addedOrHijackedOrCheckedOutFiles=getFsAddedOrChanged();
-      //we already have all the info we need about checked out files, so remove those from the list
-      for(Change change:myChanges)
-        addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //VirtualFile has no equals method, but since it is unique for this
-                                                                          //IntelliJ aka VM instance, we're ok to use Object's default one.
-      checkStatusAndAddToChangeList(addedOrHijackedOrCheckedOutFiles);
+
+      if(!DumbService.getInstance(myProject).isDumb()) {  //don't go to town on the HD if we're indexing, causes excessive thrashing
+        Collection<VirtualFile> addedOrHijackedOrCheckedOutFiles=Util.fileToVirtualFile(myVcsRoot, getFsWritableFiles());
+        //we already have all the info we need about checked out files, so remove those from the list
+        for(Change change:myChanges)
+          addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //VirtualFile has no equals method, but since it is unique for this
+                                                                            //IntelliJ aka VM instance, we're ok to use Object's default one with the Set (Sets compare elements for equality)
+        checkStatusAndAddToChangeList(addedOrHijackedOrCheckedOutFiles);
+      } else {  //if we're in dumb mode, trigger a refresh after all files are indexed
+        //todo wc don't register this listener several times! Put a variable in ChangeProvider that can remember if there's one installed.
+        myProject.getMessageBus().connect().subscribe(DumbService.DUMB_MODE, new DumbService.DumbModeListener() {
+          public void enteredDumbMode() {}
+          public void exitDumbMode() {
+            //VcsUtil.runVcsProcessWithProgress()
+            HashSet<FilePath> paths=new HashSet<FilePath>();
+            paths.add(Util.virtualFileToFilePath(myVcsRoot));
+            VcsUtil.refreshFiles(myProject, paths);
+          }
+        });
+      }
     }
   }
 
@@ -142,6 +167,8 @@ class ChangeCollector {
   }
   private void addPaths(Handler handler,Collection<FilePath> filePaths) {
     if(handler.isAddedPathSizeTooGreat(filePaths)) {
+      //cut the list size in half and try again !
+
       Collection<FilePath> firstHalfBigPaths=new HashSet<FilePath>();
       //Collection<FilePath> secondHalfBigPaths=new HashSet<FilePath>();
       Iterator<FilePath> iterator=filePaths.iterator();
@@ -150,7 +177,7 @@ class ChangeCollector {
         firstHalfBigPaths.add(iterator.next());
         iterator.remove();
       }
-      firstHalfBigPaths.addAll(filePaths);
+      filePaths.removeAll(firstHalfBigPaths);
       addPaths(handler,firstHalfBigPaths);
       addPaths(handler,filePaths);
     } else {
@@ -286,44 +313,48 @@ class ChangeCollector {
     parseLsCheckoutsOutput(lsco.run());
   }
 
-  private @NotNull Set<VirtualFile> getFsAddedOrChanged() throws VcsException {
+  private @NotNull Set<File> getFsWritableFiles() throws VcsException {
     Collection<FilePath> dirtyPaths = dirtyPaths(true);
-    Set<VirtualFile> writableFiles=new HashSet<VirtualFile>();
+    Set<File> writableFiles=new HashSet<File>();
     for(FilePath path:dirtyPaths)
-      recurseHijackedFiles(path.getVirtualFile(),writableFiles);
+      recurseHijackedFiles(path.getIOFile(),writableFiles);
     return writableFiles;
+
+
+    //Runtime.getRuntime().availableProcessors();
+    //ApplicationManager.getApplication().executeOnPooledThread(); //see com.intellij.openapi.project.CacheUpdateRunner.getProcessWrapper
   }
 
-  private void recurseHijackedFiles(VirtualFile file,Set<VirtualFile> writableFiles) throws VcsException {
+  private void recurseHijackedFiles(File file,Set<File> writableFiles) throws VcsException {
     //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
-    if(file.isDirectory()) {
-      for(VirtualFile child:file.getChildren())
-        recurseHijackedFiles(child,writableFiles);
-    } else { //is a file
-      //check if it's read-only
-      //if yes, skip
-      //if no, add to dirty list or add to changes right away
-      if(file.isWritable()) {
-        String relativeFilename=Util.relativePath(myVcsRoot,file);
+    if(!myFileIndex.isIgnored(Util.fileToVirtualFile(myVcsRoot,file))) {  //skip excluded files
+      //if(file.isDirectory()) {
+      File[] children=file.listFiles();
+      if(children!=null) {  //implicit directory AND IO error check.
+        for(File child:children) {
+          //works with just the next line:
+          recurseHijackedFiles(child,writableFiles);
 
-        //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
-        writableFiles.add(file);
-        /*com.intellij.openapi.vcs.changes.ContentRevision before=
-                ContentRevision.createRevision(myVcsRoot,
-                                               relativeFilename,
-                                               null,
-                                               myProject,
-                                               false,
-                                               true);
-        com.intellij.openapi.vcs.changes.ContentRevision after=
-                ContentRevision.createRevision(myVcsRoot,
-                                               relativeFilename,
-                                               null,
-                                               myProject,
-                                               false,
-                                               true);
-        myChanges.add(new Change(before, after, FileStatus.HIJACKED));
-        */
+          /*
+          //we try to optimise a bit by minimising recursion by not recursing for a file:
+          if(file.isDirectory()) {
+            recurseHijackedFiles(child,writableFiles);
+          } else {
+            if(file.canWrite()) {
+              String relativeFilename=Util.relativePath(myVcsRoot,file);
+              writableFiles.add(file);
+            }
+          }
+          */
+        }
+      } else { //is a file
+        //check if it's read-only
+        //if yes, skip
+        //if no, add to dirty list or add to changes right away
+        if(file.canWrite()) {
+          String relativeFilename=Util.relativePath(myVcsRoot,file);
+          writableFiles.add(file); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
+        }
       }
     }
   }
@@ -338,7 +369,7 @@ class ChangeCollector {
     if(file==null)
       file=myVcsRoot.findFileByRelativePath(
               Util.unescapePath(
-                      Util.relativePath(myVcsRoot,new FilePathImpl(new File(filename),false))));
+                      Util.relativePath(myVcsRoot,VcsUtil.getFilePath(filename))));
     return file;
   }
 
