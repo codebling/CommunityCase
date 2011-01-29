@@ -1,0 +1,5 @@
+creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+
+>Fix project so that it compiles WITHOUT using idea.jar!
+    *replace all usages of FilePathImpl with FilePath
+        -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
