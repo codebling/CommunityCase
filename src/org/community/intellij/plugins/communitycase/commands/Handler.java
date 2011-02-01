@@ -273,6 +273,7 @@ public abstract class Handler {
    * @param parameters a parameters to add
    * @throws IllegalArgumentException if some path is not under root.
    */
+  @Deprecated
   public void addRelativePaths(@NotNull FilePath... parameters) {
     addRelativePaths(Arrays.asList(parameters));
   }
@@ -284,6 +285,7 @@ public abstract class Handler {
    * @throws IllegalArgumentException if some path is not under root.
    */
   @SuppressWarnings({"WeakerAccess"})
+  @Deprecated
   public void addRelativePaths(@NotNull final Collection<FilePath> filePaths) {
     addRelativePaths(myCommandLine,myWorkingDirectory,filePaths);
   }
@@ -296,6 +298,7 @@ public abstract class Handler {
    * @param filePaths a parameters to add
    * @throws IllegalArgumentException if some path is not under root.
    */
+  @Deprecated
   private void addRelativePaths(@NotNull GeneralCommandLine commandLine,
                                @NotNull File workingDirectory,
                                @NotNull final Collection<FilePath> filePaths) {
@@ -324,6 +327,7 @@ public abstract class Handler {
    * @param files a parameters to add
    * @throws IllegalArgumentException if some path is not under root.
    */
+  @Deprecated
   public void addRelativePathsForFiles(@NotNull final Collection<File> files) {
     checkNotStarted();
     for (File file : files) {

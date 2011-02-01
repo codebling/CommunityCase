@@ -34,6 +34,7 @@ import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.util.enumeration.ArrayListEnumeration;
 import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.ContentRevision;
@@ -51,6 +52,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
+//todo wc clean up this shitty shitty code
 /**
  * A collector for changes in version control. It is introduced because changes are not
  * cannot be got as a sum of stateless operations.
@@ -92,6 +94,10 @@ class ChangeCollector {
   private boolean myIsCollected = false; // indicates that collecting changes has been started
   private boolean myIsFailed = true; // indicates that collecting changes has been failed.
 
+  private static final int MAX_THREADS=15;
+  private final List<RecurseRunnable> myThreads=new ArrayList<RecurseRunnable>();
+  private final Vector<VcsException> myExceptions=new Vector<VcsException>();
+
   public ChangeCollector(final Project project,
                          ChangeListManager changeListManager,
                          final ProgressIndicator progressIndicator,
@@ -132,7 +138,9 @@ class ChangeCollector {
       collectVcsModifiedList();
 
       if(!DumbService.getInstance(myProject).isDumb()) {  //don't go to town on the HD if we're indexing, causes excessive thrashing
-        Collection<VirtualFile> addedOrHijackedOrCheckedOutFiles=Util.fileToVirtualFile(myVcsRoot, getFsWritableFiles());
+        Collection<VirtualFile> addedOrHijackedOrCheckedOutFiles=Util.stringToVirtualFile(myVcsRoot,
+                                                                                          getFsWritableFiles(),
+                                                                                          true);
         //we already have all the info we need about checked out files, so remove those from the list
         for(Change change:myChanges)
           addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //VirtualFile has no equals method, but since it is unique for this
@@ -154,36 +162,42 @@ class ChangeCollector {
   }
 
   private void checkStatusAndAddToChangeList(Collection<VirtualFile> files) throws VcsException {
-    SimpleHandler ls= new SimpleHandler(myProject, myVcsRoot, Command.LS);
+    SimpleHandler ls;
+    ls=new SimpleHandler(myProject, myVcsRoot, Command.LS);
     ls.setRemote(true);
-    //ls.setSilent(true);
-    //ls.setStdoutSuppressed(true);
-    //ls.addParameters("-r -vis"); //-vis will not list deleted files
-    //ls.addParameters("-r");
     ls.endOptions();
-    addPaths(ls, Util.virtualFileToFilePath(files));
-
-    parseLsOutput(ls.run());
+    Collection<List<FilePath>> splitPaths=addPaths(ls, Util.virtualFileToFilePath(new ArrayList<VirtualFile>(files)));
+    for(List<FilePath> paths:splitPaths) {
+      //todo wc really need to clean up commands!
+      //should be just ls.setPaths(paths);parseLsOutput(ls.run());
+      ls=new SimpleHandler(myProject, myVcsRoot, Command.LS);
+      ls.setRemote(true);
+      ls.endOptions();
+      ls.addRelativePaths(paths);
+      parseLsOutput(ls.run());
+    }
   }
-  private void addPaths(Handler handler,Collection<FilePath> filePaths) {
+  //todo wc move this into Handler
+  private Collection<List<FilePath>> addPaths(Handler handler,List<FilePath> filePaths) {
+    Collection<List<FilePath>> returnPaths=new HashSet<List<FilePath>>();
     if(handler.isAddedPathSizeTooGreat(filePaths)) {
       //cut the list size in half and try again !
 
-      Collection<FilePath> firstHalfBigPaths=new HashSet<FilePath>();
-      //Collection<FilePath> secondHalfBigPaths=new HashSet<FilePath>();
+      List<FilePath> firstHalfBigPaths=new ArrayList<FilePath>();
       Iterator<FilePath> iterator=filePaths.iterator();
       int i=0;
-      while(++i<filePaths.size()/2) {
+      while(++i<filePaths.size()/2+1) {
         firstHalfBigPaths.add(iterator.next());
-        iterator.remove();
+        //iterator.remove();  //doesn't seem to work !?
       }
       filePaths.removeAll(firstHalfBigPaths);
-      addPaths(handler,firstHalfBigPaths);
-      addPaths(handler,filePaths);
+      returnPaths.addAll(addPaths(handler,firstHalfBigPaths));
+      returnPaths.addAll(addPaths(handler,filePaths));
     } else {
-      handler.addRelativePaths(filePaths);
+      if(filePaths.size() > 0)
+        returnPaths.add(filePaths);
     }
-    //return handler;
+    return returnPaths;
   }
 
   /**
@@ -202,7 +216,7 @@ class ChangeCollector {
     ArrayList<FilePath> candidatePaths = new ArrayList<FilePath>();
     candidatePaths.addAll(myDirtyScope.getDirtyFilesNoExpand());
     if (includeChanges) {
-//      try {
+      //todo wc figure out what the hell is going on here..
         for (Change c : myChangeListManager.getChangesIn(myVcsRoot)) {
           if (c.getAfterRevision() != null) {
             addToPaths(rootPath, paths, c.getAfterRevision().getFile());
@@ -211,11 +225,6 @@ class ChangeCollector {
             addToPaths(rootPath, paths, c.getBeforeRevision().getFile());
           }
         }
-/*      }
-      catch (Exception t) {
-        // ignore exceptions
-      }
-*/
     }
     for (FilePath p : candidatePaths) {
       addToPaths(rootPath, paths, p);
@@ -231,7 +240,7 @@ class ChangeCollector {
    * @param toAdd the path to add
    */
   void addToPaths(FilePath root, Collection<FilePath> paths, FilePath toAdd) {
-    if (Util.getRootOrNull(toAdd) != myVcsRoot) {
+    if (VcsUtil.getVcsRootFor(myProject,toAdd) != myVcsRoot) {
       return;
     }
     if (root.isUnder(toAdd, true)) {
@@ -313,50 +322,32 @@ class ChangeCollector {
     parseLsCheckoutsOutput(lsco.run());
   }
 
-  private @NotNull Set<File> getFsWritableFiles() throws VcsException {
+  private @NotNull Set<String> getFsWritableFiles() throws VcsException {
     Collection<FilePath> dirtyPaths = dirtyPaths(true);
-    Set<File> writableFiles=new HashSet<File>();
-    for(FilePath path:dirtyPaths)
-      recurseHijackedFiles(path.getIOFile(),writableFiles);
-    return writableFiles;
+    Set<String> writableFiles=new HashSet<String>();
 
+    for(int i=0; i<MAX_THREADS; i++) {
+      myThreads.add(new RecurseRunnable(writableFiles));
+    }
+
+    for(FilePath path:dirtyPaths) {
+      recurseHijackedFiles(path.getIOFile(),writableFiles);
+    }
+
+    synchronized(myThreads) {
+      while(true) { //wait until all threads have exited
+        if(myThreads.size()==MAX_THREADS)
+          break;
+        try {
+          myThreads.wait();
+        } catch(InterruptedException e) {}
+      }
+    }
+
+    return writableFiles;
 
     //Runtime.getRuntime().availableProcessors();
     //ApplicationManager.getApplication().executeOnPooledThread(); //see com.intellij.openapi.project.CacheUpdateRunner.getProcessWrapper
-  }
-
-  private void recurseHijackedFiles(File file,Set<File> writableFiles) throws VcsException {
-    //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
-    if(!myFileIndex.isIgnored(Util.fileToVirtualFile(myVcsRoot,file))) {  //skip excluded files
-      //if(file.isDirectory()) {
-      File[] children=file.listFiles();
-      if(children!=null) {  //implicit directory AND IO error check.
-        for(File child:children) {
-          //works with just the next line:
-          recurseHijackedFiles(child,writableFiles);
-
-          /*
-          //we try to optimise a bit by minimising recursion by not recursing for a file:
-          if(file.isDirectory()) {
-            recurseHijackedFiles(child,writableFiles);
-          } else {
-            if(file.canWrite()) {
-              String relativeFilename=Util.relativePath(myVcsRoot,file);
-              writableFiles.add(file);
-            }
-          }
-          */
-        }
-      } else { //is a file
-        //check if it's read-only
-        //if yes, skip
-        //if no, add to dirty list or add to changes right away
-        if(file.canWrite()) {
-          String relativeFilename=Util.relativePath(myVcsRoot,file);
-          writableFiles.add(file); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
-        }
-      }
-    }
   }
 
   private VirtualFile createFileIfInRoot(String filename) throws VcsException {
@@ -560,6 +551,84 @@ class ChangeCollector {
           }
         }
       }
+    }
+  }
+  private void recurseHijackedFiles(File file,Set<String> writableFiles) throws VcsException {
+    //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
+    VirtualFile vf=Util.stringToVirtualFile(myVcsRoot,Util.relativePath(myVcsRoot,file),true);
+    if(!ChangeListManager.getInstance(myProject).isIgnoredFile(vf) && !myFileIndex.isIgnored(vf)) {  //skip excluded files
+      //if(file.isDirectory()) {
+      File[] children=file.listFiles();
+      if(children!=null) {  //implicit directory AND IO error check.
+        for(File child:children)
+          spawnOrRecurse(child, writableFiles);
+      } else { //is a file
+        //check if it's read-only
+        //if yes, skip
+        //if no, add to dirty list or add to changes right away
+        if(file.canWrite()) {
+          String relativeFilename=Util.relativePath(myVcsRoot,file);
+          synchronized(writableFiles) {
+            writableFiles.add(relativeFilename); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
+          }
+        }
+      }
+    }
+  }
+  private void spawnOrRecurse(File file,Set<String> writableFiles) {
+    RecurseRunnable runner=null;
+    synchronized(myThreads) {
+      if(!myThreads.isEmpty())
+        runner=myThreads.remove(myThreads.size()-1); //remove the last element instead of the first so that we don't have to recopy the array
+    }
+
+    try {
+      if(runner == null) //there are no threads left.
+        recurseHijackedFiles(file, writableFiles);
+      else {
+        runner.setFile(file);
+        runner.run();
+      }
+    } catch(VcsException e) {
+      myExceptions.add(e);
+    }
+  }
+
+  private void endThreadRun(RecurseRunnable runner) {
+    synchronized(myThreads) {
+      myThreads.add(runner);
+      myThreads.notify();
+    }
+  }
+  private class RecurseRunnable implements Runnable {
+    //Set<File> myIterableFiles;
+    File myFile;
+    Set<String> myWritableFiles;
+
+    public RecurseRunnable(Set<String> writableFiles) {
+      //myIterableFiles=new HashSet<File>();
+      //myIterableFiles.add(file);
+      myFile=null;
+      myWritableFiles=writableFiles;
+    }
+
+    @Override
+    public void run() {
+      if(myFile == null) {
+        throw new IllegalStateException("This object's file must be set prior to running");
+      }
+
+      try {
+        recurseHijackedFiles(myFile,myWritableFiles);
+      } catch(VcsException e) {
+        myExceptions.add(e);
+      }
+
+      myFile=null;
+      endThreadRun(this);
+    }
+    public void setFile(File file) {
+      myFile=file;
     }
   }
 

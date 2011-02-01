@@ -29,20 +29,17 @@ import com.intellij.openapi.vcs.vfs.AbstractVcsVirtualFile;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.util.Consumer;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.changes.ChangeUtils;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
-import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -849,10 +846,18 @@ public class Util {
     return virtualFileToFilePath(virtualFile).getIOFile();
   }
 
-  public static VirtualFile fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull File file) throws VcsException {
-    return vcsRoot.findFileByRelativePath(unescapePath(relativePath(vcsRoot,file)));
+  public static VirtualFile fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull File file,boolean unescapePath) throws VcsException {
+    return stringToVirtualFile(vcsRoot, file.getName(),unescapePath);
   }
 
+  public static VirtualFile stringToVirtualFile(@NotNull VirtualFile vcsRoot, @NotNull String file,boolean unescapePath) throws VcsException {
+    String safeFile=file;
+    if(unescapePath)
+      safeFile=unescapePath(file);
+    return vcsRoot.findFileByRelativePath(safeFile);
+  }
+
+  @Deprecated
   public static Collection<VirtualFile> filePathToVirtualFile(@NotNull Collection<FilePath> filePaths) {
     Collection<VirtualFile> virtualFiles;
     if(List.class.isAssignableFrom(filePaths.getClass()))
@@ -866,20 +871,16 @@ public class Util {
     return virtualFiles;
   }
 
-  public static Collection<FilePath> virtualFileToFilePath(@NotNull Collection<VirtualFile> virtualFiles) {
-    Collection<FilePath> filePaths;
-    if(List.class.isAssignableFrom(virtualFiles.getClass()))
-      filePaths=new ArrayList<FilePath>();
-    else
-      filePaths=new HashSet<FilePath>();
-
+  public static List<FilePath> virtualFileToFilePath(@NotNull List<VirtualFile> virtualFiles) {
+    List<FilePath> filePaths=new ArrayList<FilePath>();
     for(VirtualFile virtualFile:virtualFiles)
       filePaths.add(virtualFileToFilePath(virtualFile));
 
     return filePaths;
   }
 
-  public static Collection<VirtualFile> fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull Collection<File> files) throws VcsException {
+  @Deprecated
+  public static Collection<VirtualFile> fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull Collection<File> files,boolean unescapePath) throws VcsException {
     Collection<VirtualFile> virtualFiles;
     if(List.class.isAssignableFrom(files.getClass()))
       virtualFiles=new ArrayList<VirtualFile>();
@@ -887,7 +888,21 @@ public class Util {
       virtualFiles=new HashSet<VirtualFile>();
 
     for(File file : files)
-      virtualFiles.add(fileToVirtualFile(vcsRoot,file));
+      virtualFiles.add(fileToVirtualFile(vcsRoot,file,unescapePath));
+
+    return virtualFiles;
+  }
+
+  @Deprecated
+  public static Collection<VirtualFile> stringToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull Collection<String> files,boolean unescapePath) throws VcsException {
+    Collection<VirtualFile> virtualFiles;
+    if(List.class.isAssignableFrom(files.getClass()))
+      virtualFiles=new ArrayList<VirtualFile>();
+    else
+      virtualFiles=new HashSet<VirtualFile>();
+
+    for(String file : files)
+      virtualFiles.add(stringToVirtualFile(vcsRoot,file,unescapePath));
 
     return virtualFiles;
   }
