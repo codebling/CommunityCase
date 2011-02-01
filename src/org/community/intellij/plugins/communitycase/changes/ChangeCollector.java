@@ -556,6 +556,7 @@ class ChangeCollector {
   private void recurseHijackedFiles(File file,Set<String> writableFiles) throws VcsException {
     //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
     VirtualFile vf=Util.stringToVirtualFile(myVcsRoot,Util.relativePath(myVcsRoot,file),true);
+    if(vf!=null) {
     if(!ChangeListManager.getInstance(myProject).isIgnoredFile(vf) && !myFileIndex.isIgnored(vf)) {  //skip excluded files
       //if(file.isDirectory()) {
       File[] children=file.listFiles();
@@ -572,6 +573,11 @@ class ChangeCollector {
             writableFiles.add(relativeFilename); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
           }
         }
+      }
+    }
+    } else { //probably a deleted file.
+      synchronized(writableFiles) {  //we'll do our best to keep track of it...
+        writableFiles.add(Util.relativePath(myVcsRoot,file));  //put it in the writeable files to be verified
       }
     }
   }
