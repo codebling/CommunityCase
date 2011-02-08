@@ -146,7 +146,7 @@ class LogParser {
   }
 
   String getFormatOption() {
-    return "-fmt \"" + myFormat + "\\n%" + LogOption.ELEMENT_NAME.name() + "\\n\\n" + "\"";
+    return "-fmt \"" + myFormat + "%" + LogOption.ELEMENT_NAME.getPlaceholder() + "\\n\\n" + "\"";
   }
 
   /**
@@ -196,66 +196,67 @@ class LogParser {
     |phnix00119574 [...].
     |$~DELIM&^
      */
-
-    if (line.isEmpty()) { return null; }
-
-    if(line.indexOf(RECORD_START) == 0) {
-      line = line.substring(RECORD_START.length());
-    }
-
-    // parsing status and path (if given)
-    char nameStatus = 0;
-    final List<String> paths = new ArrayList<String>(1);
-    final boolean includeStatus = myNameStatusOutputted == NameStatus.STATUS;
-    final List<List<String>> parts = includeStatus ? new ArrayList<List<String>>() : null;
-
-    if (myNameStatusOutputted != NameStatus.NONE) {
-      final String[] infoAndPath = line.split(RECORD_END);
-      line = infoAndPath[0];
-      if (infoAndPath.length > 1) {
-        // separator is \n for paths, space for paths and status
-        final List<String> nameAndPathSplit = new ArrayList<String>(Arrays.asList(infoAndPath[infoAndPath.length - 1].split("\n")));
-        for (Iterator<String> it = nameAndPathSplit.iterator(); it.hasNext();) {
-          if (it.next().trim().isEmpty()) {
-            it.remove();
-          }
-        }
-
-        for (String pathLine : nameAndPathSplit) {
-          String[] partsArr;
-          if (includeStatus) {
-            final int idx = pathLine.indexOf("\t");
-            if (idx != -1) {
-              final String whatLeft = pathLine.substring(idx).trim();
-              partsArr = whatLeft.split("\\t");
-              final List<String> strings = new ArrayList<String>(partsArr.length + 1);
-              strings.add(pathLine.substring(0, 1));
-              strings.addAll(Arrays.asList(partsArr));
-              parts.add(strings);
-            } else {
-              partsArr = pathLine.split("\\t"); // should not
-            }
-          } else {
-            partsArr = pathLine.split("\\t");
-          }
-          paths.addAll(Arrays.asList(partsArr));
-        }
-      }
+    if(line==null || line.isEmpty() || line.indexOf(RECORD_START) < 0) {
+      return null;  //ignore icky lines that aren't properly formatted,like error messages (we don't want to parse them)
     } else {
-      line = line.substring(0, line.length()-1); // removing the last character which is RECORD_END
-    }
+      line = line.substring(line.indexOf(RECORD_START)+RECORD_START.length());
 
-    // parsing revision information
-    // we rely on the order of options
-    final String[] values = line.split(ITEMS_SEPARATOR);
-    final Map<LogOption, String> res = new HashMap<LogOption, String>(values.length);
-    int i = 0;
-    for (; i < values.length && i < myOptions.length; i++) {  // fill valid values
-      res.put(myOptions[i], values[i]);
+      // parsing status and path (if given)
+      char nameStatus = 0;
+      final List<String> paths = new ArrayList<String>(1);
+      final boolean includeStatus = myNameStatusOutputted == NameStatus.STATUS;
+      final List<List<String>> parts = includeStatus ? new ArrayList<List<String>>() : null;
+
+      if (myNameStatusOutputted != NameStatus.NONE) {
+        final String[] infoAndPath = line.split(RECORD_END);
+        line = infoAndPath[0];
+        if (infoAndPath.length > 1) {
+          // separator is \n for paths, space for paths and status
+          final List<String> nameAndPathSplit = new ArrayList<String>(Arrays.asList(infoAndPath[infoAndPath.length - 1].split("\n")));
+          for (Iterator<String> it = nameAndPathSplit.iterator(); it.hasNext();) {
+            if (it.next().trim().isEmpty()) {
+              it.remove();
+            }
+          }
+
+          for (String pathLine : nameAndPathSplit) {
+            String[] partsArr;
+            if (includeStatus) {
+              final int idx = pathLine.indexOf("\t");
+              if (idx != -1) {
+                final String whatLeft = pathLine.substring(idx).trim();
+                partsArr = whatLeft.split("\\t");
+                final List<String> strings = new ArrayList<String>(partsArr.length + 1);
+                strings.add(pathLine.substring(0, 1));
+                strings.addAll(Arrays.asList(partsArr));
+                parts.add(strings);
+              } else {
+                partsArr = pathLine.split("\\t"); // should not
+              }
+            } else {
+              partsArr = pathLine.split("\\t");
+            }
+            paths.addAll(Arrays.asList(partsArr));
+          }
+        }
+      } else {
+        int recEndIndex=line.indexOf(RECORD_END);
+        if(recEndIndex > 0)
+          line = line.substring(0,recEndIndex); // removing the last character which is RECORD_END
+      }
+
+      // parsing revision information
+      // we rely on the order of options
+      final String[] values = line.split(ITEMS_SEPARATOR);
+      final Map<LogOption, String> res = new HashMap<LogOption, String>(values.length);
+      int i = 0;
+      for (; i < values.length && i < myOptions.length; i++) {  // fill valid values
+        res.put(myOptions[i],values[i]);
+      }
+      for (; i < myOptions.length; i++) {  // options which were not returned are set to blank string, extra options are ignored.
+        res.put(myOptions[i],null);
+      }
+      return new LogRecord(res, paths, parts);
     }
-    for (; i < myOptions.length; i++) {  // options which were not returned are set to blank string, extra options are ignored.
-      res.put(myOptions[i], "");
-    }
-    return new LogRecord(res, paths, parts);
   }
 }

@@ -340,12 +340,12 @@ public class HistoryUtils {
       if (lineEnd && (!myNotStarted)) {
         final String line = myBuffer.toString();
         myBuffer.setLength(0);
-        myBuffer.append(s.substring(LogParser.RECORD_START.length()));
+        myBuffer.append(s);
 
         return processResult(line);
       }
       else {
-        myBuffer.append(lineEnd ? s.substring(LogParser.RECORD_START.length()) : s);
+        myBuffer.append(s);
         myBuffer.append("\n");
       }
       myNotStarted = false;

@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+//todo wc this class needs to be redone since it is based largely on Git hashes, and we don't have any.
 /**
  *  revision number
  */

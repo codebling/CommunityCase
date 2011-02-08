@@ -317,10 +317,15 @@ public class Util {
    */
   public static Date parseTimestamp(String value) {
     //20101116.152312
-    try {
-      return new SimpleDateFormat("yyyyMMdd.HHmmss").parse(value);
-    } catch (ParseException e) {
-      throw new IllegalArgumentException(e);
+    final String pattern="yyyyMMdd.HHmmss";
+    if(value!=null && value.length()>=pattern.length()) {
+      try {
+        return new SimpleDateFormat(pattern).parse(value);
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
+    } else {
+      return null;
     }
   }
 
