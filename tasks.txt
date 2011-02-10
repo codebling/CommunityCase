@@ -494,3 +494,27 @@ java.lang.NullPointerException
 	at java.lang.Thread.run(Thread.java:619)
 	at com.intellij.openapi.application.impl.ApplicationImpl$1$1.run(ApplicationImpl.java:131)
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+Argument 0 for @NotNull parameter of org/community/intellij/plugins/communitycase/Util.virtualFileToFilePath must not be null: Argument 0 for @NotNull parameter of org/community/intellij/plugins/communitycase/Util.virtualFileToFilePath must not be null
+java.lang.IllegalArgumentException: Argument 0 for @NotNull parameter of org/community/intellij/plugins/communitycase/Util.virtualFileToFilePath must not be null
+	at org.community.intellij.plugins.communitycase.Util.virtualFileToFilePath(Util.java)
+	at org.community.intellij.plugins.communitycase.Util.virtualFileToFilePath(Util.java:882)
+	at org.community.intellij.plugins.communitycase.changes.ChangeCollector.checkStatusAndAddToChangeList(ChangeCollector.java:169)
+	at org.community.intellij.plugins.communitycase.changes.ChangeCollector.ensureCollected(ChangeCollector.java:148)
+	at org.community.intellij.plugins.communitycase.changes.ChangeCollector.changes(ChangeCollector.java:126)
+	at org.community.intellij.plugins.communitycase.changes.ChangeProvider.getChanges(ChangeProvider.java:76)
+	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl.actualUpdate(ChangeListManagerImpl.java:501)
+	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl.updateImmediately(ChangeListManagerImpl.java:425)
+	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl.access$500(ChangeListManagerImpl.java:67)
+	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl$ActualUpdater.execute(ChangeListManagerImpl.java:278)
+	at com.intellij.openapi.vcs.changes.UpdateRequestsQueue$MyRunnable$1.consume(UpdateRequestsQueue.java:186)
+	at com.intellij.openapi.vcs.changes.UpdateRequestsQueue$MyRunnable$1.consume(UpdateRequestsQueue.java:184)
+	at com.intellij.openapi.vcs.changes.ExecutorWrapper$3.run(ExecutorWrapper.java:101)
+	at com.intellij.openapi.application.impl.ApplicationImpl$6.run(ApplicationImpl.java:383)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:441)
+	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:138)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+	at com.intellij.openapi.application.impl.ApplicationImpl$1$1.run(ApplicationImpl.java:131)
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
