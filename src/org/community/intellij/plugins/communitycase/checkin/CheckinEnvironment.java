@@ -126,66 +126,65 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
       return exceptions;
     }
     Map<VirtualFile, List<Change>> sortedChanges = sortChangesByGitRoot(changes, exceptions);
-    if (ConvertFilesDialog.showDialogIfNeeded(myProject, mySettings, sortedChanges, exceptions)) {
-      for (Map.Entry<VirtualFile, List<Change>> entry : sortedChanges.entrySet()) {
-        Set<FilePath> files = new HashSet<FilePath>();
-        final VirtualFile root = entry.getKey();
+    for (Map.Entry<VirtualFile, List<Change>> entry : sortedChanges.entrySet()) {
+      Set<FilePath> files = new HashSet<FilePath>();
+      final VirtualFile root = entry.getKey();
+      try {
+        File messageFile = createMessageFile(root, message);
         try {
-          File messageFile = createMessageFile(root, message);
+          final Set<FilePath> added = new HashSet<FilePath>();
+          final Set<FilePath> modified = new HashSet<FilePath>();
+          final Set<FilePath> removed = new HashSet<FilePath>();
+          for (Change change : entry.getValue()) {
+            switch (change.getType()) {
+              case NEW:
+                added.add(change.getAfterRevision().getFile());
+                break;
+              case MODIFICATION:
+                modified.add(change.getAfterRevision().getFile());
+                break;
+              case DELETED:
+                removed.add(change.getBeforeRevision().getFile());
+                break;
+              case MOVED:
+                added.add(change.getAfterRevision().getFile());
+                removed.add(change.getBeforeRevision().getFile());
+                break;
+              default:
+                throw new IllegalStateException("Unknown change type: " + change.getType());
+            }
+          }
           try {
-            final Set<FilePath> added = new HashSet<FilePath>();
-            final Set<FilePath> modified = new HashSet<FilePath>();
-            final Set<FilePath> removed = new HashSet<FilePath>();
-            for (Change change : entry.getValue()) {
-              switch (change.getType()) {
-                case NEW:
-                  added.add(change.getAfterRevision().getFile());
-                  break;
-                case MODIFICATION:
-                  modified.add(change.getAfterRevision().getFile());
-                  break;
-                case DELETED:
-                  removed.add(change.getBeforeRevision().getFile());
-                  break;
-                case MOVED:
-                  added.add(change.getAfterRevision().getFile());
-                  removed.add(change.getBeforeRevision().getFile());
-                  break;
-                default:
-                  throw new IllegalStateException("Unknown change type: " + change.getType());
+            if (updateIndex(myProject, root, added, removed, exceptions)) {
+              try {
+                files.addAll(added);
+                files.addAll(modified);
+                files.addAll(removed);
+                commit(myProject, root, files, messageFile, myNextCommitAuthor, myNextCommitAmend);
               }
-            }
-            try {
-              if (updateIndex(myProject, root, added, removed, exceptions)) {
-                try {
-                  files.addAll(added);
-                  files.addAll(removed);
-                  commit(myProject, root, files, messageFile, myNextCommitAuthor, myNextCommitAmend);
+              catch (VcsException ex) {
+                if (!isMergeCommit(ex)) {
+                  throw ex;
                 }
-                catch (VcsException ex) {
-                  if (!isMergeCommit(ex)) {
-                    throw ex;
-                  }
-                  if (!mergeCommit(myProject, root, added, removed, modified, messageFile, myNextCommitAuthor, exceptions)) {
-                    throw ex;
-                  }
+                if (!mergeCommit(myProject, root, added, removed, modified, messageFile, myNextCommitAuthor, exceptions)) {
+                  throw ex;
                 }
               }
             }
-            finally {
-              if (!messageFile.delete()) {
-                log.warn("Failed to remove temporary file: " + messageFile);
-              }
+          }
+          finally {
+            if (!messageFile.delete()) {
+              log.warn("Failed to remove temporary file: " + messageFile);
             }
           }
-          catch (VcsException e) {
-            exceptions.add(e);
-          }
         }
-        catch (IOException ex) {
-          //noinspection ThrowableInstanceNeverThrown
-          exceptions.add(new VcsException("Creation of commit message file failed", ex));
+        catch (VcsException e) {
+          exceptions.add(e);
         }
+      }
+      catch (IOException ex) {
+        //noinspection ThrowableInstanceNeverThrown
+        exceptions.add(new VcsException("Creation of commit message file failed", ex));
       }
     }
     if (myNextCommitIsPushed != null && myNextCommitIsPushed.booleanValue() && exceptions.isEmpty()) {
@@ -402,8 +401,8 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     // filter comment lines
     File file = FileUtil.createTempFile(GIT_COMMIT_MSG_FILE_PREFIX, GIT_COMMIT_MSG_FILE_EXT);
     file.deleteOnExit();
-    @NonNls String encoding = ConfigUtil.getCommitEncoding(myProject, root);
-    Writer out = new OutputStreamWriter(new FileOutputStream(file), encoding);
+    //@NonNls String encoding = ConfigUtil.getCommitEncoding(myProject, root);
+    Writer out = new OutputStreamWriter(new FileOutputStream(file)); //new OutputStreamWriter(new FileOutputStream(file), encoding);
     try {
       out.write(message);
     }
@@ -469,10 +468,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
       else {
         amend = true;
       }
-      handler.addParameters("--only", "-F", message.getAbsolutePath());
-      if (nextCommitAuthor != null) {
-        handler.addParameters("--author=" + nextCommitAuthor);
-      }
+      handler.addParameters("-cfi", message.getAbsolutePath());
       handler.endOptions();
       handler.addParameters(paths);
       handler.run();
