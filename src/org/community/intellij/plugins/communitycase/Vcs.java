@@ -528,7 +528,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    * Check version and report problem
    */
   public void checkVersion() {
-    final String executable = myAppSettings.getPathToVcs();
+    final String executable = myAppSettings.getPathToExecutable();
     synchronized (myCheckingVersion) {
       if (myVersion != null && myVersionCheckExcecutable.equals(executable)) {
         return;

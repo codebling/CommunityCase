@@ -53,7 +53,8 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   /**
    * The last used path to git
    */
-  private String myPathToGit;
+  private String myExecutablePath;
+  private String myBranchFilter;
 
   public static VcsApplicationSettings getInstance() {
     return ServiceManager.getService(VcsApplicationSettings.class);
@@ -62,8 +63,8 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   /**
    * @return the default executable name depending on the platform
    */
-  public String defaultVcs() {
-    if (myPathToGit == null) {
+  public String defaultPathToExecutable() {
+    if (myExecutablePath == null) {
       String[] paths;
       String program;
       if (SystemInfo.isWindows) {
@@ -77,41 +78,51 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
       for (String p : paths) {
         File f = new File(p, program);
         if (f.exists()) {
-          myPathToGit = f.getAbsolutePath();
+          myExecutablePath= f.getAbsolutePath();
           break;
         }
       }
-      if (myPathToGit == null) {
+      if (myExecutablePath == null) {
         // otherwise, hope it's in $PATH
-        myPathToGit = program;
+        myExecutablePath= program;
       }
     }
-    return myPathToGit;
+    return myExecutablePath;
   }
 
   public State getState() {
     State s = new State();
-    s.PATH_TO_GIT = myPathToGit;
+    s.PATH_TO_GIT=myExecutablePath;
+    s.BRANCH_FILTER=myBranchFilter;
     return s;
   }
 
   public void loadState(State state) {
-    myPathToGit = state.PATH_TO_GIT == null ? defaultVcs() : state.PATH_TO_GIT;
+    myExecutablePath = state.PATH_TO_GIT==null?defaultPathToExecutable():state.PATH_TO_GIT;
+    myBranchFilter=state.BRANCH_FILTER;
   }
 
   /**
    * @return get last set path to git or null
    */
-  public String getPathToVcs() {
-    return myPathToGit == null ? defaultVcs() : myPathToGit;
+  public String getPathToExecutable() {
+    return myExecutablePath == null ? defaultPathToExecutable() :myExecutablePath;
   }
 
   /**
    * Change last set path to git (called on project settings save)
    * @param pathToGit the path to git
    */
-  public void setPathToGit(String pathToGit) {
-    myPathToGit = pathToGit;
+  public void setPathToExecutable(String pathToGit) {
+    myExecutablePath= pathToGit;
+  }
+
+  public String getBranchFilter() {
+    return myBranchFilter==null?"":myBranchFilter;
+  }
+
+  public void setBranchFilter(String branchFilter) {
+    myBranchFilter=branchFilter;
   }
 
   /**
@@ -122,5 +133,6 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
      * The last saved path to git
      */
     public String PATH_TO_GIT;
+    public String BRANCH_FILTER;
   }
 }

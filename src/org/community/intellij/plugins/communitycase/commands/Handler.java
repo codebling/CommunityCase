@@ -114,7 +114,7 @@ public abstract class Handler {
     myWorkingDirectory = directory;
     myCommandLine = new GeneralCommandLine();
     if (myAppSettings != null) {
-      myCommandLine.setExePath(myAppSettings.getPathToVcs());
+      myCommandLine.setExePath(myAppSettings.getPathToExecutable());
     }
     myCommandLine.setWorkingDirectory(myWorkingDirectory);
     if (command.name().length() > 0) {

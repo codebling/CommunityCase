@@ -24,7 +24,6 @@ import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -35,9 +34,7 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.CurrentRevision;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsHistoryUtil;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiFileFactory;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.NotNullFunction;
 import com.intellij.vcsUtil.VcsUtil;
@@ -45,9 +42,6 @@ import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.FileRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Vcs;
-import org.community.intellij.plugins.communitycase.commands.Command;
-import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -98,11 +92,6 @@ public class CompareWithBranchAction extends DumbAwareAction {
     } catch (VcsException e) {
       notifyError(project, "Couldn't get information about current branch", e);
     }
-    if (curBranch == null) {
-      notifyError(project, "Current branch is null.", null);
-      return;
-    }
-    final String currentBranch = curBranch.getName();
 
     //todo wc filter branches from regex in settings
 
@@ -137,7 +126,7 @@ public class CompareWithBranchAction extends DumbAwareAction {
                 @Override
                 public void run() {
                   try {
-                    showDiffWithBranch(project, file, currentBranch, list.getSelectedValue().toString());
+                    showDiffWithBranch(project, file, list.getSelectedValue().toString());
                   }
                   catch (Exception e) {
                     notifyError(project, "Couldn't compare file [" + file + "] with selected branch [" + list.getSelectedValue() + "]", e);
@@ -160,7 +149,7 @@ public class CompareWithBranchAction extends DumbAwareAction {
     Notifications.Bus.notify(new Notification(Vcs.NOTIFICATION_GROUP_ID, "Couldn't compare with branch", message, NotificationType.WARNING), project);
   }
 
-  private static void showDiffWithBranch(Project project, VirtualFile file, String currentBranch, String compareBranch) throws VcsException, IOException {
+  private static void showDiffWithBranch(Project project, VirtualFile file, String compareBranch) throws VcsException, IOException {
     final FilePath filePath = new FilePathImpl(file);
 /*
     final VcsRevisionNumber currentRevisionNumber = HistoryUtils.getCurrentRevision(project, filePath, currentBranch);

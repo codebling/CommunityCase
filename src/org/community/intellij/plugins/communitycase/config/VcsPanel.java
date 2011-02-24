@@ -37,6 +37,7 @@ public class VcsPanel {
   private JButton myTestButton; // Test git executable
   private JComponent myRootPanel;
   private TextFieldWithBrowseButton myGitField;
+  private JTextField myBranchFilter;
   private JComboBox mySSHExecutableComboBox; // Type of SSH executable to use
   private JComboBox myConvertTextFilesComboBox; // The conversion policy
   private JCheckBox myAskBeforeConversionsCheckBox; // The confirmation checkbox
@@ -58,23 +59,27 @@ public class VcsPanel {
     myAppSettings = VcsApplicationSettings.getInstance();
     myProjectSettings = VcsSettings.getInstance(project);
     myProject = project;
+    /*
     mySSHExecutableComboBox.addItem(IDEA_SSH);
     mySSHExecutableComboBox.addItem(NATIVE_SSH);
     mySSHExecutableComboBox.setSelectedItem(VcsSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     mySSHExecutableComboBox
       .setToolTipText(Bundle.message("vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
     myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.askBeforeLineSeparatorConversion());
+    */
     myTestButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         testConnection();
       }
     });
+    /*
     myConvertTextFilesComboBox.addItem(CRLF_DO_NOT_CONVERT);
     myConvertTextFilesComboBox.addItem(CRLF_CONVERT_TO_PROJECT);
     myConvertTextFilesComboBox.setSelectedItem(CRLF_CONVERT_TO_PROJECT);
+    */
     myGitField.addBrowseFolderListener(Bundle.getString("find.title"), Bundle.getString("find.description"), project,
                                        new FileChooserDescriptor(true, false, false, false, false, false));
-    myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
+    //myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
   }
 
   /**
@@ -82,7 +87,7 @@ public class VcsPanel {
    */
   private void testConnection() {
     if (myAppSettings != null) {
-      myAppSettings.setPathToGit(myGitField.getText());
+      myAppSettings.setPathToExecutable(myGitField.getText());
     }
     final String s;
     try {
@@ -116,11 +121,13 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public void load(@NotNull VcsSettings settings) {
-    myGitField.setText(settings.getAppSettings().getPathToVcs());
-    mySSHExecutableComboBox.setSelectedItem(settings.isIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
+    myGitField.setText(settings.getAppSettings().getPathToExecutable());
+    myBranchFilter.setText(settings.getAppSettings().getBranchFilter());
+    /*mySSHExecutableComboBox.setSelectedItem(settings.isIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     myAskBeforeConversionsCheckBox.setSelected(settings.askBeforeLineSeparatorConversion());
     myConvertTextFilesComboBox.setSelectedItem(crlfPolicyItem(settings));
     myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
+    */
   }
 
   /**
@@ -151,11 +158,8 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public boolean isModified(@NotNull VcsSettings settings) {
-    return !settings.getAppSettings().getPathToVcs().equals(myGitField.getText()) ||
-           (settings.isIdeaSsh() != IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem())) ||
-           !crlfPolicyItem(settings).equals(myConvertTextFilesComboBox.getSelectedItem()) ||
-           settings.askBeforeLineSeparatorConversion() != myAskBeforeConversionsCheckBox.isSelected() ||
-           BranchConfigurations.getInstance(myProject).isWidgetEnabled() != myEnableBranchesWidgetCheckBox.isSelected();
+    return !settings.getAppSettings().getPathToExecutable().equals(myGitField.getText())
+            ||!settings.getAppSettings().getBranchFilter().equals(myBranchFilter.getText());
   }
 
   /**
@@ -164,8 +168,9 @@ public class VcsPanel {
    * @param settings the settings object
    */
   public void save(@NotNull VcsSettings settings) {
-    settings.getAppSettings().setPathToGit(myGitField.getText());
-    settings.setIdeaSsh(IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem()));
+    settings.getAppSettings().setPathToExecutable(myGitField.getText());
+    settings.getAppSettings().setBranchFilter(myBranchFilter.getText());
+    /*settings.setIdeaSsh(IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem()));
     Object policyItem = myConvertTextFilesComboBox.getSelectedItem();
     VcsSettings.ConversionPolicy conversionPolicy;
     if (CRLF_DO_NOT_CONVERT.equals(policyItem)) {
@@ -179,6 +184,7 @@ public class VcsPanel {
     }
     settings.setLineSeparatorsConversion(conversionPolicy);
     settings.setAskBeforeLineSeparatorConversion(myAskBeforeConversionsCheckBox.isSelected());
-    BranchConfigurations.getInstance(myProject).setWidgetEnabled(myEnableBranchesWidgetCheckBox.isSelected());
+    */
+    //BranchConfigurations.getInstance(myProject).setWidgetEnabled(myEnableBranchesWidgetCheckBox.isSelected());
   }
 }

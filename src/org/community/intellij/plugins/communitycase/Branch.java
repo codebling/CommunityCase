@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 /**
  * This data class represents a branch
@@ -173,24 +174,17 @@ public class Branch extends Reference {
     //* (no branch)
     final String[] split = output.split("\n");
     Branch currentBranch = null;
+    String branchFilter = Vcs.getInstance(project).getAppSettings().getBranchFilter();
     for (String b : split) {
-/*
-      boolean current = b.charAt(0) == '*';
-      b = b.substring(2).trim();
-      if (b.equals(NO_BRANCH_NAME)) { continue; }
-*/
-
-      //boolean isRemote = b.startsWith("remotes/") || b.startsWith(REFS_REMOTES_PREFIX);
-      final Branch branch = new Branch(b, false, false);
-      //if (current) {
-        currentBranch = branch;
-      //}
-      //if (branches != null && ((isRemote && remoteWanted) || (!isRemote && localWanted))) {
-      if (branches != null) {
-        branches.add(branch);
+      if(branchFilter==null || Pattern.matches(branchFilter,b)) {
+        final Branch branch = new Branch(b, false, false);
+        //currentBranch = branch;
+        if (branches != null) {
+          branches.add(branch);
+        }
       }
     }
-    return currentBranch;
+    return null;
   }
 
   /**
