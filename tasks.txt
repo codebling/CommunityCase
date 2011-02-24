@@ -1,10 +1,31 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
-
->Fix project so that it compiles WITHOUT using idea.jar!
+>Rehaul VCS configuration options
+    *preserve .keep files
+    *preserve .contrib files?
+    *set other branch repository locations on disk (for merge)?
+    *colour validation on branch filtering regex to indicate if valid regex
+>Check if directory is part of the source tree before recursing for changes
+    *ignore .keep and .contrib files
+>Show report after checkin
+>Merge tool
+>Autoset project VCS root(s) using ct pwv -root
+>ClearQuest integration?
+>Tweak actions:
+    *don't retry action for several minutes after a failure
+    *allow actions to be cancelled
+>Fix project so that it compiles WITHOUT using idea.jar!?
     *replace all usages of FilePathImpl with FilePath
         -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
-revert/undo checkout doesn't work for hijacked files
+Retries actions for minutes after failure even if fatal
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+Can't run any version control commands on a hijacked file...
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+runs changes once with each module as myVcsRoot. Handle this properly in ChangeCollector.
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+try deleting unversioned file and have failure -- change list never stops displaying "Updating..."
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+revert/undo checkout doesn't work for hijacked or unversioned files
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 lsvtree giving "not a vob object" if file is hijacked.
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
