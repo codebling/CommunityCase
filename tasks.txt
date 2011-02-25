@@ -1,4 +1,8 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+>Add a max tree depth to ChangeCollector and add the Project.getBaseDir
+>Collapse ChangeCollector into ChangeProvider and use the builder so that changes are updated on the fly
+>Collapse paths for writableFiles before checking status of each of them.
+    .first, collapse common paths for all files.
 >Rehaul VCS configuration options
     *preserve .keep files
     *preserve .contrib files?
@@ -20,14 +24,12 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 Retries actions for minutes after failure even if fatal
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Can't run any version control commands on a hijacked file...
+revert/undo checkout doesn't work for hijacked or unversioned files
+lsvtree giving "not a vob object" if file is hijacked.
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 runs changes once with each module as myVcsRoot. Handle this properly in ChangeCollector.
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 try deleting unversioned file and have failure -- change list never stops displaying "Updating..."
-=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
-revert/undo checkout doesn't work for hijacked or unversioned files
-=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
-lsvtree giving "not a vob object" if file is hijacked.
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 16:08:29.491: cd C:\cc\bamain\serverdev\server\base\http\connection\_src\com\oz\base\http\connection\common
 16:08:29.491: "C:\Program Files\ibm\RationalSDLC\ClearCase\bin\cleartool.exe" lsh -last 1 -fmt "\001%Vn\002%Nd\003\n%ELEMENT_NAME\n\n" -- HttpDecoderParsingHandler.java
