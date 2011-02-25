@@ -28,9 +28,9 @@ import java.io.File;
  * The application wide settings for the git
  */
 @State(
-  name = "Git.Application.Settings",
+  name = "ClearCase.Application.Settings",
   storages = {@Storage(
-    id = "Git.Application.Settings",
+    id = "ClearCase.Application.Settings",
     file = "$APP_CONFIG$/vcs.xml")})
 public class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationSettings.State> {
   /**
@@ -92,13 +92,13 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
 
   public State getState() {
     State s = new State();
-    s.PATH_TO_GIT=myExecutablePath;
+    s.PATH_TO_CLEARTOOL=myExecutablePath;
     s.BRANCH_FILTER=myBranchFilter;
     return s;
   }
 
   public void loadState(State state) {
-    myExecutablePath = state.PATH_TO_GIT==null?defaultPathToExecutable():state.PATH_TO_GIT;
+    myExecutablePath = state.PATH_TO_CLEARTOOL ==null?defaultPathToExecutable():state.PATH_TO_CLEARTOOL;
     myBranchFilter=state.BRANCH_FILTER;
   }
 
@@ -132,7 +132,7 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
     /**
      * The last saved path to git
      */
-    public String PATH_TO_GIT;
+    public String PATH_TO_CLEARTOOL;
     public String BRANCH_FILTER;
   }
 }
