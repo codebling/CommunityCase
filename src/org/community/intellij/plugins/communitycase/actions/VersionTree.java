@@ -45,7 +45,6 @@ public class VersionTree extends BasicAction {
     for(VirtualFile vf:affectedFiles) {
       try {
         root=Util.getRoot(vf);
-        root=root.getParent();
         //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
         LineHandler handler=new LineHandler(project,root,Command.VERSION_TREE_GRAPHICAL);
         handler.endOptions();

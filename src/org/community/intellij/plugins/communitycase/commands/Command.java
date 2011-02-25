@@ -18,6 +18,9 @@ package org.community.intellij.plugins.communitycase.commands;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
+
+//todo wc fix commands.. need separate classes for each command
+//todo wc make all clearcase commands non-blocking (long clearcase commands block UI)
 /**
  * The descriptor of git command. It contains policy information about myLocking and GUI thread policy.
  */

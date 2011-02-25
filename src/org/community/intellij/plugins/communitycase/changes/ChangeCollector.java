@@ -19,11 +19,19 @@ package org.community.intellij.plugins.communitycase.changes;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleManager;
+import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.module.impl.ModuleImpl;
+import com.intellij.openapi.module.impl.ModuleManagerImpl;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.roots.impl.DirectoryIndex;
 import com.intellij.openapi.ui.popup.BalloonHandler;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
@@ -51,8 +59,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
+import java.util.regex.Matcher;
 
 //todo wc clean up this shitty shitty code
+//todo wc changes requested once for each module, with the module as myVcsRoot. Account for this and make sure we're compatible
 /**
  * A collector for changes in version control. It is introduced because changes are not
  * cannot be got as a sum of stateless operations.
@@ -62,8 +72,8 @@ import java.util.*;
  5 seconds bamain from anywhere in tree
 
  format:
- --12-21T17:09  ascher     checkout version "C:\cc\baplugintest\serverdev\lost+fo
-und\wrapper_32.6223c92a584d4266bcc1b081259b9b2c" from \main\0 (reserved)
+ --12-21T17:09  ascher     checkout version "C:\cc\baplugintest\serverdev\lost+found\wrapper_32.6223c92a584d4266bcc1b081259b9b2c" from \main\0 (reserved)
+   "CHECKOUT COMMENT!!!"
  ===================
  update -print
  9 minutes bamain
@@ -233,6 +243,23 @@ class ChangeCollector {
   }
 
   /**
+   * Takes the list of all directory (not .jar or .zip) roots for all modules and determines
+   * if any of the passed path are predecessors/ancestors of them.
+   * If so, adds it to the list of paths which will be returned.
+   * @param paths the paths to expand
+   * @return a list of all module source paths for which one of the passed paths is an ancestor
+   */
+  private Collection<FilePath> expandPathsToRoots(Collection<FilePath> paths) {
+    Collection<FilePath> expanded=new HashSet<FilePath>();
+    for(Module m : ModuleManager.getInstance(myProject).getModules())
+      for(VirtualFile v : OrderEnumerator.orderEntries(m).getSourcePathsList().getVirtualFiles())
+        for(FilePath p:paths)
+          if(v.isDirectory() && v.getPath().startsWith(p.getPath())) //check if is directory. sometimes .zip or .jar are returned
+            expanded.add(Util.virtualFileToFilePath(v));
+    return expanded;
+  }
+
+  /**
    * Add path to the collection of the paths to check for this vcs root
    *
    * @param root  the root path
@@ -290,27 +317,8 @@ class ChangeCollector {
     if (dirtyPaths.isEmpty()) {
       return;
     }
-    // prepare handler
-//    LineHandler ls = new LineHandler(myProject, myVcsRoot, Command.LS);
-    SimpleHandler ls= new SimpleHandler(myProject, myVcsRoot, Command.LS);
-    ls.setRemote(true);
-    //ls.setSilent(true);
-    //ls.setStdoutSuppressed(true);
-    ls.addParameters("-r -vis"); //-vis will not list deleted files
-    //ls.addParameters("-r");
-    ls.endOptions();
-    if(!ls.isAddedPathSizeTooGreat(dirtyPaths))
-      ls.addRelativePaths(dirtyPaths);
-
-    // run handler and collect changes
-
 //    HandlerUtil.runInCurrentThread(ls, myProgressIndicator, false, "VCS refresh");
-//    parseLsOutput(ls.getStdout());
-
 //    HandlerUtil.doSynchronously(ls, "VCS refresh", "VCS refresh");
-//    parseLsOutput(ls.getStdout());
-
-    //parseLsOutput(ls.run());
 
     SimpleHandler lsco= new SimpleHandler(myProject, myVcsRoot, Command.LS_CHECKOUTS);
     lsco.setRemote(true);
@@ -329,11 +337,9 @@ class ChangeCollector {
     for(int i=0; i<MAX_THREADS; i++) {
       myThreads.add(new RecurseRunnable(writableFiles));
     }
-
-    for(FilePath path:dirtyPaths) {
-      recurseHijackedFiles(path.getIOFile(),writableFiles);
-    }
-
+    //testSetup();
+    for(FilePath path:expandPathsToRoots(dirtyPaths))
+      spawnOrRecurse(path.getIOFile(),writableFiles);
     synchronized(myThreads) {
       while(true) { //wait until all threads have exited
         if(myThreads.size()==MAX_THREADS)
@@ -343,11 +349,7 @@ class ChangeCollector {
         } catch(InterruptedException e) {}
       }
     }
-
     return writableFiles;
-
-    //Runtime.getRuntime().availableProcessors();
-    //ApplicationManager.getApplication().executeOnPooledThread(); //see com.intellij.openapi.project.CacheUpdateRunner.getProcessWrapper
   }
 
   private VirtualFile createFileIfInRoot(String filename) throws VcsException {
@@ -395,6 +397,7 @@ class ChangeCollector {
     BufferedReader reader=new BufferedReader(new StringReader(list));
 
     final String filenameStartToken="checkout version \"";
+    //final String filenameStartToken="checkout (directory )?version \"";
     final String filenameEndToken="\" from ";
 
     while(true) {
@@ -409,6 +412,7 @@ class ChangeCollector {
         break;
       } else {
         int filenameStart=line.indexOf(filenameStartToken);
+        //line.split(filenameStartToken);
         int filenameEnd=line.lastIndexOf(filenameEndToken);
         if(filenameStart>0 && filenameEnd>0 && filenameEnd-filenameStart>0) {
           String filename=line.substring(filenameStart+filenameStartToken.length(), filenameEnd);
@@ -553,34 +557,72 @@ class ChangeCollector {
       }
     }
   }
+  /*
+  //for testing methods of ignoring files
+  Set<VirtualFile> myTestFiles = new HashSet<VirtualFile>();
+  private void testSetup() {
+    addChildren(new File("C:\\cc\\bamain\\serverdev\\server"),false,false);
+    addChildren(new File("C:\\cc\\bamain\\serverdev\\server"),true,false);
+    addChildren(new File("C:\\cc\\bamain\\serverdev\\server\\mailgtw"),true,false);
+  }
+  private void addChildren(File file,boolean children,boolean onlyDirectories) {
+    if(children)
+      for(File f:file.listFiles())
+        addFile(f,onlyDirectories);
+    else
+      addFile(file,onlyDirectories);
+  }
+  private void addFile(File file,boolean onlyDirectory) {
+    try {
+      VirtualFile v=Util.fileToVirtualFile(myVcsRoot,file,true);
+      if(v!=null && (!onlyDirectory || v.isDirectory()) )
+        myTestFiles.add(v);
+    } catch(VcsException e) {}
+  }
+  */
   private void recurseHijackedFiles(File file,Set<String> writableFiles) throws VcsException {
     //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
     VirtualFile vf=Util.stringToVirtualFile(myVcsRoot,Util.relativePath(myVcsRoot,file),true);
     if(vf!=null) {
-    if(!ChangeListManager.getInstance(myProject).isIgnoredFile(vf) && !myFileIndex.isIgnored(vf)) {  //skip excluded files
-      //if(file.isDirectory()) {
-      File[] children=file.listFiles();
-      if(children!=null) {  //implicit directory AND IO error check.
-        for(File child:children)
-          spawnOrRecurse(child, writableFiles);
-      } else { //is a file
-        //check if it's read-only
-        //if yes, skip
-        //if no, add to dirty list or add to changes right away
-        if(file.canWrite()) {
-          String relativeFilename=Util.relativePath(myVcsRoot,file);
-          synchronized(writableFiles) {
-            writableFiles.add(relativeFilename); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
+      //skip excluded files
+      /*
+      //for testing ways of finding excluded files
+      if(myTestFiles.contains(vf)) {
+        System.out.println(vf);
+        System.out.println("\tprojectContainsFile(proj,file,islib=false) \t"+ModuleUtil.projectContainsFile(myProject,vf,false));
+        System.out.println("\tprojectContainsFile(proj,file,islib=true) \t"+ModuleUtil.projectContainsFile(myProject,vf,true));
+        System.out.println("\tisProjectExcludeRoot \t\t"+DirectoryIndex.getInstance(myProject).isProjectExcludeRoot(vf));
+        System.out.println("\tmyFileIndex.isIgnored \t\t"+myFileIndex.isIgnored(vf));
+        System.out.println("\tChangeListManager.isIgnoredFile \t\t"+ChangeListManager.getInstance(myProject).isIgnoredFile(vf));
+      }
+      */
+      if(/*ModuleUtil.projectContainsFile(myProject,vf,false)
+              &&*/ !ChangeListManager.getInstance(myProject).isIgnoredFile(vf)
+              && !myFileIndex.isIgnored(vf)) {
+        //if(file.isDirectory()) {
+        File[] children=file.listFiles();
+        if(children!=null) {  //implicit directory AND IO error check.
+            for(File child:children)
+              spawnOrRecurse(child, writableFiles);
+        } else { //is a file
+          //check if it's read-only
+          //if yes, skip
+          //if no, add to dirty list or add to changes right away
+          if(file.canWrite() && vf.getExtension()!=null && !vf.getExtension().equals("keep") && !vf.getExtension().equals("contrib")) { //todo wc make ignored types configurable
+            String relativeFilename=Util.relativePath(myVcsRoot,file);
+            synchronized(writableFiles) {
+              writableFiles.add(relativeFilename); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
+            }
           }
         }
       }
-    }
     } else { //probably a deleted file.
       synchronized(writableFiles) {  //we'll do our best to keep track of it...
         writableFiles.add(Util.relativePath(myVcsRoot,file));  //put it in the writeable files to be verified
       }
     }
   }
+
   private void spawnOrRecurse(File file,Set<String> writableFiles) {
     RecurseRunnable runner=null;
     synchronized(myThreads) {

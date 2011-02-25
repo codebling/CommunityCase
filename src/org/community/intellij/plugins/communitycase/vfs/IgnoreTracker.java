@@ -217,7 +217,7 @@ public class IgnoreTracker {
         return String.valueOf(file.charAt(1)) + ":" + file.substring(2);
       }
       // otherwise the path is relative to "bin/.exe"
-      File Dir = new File(myVcs.getAppSettings().getPathToVcs()).getParentFile();
+      File Dir = new File(myVcs.getAppSettings().getPathToExecutable()).getParentFile();
       if (Dir != null) {
         Dir = Dir.getParentFile();
       }

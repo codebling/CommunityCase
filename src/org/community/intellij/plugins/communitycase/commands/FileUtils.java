@@ -177,6 +177,7 @@ public class FileUtils {
   public static void addFiles(Project project, VirtualFile root, Collection<VirtualFile> files) throws VcsException {
     for (List<String> paths : chunkFiles(root, files)) {
       SimpleHandler handler = new SimpleHandler(project, root, Command.ADD);
+      handler.addParameters("-nc");
       handler.endOptions();
       handler.addParameters(paths);
       handler.setRemote(true);
@@ -207,6 +208,7 @@ public class FileUtils {
   public static void addPaths(Project project, VirtualFile root, Collection<FilePath> files) throws VcsException {
     for (List<String> paths : chunkPaths(root, files)) {
       SimpleHandler handler = new SimpleHandler(project, root, Command.ADD);
+      handler.addParameters("-nc");
       handler.endOptions();
       handler.addParameters(paths);
       handler.setRemote(true);

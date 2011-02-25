@@ -415,7 +415,7 @@ public class Util {
     }
     VirtualFile root = file;
     while (root != null) {
-      if (root.findFileByRelativePath(".") != null) {
+      if (root.isDirectory() && root.findFileByRelativePath(".") != null) {
         return root;
       }
       root = root.getParent();
@@ -852,7 +852,7 @@ public class Util {
   }
 
   public static VirtualFile fileToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull File file,boolean unescapePath) throws VcsException {
-    return stringToVirtualFile(vcsRoot, file.getName(),unescapePath);
+    return stringToVirtualFile(vcsRoot,Util.relativePath(vcsRoot,file),unescapePath);
   }
 
   public static VirtualFile stringToVirtualFile(@NotNull VirtualFile vcsRoot, @NotNull String file,boolean unescapePath) throws VcsException {

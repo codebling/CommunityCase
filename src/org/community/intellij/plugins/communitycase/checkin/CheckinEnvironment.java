@@ -31,17 +31,14 @@ import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.NullableFunction;
 import com.intellij.util.PairConsumer;
-import com.intellij.util.containers.ContainerUtil;
 import com.intellij.util.ui.UIUtil;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.history.NewUsersComponent;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import org.community.intellij.plugins.communitycase.ui.ConvertFilesDialog;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,8 +61,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   private final VcsDirtyScopeManager myDirtyScopeManager;
   private final VcsSettings mySettings;
 
-  private String myNextCommitAuthor = null; // The author for the next commit
-  private boolean myNextCommitAmend; // If true, the next commit is amended
+  private boolean myNextCommitGenerate; //the status of the 'generate report' option added to the commit menu
   private Boolean myNextCommitIsPushed = null; // The push option of the next commit
 
 
@@ -160,13 +156,13 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
                 files.addAll(added);
                 files.addAll(modified);
                 files.addAll(removed);
-                commit(myProject, root, files, messageFile, myNextCommitAuthor, myNextCommitAmend);
+                commit(myProject, root, files, messageFile, myNextCommitGenerate);
               }
               catch (VcsException ex) {
                 if (!isMergeCommit(ex)) {
                   throw ex;
                 }
-                if (!mergeCommit(myProject, root, added, removed, modified, messageFile, myNextCommitAuthor, exceptions)) {
+                if (!mergeCommit(myProject, root, added, removed, modified, messageFile, exceptions)) {
                   throw ex;
                 }
               }
@@ -213,18 +209,16 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
    * @param root        a vcs root
    * @param added       added files
    * @param removed     removed files
-   * @param modified
-   *@param messageFile a message file for commit
-   * @param author      an author
+   * @param modified    modified files
+   * @param messageFile a message file for commit
    * @param exceptions  the list of exceptions to report    @return true if merge commit was successful
-   */
+   * */
   private static boolean mergeCommit(final Project project,
                                      final VirtualFile root,
                                      final Set<FilePath> added,
                                      final Set<FilePath> removed,
                                      final Set<FilePath> modified,
                                      final File messageFile,
-                                     final String author,
                                      List<VcsException> exceptions) {
 /*    HashSet<FilePath> realAdded = new HashSet<FilePath>();
     HashSet<FilePath> realRemoved = new HashSet<FilePath>();
@@ -441,33 +435,24 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   /**
    * Prepare delete files handler.
    *
+   *
    * @param project          the project
    * @param root             a vcs root
    * @param files            a files to commit
    * @param message          a message file to use
-   * @param nextCommitAuthor a author for the next commit
-   * @param nextCommitAmend  true, if the commit should be amended
-   * @return a simple handler that does the task
+   * @param nextCommitGenerate  true, if the commit should be amended
    * @throws VcsException in case of git problem
    */
   private static void commit(Project project,
                              VirtualFile root,
                              Collection<FilePath> files,
                              File message,
-                             final String nextCommitAuthor,
-                             boolean nextCommitAmend)
+                             boolean nextCommitGenerate)
     throws VcsException {
-    boolean amend = nextCommitAmend;
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
       SimpleHandler handler = new SimpleHandler(project, root, Command.
               CHECKIN);
       handler.setRemote(true);
-      if (amend) {
-        handler.addParameters("--amend");
-      }
-      else {
-        amend = true;
-      }
       handler.addParameters("-cfi", message.getAbsolutePath());
       handler.endOptions();
       handler.addParameters(paths);
@@ -559,13 +544,9 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
      */
     private final JPanel myPanel;
     /**
-     * The author ComboBox, the combobox contains previously selected authors.
+     * The 'generate report' checkbox
      */
-    private final JComboBox myAuthor;
-    /**
-     * The amend checkbox
-     */
-    private final JCheckBox myAmend;
+    private final JCheckBox myGenerate;
 
     /**
      * A constructor
@@ -576,47 +557,17 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     CheckinOptions(Project project, Collection<VirtualFile> roots) {
       myPanel = new JPanel(new GridBagLayout());
       final Insets insets = new Insets(2, 2, 2, 2);
-      // add authors drop down
       GridBagConstraints c = new GridBagConstraints();
       c.gridx = 0;
       c.gridy = 0;
       c.anchor = GridBagConstraints.WEST;
       c.insets = insets;
-      final JLabel authorLabel = new JLabel(Bundle.message("commit.author"));
-      myPanel.add(authorLabel, c);
-
-      c = new GridBagConstraints();
-      c.anchor = GridBagConstraints.CENTER;
-      c.insets = insets;
-      c.gridx = 1;
-      c.gridy = 0;
-      c.weightx = 1;
-      c.fill = GridBagConstraints.HORIZONTAL;
-      final List<String> usersList = getUsersList(project, roots);
-      final List<String> authors = usersList == null ? new ArrayList<String>() : new ArrayList<String>(usersList);
-      ContainerUtil.addAll(authors, mySettings.getCommitAuthors());
-      Collections.sort(authors);
-      myAuthor = new JComboBox(authors.toArray(new Object[authors.size()]));
-      myAuthor.insertItemAt("", 0);
-      myAuthor.setSelectedItem("");
-      myAuthor.setEditable(true);
-      authorLabel.setLabelFor(myAuthor);
-      myAuthor.setToolTipText(Bundle.getString("commit.author.tooltip"));
-      myPanel.add(myAuthor, c);
-      // add amend checkbox
-      c = new GridBagConstraints();
-      c.gridx = 0;
-      c.gridy = 1;
-      c.gridwidth = 2;
-      c.anchor = GridBagConstraints.CENTER;
-      c.insets = insets;
-      c.weightx = 1;
-      c.fill = GridBagConstraints.HORIZONTAL;
-      myAmend = new JCheckBox(Bundle.getString("commit.amend"));
-      myAmend.setMnemonic('m');
-      myAmend.setSelected(false);
-      myAmend.setToolTipText(Bundle.getString("commit.amend.tooltip"));
-      myPanel.add(myAmend, c);
+      c.weightx=1.0;
+      myGenerate= new JCheckBox(Bundle.getString("commit.generate"));
+      //myGenerate.setMnemonic('m');
+      myGenerate.setSelected(true); //todo wc make this configurable from CC VCS options
+      myGenerate.setToolTipText(Bundle.getString("commit.generate.tooltip"));
+      myPanel.add(myGenerate, c);
     }
 
     private List<String> getUsersList(final Project project, final Collection<VirtualFile> roots) {
@@ -634,9 +585,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
      * {@inheritDoc}
      */
     public void refresh() {
-      myAuthor.setSelectedItem("");
-      myNextCommitAuthor = null;
-      myAmend.setSelected(false);
+      myGenerate.setSelected(true);
       myNextCommitIsPushed = null;
     }
 
@@ -644,16 +593,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
      * {@inheritDoc}
      */
     public void saveState() {
-      String author = (String)myAuthor.getSelectedItem();
-      myNextCommitAuthor = author.length() == 0 ? null : author;
-      if (author.length() == 0) {
-        myNextCommitAuthor = null;
-      }
-      else {
-        myNextCommitAuthor = author;
-        mySettings.saveCommitAuthor(author);
-      }
-      myNextCommitAmend = myAmend.isSelected();
+      myNextCommitGenerate=myGenerate.isSelected();
     }
 
     /**
