@@ -176,7 +176,7 @@ public class Branch extends Reference {
     Branch currentBranch = null;
     String branchFilter = Vcs.getInstance(project).getAppSettings().getBranchFilter();
     for (String b : split) {
-      if(branchFilter==null || Pattern.matches(branchFilter,b)) {
+      if(branchFilter==null || branchFilter.isEmpty() || Pattern.matches(branchFilter,b)) {
         final Branch branch = new Branch(b, false, false);
         //currentBranch = branch;
         if (branches != null) {
