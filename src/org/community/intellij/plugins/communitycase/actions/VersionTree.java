@@ -17,7 +17,9 @@ package org.community.intellij.plugins.communitycase.actions;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.changes.ChangeListManagerEx;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
@@ -42,13 +44,15 @@ public class VersionTree extends BasicAction {
   @Override
   public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] affectedFiles) {
     VirtualFile root;
+    //ChangeListManagerEx changeListManager=ChangeListManagerEx.getInstance(project)
     for(VirtualFile vf:affectedFiles) {
       try {
         root=Util.getRoot(vf);
         //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
         LineHandler handler=new LineHandler(project,root,Command.VERSION_TREE_GRAPHICAL);
         handler.endOptions();
-        handler.addParameters(vf.getName());
+        //if(changeListManager.getChange(vf).getFileStatus()== FileStatus.HIJACKED)
+        handler.addParameters(vf.getName()+"@@");
         handler.start();
       } catch(VcsException e) {
         log.error(e);

@@ -50,7 +50,7 @@
       <action id="Cc.Add" class="org.community.intellij.plugins.communitycase.actions.Add" text="Add" icon="/actions/include.png">
         <keyboard-shortcut first-keystroke="control alt A" keymap="$default"/>
       </action>
-      <action id="Cc.Revert" class="org.community.intellij.plugins.communitycase.actions.UndoCheckout" icon="/actions/rollback.png"/>
+      <action id="Cc.Revert" class="org.community.intellij.plugins.communitycase.actions.Revert" icon="/actions/rollback.png"/>
       <action id="Cc.VersionTree" class="org.community.intellij.plugins.communitycase.actions.VersionTree" icon="/_cvs/showAsTree.png"/>
       <!--
       <action id="Resolve" class="org.jetbrains.idea.perforce.actions.ResolveAction"/>

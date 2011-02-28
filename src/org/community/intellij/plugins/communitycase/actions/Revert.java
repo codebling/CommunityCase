@@ -25,6 +25,7 @@ import com.intellij.openapi.vcs.changes.ui.RollbackChangesDialog;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
+import org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 public class Revert extends BasicAction {
 
-  private static final String NAME = Bundle.getString("undocheckout.action.name");
+  private static final String NAME = Bundle.getString("revert.action.name");
 
   public Revert() {
     super(NAME);
