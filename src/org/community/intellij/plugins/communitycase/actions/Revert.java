@@ -34,11 +34,11 @@ import java.util.List;
 /**
  * "revert" action
  */
-public class UndoCheckout extends BasicAction {
+public class Revert extends BasicAction {
 
   private static final String NAME = Bundle.getString("undocheckout.action.name");
 
-  public UndoCheckout() {
+  public Revert() {
     super(NAME);
   }
 
