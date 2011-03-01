@@ -46,7 +46,7 @@ public class UpdateLocallyModifiedDialog extends DialogWrapper {
    */
   private JButton myRescanButton;
   /**
-   * The list of files to revert
+   * The list of files to undoCheckout
    */
   private JList myFilesList;
 
@@ -192,11 +192,11 @@ public class UpdateLocallyModifiedDialog extends DialogWrapper {
   }
 
   /**
-   * UndoCheckout files from the list
+   * Revert files from the list
    *
    * @param project the project
    * @param root    the vcs root
-   * @param files   the files to revert
+   * @param files   the files to undoCheckout
    */
   private static void revertFiles(Project project, VirtualFile root, ArrayList<String> files) throws VcsException {
     // TODO consider deleted files
@@ -205,6 +205,6 @@ public class UpdateLocallyModifiedDialog extends DialogWrapper {
     for (String p : files) {
       list.add(VcsUtil.getFilePath(p));
     }
-    rollback.revert(root, list);
+    rollback.undoCheckout(root, list);
   }
 }
