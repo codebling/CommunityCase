@@ -29,6 +29,8 @@ lsvtree giving "not a vob object" if file is hijacked.
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 for directories, context menu root's "Revert..." works, but ClearCase-> Revert and undo checkout  does not
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+after editing a read-only file and choosing to clear status using file system, file is listed as modified (blue) instead of hijacked (yellow)
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Retries actions for minutes after failure even if fatal
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 runs changes once with each module as myVcsRoot. Handle this properly in ChangeCollector.
