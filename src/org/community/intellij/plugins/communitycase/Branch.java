@@ -22,6 +22,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.ConfigUtil;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -174,7 +175,10 @@ public class Branch extends Reference {
     //* (no branch)
     final String[] split = output.split("\n");
     Branch currentBranch = null;
-    String branchFilter = Vcs.getInstance(project).getAppSettings().getBranchFilter();
+    VcsSettings settings=VcsSettings.getInstance(project);
+    String branchFilter=null;
+    if(settings!=null)
+      branchFilter=settings.getBranchFilter();
     for (String b : split) {
       if(branchFilter==null || branchFilter.isEmpty() || Pattern.matches(branchFilter,b)) {
         final Branch branch = new Branch(b, false, false);

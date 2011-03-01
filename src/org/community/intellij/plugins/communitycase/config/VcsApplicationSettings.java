@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NonNls;
 import java.io.File;
 
 /**
- * The application wide settings for the git
+ * The application wide settings
  */
 @State(
   name = "ClearCase.Application.Settings",
@@ -41,7 +41,7 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   /**
    * Windows executable name
    */
-  @NonNls static final String DEFAULT_WINDOWS_GIT = "cleartool.exe";
+  @NonNls static final String DEFAULT_WINDOWS_CLEARTOOL= "cleartool.exe";
   /**
    * Default UNIX paths
    */
@@ -49,12 +49,11 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   /**
    * UNIX executable name
    */
-  @NonNls static final String DEFAULT_UNIX_GIT = "cleartool";
+  @NonNls static final String DEFAULT_UNIX_CLEARTOOL= "cleartool";
   /**
-   * The last used path to git
+   * The last used path
    */
   private String myExecutablePath;
-  private String myBranchFilter;
 
   public static VcsApplicationSettings getInstance() {
     return ServiceManager.getService(VcsApplicationSettings.class);
@@ -68,11 +67,11 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
       String[] paths;
       String program;
       if (SystemInfo.isWindows) {
-        program = DEFAULT_WINDOWS_GIT;
+        program =DEFAULT_WINDOWS_CLEARTOOL;
         paths = DEFAULT_WINDOWS_PATHS;
       }
       else {
-        program = DEFAULT_UNIX_GIT;
+        program =DEFAULT_UNIX_CLEARTOOL;
         paths = DEFAULT_UNIX_PATHS;
       }
       for (String p : paths) {
@@ -93,36 +92,30 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   public State getState() {
     State s = new State();
     s.PATH_TO_CLEARTOOL=myExecutablePath;
-    s.BRANCH_FILTER=myBranchFilter;
     return s;
   }
 
   public void loadState(State state) {
     myExecutablePath = state.PATH_TO_CLEARTOOL ==null?defaultPathToExecutable():state.PATH_TO_CLEARTOOL;
-    myBranchFilter=state.BRANCH_FILTER;
   }
 
   /**
-   * @return get last set path to git or null
+   * @return get last set path or null
    */
   public String getPathToExecutable() {
     return myExecutablePath == null ? defaultPathToExecutable() :myExecutablePath;
   }
 
   /**
-   * Change last set path to git (called on project settings save)
-   * @param pathToGit the path to git
+   * Change last set path to executable
+   * @param path the path
    */
-  public void setPathToExecutable(String pathToGit) {
-    myExecutablePath= pathToGit;
+  public void setPathToExecutable(String path) {
+    myExecutablePath= path;
   }
 
-  public String getBranchFilter() {
-    return myBranchFilter==null?"":myBranchFilter;
-  }
-
-  public void setBranchFilter(String branchFilter) {
-    myBranchFilter=branchFilter;
+  public boolean getShowDirectories() {
+    return true;
   }
 
   /**
@@ -130,9 +123,8 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
    */
   public static class State {
     /**
-     * The last saved path to git
+     * The last saved path
      */
     public String PATH_TO_CLEARTOOL;
-    public String BRANCH_FILTER;
   }
 }

@@ -50,6 +50,9 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
   private boolean myAskBeforeLineSeparatorConversion = true; // If true, the dialog is shown with conversion options
   private UpdateChangesPolicy myPushActiveBranchesRebaseSavePolicy = UpdateChangesPolicy.STASH; // The policy used in push active branches dialog
 
+  private String myBranchFilter="";
+  private boolean myPreserveKeepFiles=false;
+
   public VcsSettings(VcsApplicationSettings appSettings) {
     myAppSettings = appSettings;
   }
@@ -191,6 +194,9 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
     s.UPDATE_CHANGES_POLICY = myUpdateChangesPolicy;
     s.UPDATE_STASH = true;
     s.UPDATE_TYPE = myUpdateType;
+
+    s.BRANCH_FILTER=myBranchFilter;
+    s.PRESERVE_KEEP_FILES=myPreserveKeepFiles;
     return s;
   }
 
@@ -210,6 +216,9 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
       myUpdateChangesPolicy = s.UPDATE_STASH ? UpdateChangesPolicy.STASH : UpdateChangesPolicy.KEEP;
     }
     myUpdateType = s.UPDATE_TYPE;
+
+    myBranchFilter=s.BRANCH_FILTER;
+    myPreserveKeepFiles=s.PRESERVE_KEEP_FILES;
   }
 
   /**
@@ -247,6 +256,22 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
    */
   public void setIdeaSsh(boolean value) {
     mySshExecutable = value ? SshExecutable.IDEA_SSH : SshExecutable.NATIVE_SSH;
+  }
+
+  public String getBranchFilter() {
+    return myBranchFilter==null?"":myBranchFilter;
+  }
+
+  public void setBranchFilter(String branchFilter) {
+    myBranchFilter=branchFilter;
+  }
+
+  public boolean isPreserveKeepFiles() {
+    return myPreserveKeepFiles;
+  }
+
+  public void setPreserveKeepFiles(boolean preserveKeepFiles) {
+    myPreserveKeepFiles=preserveKeepFiles;
   }
 
   /**
@@ -290,6 +315,9 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
      * The policy used in push active branches dialog
      */
     public UpdateChangesPolicy PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = UpdateChangesPolicy.STASH;
+
+    public String BRANCH_FILTER;
+    public boolean PRESERVE_KEEP_FILES;
   }
 
   /**
