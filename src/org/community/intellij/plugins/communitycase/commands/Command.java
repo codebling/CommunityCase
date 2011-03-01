@@ -58,7 +58,8 @@ public class Command {
   public static final Command SHOW = write("get");
   public static final Command STASH = write("NOTIMPLEMENTED_STASH");        //fixme
   public static final Command TAG = meta("NOTIMPLEMENTED_TAG");           //fixme
-  public static final Command UNDO_CHECKOUT = write("unco -rm");
+  public static final Command UNDO_CHECKOUT = write("unco");
+  public static final Command UPDATE = write("update");
   public static final Command UPDATE_INDEX = write("NOTIMPLEMENTED_UPDATE_INDEX"); //fixme
   public static final Command VERSION = meta("-ver");
   public static final Command VERSION_TREE_GRAPHICAL = meta("lsvtree -g");

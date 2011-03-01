@@ -18,6 +18,7 @@ package org.community.intellij.plugins.communitycase.rollback;
 import com.intellij.lifecycle.PeriodicalTasksCloser;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ContentRevision;
@@ -28,6 +29,8 @@ import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.edit.EditFileProvider;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -91,44 +94,43 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
   public void rollbackChanges(@NotNull List<Change> changes,
                               final List<VcsException> exceptions,
                               @NotNull final RollbackProgressListener listener) {
-    HashMap<VirtualFile, List<FilePath>> toUnindex = new HashMap<VirtualFile, List<FilePath>>();
-    HashMap<VirtualFile, List<FilePath>> toRevert = new HashMap<VirtualFile, List<FilePath>>();
+    HashMap<VirtualFile, List<FilePath>> toUndoHijack = new HashMap<VirtualFile, List<FilePath>>();
+    HashMap<VirtualFile, List<FilePath>> toUndoCheckout = new HashMap<VirtualFile, List<FilePath>>();
     List<FilePath> toDelete = new ArrayList<FilePath>();
 
     listener.determinate();
     // collect changes to revert
     for (Change c : changes) {
       switch (c.getType()) {
+        //todo wc handle new, moved, deleted
         case NEW:
-          // note that this the only change that could happen
-          // for HEAD-less working directories.
-          registerFile(toUnindex, c.getAfterRevision().getFile(), exceptions);
+          //undo dir checkout
+          //rmname file
+          //delete file
           break;
         case MOVED:
-          registerFile(toRevert, c.getBeforeRevision().getFile(), exceptions);
-          registerFile(toUnindex, c.getAfterRevision().getFile(), exceptions);
+          //DON'T undo file checkout
+          //move file back
+          //undo dir checkout
+          registerFile(toUndoCheckout, c.getBeforeRevision().getFile(), exceptions);
           toDelete.add(c.getAfterRevision().getFile());
           break;
         case MODIFICATION:
-          // note that changes are also removed from index, if they got into index somehow
-          registerFile(toUnindex, c.getBeforeRevision().getFile(), exceptions);
-          registerFile(toRevert, c.getBeforeRevision().getFile(), exceptions);
+          //undo file checkout
+          if(c.getFileStatus()== FileStatus.HIJACKED)
+            registerFile(toUndoHijack,c.getBeforeRevision().getFile(),exceptions);
+          else
+            registerFile(toUndoCheckout,c.getBeforeRevision().getFile(),exceptions);
           break;
         case DELETED:
-          registerFile(toRevert, c.getBeforeRevision().getFile(), exceptions);
+          //undo dir checkout
+          //undo file checkout
+          //update file
+          registerFile(toUndoCheckout, c.getBeforeRevision().getFile(), exceptions);
           break;
       }
     }
-    // unindex files
-    for (Map.Entry<VirtualFile, List<FilePath>> entry : toUnindex.entrySet()) {
-      listener.accept(entry.getValue());
-      try {
-        unindex(entry.getKey(), entry.getValue());
-      }
-      catch (VcsException e) {
-        exceptions.add(e);
-      }
-    }
+    /*
     // delete files
     for (FilePath file : toDelete) {
       listener.accept(file);
@@ -146,11 +148,22 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
         exceptions.add(new VcsException("Unable to delete file: " + file, e));
       }
     }
+    */
     // revert files from HEAD
-    for (Map.Entry<VirtualFile, List<FilePath>> entry : toRevert.entrySet()) {
+    for (Map.Entry<VirtualFile, List<FilePath>> entry : toUndoCheckout.entrySet()) {
       listener.accept(entry.getValue());
       try {
-        revert(entry.getKey(), entry.getValue());
+        undoCheckout(entry.getKey(), entry.getValue());
+      }
+      catch (VcsException e) {
+        exceptions.add(e);
+      }
+    }
+    // revert files from HEAD
+    for (Map.Entry<VirtualFile, List<FilePath>> entry : toUndoHijack.entrySet()) {
+      listener.accept(entry.getValue());
+      try {
+        undoHijack(entry.getKey(), entry.getValue());
       }
       catch (VcsException e) {
         exceptions.add(e);
@@ -175,13 +188,19 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
    * Reverts the list of files we are passed.
    *
    * @param root  the VCS root
-   * @param files The array of files to revert.
+   * @param files The array of files for which to undo checkout.
    * @throws VcsException Id it breaks.
    */
-  public void revert(final VirtualFile root, final List<FilePath> files) throws VcsException {
+  private void undoHijack(VirtualFile root, List<FilePath> files) throws VcsException {
+    //todo wc checkout then undo checkout
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
-      SimpleHandler handler = new SimpleHandler(myProject, root, Command.UNDO_CHECKOUT);
+      SimpleHandler handler = new SimpleHandler(myProject, root, Command.UPDATE);
       handler.setRemote(true);
+      VcsSettings settings=VcsSettings.getInstance(myProject);
+      if(settings!=null && !settings.isPreserveKeepFiles())
+        handler.addParameters("-ove");
+      else
+        handler.addParameters("-ren");
       handler.endOptions();
       handler.addParameters(paths);
       handler.run();
@@ -189,17 +208,26 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
   }
 
   /**
-   * Remove file paths from index ( remove --cached).
+   * Reverts the list of files we are passed.
    *
-   * @param root  a root
-   * @param files files to remove from index. @throws VcsException if there is a problem with running command
-   * @throws VcsException if there is a problem with running
+   * @param root  the VCS root
+   * @param files The array of files for which to undo checkout.
+   * @throws VcsException Id it breaks.
    */
-  private void unindex(final VirtualFile root, final List<FilePath> files) throws VcsException {
-    //TODO wc see if method still needed.
-    //FileUtils.delete(myProject, root, files, "--cached", "-f");
+  public void undoCheckout(final VirtualFile root, final List<FilePath> files) throws VcsException {
+    for (List<String> paths : FileUtils.chunkPaths(root, files)) {
+      SimpleHandler handler = new SimpleHandler(myProject, root, Command.UNDO_CHECKOUT);
+      handler.setRemote(true);
+      VcsSettings settings=VcsSettings.getInstance(myProject);
+      if(settings!=null && !settings.isPreserveKeepFiles())
+        handler.addParameters("-rm");
+      else
+        handler.addParameters("-kee");
+      handler.endOptions();
+      handler.addParameters(paths);
+      handler.run();
+    }
   }
-
 
   /**
    * Register file in the map under appropriate root
