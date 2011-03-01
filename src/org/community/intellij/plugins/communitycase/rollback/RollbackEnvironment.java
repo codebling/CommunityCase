@@ -192,15 +192,25 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
    * @throws VcsException Id it breaks.
    */
   private void undoHijack(VirtualFile root, List<FilePath> files) throws VcsException {
-    //todo wc checkout then undo checkout
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
-      SimpleHandler handler = new SimpleHandler(myProject, root, Command.UPDATE);
+      SimpleHandler handler = new SimpleHandler(myProject, root, Command.CHECKOUT);
+      handler.setRemote(true);
+      handler.addParameters("-unr");//unreserved
+      handler.addParameters("-nc");//no comment
+      handler.addParameters("-use"); //use hijacked file for checkout
+      handler.endOptions();
+      handler.addParameters(paths);
+      handler.run();
+    }
+
+    for (List<String> paths : FileUtils.chunkPaths(root, files)) {
+      SimpleHandler handler = new SimpleHandler(myProject, root, Command.UNDO_CHECKOUT);
       handler.setRemote(true);
       VcsSettings settings=VcsSettings.getInstance(myProject);
       if(settings!=null && !settings.isPreserveKeepFiles())
-        handler.addParameters("-ove");
+        handler.addParameters("-rm");
       else
-        handler.addParameters("-ren");
+        handler.addParameters("-kee");
       handler.endOptions();
       handler.addParameters(paths);
       handler.run();

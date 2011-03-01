@@ -9,6 +9,7 @@ import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,7 +35,11 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
     LineHandler handler=new LineHandler(myProject, execDir, Command.CHECKOUT);
     handler.setSilent(false);
     handler.setStdoutSuppressed(false);
-    handler.addParameters("-res");//reserved    //todo wc read from settings whether to reserve or unreserve (–unr)
+    VcsSettings settings=VcsSettings.getInstance(myProject);
+    if(settings!=null && settings.isUseReservedCheckoutForFiles())
+      handler.addParameters("-res");//reserved
+    else
+      handler.addParameters("–unr");//unreserved
     handler.addParameters("-nc");//no comment   //todo wc optionally prompt for this
     handler.addParameters("-use");//use hijack - force this so that we can clear the read-only flag ahead of command execution
     handler.endOptions();

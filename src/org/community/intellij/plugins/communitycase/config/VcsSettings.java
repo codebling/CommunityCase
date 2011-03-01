@@ -52,6 +52,8 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
 
   private String myBranchFilter="";
   private boolean myPreserveKeepFiles=false;
+  private boolean myReserveFiles=true;
+  private boolean myReserveDirectories=false;
 
   public VcsSettings(VcsApplicationSettings appSettings) {
     myAppSettings = appSettings;
@@ -272,6 +274,22 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
 
   public void setPreserveKeepFiles(boolean preserveKeepFiles) {
     myPreserveKeepFiles=preserveKeepFiles;
+  }
+
+  public boolean isUseReservedCheckoutForFiles() {
+    return myReserveFiles;
+  }
+
+  public void setUseReservedCheckoutForFiles(boolean useReserved) {
+    myReserveFiles=useReserved;
+  }
+
+  public boolean isUseReservedCheckoutForDirectories() {
+    return myReserveDirectories;
+  }
+
+  public void setUseReservedCheckoutForDirectories(boolean useReserved) {
+    myReserveDirectories=useReserved;
   }
 
   /**
