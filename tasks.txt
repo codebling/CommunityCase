@@ -1,4 +1,6 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+>Append @@ after file name if file is hijacked to address issue (1)
+>Checkout then undo checkout on hijacks to revert so that reverted is same version as original
 >Add a max tree depth to ChangeCollector and add the Project.getBaseDir
 >Collapse ChangeCollector into ChangeProvider and use the builder so that changes are updated on the fly
 >Collapse paths for writableFiles before checking status of each of them.
@@ -20,12 +22,14 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >Fix project so that it compiles WITHOUT using idea.jar!?
     *replace all usages of FilePathImpl with FilePath
         -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
-=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
-Retries actions for minutes after failure even if fatal
-=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+(1)=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Can't run any version control commands on a hijacked file...
 revert/undo checkout doesn't work for hijacked or unversioned files
 lsvtree giving "not a vob object" if file is hijacked.
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+for directories, context menu root's "Revert..." works, but ClearCase-> Revert and undo checkout  does not
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+Retries actions for minutes after failure even if fatal
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 runs changes once with each module as myVcsRoot. Handle this properly in ChangeCollector.
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
