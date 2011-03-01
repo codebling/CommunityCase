@@ -52,6 +52,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
+import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -394,10 +395,11 @@ class ChangeCollector {
   private void parseLsCheckoutsOutput(String list) throws VcsException {
     //Line format:
 //--12-21T17:09  ascher     checkout version "C:\cc\baplugintest\serverdev\lost+found\wrapper_32.6223c92a584d4266bcc1b081259b9b2c" from \main\0 (reserved)
+//--02-25T18:12  ascher     checkout directory version "C:\cc\bamain\serverdev\server\mailgtw\mmt\cache\logic\_src\com\oz\mailgtw\mmt\cache\logic\billing\factory" from \main\2 (unreserved)
     BufferedReader reader=new BufferedReader(new StringReader(list));
 
-    final String filenameStartToken="checkout version \"";
-    //final String filenameStartToken="checkout (directory )?version \"";
+    //final String filenameStartToken="checkout version \"";
+    final String filenameStartToken="checkout (directory )?version \"";
     final String filenameEndToken="\" from ";
 
     while(true) {
@@ -411,53 +413,53 @@ class ChangeCollector {
       if(line==null) {
         break;
       } else {
-        int filenameStart=line.indexOf(filenameStartToken);
-        //line.split(filenameStartToken);
-        int filenameEnd=line.lastIndexOf(filenameEndToken);
-        if(filenameStart>0 && filenameEnd>0 && filenameEnd-filenameStart>0) {
-          String filename=line.substring(filenameStart+filenameStartToken.length(), filenameEnd);
+        String[] splitOnToken=line.split(filenameStartToken);
+        if(splitOnToken.length==2) {
+          int filenameEnd=splitOnToken[1].lastIndexOf(filenameEndToken);
+          if(filenameEnd>0) {
+            String filename=splitOnToken[1].substring(0,filenameEnd);
 
-          File file=new File(filename);
-          if(file != null) {
+            File file=new File(filename);
             String[] parts=line.substring(filenameEnd+filenameEndToken.length(), line.length()).split("\\s+",0);
             String relativeFilename=Util.relativePath(myVcsRoot,file);
 
-            VirtualFile vfile=createFileIfInRoot(filename);
-            if(vfile !=null && vfile.exists() && isInRoot(vfile)) {
-              //this is a checked out file, which we'll automatically consider to be "modified"
-              //in this case, the next string after "from" should be the version number that the checkout came from
-              com.intellij.openapi.vcs.changes.ContentRevision before=
-                      ContentRevision.createRevision(myVcsRoot,
-                                                     relativeFilename,
-                                                     new RevisionNumber(parts[0]),
-                                                     myProject,
-                                                     false,
-                                                     true);
-              com.intellij.openapi.vcs.changes.ContentRevision after=
-                      ContentRevision.createRevision(myVcsRoot,
-                                                     relativeFilename,
-                                                     null,
-                                                     myProject,
-                                                     false,
-                                                     true);
-              myChanges.add(new Change(before, after, FileStatus.MODIFIED));
-            } else { //it's a checked-out file that's been deleted
-              com.intellij.openapi.vcs.changes.ContentRevision before=
-                      ContentRevision.createRevision(myVcsRoot,
-                                                     relativeFilename,
-                                                     new RevisionNumber(parts[0]),
-                                                     myProject,
-                                                     false,
-                                                     true);
-              com.intellij.openapi.vcs.changes.ContentRevision after=
-                      ContentRevision.createRevision(myVcsRoot,
-                                                     relativeFilename,
-                                                     null,
-                                                     myProject,
-                                                     false,
-                                                     true);
-              myChanges.add(new Change(before, after, FileStatus.DELETED));
-
+            if(VcsApplicationSettings.getInstance().getShowDirectories() || !file.isDirectory()) { //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.
+              VirtualFile vfile=createFileIfInRoot(filename);
+              if(vfile !=null && vfile.exists() && isInRoot(vfile)) {
+                //this is a checked out file, which we'll automatically consider to be "modified"
+                //in this case, the next string after "from" should be the version number that the checkout came from
+                com.intellij.openapi.vcs.changes.ContentRevision before=
+                        ContentRevision.createRevision(myVcsRoot,
+                                                       relativeFilename,
+                                                       new RevisionNumber(parts[0]),
+                                                       myProject,
+                                                       false,
+                                                       true);
+                com.intellij.openapi.vcs.changes.ContentRevision after=
+                        ContentRevision.createRevision(myVcsRoot,
+                                                       relativeFilename,
+                                                       null,
+                                                       myProject,
+                                                       false,
+                                                       true);
+                myChanges.add(new Change(before, after, FileStatus.MODIFIED));
+              } else { //it's a checked-out file that's been deleted
+                com.intellij.openapi.vcs.changes.ContentRevision before=
+                        ContentRevision.createRevision(myVcsRoot,
+                                                       relativeFilename,
+                                                       new RevisionNumber(parts[0]),
+                                                       myProject,
+                                                       false,
+                                                       true);
+                com.intellij.openapi.vcs.changes.ContentRevision after=
+                        ContentRevision.createRevision(myVcsRoot,
+                                                       relativeFilename,
+                                                       null,
+                                                       myProject,
+                                                       false,
+                                                       true);
+                myChanges.add(new Change(before, after, FileStatus.DELETED));
+              }
             }
           }
         }
