@@ -1,4 +1,7 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+>Redo Commands.
+    .create separate classes
+    .parent class should appropriately relativate paths and chunk them for length
 >Append @@ after file name if file is hijacked to address issue (1)
 >Checkout then undo checkout on hijacks to revert so that reverted is same version as original
 >Add a max tree depth to ChangeCollector and add the Project.getBaseDir
