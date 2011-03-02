@@ -27,10 +27,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * File utilities
@@ -175,8 +172,20 @@ public class FileUtils {
    * @throws VcsException in case of git problem
    */
   public static void addFiles(Project project, VirtualFile root, Collection<VirtualFile> files) throws VcsException {
-    for (List<String> paths : chunkFiles(root, files)) {
-      SimpleHandler handler = new SimpleHandler(project, root, Command.ADD);
+    Collection<VirtualFile> dirs=new HashSet<VirtualFile>();
+    for(VirtualFile f:files)
+      dirs.add(f.getParent());
+
+    for(List<String> paths : chunkFiles(root, dirs)) {
+      SimpleHandler handler=new SimpleHandler(project, root, Command.CHECKOUT);
+      handler.addParameters("-nc");
+      handler.endOptions();
+      handler.addParameters(paths);
+      handler.setRemote(true);
+      handler.run();
+    }
+    for(List<String> paths : chunkFiles(root, files)) {
+      SimpleHandler handler=new SimpleHandler(project, root, Command.ADD);
       handler.addParameters("-nc");
       handler.endOptions();
       handler.addParameters(paths);
