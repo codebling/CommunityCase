@@ -42,6 +42,8 @@ import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.impl.file.impl.FileManager;
+import com.intellij.psi.impl.file.impl.FileManagerImpl;
 import com.intellij.util.enumeration.ArrayListEnumeration;
 import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.vcsUtil.VcsUtil;
@@ -252,12 +254,17 @@ class ChangeCollector {
    */
   private Collection<FilePath> expandPathsToRoots(Collection<FilePath> paths) {
     Collection<FilePath> expanded=new HashSet<FilePath>();
+    //todo wc fix me -- get the list of all files displayed in the project bar, not all the module files. (see project baplugintest/bla)
     for(Module m : ModuleManager.getInstance(myProject).getModules())
       for(VirtualFile v : OrderEnumerator.orderEntries(m).getSourcePathsList().getVirtualFiles())
         for(FilePath p:paths)
-          if(v.isDirectory() && v.getPath().startsWith(p.getPath())) //check if is directory. sometimes .zip or .jar are returned
+          if(v.isDirectory() && v.getPath().startsWith(p.getPath())) //check if is directory (sometimes .zip or .jar are returned) and that it has our dirtypath as one of its ancestors
             expanded.add(Util.virtualFileToFilePath(v));
-    return expanded;
+    //todo wc ..cheap hack -- fix me by expanding roots against all files displayed in project view as described above.
+    if(expanded.isEmpty())
+      return paths;
+    else
+      return expanded;
   }
 
   /**
