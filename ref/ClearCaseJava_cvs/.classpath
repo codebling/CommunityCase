@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src/tests"/>
-	<classpathentry kind="src" path="src/common"/>
-	<classpathentry kind="src" path="src/commandline"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="3rdparty/powermock-easymock-junit-1.3.5/junit-4.7.jar"/>
-	<classpathentry kind="output" path="classes"/>
-</classpath>
