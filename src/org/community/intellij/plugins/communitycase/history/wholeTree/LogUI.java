@@ -262,7 +262,7 @@ public class LogUI implements Disposable {
     myUi.getOptions().setMinimizeActionEnabled(false);
 
     final JPanel wrapper = createMainTable();
-    final Content content = myUi.createContent("log1120", wrapper, "Commits list", IconLoader.getIcon("/icons/logtree.png"), null);
+    final Content content = myUi.createContent("log1120", wrapper, "Commits list", null, null);
     myUi.addContent(content, 0, PlaceInGrid.center, false);
     content.setCloseable(false);
     content.setPinned(true);
