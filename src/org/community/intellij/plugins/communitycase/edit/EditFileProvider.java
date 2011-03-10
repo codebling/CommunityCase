@@ -49,6 +49,8 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
     }
 
     handler.start();
+    for(VirtualFile file:virtualFiles)
+      file.refresh(false,false);
   }
 
   @Override
