@@ -1,13 +1,16 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
->Redo Commands.
-    .create separate classes
-    .parent class should appropriately relativate paths and chunk them for length
+>Show the modified parts of a file
+>Handle file names with spaces!
+>Checkout/convert hijack to checkout
+>Redo Command classes
+    *create separate classes
+    *parent class should appropriately relativate paths and chunk them for length
 >Append @@ after file name if file is hijacked to address issue (1)
 >Checkout then undo checkout on hijacks to revert so that reverted is same version as original
 >Add a max tree depth to ChangeCollector and add the Project.getBaseDir
 >Collapse ChangeCollector into ChangeProvider and use the builder so that changes are updated on the fly
 >Collapse paths for writableFiles before checking status of each of them.
-    .first, collapse common paths for all files.
+    *first, collapse common paths for all files.
 >Rehaul VCS configuration options
     *preserve .keep files
     *preserve .contrib files?
@@ -25,6 +28,15 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >Fix project so that it compiles WITHOUT using idea.jar!?
     *replace all usages of FilePathImpl with FilePath
         -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
+>Version Tree of directory shows...version tree for dir, not version trees of every child
+>Pre-checkin optimisations
+    *check/request branch mastership
+    *check/reserve file
+    *check latest version
+>Test cases
+    *add a file (parent dir will be checked out). Undo checkout on another file in dir. Check if dir remains checked out.
+    *try to checkin a file that has a newer version. (are you asked to merge?)
+    *failed checkins get moved to a new list
 (1)=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Can't run any version control commands on a hijacked file...
 revert/undo checkout doesn't work for hijacked or unversioned files
