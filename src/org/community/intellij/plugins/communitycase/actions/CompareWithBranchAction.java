@@ -93,6 +93,8 @@ public class CompareWithBranchAction extends DumbAwareAction {
       notifyError(project, "Couldn't get information about current branch", e);
     }
 
+    //todo wc filter only the branches that exist for this file
+
     // prepare and invoke popup
     final JBList list = new JBList(branches);
     list.installCellRenderer(new NotNullFunction<Branch, JComponent>() { // display current branch in bold with asterisk
