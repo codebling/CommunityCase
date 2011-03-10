@@ -54,6 +54,7 @@ public class VersionTree extends BasicAction {
         //if(changeListManager.getChange(vf).getFileStatus()== FileStatus.HIJACKED)
         handler.addParameters(vf.getName()+"@@");
         handler.start();
+        vf.refresh(false, false);
       } catch(VcsException e) {
         log.error(e);
       }
