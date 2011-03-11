@@ -341,7 +341,7 @@ class ChangeCollector {
     for(Module m:ModuleManager.getInstance(myProject).getModules())
       moduleContentRoots.addAll(Arrays.asList(ModuleRootManager.getInstance(m).getContentRoots()));
 
-
+    pathLoop:
     for(Iterator<FilePath> pathIterator=pathsCopy.iterator();pathIterator.hasNext();) {
       FilePath path=pathIterator.next();
 
@@ -355,6 +355,7 @@ class ChangeCollector {
           } else if(path.getPath().startsWith(mcr.getPath())) { //or path.isUnder(mcr,false) i.e. if the path is UNDER the module, only add the path
             expanded.add(path);
             pathIterator.remove();
+            continue pathLoop;
           }
         }
       }
