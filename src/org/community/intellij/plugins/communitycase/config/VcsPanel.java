@@ -38,6 +38,7 @@ public class VcsPanel {
   private JComponent myRootPanel;
   private TextFieldWithBrowseButton myGitField;
   private JTextField myBranchFilter;
+  private JTextField myPathFilter;
   private JComboBox mySSHExecutableComboBox; // Type of SSH executable to use
   private JComboBox myConvertTextFilesComboBox; // The conversion policy
   private JCheckBox myAskBeforeConversionsCheckBox; // The confirmation checkbox
@@ -123,6 +124,7 @@ public class VcsPanel {
   public void load(@NotNull VcsSettings settings) {
     myGitField.setText(settings.getAppSettings().getPathToExecutable());
     myBranchFilter.setText(settings.getBranchFilter());
+    myPathFilter.setText(settings.getPathFilter());
     /*mySSHExecutableComboBox.setSelectedItem(settings.isIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     myAskBeforeConversionsCheckBox.setSelected(settings.askBeforeLineSeparatorConversion());
     myConvertTextFilesComboBox.setSelectedItem(crlfPolicyItem(settings));
@@ -159,7 +161,8 @@ public class VcsPanel {
    */
   public boolean isModified(@NotNull VcsSettings settings) {
     return !settings.getAppSettings().getPathToExecutable().equals(myGitField.getText())
-            ||!settings.getBranchFilter().equals(myBranchFilter.getText());
+            ||!settings.getBranchFilter().equals(myBranchFilter.getText())
+            ||!settings.getPathFilter().equals(myPathFilter.getText());
   }
 
   /**
@@ -170,6 +173,7 @@ public class VcsPanel {
   public void save(@NotNull VcsSettings settings) {
     settings.getAppSettings().setPathToExecutable(myGitField.getText());
     settings.setBranchFilter(myBranchFilter.getText());
+    settings.setPathFilter(myPathFilter.getText());
     /*settings.setIdeaSsh(IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem()));
     Object policyItem = myConvertTextFilesComboBox.getSelectedItem();
     VcsSettings.ConversionPolicy conversionPolicy;

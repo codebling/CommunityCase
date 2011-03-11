@@ -51,6 +51,7 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
   private UpdateChangesPolicy myPushActiveBranchesRebaseSavePolicy = UpdateChangesPolicy.STASH; // The policy used in push active branches dialog
 
   private String myBranchFilter="";
+  private String myPathFilter="";
   private boolean myPreserveKeepFiles=false;
   private boolean myReserveFiles=true;
   private boolean myReserveDirectories=false;
@@ -198,6 +199,7 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
     s.UPDATE_TYPE = myUpdateType;
 
     s.BRANCH_FILTER=myBranchFilter;
+    s.PATH_FILTER=myPathFilter;
     s.PRESERVE_KEEP_FILES=myPreserveKeepFiles;
     return s;
   }
@@ -220,6 +222,7 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
     myUpdateType = s.UPDATE_TYPE;
 
     myBranchFilter=s.BRANCH_FILTER;
+    myPathFilter=s.PATH_FILTER;
     myPreserveKeepFiles=s.PRESERVE_KEEP_FILES;
   }
 
@@ -260,12 +263,19 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
     mySshExecutable = value ? SshExecutable.IDEA_SSH : SshExecutable.NATIVE_SSH;
   }
 
+  @NotNull
   public String getBranchFilter() {
     return myBranchFilter==null?"":myBranchFilter;
   }
-
   public void setBranchFilter(String branchFilter) {
     myBranchFilter=branchFilter;
+  }
+  public void setPathFilter(String pathFilter) {
+    myPathFilter=pathFilter;
+  }
+  @NotNull
+  public String getPathFilter() {
+    return myPathFilter==null?"":myPathFilter;
   }
 
   public boolean isPreserveKeepFiles() {
@@ -335,6 +345,7 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
     public UpdateChangesPolicy PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = UpdateChangesPolicy.STASH;
 
     public String BRANCH_FILTER;
+    public String PATH_FILTER;
     public boolean PRESERVE_KEEP_FILES;
   }
 

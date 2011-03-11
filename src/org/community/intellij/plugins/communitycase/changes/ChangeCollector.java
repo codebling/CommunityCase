@@ -16,45 +16,37 @@
  */
 package org.community.intellij.plugins.communitycase.changes;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.openapi.fileEditor.ex.FileEditorManagerEx;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.module.impl.ModuleImpl;
-import com.intellij.openapi.module.impl.ModuleManagerImpl;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.project.ProjectManager;
+import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.roots.impl.DirectoryIndex;
-import com.intellij.openapi.ui.popup.BalloonHandler;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
-import com.intellij.openapi.vcs.FilePathImpl;
 import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.impl.file.impl.FileManager;
-import com.intellij.psi.impl.file.impl.FileManagerImpl;
-import com.intellij.util.enumeration.ArrayListEnumeration;
-import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
-import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
+import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -62,7 +54,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
-import java.util.regex.Matcher;
+import java.util.HashSet;
+import java.util.regex.Pattern;
 
 //todo wc clean up this shitty shitty code
 //todo wc changes requested once for each module, with the module as myVcsRoot. Account for this and make sure we're compatible
@@ -108,8 +101,13 @@ class ChangeCollector {
   private boolean myIsFailed = true; // indicates that collecting changes has been failed.
 
   private static final int MAX_THREADS=15;
-  private final List<RecurseRunnable> myThreads=new ArrayList<RecurseRunnable>();
+  private final List<RecurseRunnable> myRecurseThreads=new ArrayList<RecurseRunnable>();
+  private final List<LsRunnable> myLsThreads=new ArrayList<LsRunnable>();
   private final Vector<VcsException> myExceptions=new Vector<VcsException>();
+
+  private final Collection<VirtualFile> myProjectPaneFiles=new HashSet<VirtualFile>();
+  private final Collection<VirtualFile> myProjectPaneDirs=new HashSet<VirtualFile>();
+  private Pattern myPathFilter=null;
 
   public ChangeCollector(final Project project,
                          ChangeListManager changeListManager,
@@ -148,6 +146,19 @@ class ChangeCollector {
     if(!myIsCollected) {
       myIsCollected = true;
 
+      for(int i=0; i<MAX_THREADS; i++) {
+        myLsThreads.add(new LsRunnable());
+      }
+
+      if(VcsSettings.getInstance(myProject)!=null && !VcsSettings.getInstance(myProject).getPathFilter().isEmpty()) {
+        try {
+          //disable the inspection, we check if null above.
+          //noinspection ConstantConditions
+          myPathFilter=Pattern.compile(VcsSettings.getInstance(myProject).getPathFilter());
+        } catch(Exception e) {
+          throw new VcsException(Bundle.getString("vcs.config.pathfilter.badregex"),e);
+        }
+      }
       collectVcsModifiedList();
 
       if(!DumbService.getInstance(myProject).isDumb()) {  //don't go to town on the HD if we're indexing, causes excessive thrashing
@@ -156,9 +167,20 @@ class ChangeCollector {
                                                                                           true);
         //we already have all the info we need about checked out files, so remove those from the list
         for(Change change:myChanges)
-          addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //VirtualFile has no equals method, but since it is unique for this
+          addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //remove files already in the checkout list. We don't need to check the status; we already know it.
+                                                                            //VirtualFile has no equals method, but since it is unique for this
                                                                             //IntelliJ aka VM instance, we're ok to use Object's default one with the Set (Sets compare elements for equality)
-        checkStatusAndAddToChangeList(addedOrHijackedOrCheckedOutFiles);
+        chunkCheckAdd(addedOrHijackedOrCheckedOutFiles);
+        synchronized(myLsThreads) {
+          while(true) { //wait until all threads have exited
+            if(myLsThreads.size()==MAX_THREADS)
+              break;
+            try {
+              myLsThreads.wait();
+            } catch(InterruptedException e) {}
+          }
+        }
+        myLsThreads.clear();
       } else {  //if we're in dumb mode, trigger a refresh after all files are indexed
         //todo wc don't register this listener several times! Put a variable in ChangeProvider that can remember if there's one installed.
         myProject.getMessageBus().connect().subscribe(DumbService.DUMB_MODE, new DumbService.DumbModeListener() {
@@ -174,23 +196,65 @@ class ChangeCollector {
     }
   }
 
-  private void checkStatusAndAddToChangeList(Collection<VirtualFile> files) throws VcsException {
+/*
+  private Collection<VirtualFile> getProjectPaneFiles() {
+    HashSet<VirtualFile> accumulator=new HashSet<VirtualFile>();
+
+    ProjectView pv=ProjectView.getInstance(myProject);
+    DefaultMutableTreeNode rootNode=pv.getProjectViewPaneById("ProjectPane").getTreeBuilder().getRootNode();
+    recurseTreeAndAddFiles(accumulator,rootNode);
+    return accumulator;
+  }
+  private void recurseTreeAndAddFiles(HashSet<VirtualFile> accumulator,@NotNull DefaultMutableTreeNode node) {
+    Object userObject=node.getUserObject();
+    if(userObject !=null && userObject instanceof PsiFileSystemItem)
+      accumulator.add(((PsiFileSystemItem)userObject).getVirtualFile());
+    Enumeration<DefaultMutableTreeNode> i=node.children();
+    while(i.hasMoreElements()) {
+      recurseTreeAndAddFiles(accumulator,i.nextElement());
+    }
+  }
+*/
+/*
+  private void collectProjectFiles() {
+    ProjectView pv=ProjectView.getInstance(myProject);
+    DefaultMutableTreeNode rootNode=pv.getProjectViewPaneById("ProjectPane").getTreeBuilder().getRootNode();
+    recurseTreeAndAddFiles(rootNode);
+  }
+  private void recurseTreeAndAddFiles(@NotNull DefaultMutableTreeNode node) {
+    Object userObject=node.getUserObject();
+    if(userObject !=null && userObject instanceof PsiFileSystemItem) {
+      if(userObject instanceof PsiDirectory)
+        myProjectPaneDirs.add(((PsiFileSystemItem)userObject).getVirtualFile());
+      else if(userObject instanceof PsiFile)
+        myProjectPaneFiles.add(((PsiFileSystemItem)userObject).getVirtualFile());
+    }
+    Enumeration<DefaultMutableTreeNode> i=node.children();
+    while(i.hasMoreElements()) {
+      recurseTreeAndAddFiles(i.nextElement());
+    }
+  }
+
+*/
+  private void chunkCheckAdd(Collection<VirtualFile> files) throws VcsException {
     SimpleHandler ls;
     ls=new SimpleHandler(myProject, myVcsRoot, Command.LS);
     ls.setRemote(true);
     ls.endOptions();
     Collection<List<FilePath>> splitPaths=addPaths(ls, Util.virtualFileToFilePath(new ArrayList<VirtualFile>(files)));
-    for(List<FilePath> paths:splitPaths) {
-      //todo wc really need to clean up commands!
-      //should be just ls.setPaths(paths);parseLsOutput(ls.run());
-      ls=new SimpleHandler(myProject, myVcsRoot, Command.LS);
-      ls.setRemote(true);
-      ls.endOptions();
-      ls.addRelativePaths(paths);
-      parseLsOutput(ls.run());
-    }
+    for(List<FilePath> paths:splitPaths)
+      spawnLs(paths);
   }
+  private void checkStatusAndAddToChangeList(Collection<FilePath> paths) throws VcsException {
+    SimpleHandler ls=new SimpleHandler(myProject, myVcsRoot, Command.LS);
+    ls.setRemote(true);
+    ls.endOptions();
+    ls.addRelativePaths(paths);
+    parseLsOutput(ls.run());
+  }
+
   //todo wc move this into Handler
+  //todo wc this is NOT efficient. chunk to the right size instead.
   private Collection<List<FilePath>> addPaths(Handler handler,List<FilePath> filePaths) {
     Collection<List<FilePath>> returnPaths=new HashSet<List<FilePath>>();
     if(handler.isAddedPathSizeTooGreat(filePaths)) {
@@ -254,17 +318,48 @@ class ChangeCollector {
    */
   private Collection<FilePath> expandPathsToRoots(Collection<FilePath> paths) {
     Collection<FilePath> expanded=new HashSet<FilePath>();
-    //todo wc fix me -- get the list of all files displayed in the project bar, not all the module files. (see project baplugintest/bla)
     for(Module m : ModuleManager.getInstance(myProject).getModules())
       for(VirtualFile v : OrderEnumerator.orderEntries(m).getSourcePathsList().getVirtualFiles())
         for(FilePath p:paths)
           if(v.isDirectory() && v.getPath().startsWith(p.getPath())) //check if is directory (sometimes .zip or .jar are returned) and that it has our dirtypath as one of its ancestors
             expanded.add(Util.virtualFileToFilePath(v));
-    //todo wc ..cheap hack -- fix me by expanding roots against all files displayed in project view as described above.
-    if(expanded.isEmpty())
-      return paths;
-    else
-      return expanded;
+    return expanded;
+  }
+
+  /**
+   * Takes the list of all directory (not .jar or .zip) roots for all modules and determines
+   * if any of the passed path are predecessors/ancestors of them.
+   * If so, adds it to the list of paths which will be returned.
+   * @param paths the paths to expand
+   * @return a list of all module source paths for which one of the passed paths is an ancestor
+   */
+  private Collection<FilePath> expandPathsToModuleBases(Collection<FilePath> paths) {
+    Collection<FilePath> expanded=new HashSet<FilePath>();
+    Set<FilePath> pathsCopy=new HashSet<FilePath>(paths);
+    List<VirtualFile> moduleContentRoots=new ArrayList<VirtualFile>();
+
+    for(Module m:ModuleManager.getInstance(myProject).getModules())
+      moduleContentRoots.addAll(Arrays.asList(ModuleRootManager.getInstance(m).getContentRoots()));
+
+
+    for(Iterator<FilePath> pathIterator=pathsCopy.iterator();pathIterator.hasNext();) {
+      FilePath path=pathIterator.next();
+
+      for(Iterator<VirtualFile> mcrIterator=moduleContentRoots.iterator();mcrIterator.hasNext();) {
+        VirtualFile mcr=mcrIterator.next();
+
+        if(mcr.isDirectory()) {
+          if(mcr.getPath().startsWith(path.getPath())) { //check if is directory (sometimes .zip or .jar are returned) and that it has our dirtypath as one of its ancestors
+            expanded.add(Util.virtualFileToFilePath(mcr));
+            mcrIterator.remove(); //only add once (& don't bother iterating through this in the future)
+          } else if(path.getPath().startsWith(mcr.getPath())) { //or path.isUnder(mcr,false) i.e. if the path is UNDER the module, only add the path
+            expanded.add(path);
+            pathIterator.remove();
+          }
+        }
+      }
+    }
+    return expanded;
   }
 
   /**
@@ -343,20 +438,25 @@ class ChangeCollector {
     Set<String> writableFiles=new HashSet<String>();
 
     for(int i=0; i<MAX_THREADS; i++) {
-      myThreads.add(new RecurseRunnable(writableFiles));
+      myRecurseThreads.add(new RecurseRunnable(writableFiles));
     }
     //testSetup();
-    for(FilePath path:expandPathsToRoots(dirtyPaths))
-      spawnOrRecurse(path.getIOFile(),writableFiles);
-    synchronized(myThreads) {
+    for(FilePath path:expandPathsToModuleBases(dirtyPaths))
+      spawnOrRecurse(path.getIOFile(),writableFiles, -1);
+
+    VirtualFile projBaseDir=myProject.getBaseDir();
+    if(projBaseDir!=null)
+      spawnOrRecurse(Util.virtualFileToFile(projBaseDir),writableFiles,1); //recurse only the base directory, no children
+    synchronized(myRecurseThreads) {
       while(true) { //wait until all threads have exited
-        if(myThreads.size()==MAX_THREADS)
+        if(myRecurseThreads.size()==MAX_THREADS)
           break;
         try {
-          myThreads.wait();
+          myRecurseThreads.wait();
         } catch(InterruptedException e) {}
       }
     }
+    myRecurseThreads.clear();
     return writableFiles;
   }
 
@@ -589,35 +689,40 @@ class ChangeCollector {
     } catch(VcsException e) {}
   }
   */
-  private void recurseHijackedFiles(File file,Set<String> writableFiles) throws VcsException {
+  private void recurseHijackedFiles(File file, Set<String> writableFiles, int maxDepth) throws VcsException {
     //todo wc BEWARE LINKS THAT WILL CAUSE INFINITE RECURSION - OH NOES!
     VirtualFile vf=Util.stringToVirtualFile(myVcsRoot,Util.relativePath(myVcsRoot,file),true);
     if(vf!=null) {
       //skip excluded files
-      /*
+
+      /* these are always all false
       //for testing ways of finding excluded files
-      if(myTestFiles.contains(vf)) {
+      //if(myTestFiles.contains(vf)) {
+      if(maxDepth==0) {
         System.out.println(vf);
-        System.out.println("\tprojectContainsFile(proj,file,islib=false) \t"+ModuleUtil.projectContainsFile(myProject,vf,false));
+        System.out.println("\tprojectContainsFile(proj,file,islib=false) \t"+ModuleUtil.projectContainsFile(myProject, vf, false));
         System.out.println("\tprojectContainsFile(proj,file,islib=true) \t"+ModuleUtil.projectContainsFile(myProject,vf,true));
         System.out.println("\tisProjectExcludeRoot \t\t"+DirectoryIndex.getInstance(myProject).isProjectExcludeRoot(vf));
         System.out.println("\tmyFileIndex.isIgnored \t\t"+myFileIndex.isIgnored(vf));
         System.out.println("\tChangeListManager.isIgnoredFile \t\t"+ChangeListManager.getInstance(myProject).isIgnoredFile(vf));
       }
       */
-      if(/*ModuleUtil.projectContainsFile(myProject,vf,false)
-              &&*/ !ChangeListManager.getInstance(myProject).isIgnoredFile(vf)
-              && !myFileIndex.isIgnored(vf)) {
-        //if(file.isDirectory()) {
+      //if(/*ModuleUtil.projectContainsFile(myProject,vf,false) &&
+       if(!ChangeListManager.getInstance(myProject).isIgnoredFile(vf)
+              && !myFileIndex.isIgnored(vf)
+              && (myPathFilter==null
+                  || !myPathFilter.matcher(vf.getPath()).find() )) { //if this line is removed, we must find a way to ignore .keep and .contrib
+        //if(file.isDirectory()) { //not needed, implicit check below
         File[] children=file.listFiles();
         if(children!=null) {  //implicit directory AND IO error check.
+          if(maxDepth!=0)
             for(File child:children)
-              spawnOrRecurse(child, writableFiles);
+                spawnOrRecurse(child, writableFiles, maxDepth>0? --maxDepth:maxDepth); //if maxDepth is negative, don't subtract first.
         } else { //is a file
           //check if it's read-only
           //if yes, skip
           //if no, add to dirty list or add to changes right away
-          if(file.canWrite() && vf.getExtension()!=null && !vf.getExtension().equals("keep") && !vf.getExtension().equals("contrib")) { //todo wc make ignored types configurable
+          if(file.canWrite() && vf.getExtension()!=null) {
             String relativeFilename=Util.relativePath(myVcsRoot,file);
             synchronized(writableFiles) {
               writableFiles.add(relativeFilename); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
@@ -632,19 +737,20 @@ class ChangeCollector {
     }
   }
 
-  private void spawnOrRecurse(File file,Set<String> writableFiles) {
+  private void spawnOrRecurse(File file, Set<String> writableFiles, int maxDepth) {
     RecurseRunnable runner=null;
-    synchronized(myThreads) {
-      if(!myThreads.isEmpty())
-        runner=myThreads.remove(myThreads.size()-1); //remove the last element instead of the first so that we don't have to recopy the array
+    synchronized(myRecurseThreads) {
+      if(!myRecurseThreads.isEmpty())
+        runner=myRecurseThreads.remove(myRecurseThreads.size()-1); //remove the last element instead of the first so that we don't have to recopy the array
     }
 
     try {
       if(runner == null) //there are no threads left.
-        recurseHijackedFiles(file, writableFiles);
+        recurseHijackedFiles(file, writableFiles, maxDepth);
       else {
         runner.setFile(file);
-        runner.run();
+        runner.setMaxDepth(maxDepth);
+        new Thread(runner).start(); //runner.run();
       }
     } catch(VcsException e) {
       myExceptions.add(e);
@@ -652,15 +758,42 @@ class ChangeCollector {
   }
 
   private void endThreadRun(RecurseRunnable runner) {
-    synchronized(myThreads) {
-      myThreads.add(runner);
-      myThreads.notify();
+    synchronized(myRecurseThreads) {
+      myRecurseThreads.add(runner);
+      myRecurseThreads.notify();
     }
   }
+  private void endThreadRun(LsRunnable runner) {
+    synchronized(myLsThreads) {
+      myLsThreads.add(runner);
+      myLsThreads.notify();
+    }
+  }
+  private void spawnLs(Collection<FilePath> files) {
+
+    LsRunnable runner=null;
+    synchronized(myLsThreads) {
+      if(!myLsThreads.isEmpty())
+        runner=myLsThreads.remove(myLsThreads.size()-1); //remove the last element instead of the first so that we don't have to recopy the array
+    }
+
+    try {
+      if(runner == null) //there are no threads left.
+        checkStatusAndAddToChangeList(files);
+      else {
+        runner.setFiles(files);
+        new Thread(runner).start(); //runner.run();
+      }
+    } catch(VcsException e) {
+      myExceptions.add(e);
+    }
+  }
+
   private class RecurseRunnable implements Runnable {
     //Set<File> myIterableFiles;
     File myFile;
     Set<String> myWritableFiles;
+    private int myMaxDepth=0;
 
     public RecurseRunnable(Set<String> writableFiles) {
       //myIterableFiles=new HashSet<File>();
@@ -676,7 +809,7 @@ class ChangeCollector {
       }
 
       try {
-        recurseHijackedFiles(myFile,myWritableFiles);
+        recurseHijackedFiles(myFile,myWritableFiles,myMaxDepth);
       } catch(VcsException e) {
         myExceptions.add(e);
       }
@@ -686,6 +819,33 @@ class ChangeCollector {
     }
     public void setFile(File file) {
       myFile=file;
+    }
+
+    public void setMaxDepth(int maxDepth) {
+      myMaxDepth=maxDepth;
+    }
+  }
+  private class LsRunnable implements Runnable {
+    Collection<FilePath> myFiles;
+
+    public void setFiles(Collection<FilePath> files) {
+      myFiles=files;
+    }
+
+    @Override
+    public void run() {
+      if(myFiles == null) {
+        throw new IllegalStateException("This object's file must be set prior to running");
+      }
+
+      try {
+        checkStatusAndAddToChangeList(myFiles);
+      } catch(VcsException e) {
+        myExceptions.add(e);
+      }
+
+      myFiles=null;
+      endThreadRun(this);
     }
   }
 
