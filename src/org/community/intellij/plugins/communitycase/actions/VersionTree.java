@@ -54,7 +54,7 @@ public class VersionTree extends BasicAction {
         //if(changeListManager.getChange(vf).getFileStatus()== FileStatus.HIJACKED)
         handler.addParameters(vf.getName()+"@@");
         handler.start();
-        vf.refresh(false, false);
+        vf.refresh(false, false); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
       } catch(VcsException e) {
         log.error(e);
       }
