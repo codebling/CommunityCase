@@ -9,6 +9,7 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >Checkout then undo checkout on hijacks to revert so that reverted is same version as original
 >Add a max tree depth to ChangeCollector and add the Project.getBaseDir
 >Collapse ChangeCollector into ChangeProvider and use the builder so that changes are updated on the fly
+    *make sure that if there is only a partial dirty, we still get all the unversioned
 >Collapse paths for writableFiles before checking status of each of them.
     *first, collapse common paths for all files.
 >Rehaul VCS configuration options
