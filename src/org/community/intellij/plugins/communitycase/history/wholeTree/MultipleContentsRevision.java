@@ -16,7 +16,6 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.ContentRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -26,11 +25,11 @@ import java.util.List;
  */
 public class MultipleContentsRevision implements ContentRevision {
   private final FilePath myPath;
-  private final List<RevisionNumber> myList;
+  private final List<VcsRevisionNumber> myList;
   private ContentRevision myRevision;
 
   public MultipleContentsRevision(final FilePath path,
-                                  final List<RevisionNumber> list,
+                                  final List<VcsRevisionNumber> list,
                                   final ContentRevision contentRevision) throws VcsException {
     myPath = path;
     myList = list;
@@ -54,7 +53,7 @@ public class MultipleContentsRevision implements ContentRevision {
     return myRevision.getRevisionNumber();
   }
 
-  public List<RevisionNumber> getList() {
+  public List<VcsRevisionNumber> getList() {
     return myList;
   }
 }

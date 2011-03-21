@@ -23,10 +23,10 @@ import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.FileRevision;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -156,13 +156,13 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
     class CommitInfo {
       Date date;
       String author;
-      RevisionNumber revision;
+      VcsRevisionNumber revision;
     }
     HashMap<String, CommitInfo> commits = new HashMap<String, CommitInfo>();
     for (StringScanner s = new StringScanner(output); s.hasMoreData();) {
       // parse header line
       String commitHash = s.spaceToken();
-      if (commitHash.equals(RevisionNumber.NOT_COMMITTED_HASH)) {
+      if (commitHash.equals(VcsRevisionNumber.NOT_COMMITTED_HASH)) {
         commitHash = null;
       }
       s.spaceToken(); // skip revision line number
@@ -185,7 +185,7 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
           }
           if (commitHash != null && COMMITTER_TIME_KEY.equals(key)) {
             commit.date = Util.parseTimestamp(value);
-            commit.revision = new RevisionNumber(commitHash, commit.date);
+            commit.revision = new VcsRevisionNumber(commitHash, commit.date);
           }
         }
         commits.put(commitHash, commit);

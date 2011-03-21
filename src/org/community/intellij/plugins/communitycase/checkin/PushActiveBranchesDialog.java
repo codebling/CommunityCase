@@ -36,7 +36,7 @@ import com.intellij.util.Function;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.util.ui.tree.TreeUtil;
 import org.community.intellij.plugins.communitycase.Branch;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.actions.RepositoryAction;
@@ -693,7 +693,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
               c.root = r;
               String hash = sp.spaceToken();
               String time = sp.spaceToken();
-              c.revision = new RevisionNumber(hash, new Date(Long.parseLong(time) * 1000L));
+              c.revision = new VcsRevisionNumber(hash, new Date(Long.parseLong(time) * 1000L));
               c.authorTime = sp.spaceToken();
               c.message = sp.line();
               c.isMerge = sp.line().indexOf(' ') != -1;
@@ -843,7 +843,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
     /**
      * The revision
      */
-    RevisionNumber revision;
+    VcsRevisionNumber revision;
     /**
      * The message
      */

@@ -24,6 +24,7 @@ import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.TransactionRunnable;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.ex.ProjectLevelVcsManagerEx;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.update.ActionInfo;
 import com.intellij.openapi.vcs.update.FileGroup;
 import com.intellij.openapi.vcs.update.UpdateInfoTree;
@@ -31,7 +32,6 @@ import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.actions.RepositoryAction;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
@@ -154,7 +154,7 @@ public class MergeUtil {
                                  final Project project,
                                  final List<VcsException> exceptions,
                                  final VirtualFile root,
-                                 final RevisionNumber currentRev,
+                                 final VcsRevisionNumber currentRev,
                                  final Label beforeLabel,
                                  final String actionName,
                                  final ActionInfo actionInfo) {

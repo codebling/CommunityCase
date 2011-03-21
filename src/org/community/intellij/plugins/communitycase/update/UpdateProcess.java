@@ -18,10 +18,10 @@ package org.community.intellij.plugins.communitycase.update;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Clock;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.text.DateFormatUtil;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
@@ -46,7 +46,7 @@ public class UpdateProcess extends BaseRebaseProcess {
   /**
    * The revision that was before update
    */
-  private RevisionNumber myBefore;
+  private VcsRevisionNumber myBefore;
 
   /**
    * The constructor
@@ -100,7 +100,7 @@ public class UpdateProcess extends BaseRebaseProcess {
   @Override
   protected void markStart(VirtualFile root) throws VcsException {
     // remember the current position
-    myBefore = RevisionNumber.resolve(myProject, root, "HEAD");
+    myBefore = VcsRevisionNumber.resolve(myProject, root, "HEAD");
   }
 
   /**

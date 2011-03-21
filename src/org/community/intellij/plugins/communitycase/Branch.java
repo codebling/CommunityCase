@@ -18,6 +18,7 @@ package org.community.intellij.plugins.communitycase;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -266,7 +267,7 @@ public class Branch extends Reference {
    * @throws com.intellij.openapi.vcs.VcsException the exception
    */
   @Nullable
-  public RevisionNumber getMergeBase(@NotNull Project project, @NotNull VirtualFile root, @NotNull Branch branch)
+  public VcsRevisionNumber getMergeBase(@NotNull Project project, @NotNull VirtualFile root, @NotNull Branch branch)
     throws VcsException {
     SimpleHandler h = new SimpleHandler(project, root, Command.MERGE_BASE);
     h.setRemote(true);
@@ -277,7 +278,7 @@ public class Branch extends Reference {
       return null;
     }
     else {
-      return RevisionNumber.resolve(project, root, output);
+      return VcsRevisionNumber.resolve(project, root, output);
     }
   }
 }

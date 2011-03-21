@@ -25,7 +25,6 @@ import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
 import com.intellij.vcsUtil.VcsUtil;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.history.wholeTree.AbstractHash;
 import org.jetbrains.annotations.NotNull;
@@ -164,7 +163,7 @@ class LogRecord {
 
   public List<Change> coolChangesParser(Project project, VirtualFile vcsRoot) throws VcsException {
     final List<Change> result = new ArrayList<Change>();
-    final RevisionNumber thisRevision = new RevisionNumber(getVersion(), getDate());
+    final VcsRevisionNumber thisRevision = new VcsRevisionNumber(getVersion(), getDate());
     final String[] parentsShortHashes = getParentsShortHashes();
     final List<AbstractHash> parents = new ArrayList<AbstractHash>(parentsShortHashes.length);
     for (String parentsShortHash : parentsShortHashes) {
@@ -185,9 +184,9 @@ class LogRecord {
     final ContentRevision after;
     FileStatus status = null;
     final String path = parts.get(1);
-    final List<RevisionNumber> parentRevisions = new ArrayList<RevisionNumber>(parents.size());
+    final List<VcsRevisionNumber> parentRevisions = new ArrayList<Vcs>(parents.size());
     for (AbstractHash parent : parents) {
-      parentRevisions.add(new RevisionNumber(parent.getString()));
+      parentRevisions.add(new VcsRevisionNumber(parent.getString()));
     }
 
     switch (parts.get(0).charAt(0)) {

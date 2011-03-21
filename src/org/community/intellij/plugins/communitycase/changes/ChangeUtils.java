@@ -27,7 +27,7 @@ import com.intellij.openapi.vcs.versionBrowser.CommittedChangeListImpl;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -108,8 +108,8 @@ public class ChangeUtils {
    */
   public static void parseChanges(Project project,
                                   VirtualFile vcsRoot,
-                                  RevisionNumber thisRevision,
-                                  RevisionNumber parentRevision,
+                                  VcsRevisionNumber thisRevision,
+                                  VcsRevisionNumber parentRevision,
                                   String s,
                                   Collection<Change> changes,
                                   final Set<String> ignoreNames) throws VcsException {
@@ -156,8 +156,8 @@ public class ChangeUtils {
    */
   public static void parseChanges(Project project,
                                   VirtualFile vcsRoot,
-                                  RevisionNumber thisRevision,
-                                  RevisionNumber parentRevision,
+                                  VcsRevisionNumber thisRevision,
+                                  VcsRevisionNumber parentRevision,
                                   StringScanner s,
                                   Collection<Change> changes,
                                   final Set<String> ignoreNames) throws VcsException {
@@ -220,7 +220,7 @@ public class ChangeUtils {
    * @throws VcsException if there is a problem with running
    */
   @SuppressWarnings({"SameParameterValue"})
-  public static RevisionNumber loadRevision(final Project project, final VirtualFile vcsRoot, @NonNls final String revisionNumber)
+  public static VcsRevisionNumber loadRevision(final Project project, final VirtualFile vcsRoot, @NonNls final String revisionNumber)
     throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, vcsRoot, Command.REV_LIST);
     handler.addParameters("--timestamp", "--max-count=1", revisionNumber);
@@ -233,7 +233,7 @@ public class ChangeUtils {
       throw new VcsException("The string '" + revisionNumber + "' does not represents a revision number.");
     }
     Date timestamp = Util.parseTimestamp(stk.nextToken());
-    return new RevisionNumber(stk.nextToken(), timestamp);
+    return new VcsRevisionNumber(stk.nextToken(), timestamp);
   }
 
   /**
@@ -365,11 +365,11 @@ public class ChangeUtils {
     else {
       fullComment = commentBody + "\n\n" + commentSubject;
     }
-    RevisionNumber thisRevision = new RevisionNumber(revisionNumber, commitDate);
+    VcsRevisionNumber thisRevision = new Vcs(revisionNumber, commitDate);
 
     long number = longForShaHash(revisionNumber);
     if (skipDiffsForMerge || (parents.length <= 1)) {
-      final RevisionNumber parentRevision = parents.length > 0 ? loadRevision(project, root, parents[0]) : null;
+      final VcsRevisionNumber parentRevision = parents.length > 0 ? loadRevision(project, root, parents[0]) : null;
       // This is the first or normal commit with the single parent.
       // Just parse changes in this commit as returned by the show command.
       parseChanges(project, root, thisRevision, parentRevision, s, changes, null);
@@ -380,7 +380,7 @@ public class ChangeUtils {
       // If no changes are found (why to merge then?). Empty changelist is reported.
 
       for (String parent : parents) {
-        final RevisionNumber parentRevision = loadRevision(project, root, parent);
+        final VcsRevisionNumber parentRevision = loadRevision(project, root, parent);
         if (parentRevision == null) {
           // the repository was cloned with --depth parameter
           continue;

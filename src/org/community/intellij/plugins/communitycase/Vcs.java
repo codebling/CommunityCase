@@ -351,18 +351,18 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
       String dateString = revision.substring(0, revision.indexOf("["));
       String rev = revision.substring(revision.indexOf("[") + 1, 40);
       Date d = new Date(Date.parse(dateString));
-      return new RevisionNumber(rev, d);
+      return new VcsRevisionNumber(rev, d);
     }
     if (path != null) {
       try {
         VirtualFile root = Util.getRoot(path);
-        return RevisionNumber.resolve(myProject, root, revision);
+        return VcsRevisionNumber.resolve(myProject, root, revision);
       }
       catch (VcsException e) {
         log.error("Unexpected problem with resolving the revision number: ", e);
       }
     }
-    return new RevisionNumber(revision);
+    return new VcsRevisionNumber(revision);
 
   }
 

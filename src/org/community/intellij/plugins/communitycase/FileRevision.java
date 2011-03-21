@@ -40,20 +40,20 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
    */
   @SuppressWarnings({"HardCodedStringLiteral"}) private final static Charset BIN_ENCODING = Charset.forName("ISO-8859-1");
   private final FilePath path;
-  private final RevisionNumber revision;
+  private final VcsRevisionNumber revision;
   private final Pair<Pair<String, String>, Pair<String, String>> authorAndCommitter;
   private final String message;
   private byte[] content;
   private final Project project;
   private final String branch;
 
-  public FileRevision(@NotNull Project project, @NotNull FilePath path, @NotNull RevisionNumber revision) {
+  public FileRevision(@NotNull Project project, @NotNull FilePath path, @NotNull VcsRevisionNumber revision) {
     this(project, path, revision, null, null, null);
   }
 
   public FileRevision(@NotNull Project project,
                       @NotNull FilePath path,
-                      @NotNull RevisionNumber revision,
+                      @NotNull VcsRevisionNumber revision,
                       @Nullable Pair<Pair<String, String>, Pair<String, String>> authorAndCommitter,
                       @Nullable String message,
                       @Nullable String branch) {

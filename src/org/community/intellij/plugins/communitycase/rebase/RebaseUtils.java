@@ -17,9 +17,9 @@ package org.community.intellij.plugins.communitycase.rebase;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.io.FileUtil;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.jetbrains.annotations.Nullable;
 
@@ -134,7 +134,7 @@ public class RebaseUtils {
       }
       return null;
     }
-    return new CommitInfo(new RevisionNumber(hash), subject);
+    return new CommitInfo(new VcsRevisionNumber(hash), subject);
   }
 
   /**
@@ -144,7 +144,7 @@ public class RebaseUtils {
     /**
      * The commit hash
      */
-    public final RevisionNumber revision;
+    public final VcsRevisionNumber revision;
     /**
      * The commit subject
      */
@@ -156,7 +156,7 @@ public class RebaseUtils {
      * @param revision
      * @param subject the commit subject
      */
-    public CommitInfo(RevisionNumber revision, String subject) {
+    public CommitInfo(VcsRevisionNumber revision, String subject) {
       this.revision = revision;
       this.subject = subject;
     }

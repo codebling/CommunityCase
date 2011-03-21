@@ -23,7 +23,6 @@ import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.*;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.ContentRevision;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.jetbrains.annotations.NotNull;
@@ -139,7 +138,7 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
           final VirtualFile root = myVcsManager.getVcsRootFor(vf);
           if (root != null) {
             //todo wc fix this
-            //final RevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
+            //final VcsRevisionNumber beforeRevisionNumber = ChangeUtils.loadRevision(myProject, root, "HEAD");
 //              builder.processChange(new Change(ContentRevision.createRevision(vf, beforeRevisionNumber, myProject),
             builder.processChange(new Change(ContentRevision.createRevision(vf, null, myProject),
                     ContentRevision.createRevision(vf, null, myProject), FileStatus.MODIFIED), Key);

@@ -27,7 +27,6 @@ import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.FileRevision;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
@@ -125,11 +124,11 @@ public class DiffProvider implements com.intellij.openapi.vcs.diff.DiffProvider 
       for (VcsFileRevision f : HistoryUtils.history(myProject, filePath)) {
         FileRevision Revision = (FileRevision)f;
         if (f.getRevisionNumber().equals(revisionNumber)) {
-          return new org.community.intellij.plugins.communitycase.ContentRevision(Revision.getPath(), (RevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
+          return new org.community.intellij.plugins.communitycase.ContentRevision(Revision.getPath(), (VcsRevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
         }
       }
       ContentRevision candidate =
-        new org.community.intellij.plugins.communitycase.ContentRevision(filePath, (RevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
+        new org.community.intellij.plugins.communitycase.ContentRevision(filePath, (VcsRevisionNumber)revisionNumber, myProject, selectedFile.getCharset());
       try {
         candidate.getContent();
         return candidate;

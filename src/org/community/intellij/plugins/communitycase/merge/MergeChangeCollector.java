@@ -19,10 +19,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.VcsKey;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.update.FileGroup;
 import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
@@ -58,7 +58,7 @@ public class MergeChangeCollector {
   /**
    * Revision number before update (used for diff)
    */
-  private final RevisionNumber myStart;
+  private final VcsRevisionNumber myStart;
 
   /**
    * A constructor
@@ -68,7 +68,7 @@ public class MergeChangeCollector {
    * @param start   the start revision
    * @param updates a container for updates
    */
-  public MergeChangeCollector(final Project project, final VirtualFile root, final RevisionNumber start, final UpdatedFiles updates) {
+  public MergeChangeCollector(final Project project, final VirtualFile root, final VcsRevisionNumber start, final UpdatedFiles updates) {
     myStart = start;
     myProject = project;
     myRoot = root;
@@ -102,7 +102,7 @@ public class MergeChangeCollector {
         String path = root + "/" + Util.unescapePath(relative);
         myUpdates.getGroupById(FileGroup.MERGED_WITH_CONFLICT_ID).add(path, vcsKey, null);
       }
-      RevisionNumber currentHead = RevisionNumber.resolve(myProject, myRoot, "HEAD");
+      VcsRevisionNumber currentHead = VcsRevisionNumber.resolve(myProject, myRoot, "HEAD");
       // collect other changes (ignoring unmerged)
       TreeSet<String> updated = new TreeSet<String>();
       TreeSet<String> created = new TreeSet<String>();

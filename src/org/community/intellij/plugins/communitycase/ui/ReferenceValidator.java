@@ -17,9 +17,9 @@ package org.community.intellij.plugins.communitycase.ui;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.DocumentAdapter;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 
 import javax.swing.*;
@@ -92,7 +92,7 @@ public class ReferenceValidator {
         myLastResultText = revisionExpression;
         myLastResult = false;
         try {
-          RevisionNumber revision = RevisionNumber.resolve(myProject, Root(), revisionExpression);
+          VcsRevisionNumber revision = VcsRevisionNumber.resolve(myProject, Root(), revisionExpression);
           ShowAllSubmittedFilesAction.showSubmittedFiles(myProject, revision.asString(), Root());
           myLastResult = true;
         }

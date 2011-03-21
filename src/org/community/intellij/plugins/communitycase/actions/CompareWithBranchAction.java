@@ -34,13 +34,13 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.CurrentRevision;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsHistoryUtil;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBList;
 import com.intellij.util.NotNullFunction;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.FileRevision;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
@@ -159,11 +159,11 @@ public class CompareWithBranchAction extends DumbAwareAction {
       return;
     }
 */
-    RevisionNumber compareRevisionNumber = new RevisionNumber(compareBranch + "/LATEST");
+    VcsRevisionNumber compareRevisionNumber = new VcsRevisionNumber(compareBranch + "/LATEST");
     final VcsFileRevision compareRevision = new FileRevision(project, filePath, compareRevisionNumber);
     final String currentTitle = "Local changes on current branch";
     final String compareTitle = compareRevisionNumber.getShortRev() + " on " + compareBranch;
-    VcsHistoryUtil.showDiff(project, filePath, new CurrentRevision(file, new RevisionNumber()), compareRevision, currentTitle, compareTitle);
+    VcsHistoryUtil.showDiff(project, filePath, new CurrentRevision(file, new VcsRevisionNumber()), compareRevision, currentTitle, compareTitle);
 
     /*final VirtualFile vcsRoot = VcsUtil.getVcsRootFor(project, file);
     final SimpleHandler handler = new SimpleHandler(project, vcsRoot, Command.DIFF);

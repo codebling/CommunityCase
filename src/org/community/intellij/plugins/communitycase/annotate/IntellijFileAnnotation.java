@@ -30,7 +30,7 @@ import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.text.DateFormatUtil;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
@@ -91,7 +91,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
   private final LineAnnotationAspect REVISION_ASPECT = new AnnotationAspect(AnnotationAspect.REVISION, false) {
     @Override
     protected String doGetValue(LineInfo lineInfo) {
-      final RevisionNumber revision = lineInfo.getRevision();
+      final VcsRevisionNumber revision = lineInfo.getRevision();
       return revision == null ? "" : String.valueOf(revision.getShortRev());
     }
   };
@@ -262,7 +262,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
    * @throws VcsException in case when line could not be processed
    */
   public void appendLineInfo(final Date date,
-                             final RevisionNumber revision,
+                             final VcsRevisionNumber revision,
                              final String author,
                              final String line,
                              final long lineNumber) throws VcsException {
@@ -316,7 +316,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     /**
      * revision number
      */
-    private final RevisionNumber myRevision;
+    private final VcsRevisionNumber myRevision;
     /**
      * the author of the change
      */
@@ -329,7 +329,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
      * @param revision revision number
      * @param author   the author of the change
      */
-    public LineInfo(final Date date, final RevisionNumber revision, final String author) {
+    public LineInfo(final Date date, final VcsRevisionNumber revision, final String author) {
       myDate = date;
       myRevision = revision;
       myAuthor = author;
@@ -345,7 +345,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     /**
      * @return the revision number
      */
-    public RevisionNumber getRevision() {
+    public VcsRevisionNumber getRevision() {
       return myRevision;
     }
 

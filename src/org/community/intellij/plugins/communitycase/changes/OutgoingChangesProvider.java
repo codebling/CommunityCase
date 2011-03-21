@@ -29,7 +29,7 @@ import com.intellij.util.Consumer;
 import com.intellij.util.containers.Convertor;
 import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.BranchesSearcher;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
@@ -53,7 +53,7 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
     if (searcher.getLocal() == null || searcher.getRemote() == null) {
       return new Pair<VcsRevisionNumber, List<CommittedChangeList>>(null, Collections.<CommittedChangeList>emptyList());
     }
-    final RevisionNumber base = searcher.getLocal().getMergeBase(myProject, vcsRoot, searcher.getRemote());
+    final VcsRevisionNumber base = searcher.getLocal().getMergeBase(myProject, vcsRoot, searcher.getRemote());
     if (base == null) {
       return new Pair<VcsRevisionNumber, List<CommittedChangeList>>(null, Collections.<CommittedChangeList>emptyList());
     }
@@ -80,7 +80,7 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
       LOG.info("local or remote not found");
       return null;
     }
-    final RevisionNumber base = searcher.getLocal().getMergeBase(myProject, root, searcher.getRemote());
+    final VcsRevisionNumber base = searcher.getLocal().getMergeBase(myProject, root, searcher.getRemote());
     LOG.debug("found base: " + ((base == null) ? null : base.asString()));
     return base;
   }
@@ -123,6 +123,6 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
   }
 
   public Date getRevisionDate(VcsRevisionNumber revision) {
-    return revision instanceof RevisionNumber ? ((RevisionNumber) revision).getTimestamp() : null;
+    return revision instanceof VcsRevisionNumber ? ((VcsRevisionNumber) revision).getTimestamp() : null;
   }
 }

@@ -34,7 +34,7 @@ import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.AbstractTableCellEditor;
 import org.community.intellij.plugins.communitycase.Branch;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.validators.BranchNameValidator;
 import org.jetbrains.annotations.Nullable;
@@ -752,7 +752,7 @@ public class SwitchBranchesDialog extends DialogWrapper {
         return;
       }
       try {
-        RevisionNumber.resolve(myProject, root, referenceToCheckout);
+        VcsRevisionNumber.resolve(myProject, root, referenceToCheckout);
         if (status == null) {
           status = StringUtil.isEmpty(newBranchName) && currentReference.equals(storedReference)
                    ? RootStatus.NO_ACTION

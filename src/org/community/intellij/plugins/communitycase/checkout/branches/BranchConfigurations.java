@@ -34,11 +34,11 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.*;
 import com.intellij.openapi.vcs.changes.shelf.ShelveChangesManager;
 import com.intellij.openapi.vcs.changes.ui.ChangesViewContentManager;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.util.EventDispatcher;
 import org.community.intellij.plugins.communitycase.Branch;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
@@ -657,7 +657,7 @@ public class BranchConfigurations implements PersistentStateComponent<BranchConf
         LOG.debug("describe HEAD failed for root: " + root.getPath());
       }
       try {
-        return RevisionNumber.resolve(myProject, root, ref).asString();
+        return VcsRevisionNumber.resolve(myProject, root, ref).asString();
       }
       catch (VcsException e1) {
         throw new RuntimeException("Unexpected exception at this time, the failure should have been detected at current(): ", e1);

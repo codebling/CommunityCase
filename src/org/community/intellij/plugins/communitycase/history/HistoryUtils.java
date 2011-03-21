@@ -38,7 +38,6 @@ import com.intellij.util.concurrency.Semaphore;
 import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.FileRevision;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.*;
 import org.community.intellij.plugins.communitycase.commands.Command;
@@ -95,7 +94,7 @@ public class HistoryUtils {
       return null;
     }
     final LogRecord record = parser.parseOneRecord(result);
-    return new RevisionNumber(record.getVersion(), record.getDate());
+    return new VcsRevisionNumber(record.getVersion(), record.getDate());
   }
 
   /**
@@ -133,7 +132,7 @@ public class HistoryUtils {
     LogRecord record = parser.parseOneRecord(result);
     final List<Change> changes = record.coolChangesParser(project, root);
     boolean exists = ! FileStatus.DELETED.equals(changes.get(0).getFileStatus());
-    return new ItemLatestState(new RevisionNumber(record.getVersion(), record.getDate()), exists, false);
+    return new ItemLatestState(new VcsRevisionNumber(record.getVersion(), record.getDate()), exists, false);
   }
 
   /*
@@ -191,7 +190,7 @@ public class HistoryUtils {
           exceptionConsumer.consume(new VcsException("revision details are null."));
           return;
         }
-        final RevisionNumber revision = new RevisionNumber(record.getVersion(), record.getDate());
+        final VcsRevisionNumber revision = new VcsRevisionNumber(record.getVersion(), record.getDate());
         firstCommit.set(record.getVersion());
         final String[] parentHashes = record.getParentsHashes();
         if (parentHashes == null || parentHashes.length < 1) {

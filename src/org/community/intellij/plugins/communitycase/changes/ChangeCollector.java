@@ -35,10 +35,10 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.ContentRevision;
-import org.community.intellij.plugins.communitycase.RevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
@@ -539,7 +539,7 @@ class ChangeCollector {
                 com.intellij.openapi.vcs.changes.ContentRevision before=
                         ContentRevision.createRevision(myVcsRoot,
                                                        relativeFilename,
-                                                       new RevisionNumber(parts[0]),
+                                                       new VcsRevisionNumber(parts[0]),
                                                        myProject,
                                                        false,
                                                        true);
@@ -555,7 +555,7 @@ class ChangeCollector {
                 com.intellij.openapi.vcs.changes.ContentRevision before=
                         ContentRevision.createRevision(myVcsRoot,
                                                        relativeFilename,
-                                                       new RevisionNumber(parts[0]),
+                                                       new VcsRevisionNumber(parts[0]),
                                                        myProject,
                                                        false,
                                                        true);
@@ -638,14 +638,14 @@ class ChangeCollector {
                 if(parts[1].equals("from")) {
                   //this is a checked out file, which we'll automatically consider to be "modified"
                   //in this case, the next string after "from" should be the version number that the checkout came from
-                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,relativeFilename,new RevisionNumber(parts[2]),myProject,false,true);
-                  //com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, new RevisionNumber(version), myProject, false, true);
+                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,relativeFilename,new VcsRevisionNumber(parts[2]),myProject,false,true);
+                  //com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, new VcsRevisionNumber(version), myProject, false, true);
                   com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot,relativeFilename,null,myProject,false,true);
                   myChanges.add(new Change(before, after, FileStatus.MODIFIED));
                 } else {
                   if(parts[1].equals("[hijacked]")) {
                     //wrapper_diameter_loopback.conf.375035980431452ba39e23f44acd7567@@\main\0 [hijacked]      Rule: \main\LATEST
-                    com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, relativeFilename, new RevisionNumber(version), myProject, false, true);
+                    com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, relativeFilename, new VcsRevisionNumber(version), myProject, false, true);
                     com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, null, myProject, false, true);
                     myChanges.add(new Change(before, after, FileStatus.HIJACKED));
                   }
@@ -653,7 +653,7 @@ class ChangeCollector {
               } else {
                 if(parts.length >= 4 && parts[1].equals("[loaded") && parts[2].equals("but") && parts[3].equals("missing]")) {
                   //wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST
-                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, filename, new RevisionNumber(version), myProject, false, true);
+                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, filename, new VcsRevisionNumber(version), myProject, false, true);
                   com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, filename, null, myProject, true, true);
                   myChanges.add(new Change(before, after, FileStatus.DELETED_FROM_FS));
                 } else {
