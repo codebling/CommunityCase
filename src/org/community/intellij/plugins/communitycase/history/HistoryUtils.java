@@ -28,6 +28,7 @@ import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
+import com.intellij.openapi.vcs.changes.TextRevisionNumber;
 import com.intellij.openapi.vcs.diff.ItemLatestState;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
@@ -71,19 +72,18 @@ public class HistoryUtils {
    * 
    * @param project  a project
    * @param filePath file path to the file which revision is to be retrieved.
-   * @param branch   name of branch or null if current branch wanted.
    * @return revision number or null if the file is unversioned or new.
    * @throws VcsException if there is a problem with running .
    */
   @Nullable
-  public static VcsRevisionNumber getCurrentRevision(final Project project, FilePath filePath, @Nullable String branch) throws VcsException {
+  public static VcsRevisionNumber getCurrentRevision(final Project project, FilePath filePath) throws VcsException {
     final VirtualFile root = Util.getRoot(filePath);
     filePath = getLastCommitName(project, filePath);
     SimpleHandler h = new SimpleHandler(project, Util.getRoot(filePath), Command.LOG);
     LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-last 1", parser.getFormatOption());
+    h.addParameters("-last 1", parser.getFormatOption()); //todo wc first result received is not necessarily latest
 /*    if (branch != null && !branch.isEmpty()) {
       h.addParameters(branch);
     }
@@ -94,7 +94,7 @@ public class HistoryUtils {
       return null;
     }
     final LogRecord record = parser.parseOneRecord(result);
-    return new VcsRevisionNumber(record.getVersion(), record.getDate());
+    return new TextRevisionNumber(record.getVersion());
   }
 
   /**
