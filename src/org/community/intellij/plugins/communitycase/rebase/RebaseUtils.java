@@ -21,6 +21,7 @@ import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -134,7 +135,7 @@ public class RebaseUtils {
       }
       return null;
     }
-    return new CommitInfo(new VcsRevisionNumber(hash), subject);
+    return new CommitInfo(HistoryUtils.createUnvalidatedRevisionNumber(hash), subject);
   }
 
   /**

@@ -25,10 +25,8 @@ import com.intellij.openapi.vcs.changes.ui.RollbackChangesDialog;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 

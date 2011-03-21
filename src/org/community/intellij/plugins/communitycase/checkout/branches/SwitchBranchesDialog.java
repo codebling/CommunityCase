@@ -34,7 +34,6 @@ import com.intellij.ui.SimpleTextAttributes;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.AbstractTableCellEditor;
 import org.community.intellij.plugins.communitycase.Branch;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.validators.BranchNameValidator;
 import org.jetbrains.annotations.Nullable;
@@ -738,7 +737,7 @@ public class SwitchBranchesDialog extends DialogWrapper {
     /**
      * Update status of the entry
      */
-    void updateStatus() {
+    void updateStatus() {  //todo wc check that this still works after removing RevisionNumber.resolve
       if (root == null) {
         status = RootStatus.REMOVED_ROOT;
         return;
@@ -751,17 +750,10 @@ public class SwitchBranchesDialog extends DialogWrapper {
         isReferenceValid = false;
         return;
       }
-      try {
-        VcsRevisionNumber.resolve(myProject, root, referenceToCheckout);
-        if (status == null) {
-          status = StringUtil.isEmpty(newBranchName) && currentReference.equals(storedReference)
-                   ? RootStatus.NO_ACTION
-                   : RootStatus.CHECKOUT_NEEDED;
-        }
-      }
-      catch (VcsException e) {
-        isReferenceValid = false;
-        status = RootStatus.BAD_REVISION;
+      if (status == null) {
+        status = StringUtil.isEmpty(newBranchName) && currentReference.equals(storedReference)
+                 ? RootStatus.NO_ACTION
+                 : RootStatus.CHECKOUT_NEEDED;
       }
     }
 

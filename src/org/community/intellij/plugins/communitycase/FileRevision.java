@@ -24,6 +24,7 @@ import com.intellij.openapi.vcs.history.VcsFileRevisionEx;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -35,6 +36,8 @@ import java.util.Date;
  *  file revision
  */
 public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFileRevision> {
+
+  private Date revisionDate=null;
   /**
    * encoding to be used for binary output
    */
@@ -79,7 +82,9 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
 
   @Override
   public Date getRevisionDate() {
-    return revision.getTimestamp();
+    if(revisionDate==null)
+      revisionDate=HistoryUtils.getRevisionDate(revision);
+    return revisionDate;
   }
 
   @Override
@@ -115,7 +120,7 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
   public synchronized void loadContent() throws VcsException {
     final VirtualFile root = Util.getRoot(path);
     if (content == null) {
-      content = FileUtils.getFileContent(project, root, revision.getRev(), Util.relativePath(root, path));
+      content = FileUtils.getFileContent(project, root, revision.asString(), Util.relativePath(root, path));
       if (content == null) {
         content = new byte[0];
       }

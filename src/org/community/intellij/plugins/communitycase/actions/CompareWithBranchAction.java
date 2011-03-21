@@ -42,6 +42,7 @@ import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.FileRevision;
 import org.community.intellij.plugins.communitycase.Vcs;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -159,11 +160,16 @@ public class CompareWithBranchAction extends DumbAwareAction {
       return;
     }
 */
-    VcsRevisionNumber compareRevisionNumber = new VcsRevisionNumber(compareBranch + "/LATEST");
+    VcsRevisionNumber compareRevisionNumber=HistoryUtils.getLatestRevisionOnBranch(compareBranch);
     final VcsFileRevision compareRevision = new FileRevision(project, filePath, compareRevisionNumber);
-    final String currentTitle = "Local changes on current branch";
-    final String compareTitle = compareRevisionNumber.getShortRev() + " on " + compareBranch;
-    VcsHistoryUtil.showDiff(project, filePath, new CurrentRevision(file, new VcsRevisionNumber()), compareRevision, currentTitle, compareTitle);
+    final String currentTitle="Local changes on current branch";
+    final String compareTitle=compareRevisionNumber.asString() + " on " + compareBranch;
+    VcsHistoryUtil.showDiff(project,
+                            filePath,
+                            new CurrentRevision(file, HistoryUtils.getCurrentRevision(project, filePath)),
+                            compareRevision,
+                            currentTitle,
+                            compareTitle);
 
     /*final VirtualFile vcsRoot = VcsUtil.getVcsRootFor(project, file);
     final SimpleHandler handler = new SimpleHandler(project, vcsRoot, Command.DIFF);

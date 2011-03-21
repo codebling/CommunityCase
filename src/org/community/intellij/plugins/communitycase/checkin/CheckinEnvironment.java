@@ -18,8 +18,6 @@ package org.community.intellij.plugins.communitycase.checkin;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.ui.popup.JBPopup;
-import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
@@ -29,7 +27,6 @@ import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeList;
 import com.intellij.openapi.vcs.changes.ContentRevision;
 import com.intellij.openapi.vcs.changes.VcsDirtyScopeManager;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.ui.RefreshableOnComponent;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.NullableFunction;
@@ -37,7 +34,6 @@ import com.intellij.util.PairConsumer;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Util;
-import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -472,7 +468,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
       for(FilePath fp:files)
         changes.append(Util.relativePath(VcsUtil.getVcsRootFor(project,fp),fp))
                 .append("@@")
-                .append(HistoryUtils.getCurrentRevision(project, fp, null))
+                .append(HistoryUtils.getCurrentRevision(project,fp))
                 .append("\n");
         //pathAndVersions.put(fp,HistoryUtils.getCurrentRevision(project,fp,null));
 

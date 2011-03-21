@@ -19,7 +19,6 @@ package org.community.intellij.plugins.communitycase.changes;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
-import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
@@ -27,7 +26,6 @@ import com.intellij.openapi.roots.ModuleRootManager;
 import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.roots.ProjectRootManager;
-import com.intellij.openapi.roots.impl.DirectoryIndex;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.FileStatus;
@@ -35,17 +33,16 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ChangeListManager;
 import com.intellij.openapi.vcs.changes.VcsDirtyScope;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
-import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,7 +51,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
-import java.util.HashSet;
 import java.util.regex.Pattern;
 
 //todo wc clean up this shitty shitty code
@@ -539,7 +535,7 @@ class ChangeCollector {
                 com.intellij.openapi.vcs.changes.ContentRevision before=
                         ContentRevision.createRevision(myVcsRoot,
                                                        relativeFilename,
-                                                       new VcsRevisionNumber(parts[0]),
+                                                       HistoryUtils.createUnvalidatedRevisionNumber(parts[0]),
                                                        myProject,
                                                        false,
                                                        true);
@@ -555,7 +551,7 @@ class ChangeCollector {
                 com.intellij.openapi.vcs.changes.ContentRevision before=
                         ContentRevision.createRevision(myVcsRoot,
                                                        relativeFilename,
-                                                       new VcsRevisionNumber(parts[0]),
+                                                       HistoryUtils.createUnvalidatedRevisionNumber(parts[0]),
                                                        myProject,
                                                        false,
                                                        true);
@@ -638,14 +634,14 @@ class ChangeCollector {
                 if(parts[1].equals("from")) {
                   //this is a checked out file, which we'll automatically consider to be "modified"
                   //in this case, the next string after "from" should be the version number that the checkout came from
-                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,relativeFilename,new VcsRevisionNumber(parts[2]),myProject,false,true);
+                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot,relativeFilename,HistoryUtils.createUnvalidatedRevisionNumber(parts[2]),myProject,false,true);
                   //com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, new VcsRevisionNumber(version), myProject, false, true);
                   com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot,relativeFilename,null,myProject,false,true);
                   myChanges.add(new Change(before, after, FileStatus.MODIFIED));
                 } else {
                   if(parts[1].equals("[hijacked]")) {
                     //wrapper_diameter_loopback.conf.375035980431452ba39e23f44acd7567@@\main\0 [hijacked]      Rule: \main\LATEST
-                    com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, relativeFilename, new VcsRevisionNumber(version), myProject, false, true);
+                    com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, relativeFilename,HistoryUtils.createUnvalidatedRevisionNumber(version), myProject, false, true);
                     com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, relativeFilename, null, myProject, false, true);
                     myChanges.add(new Change(before, after, FileStatus.HIJACKED));
                   }
@@ -653,7 +649,7 @@ class ChangeCollector {
               } else {
                 if(parts.length >= 4 && parts[1].equals("[loaded") && parts[2].equals("but") && parts[3].equals("missing]")) {
                   //wrapper_yahooservices_out.conf.72bc32ce8b4a417b9961dda95d7799bf@@\main\0 [not loaded]    Rule: \main\LATEST
-                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, filename, new VcsRevisionNumber(version), myProject, false, true);
+                  com.intellij.openapi.vcs.changes.ContentRevision before=ContentRevision.createRevision(myVcsRoot, filename,HistoryUtils.createUnvalidatedRevisionNumber(version), myProject, false, true);
                   com.intellij.openapi.vcs.changes.ContentRevision after=ContentRevision.createRevision(myVcsRoot, filename, null, myProject, true, true);
                   myChanges.add(new Change(before, after, FileStatus.DELETED_FROM_FS));
                 } else {

@@ -19,9 +19,9 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -162,7 +162,7 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
     for (StringScanner s = new StringScanner(output); s.hasMoreData();) {
       // parse header line
       String commitHash = s.spaceToken();
-      if (commitHash.equals(VcsRevisionNumber.NOT_COMMITTED_HASH)) {
+      if (commitHash.equals(HistoryUtils.createUnvalidatedRevisionNumber("NOT_COMMITTED_HASH"))) {
         commitHash = null;
       }
       s.spaceToken(); // skip revision line number
@@ -185,7 +185,7 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
           }
           if (commitHash != null && COMMITTER_TIME_KEY.equals(key)) {
             commit.date = Util.parseTimestamp(value);
-            commit.revision = new VcsRevisionNumber(commitHash, commit.date);
+            commit.revision=HistoryUtils.createUnvalidatedRevisionNumber(commitHash);
           }
         }
         commits.put(commitHash, commit);

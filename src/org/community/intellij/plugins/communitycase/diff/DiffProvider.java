@@ -26,12 +26,12 @@ import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
+import gnu.trove.THashSet;
 import org.community.intellij.plugins.communitycase.FileRevision;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import gnu.trove.THashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -81,7 +81,7 @@ public class DiffProvider implements com.intellij.openapi.vcs.diff.DiffProvider 
       return null;
     }
     try {
-      return HistoryUtils.getCurrentRevision(myProject, VcsUtil.getFilePath(file.getPath()), null);
+      return HistoryUtils.getCurrentRevision(myProject,file);
     }
     catch (VcsException e) {
       return null;

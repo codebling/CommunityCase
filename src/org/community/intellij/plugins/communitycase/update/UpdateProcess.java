@@ -26,6 +26,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.merge.MergeChangeCollector;
 
 import java.util.List;
@@ -100,7 +101,7 @@ public class UpdateProcess extends BaseRebaseProcess {
   @Override
   protected void markStart(VirtualFile root) throws VcsException {
     // remember the current position
-    myBefore = VcsRevisionNumber.resolve(myProject, root, "HEAD");
+    myBefore=HistoryUtils.getCurrentRevision(myProject,root);
   }
 
   /**

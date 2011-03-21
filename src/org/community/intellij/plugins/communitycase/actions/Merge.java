@@ -19,11 +19,12 @@ import com.intellij.history.Label;
 import com.intellij.history.LocalHistory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.update.ActionInfo;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.commands.HandlerUtil;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.community.intellij.plugins.communitycase.merge.MergeDialog;
 import org.community.intellij.plugins.communitycase.merge.MergeUtil;
@@ -63,7 +64,7 @@ public class Merge extends RepositoryAction {
     LineHandler h = dialog.handler();
     final VirtualFile root = dialog.getSelectedRoot();
     affectedRoots.add(root);
-    VcsRevisionNumber currentRev = VcsRevisionNumber.resolve(project, root, "HEAD");
+    VcsRevisionNumber currentRev=HistoryUtils.getCurrentRevision(project,root);
     try {
       HandlerUtil.doSynchronously(h, Bundle.message("merging.title", dialog.getSelectedRoot().getPath()), h.printableCommandLine());
     }

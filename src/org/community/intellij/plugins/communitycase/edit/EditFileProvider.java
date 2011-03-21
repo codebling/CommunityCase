@@ -1,14 +1,12 @@
 package org.community.intellij.plugins.communitycase.edit;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vcs.FilePathImpl;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
-import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NotNull;
 

@@ -20,12 +20,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.community.intellij.plugins.communitycase.ui.UiUtil;
-import org.community.intellij.plugins.communitycase.Vcs;
 
 import javax.swing.*;
 import java.awt.*;

@@ -346,24 +346,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   @Override
   @Nullable
   public VcsRevisionNumber parseRevisionNumber(String revision, FilePath path) {
-    if (revision == null || revision.length() == 0) return null;
-    if (revision.length() > 40) {    // date & revision-id encoded string
-      String dateString = revision.substring(0, revision.indexOf("["));
-      String rev = revision.substring(revision.indexOf("[") + 1, 40);
-      Date d = new Date(Date.parse(dateString));
-      return new VcsRevisionNumber(rev, d);
-    }
-    if (path != null) {
-      try {
-        VirtualFile root = Util.getRoot(path);
-        return VcsRevisionNumber.resolve(myProject, root, revision);
-      }
-      catch (VcsException e) {
-        log.error("Unexpected problem with resolving the revision number: ", e);
-      }
-    }
-    return new VcsRevisionNumber(revision);
-
+    return parseRevisionNumber(revision);
   }
 
   /**

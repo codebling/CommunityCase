@@ -22,16 +22,17 @@ import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.ContentRevision;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeListImpl;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ArrayUtil;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.history.browser.ShaHash;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.Nullable;
@@ -233,7 +234,7 @@ public class ChangeUtils {
       throw new VcsException("The string '" + revisionNumber + "' does not represents a revision number.");
     }
     Date timestamp = Util.parseTimestamp(stk.nextToken());
-    return new VcsRevisionNumber(stk.nextToken(), timestamp);
+    return HistoryUtils.createUnvalidatedRevisionNumber(stk.nextToken());
   }
 
   /**
@@ -365,7 +366,7 @@ public class ChangeUtils {
     else {
       fullComment = commentBody + "\n\n" + commentSubject;
     }
-    VcsRevisionNumber thisRevision = new Vcs(revisionNumber, commitDate);
+    VcsRevisionNumber thisRevision=HistoryUtils.createUnvalidatedRevisionNumber(revisionNumber);
 
     long number = longForShaHash(revisionNumber);
     if (skipDiffsForMerge || (parents.length <= 1)) {
@@ -388,7 +389,7 @@ public class ChangeUtils {
         SimpleHandler diffHandler = new SimpleHandler(project, root, Command.DIFF);
         diffHandler.setRemote(true);
         diffHandler.setSilent(true);
-        diffHandler.addParameters("--name-status", "-M", parentRevision.getRev(), thisRevision.getRev());
+        diffHandler.addParameters("--name-status", "-M", parentRevision.asString(), thisRevision.asString());
         String diff = diffHandler.run();
         parseChanges(project, root, thisRevision, parentRevision, diff, changes, null);
 

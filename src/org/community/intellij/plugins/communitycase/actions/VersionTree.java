@@ -17,9 +17,7 @@ package org.community.intellij.plugins.communitycase.actions;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.changes.ChangeListManagerEx;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;

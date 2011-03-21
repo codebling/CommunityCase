@@ -18,12 +18,10 @@ package org.community.intellij.plugins.communitycase.rebase;
 import com.intellij.ide.XmlRpcServer;
 import com.intellij.openapi.components.ApplicationComponent;
 import com.intellij.openapi.components.ServiceManager;
+import gnu.trove.THashMap;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
-import gnu.trove.THashMap;
-import org.apache.commons.codec.DecoderException;
-import org.apache.xmlrpc.XmlRpcClientLite;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 

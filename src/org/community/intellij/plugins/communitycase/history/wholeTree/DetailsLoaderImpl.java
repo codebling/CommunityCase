@@ -17,17 +17,21 @@ import com.intellij.openapi.progress.BackgroundTaskQueue;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.ObjectsConvertor;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.BackgroundFromStartOption;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.containers.HashMap;
 import com.intellij.util.containers.MultiMap;
-import org.community.intellij.plugins.communitycase.history.browser.*;
+import org.community.intellij.plugins.communitycase.history.browser.LowLevelAccess;
+import org.community.intellij.plugins.communitycase.history.browser.LowLevelAccessImpl;
+import org.community.intellij.plugins.communitycase.history.browser.SymbolicRefs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author irengrig

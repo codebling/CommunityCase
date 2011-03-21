@@ -24,6 +24,7 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.ConfigUtil;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -278,7 +279,7 @@ public class Branch extends Reference {
       return null;
     }
     else {
-      return VcsRevisionNumber.resolve(project, root, output);
+      return HistoryUtils.validateRevisionNumber(output);
     }
   }
 }

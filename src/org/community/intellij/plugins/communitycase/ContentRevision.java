@@ -71,7 +71,7 @@ public class ContentRevision implements com.intellij.openapi.vcs.changes.Content
       return null;
     }
     VirtualFile root = Util.getRoot(myFile);
-    byte[] result = FileUtils.getFileContent(myProject, root, myRevision.getRev(), Util.relativePath(root, myFile));
+    byte[] result = FileUtils.getFileContent(myProject, root, myRevision.asString(), Util.relativePath(root, myFile));
     if (myCharset == null) {
       myCharset = myFile.getCharset(myProject);
     }

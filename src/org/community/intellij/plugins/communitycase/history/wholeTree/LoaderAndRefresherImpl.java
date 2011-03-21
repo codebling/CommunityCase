@@ -24,7 +24,10 @@ import com.intellij.util.Consumer;
 import com.intellij.util.containers.Convertor;
 import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.changes.ChangeUtils;
-import org.community.intellij.plugins.communitycase.history.browser.*;
+import org.community.intellij.plugins.communitycase.history.browser.ChangesFilter;
+import org.community.intellij.plugins.communitycase.history.browser.LowLevelAccessImpl;
+import org.community.intellij.plugins.communitycase.history.browser.ShaHash;
+import org.community.intellij.plugins.communitycase.history.browser.SymbolicRefs;
 
 import java.util.*;
 

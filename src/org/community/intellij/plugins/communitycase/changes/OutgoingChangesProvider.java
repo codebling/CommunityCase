@@ -29,7 +29,6 @@ import com.intellij.util.Consumer;
 import com.intellij.util.containers.Convertor;
 import org.community.intellij.plugins.communitycase.Branch;
 import org.community.intellij.plugins.communitycase.BranchesSearcher;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
@@ -100,7 +99,7 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
       final U t = iterator.next();
       final List<String> branches = new ArrayList<String>();
       // we do not use passed revision convertor since it returns just recent commit on repo
-      final VcsRevisionNumber revision = HistoryUtils.getCurrentRevision(myProject, filePatchConvertor.convert(t), null);
+      final VcsRevisionNumber revision=HistoryUtils.getCurrentRevision(myProject, filePatchConvertor.convert(t));
       if (revision == null) continue; // will be true for new files; they are anyway outgoing 
 
       final String containingCommit = revision.asString();
@@ -123,6 +122,6 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
   }
 
   public Date getRevisionDate(VcsRevisionNumber revision) {
-    return revision instanceof VcsRevisionNumber ? ((VcsRevisionNumber) revision).getTimestamp() : null;
+    return HistoryUtils.getRevisionDate(revision);
   }
 }

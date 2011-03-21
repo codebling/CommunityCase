@@ -21,7 +21,10 @@ import com.intellij.openapi.vcs.FileStatus;
 import com.intellij.openapi.vcs.FileStatusListener;
 import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.annotate.*;
+import com.intellij.openapi.vcs.annotate.AnnotationListener;
+import com.intellij.openapi.vcs.annotate.AnnotationSourceSwitcher;
+import com.intellij.openapi.vcs.annotate.LineAnnotationAspect;
+import com.intellij.openapi.vcs.annotate.LineAnnotationAspectAdapter;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -30,7 +33,6 @@ import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.EventDispatcher;
 import com.intellij.util.text.DateFormatUtil;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +94,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     @Override
     protected String doGetValue(LineInfo lineInfo) {
       final VcsRevisionNumber revision = lineInfo.getRevision();
-      return revision == null ? "" : String.valueOf(revision.getShortRev());
+      return revision == null ? "" : String.valueOf(revision.asString());
     }
   };
 

@@ -32,8 +32,8 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -103,9 +103,9 @@ public class MergeProvider implements MergeProvider2 {
     VcsRunnable runnable = new VcsRunnable() {
       @SuppressWarnings({"ConstantConditions"})
       public void run() throws VcsException {
-        FileRevision original = new FileRevision(myProject, path, new VcsRevisionNumber(":" + ORIGINAL_REVISION_NUM));
-        FileRevision current = new FileRevision(myProject, path, new VcsRevisionNumber(":" + yoursRevision()));
-        FileRevision last = new FileRevision(myProject, path, new VcsRevisionNumber(":" + theirsRevision()));
+        FileRevision original = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + ORIGINAL_REVISION_NUM));
+        FileRevision current = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + yoursRevision()));
+        FileRevision last = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + theirsRevision()));
         try {
           try {
             mergeData.ORIGINAL = original.getContent();
@@ -117,12 +117,7 @@ public class MergeProvider implements MergeProvider2 {
           }
           mergeData.CURRENT = current.getContent();
           mergeData.LAST = last.getContent();
-          try {
-            mergeData.LAST_REVISION_NUMBER = VcsRevisionNumber.resolve(myProject, root, myReverse ? "HEAD" : "MERGE_HEAD");
-          }
-          catch (VcsException e) {
-            // ignore exception, the null value will be used
-          }
+          mergeData.LAST_REVISION_NUMBER=HistoryUtils.createUnvalidatedRevisionNumber(myReverse?"HEAD":"MERGE_HEAD");
         }
         catch (IOException e) {
           throw new IllegalStateException("Failed to load file content", e);

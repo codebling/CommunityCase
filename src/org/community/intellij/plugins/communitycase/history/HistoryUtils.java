@@ -41,21 +41,15 @@ import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.FileRevision;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.*;
-import org.community.intellij.plugins.communitycase.commands.Command;
+import org.community.intellij.plugins.communitycase.history.LogParser.LogOption;
 import org.community.intellij.plugins.communitycase.history.browser.Commit;
 import org.community.intellij.plugins.communitycase.history.browser.ShaHash;
 import org.community.intellij.plugins.communitycase.history.browser.SymbolicRefs;
 import org.community.intellij.plugins.communitycase.history.wholeTree.AbstractHash;
 import org.community.intellij.plugins.communitycase.history.wholeTree.CommitHashPlusParents;
 import org.jetbrains.annotations.Nullable;
-import org.community.intellij.plugins.communitycase.history.LogParser.LogOption;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -69,17 +63,30 @@ public class HistoryUtils {
 
   /**
    * Get current revision for the file under in the current or specified branch.
-   * 
+   *
    * @param project  a project
-   * @param filePath file path to the file which revision is to be retrieved.
+   * @param file file path to the file which revision is to be retrieved.
    * @return revision number or null if the file is unversioned or new.
    * @throws VcsException if there is a problem with running .
    */
   @Nullable
-  public static VcsRevisionNumber getCurrentRevision(final Project project, FilePath filePath) throws VcsException {
-    final VirtualFile root = Util.getRoot(filePath);
-    filePath = getLastCommitName(project, filePath);
-    SimpleHandler h = new SimpleHandler(project, Util.getRoot(filePath), Command.LOG);
+  public static VcsRevisionNumber getCurrentRevision(final Project project,VirtualFile file) throws VcsException {
+    return getCurrentRevision(project,Util.virtualFileToFilePath(file));
+  }
+
+  /**
+   * Get current revision for the file under in the current or specified branch.
+   * 
+   * @param project  a project
+   * @param file file path to the file which revision is to be retrieved.
+   * @return revision number or null if the file is unversioned or new.
+   * @throws VcsException if there is a problem with running .
+   */
+  @Nullable
+  public static VcsRevisionNumber getCurrentRevision(final Project project, FilePath file) throws VcsException {
+    final VirtualFile root = Util.getRoot(file);
+    file = getLastCommitName(project, file);
+    SimpleHandler h = new SimpleHandler(project, Util.getRoot(file), Command.LOG);
     LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME);
     h.setRemote(true);
     h.setSilent(true);
@@ -88,13 +95,34 @@ public class HistoryUtils {
       h.addParameters(branch);
     }
 */    h.endOptions();
-    h.addRelativePaths(filePath);
+    h.addRelativePaths(file);
     String result = h.run();
     if (result.length() == 0) {
       return null;
     }
     final LogRecord record = parser.parseOneRecord(result);
-    return new TextRevisionNumber(record.getVersion());
+    return HistoryUtils.createUnvalidatedRevisionNumber(record.getVersion());
+  }
+
+  @Nullable
+  public static VcsRevisionNumber getLatestRevisionOnBranch(String branch) throws VcsException {
+    return createUnvalidatedRevisionNumber(branch+"/LATEST");
+  }
+
+  @Nullable
+  public static VcsRevisionNumber validateRevisionNumber(String revision) throws VcsException {
+    //todo wc validate the revision
+    return createUnvalidatedRevisionNumber(revision);
+  }
+
+  @Nullable
+  public static VcsRevisionNumber createUnvalidatedRevisionNumber(String revision) {
+    return new TextRevisionNumber(revision);
+  }
+
+  public static Date getRevisionDate(VcsRevisionNumber revision) {
+    //todo wc implement this
+    return new Date();
   }
 
   /**
@@ -111,7 +139,7 @@ public class HistoryUtils {
     Branch c = Branch.current(project, root);
     Branch t = c == null ? null : c.tracked(project, root);
     if (t == null) {
-      return new ItemLatestState(getCurrentRevision(project, filePath, null), true, false);
+      return new ItemLatestState(getCurrentRevision(project,filePath), true, false);
     }
     filePath = getLastCommitName(project, filePath);
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
@@ -132,7 +160,7 @@ public class HistoryUtils {
     LogRecord record = parser.parseOneRecord(result);
     final List<Change> changes = record.coolChangesParser(project, root);
     boolean exists = ! FileStatus.DELETED.equals(changes.get(0).getFileStatus());
-    return new ItemLatestState(new VcsRevisionNumber(record.getVersion(), record.getDate()), exists, false);
+    return new ItemLatestState(HistoryUtils.createUnvalidatedRevisionNumber(record.getVersion()), exists, false);
   }
 
   /*
@@ -190,7 +218,7 @@ public class HistoryUtils {
           exceptionConsumer.consume(new VcsException("revision details are null."));
           return;
         }
-        final VcsRevisionNumber revision = new VcsRevisionNumber(record.getVersion(), record.getDate());
+        final VcsRevisionNumber revision=createUnvalidatedRevisionNumber(record.getVersion());
         firstCommit.set(record.getVersion());
         final String[] parentHashes = record.getParentsHashes();
         if (parentHashes == null || parentHashes.length < 1) {

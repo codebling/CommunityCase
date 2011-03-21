@@ -15,7 +15,6 @@ package org.community.intellij.plugins.communitycase.history.browser;
 import org.community.intellij.plugins.communitycase.Branch;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.TreeSet;
 
 /**

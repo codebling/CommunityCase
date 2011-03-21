@@ -28,17 +28,18 @@ import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.*;
 import com.intellij.openapi.vcs.changes.shelf.ShelveChangesManager;
 import com.intellij.openapi.vcs.changes.shelf.ShelvedChangeList;
+import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.vcsUtil.VcsUtil;
-import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.checkout.branches.BranchConfigurations.BranchChanges;
 import org.community.intellij.plugins.communitycase.checkout.branches.BranchConfigurations.ChangeInfo;
 import org.community.intellij.plugins.communitycase.checkout.branches.BranchConfigurations.ChangeListInfo;
 import org.community.intellij.plugins.communitycase.commands.*;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.update.StashUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -333,7 +334,7 @@ public class CheckoutProcess {
     for (VirtualFile root : checkoutRoots) {
       myProgress.setText2(root.getPath());
       startedRoots.add(root);
-      VcsRevisionNumber prev = VcsRevisionNumber.resolve(myProject, root, "HEAD");
+      VcsRevisionNumber prev=HistoryUtils.getCurrentRevision(myProject,root);
       LineHandler h = new LineHandler(myProject, root, Command.GIT_CHECKOUT);
       h.addParameters("-f");
       Pair<String, Boolean> branchedRef = myNewBranchMapping.get(root);
@@ -433,7 +434,7 @@ public class CheckoutProcess {
   /**
    * @return true if roots in the new configuration are configured correctly
    */
-  private boolean checkRoots() {
+  private boolean checkRoots() { //todo wc check if this still works after removing RevisionNumber.resolve
     if (myNewConfiguration == null) {
       return false;
     }
@@ -446,12 +447,6 @@ public class CheckoutProcess {
         return false;
       }
       roots.remove(root);
-      try {
-        VcsRevisionNumber.resolve(myProject, root, m.getValue());
-      }
-      catch (VcsException e) {
-        return false;
-      }
     }
     return roots.isEmpty();
   }

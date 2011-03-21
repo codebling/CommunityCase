@@ -28,6 +28,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
+import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -102,7 +103,7 @@ public class MergeChangeCollector {
         String path = root + "/" + Util.unescapePath(relative);
         myUpdates.getGroupById(FileGroup.MERGED_WITH_CONFLICT_ID).add(path, vcsKey, null);
       }
-      VcsRevisionNumber currentHead = VcsRevisionNumber.resolve(myProject, myRoot, "HEAD");
+      VcsRevisionNumber currentHead=HistoryUtils.getCurrentRevision(myProject,myRoot);
       // collect other changes (ignoring unmerged)
       TreeSet<String> updated = new TreeSet<String>();
       TreeSet<String> created = new TreeSet<String>();
@@ -123,7 +124,7 @@ public class MergeChangeCollector {
                 continue;
               }
               // note that "..." cause the diff to start from common parent between head and merge head
-              processDiff(root, updated, created, removed, myStart.getRev() + "..." + head);
+              processDiff(root, updated, created, removed, myStart.asString() + "..." + head);
             }
           }
         }
@@ -136,7 +137,7 @@ public class MergeChangeCollector {
         // Otherwise this is a merge that did created a commit. And because of this the incoming changes
         // are diffs between old head and new head. The commit could have been multihead commit,
         // and the expression below considers it as well.
-        processDiff(root, updated, created, removed, myStart.getRev() + "..HEAD");
+        processDiff(root, updated, created, removed, myStart.asString() + "..HEAD");
       }
       addAll(FileGroup.UPDATED_ID, updated);
       addAll(FileGroup.CREATED_ID, created);

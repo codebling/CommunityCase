@@ -105,7 +105,7 @@ public class HistoryProvider implements VcsHistoryProvider {
       @Nullable
       protected VcsRevisionNumber calcCurrentRevisionNumber() {
         try {
-          return HistoryUtils.getCurrentRevision(myProject, HistoryUtils.getLastCommitName(myProject, filePath), null);
+          return HistoryUtils.getCurrentRevision(myProject, HistoryUtils.getLastCommitName(myProject, filePath));
         }
         catch (VcsException e) {
           // likely the file is not under VCS anymore.

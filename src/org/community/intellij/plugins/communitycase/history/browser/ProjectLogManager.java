@@ -31,8 +31,6 @@ import com.intellij.ui.content.ContentFactory;
 import com.intellij.util.Consumer;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.messages.Topic;
-import org.community.intellij.plugins.communitycase.Branch;
-import org.community.intellij.plugins.communitycase.BranchesSearcher;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.history.wholeTree.Log;
 import org.community.intellij.plugins.communitycase.history.wholeTree.LogFactoryService;
