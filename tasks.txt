@@ -1,43 +1,37 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
->Show the modified parts of a file
 >Handle file names with spaces!
 >Checkout/convert hijack to checkout
 >Redo Command classes
     *create separate classes
     *parent class should appropriately relativate paths and chunk them for length
 >Append @@ after file name if file is hijacked to address issue (1)
->Checkout then undo checkout on hijacks to revert so that reverted is same version as original
->Add a max tree depth to ChangeCollector and add the Project.getBaseDir
+>Checkout then undo checkout on hijacks to revert so that reverted is same version as original //done but needs cleanup
 >Collapse ChangeCollector into ChangeProvider and use the builder so that changes are updated on the fly
     *make sure that if there is only a partial dirty, we still get all the unversioned
 >Collapse paths for writableFiles before checking status of each of them.
     *first, collapse common paths for all files.
->Rehaul VCS configuration options
-    *preserve .keep files
-    *preserve .contrib files?
-    *set other branch repository locations on disk (for merge)?
-    *colour validation on branch filtering regex to indicate if valid regex
->Check if directory is part of the source tree before recursing for changes
-    *ignore .keep and .contrib files
->Show report after checkin
+>Autoset project VCS root(s) using ct pwv -root (also detect and remember other views for merging)
+>Colour validation on settings regexs to indicate if valid regex
 >Merge tool
->Autoset project VCS root(s) using ct pwv -root
->ClearQuest integration?
->Tweak actions:
-    *don't retry action for several minutes after a failure
-    *allow actions to be cancelled
->Fix project so that it compiles WITHOUT using idea.jar!?
-    *replace all usages of FilePathImpl with FilePath
-        -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
->Version Tree of directory shows...version tree for dir, not version trees of every child
+>Version Tree of directory should show version tree of directory element, not version trees of every child
 >Pre-checkin optimisations
     *check/request branch mastership
     *check/reserve file
     *check latest version
+>Fall back on checkouts if reserved requested, try unreserved, if that fails leave as hijack
+    *in every case above display a cool notification bubble
 >Test cases
     *add a file (parent dir will be checked out). Undo checkout on another file in dir. Check if dir remains checked out.
     *try to checkin a file that has a newer version. (are you asked to merge?)
     *failed checkins get moved to a new list
+>Don't retry action for several minutes after a failure (do we really do this!!?)
+>Allow actions to be cancelled
+>Don't display "updating..." forever if an exception occurs while collecting changes
+>Fix project so that it compiles WITHOUT using idea.jar!?
+    *replace all usages of FilePathImpl with FilePath
+        -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
+>ClearQuest integration?
+>Make sure everything works while a clearcase update is in progress
 (1)=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Can't run any version control commands on a hijacked file...
 revert/undo checkout doesn't work for hijacked or unversioned files
