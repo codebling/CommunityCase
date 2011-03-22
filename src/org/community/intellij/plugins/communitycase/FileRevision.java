@@ -44,6 +44,7 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
   @SuppressWarnings({"HardCodedStringLiteral"}) private final static Charset BIN_ENCODING = Charset.forName("ISO-8859-1");
   private final FilePath path;
   private final VcsRevisionNumber revision;
+  private final Date date;
   private final Pair<Pair<String, String>, Pair<String, String>> authorAndCommitter;
   private final String message;
   private byte[] content;
@@ -51,18 +52,20 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
   private final String branch;
 
   public FileRevision(@NotNull Project project, @NotNull FilePath path, @NotNull VcsRevisionNumber revision) {
-    this(project, path, revision, null, null, null);
+    this(project, path, revision,null,null, null, null);
   }
 
   public FileRevision(@NotNull Project project,
                       @NotNull FilePath path,
                       @NotNull VcsRevisionNumber revision,
-                      @Nullable Pair<Pair<String, String>, Pair<String, String>> authorAndCommitter,
+                      @Nullable Date date,
+                      @Nullable Pair<Pair<String,String>,Pair<String,String>> authorAndCommitter,
                       @Nullable String message,
                       @Nullable String branch) {
     this.project = project;
     this.path = path;
     this.revision = revision;
+    this.date=date;
     this.authorAndCommitter = authorAndCommitter;
     this.message = message;
     this.branch = branch;
@@ -82,9 +85,7 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
 
   @Override
   public Date getRevisionDate() {
-    if(revisionDate==null)
-      revisionDate=HistoryUtils.getRevisionDate(revision);
-    return revisionDate;
+    return date;
   }
 
   @Override

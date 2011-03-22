@@ -103,9 +103,12 @@ public class MergeProvider implements MergeProvider2 {
     VcsRunnable runnable = new VcsRunnable() {
       @SuppressWarnings({"ConstantConditions"})
       public void run() throws VcsException {
-        FileRevision original = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + ORIGINAL_REVISION_NUM));
-        FileRevision current = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + yoursRevision()));
-        FileRevision last = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + theirsRevision()));
+        FileRevision original = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + ORIGINAL_REVISION_NUM)
+        );
+        FileRevision current = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + yoursRevision())
+        );
+        FileRevision last = new FileRevision(myProject, path,HistoryUtils.createUnvalidatedRevisionNumber(":" + theirsRevision())
+        );
         try {
           try {
             mergeData.ORIGINAL = original.getContent();

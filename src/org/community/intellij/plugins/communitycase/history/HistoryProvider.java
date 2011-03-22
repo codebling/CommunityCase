@@ -132,8 +132,8 @@ public class HistoryProvider implements VcsHistoryProvider {
     partner.reportCreatedEmptySession(emptySession);
     final ExecutableValidator validator = Vcs.getInstance(myProject).getExecutableValidator();
     HistoryUtils.history(myProject, path, null, new Consumer<FileRevision>() {
-        public void consume(FileRevision FileRevision) {
-            partner.acceptRevision(FileRevision);
+        public void consume(FileRevision fileRevision) {
+            partner.acceptRevision(fileRevision);
         }
     }, new Consumer<VcsException>() {
         public void consume(VcsException e) {

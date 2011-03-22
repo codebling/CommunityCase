@@ -524,7 +524,7 @@ class ChangeCollector {
             String filename=splitOnToken[1].substring(0,filenameEnd);
 
             File file=new File(filename);
-            String[] parts=line.substring(filenameEnd+filenameEndToken.length(), line.length()).split("\\s+",0);
+            String[] parts=splitOnToken[1].substring(filename.length()+filenameEndToken.length(),splitOnToken[1].length()).split("\\s+",0);
             String relativeFilename=Util.relativePath(myVcsRoot,file);
 
             if(VcsApplicationSettings.getInstance().getShowDirectories() || !file.isDirectory()) { //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.

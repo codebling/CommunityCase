@@ -161,7 +161,8 @@ public class CompareWithBranchAction extends DumbAwareAction {
     }
 */
     VcsRevisionNumber compareRevisionNumber=HistoryUtils.getLatestRevisionOnBranch(compareBranch);
-    final VcsFileRevision compareRevision = new FileRevision(project, filePath, compareRevisionNumber);
+    final VcsFileRevision compareRevision = new FileRevision(project, filePath, compareRevisionNumber
+    );
     final String currentTitle="Local changes on current branch";
     final String compareTitle=compareRevisionNumber.asString() + " on " + compareBranch;
     VcsHistoryUtil.showDiff(project,

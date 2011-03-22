@@ -153,7 +153,10 @@ class LogRecord {
   }
 
   private static String shortBuffer(String raw) {
-    return new String(raw);
+    if(raw==null)
+      return null;
+    else
+      return new String(raw);
   }
 
   public List<Change> coolChangesParser(Project project, VirtualFile vcsRoot) throws VcsException {

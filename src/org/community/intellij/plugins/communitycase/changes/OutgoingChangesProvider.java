@@ -122,6 +122,6 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
   }
 
   public Date getRevisionDate(VcsRevisionNumber revision) {
-    return HistoryUtils.getRevisionDate(revision);
+    return null; //todo wc implement me !  try implementing HistoryUtils.getRevisionDate(revision);
   }
 }

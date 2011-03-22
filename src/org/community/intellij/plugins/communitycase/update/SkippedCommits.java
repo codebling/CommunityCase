@@ -164,7 +164,8 @@ public class SkippedCommits extends PanelWithActionsAndCloseButton {
         return c.root;
       }
       if (VcsDataKeys.VCS_FILE_REVISION.is(dataId)) {
-        return new FileRevision(myProject, VcsUtil.getFilePath(c.root.getPath()), c.commitInfo.revision);
+        return new FileRevision(myProject, VcsUtil.getFilePath(c.root.getPath()), c.commitInfo.revision
+        );
       }
     }
     return super.getData(dataId);

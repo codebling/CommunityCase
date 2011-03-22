@@ -240,7 +240,7 @@ public class HistoryUtils {
 
           final Pair<String, String> authorPair = Pair.create(record.getUser(), record.getUser());
           final Pair<String, String> committerPair = record.getUser() == null ? null : Pair.create(record.getUser(), record.getUser());
-          consumer.consume(new FileRevision(project, revisionPath, revision, Pair.create(authorPair, committerPair), message, null));
+          consumer.consume(new FileRevision(project,revisionPath,revision,record.getDate(),Pair.create(authorPair, committerPair), message, null));
         } catch (VcsException e) {
           exceptionConsumer.consume(e);
         }
