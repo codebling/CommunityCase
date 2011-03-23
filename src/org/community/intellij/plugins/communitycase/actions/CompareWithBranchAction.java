@@ -160,9 +160,10 @@ public class CompareWithBranchAction extends DumbAwareAction {
       return;
     }
 */
+    if(compareBranch.equals("/main/main"))
+      compareBranch="/main"; //main branch is the exception.. never main/main/LATEST, just main/LATEST
     VcsRevisionNumber compareRevisionNumber=HistoryUtils.getLatestRevisionOnBranch(compareBranch);
-    final VcsFileRevision compareRevision = new FileRevision(project, filePath, compareRevisionNumber
-    );
+    final VcsFileRevision compareRevision = new FileRevision(project, filePath, compareRevisionNumber);
     final String currentTitle="Local changes on current branch";
     final String compareTitle=compareRevisionNumber.asString() + " on " + compareBranch;
     VcsHistoryUtil.showDiff(project,
