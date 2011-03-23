@@ -243,7 +243,7 @@ public class FileUtils {
 
     File temp;
     try {
-      temp = FileUtil.createTempFile(relativePath.replaceAll("\\.","-")+revisionOrBranch.replaceAll("\\\\","-"), "tmp");
+      temp = FileUtil.createTempFile(relativePath.replaceAll("\\.","-")+revisionOrBranch.replaceAll("\\\\|/","-"), "tmp");
     } catch(IOException e) {
       throw new VcsException(e);
     }
