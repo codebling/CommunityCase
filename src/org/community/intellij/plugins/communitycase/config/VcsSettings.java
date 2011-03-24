@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -212,7 +213,7 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
     myLineSeparatorsConversion = s.LINE_SEPARATORS_CONVERSION;
     myAskBeforeLineSeparatorConversion = s.LINE_SEPARATORS_CONVERSION_ASK;
     myCommitAuthors.clear();
-    ContainerUtil.addAll(myCommitAuthors, s.PREVIOUS_COMMIT_AUTHORS);
+    myCommitAuthors.addAll(Arrays.asList(s.PREVIOUS_COMMIT_AUTHORS));
     myPushActiveBranchesRebaseSavePolicy = s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY;
     mySshExecutable = s.SSH_EXECUTABLE;
     myUpdateChangesPolicy = s.UPDATE_CHANGES_POLICY;
