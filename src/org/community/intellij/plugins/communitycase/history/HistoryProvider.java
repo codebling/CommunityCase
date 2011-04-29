@@ -41,7 +41,7 @@ public class HistoryProvider implements VcsHistoryProvider {
   /**
    * logger instance
    */
-  private static final Logger log = Logger.getInstance(HistoryProvider.class.getName());
+  private static final Logger log = Logger.getInstance("#"+HistoryProvider.class.getName());
   /**
    * the current project instance
    */

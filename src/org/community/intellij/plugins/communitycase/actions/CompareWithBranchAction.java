@@ -57,7 +57,7 @@ import java.util.*;
  */
 public class CompareWithBranchAction extends DumbAwareAction {
 
-  private static final Logger LOG = Logger.getInstance(CompareWithBranchAction.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+CompareWithBranchAction.class.getName());
 
   public CompareWithBranchAction() {
     super(Bundle.getString("compare.branch.action.name"));

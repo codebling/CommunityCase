@@ -67,7 +67,7 @@ public class BranchesWidget extends TextPanel implements CustomStatusBarWidget {
   /**
    * The logger
    */
-  private static final Logger LOG = Logger.getInstance(BranchesWidget.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+BranchesWidget.class.getName());
   /**
    * The ID of the widget
    */

@@ -36,7 +36,7 @@ public class RebaseUtils {
   /**
    * The logger instance
    */
-  private final static Logger LOG = Logger.getInstance(RebaseUtils.class.getName());
+  private final static Logger LOG = Logger.getInstance("#"+RebaseUtils.class.getName());
 
   /**
    * A private constructor for utility class

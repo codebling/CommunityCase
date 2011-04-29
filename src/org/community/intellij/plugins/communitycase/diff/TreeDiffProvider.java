@@ -35,7 +35,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TreeDiffProvider implements com.intellij.openapi.vcs.TreeDiffProvider {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.diff.TreeDiffProvider");
+  private final static Logger LOG = Logger.getInstance("#"+TreeDiffProvider.class.getName());
   private final Project myProject;
 
   public TreeDiffProvider(final Project project) {

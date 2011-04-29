@@ -45,7 +45,7 @@ import java.util.*;
  * Based on the JetBrains SVNAnnotationProvider.
  */
 public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate.FileAnnotation {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.annotate.IntellijFileAnnotation");
+  private final static Logger LOG = Logger.getInstance("#"+IntellijFileAnnotation.class.getName());
 
   /**
    * annotated content

@@ -38,7 +38,7 @@ public class BinaryHandler extends Handler {
   /**
    * The logger
    */
-  private static final Logger LOG = Logger.getInstance(BinaryHandler.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+BinaryHandler.class.getName());
   /**
    * Stdout stream
    */

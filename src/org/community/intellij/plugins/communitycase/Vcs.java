@@ -73,7 +73,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   public static final String NOTIFICATION_GROUP_ID = "ClearCase";
   public static final String NAME = "ClearCase"; // Vcs name
 
-  private static final Logger log = Logger.getInstance(Vcs.class.getName());
+  //private static final Logger log = Logger.getInstance("#"+Vcs.class.getName());
   private static final VcsKey ourKey = createKey(NAME);
 
   private final com.intellij.openapi.vcs.changes.ChangeProvider myChangeProvider;

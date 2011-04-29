@@ -52,7 +52,7 @@ public class Util {
   /**
    * The logger instance
    */
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.Util");
+  private final static Logger LOG = Logger.getInstance("#"+Util.class.getName());
   /**
    * Comparator for virtual files by name
    */

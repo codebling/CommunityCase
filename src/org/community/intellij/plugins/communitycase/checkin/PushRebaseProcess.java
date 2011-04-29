@@ -51,7 +51,7 @@ public class PushRebaseProcess extends BaseRebaseProcess {
   /**
    * The logger
    */
-  private static final Logger LOG = Logger.getInstance(PushRebaseProcess.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+PushRebaseProcess.class.getName());
   /**
    * Save changes policy
    */

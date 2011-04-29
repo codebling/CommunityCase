@@ -36,7 +36,7 @@ import java.util.Set;
  * repository change provider
  */
 public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangeProvider {
-  private static final Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.changes.ChangeProvider");
+  private static final Logger LOG = Logger.getInstance("#"+ChangeProvider.class.getName());
   private final Project myProject;
   private final ChangeListManager myChangeListManager;
   private FileDocumentManager myFileDocumentManager;

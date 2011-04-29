@@ -72,7 +72,7 @@ import java.util.List;
  * @author irengrig
  */
 public class LogUI implements Disposable {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.history.wholeTree.LogUI");
+  private final static Logger LOG = Logger.getInstance("#"+LogUI.class.getName());
   public static final SimpleTextAttributes HIGHLIGHT_TEXT_ATTRIBUTES =
     new SimpleTextAttributes(SimpleTextAttributes.STYLE_BOLD, new Color(255,128,0));
   private final Project myProject;

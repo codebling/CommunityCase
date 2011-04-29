@@ -96,7 +96,7 @@ public class RefspecAddRefsDialog extends DialogWrapper {
   /**
    * The logger for the class
    */
-  private static final Logger log = Logger.getInstance(RefspecAddRefsDialog.class.getName());
+  private static final Logger log = Logger.getInstance("#"+RefspecAddRefsDialog.class.getName());
 
   /**
    * A constructor

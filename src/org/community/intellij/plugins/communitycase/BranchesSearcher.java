@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class BranchesSearcher {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.BranchesSearcher");
+  private final static Logger LOG = Logger.getInstance("#"+BranchesSearcher.class.getName());
   private final Branch myLocal;
   private Branch myRemote;
 

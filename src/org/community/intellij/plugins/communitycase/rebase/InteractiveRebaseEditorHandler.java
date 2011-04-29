@@ -34,7 +34,7 @@ public class InteractiveRebaseEditorHandler implements Closeable, RebaseEditorHa
   /**
    * The logger
    */
-  private final static Logger LOG = Logger.getInstance(InteractiveRebaseEditorHandler.class.getName());
+  private final static Logger LOG = Logger.getInstance("#"+InteractiveRebaseEditorHandler.class.getName());
   /**
    * The service object that has created this handler
    */

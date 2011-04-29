@@ -84,7 +84,7 @@ import java.util.regex.Pattern;
 class ChangeCollector {
   private static final String VERSION_KEY = "@@";
 
-  private static final Logger log=Logger.getInstance(ChangeCollector.class.getName());
+  private static final Logger log=Logger.getInstance("#"+ChangeCollector.class.getName());
   private final Project myProject;
   private final ChangeListManager myChangeListManager;
   //private final ProgressIndicator myProgressIndicator;
@@ -868,7 +868,7 @@ class ChangeCollector {
   private void popupNotification(Throwable e) {
     String message=Bundle.message("changes.err.content")+e.getMessage();
     //popupNotification(NotificationType.ERROR,message);
-    Logger.getInstance("#"+ChangeCollector.class.getName()).error(message,e);
+    log.error(message,e);
   }
   private void popupNotification(NotificationType type,String s) {
     Notifications.Bus.notify(

@@ -58,7 +58,7 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
   /**
    * the logger
    */
-  private static final Logger LOG = Logger.getInstance(org.community.intellij.plugins.communitycase.changes.CommittedChangeListProvider.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+CommittedChangeListProvider.class.getName());
 
 
   /**

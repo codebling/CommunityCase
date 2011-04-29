@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * A collection of methods for retrieving history information from native .
  */
 public class HistoryUtils {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.history.HistoryUtils");
+  private final static Logger LOG = Logger.getInstance("#"+HistoryUtils.class.getName());
 
   private HistoryUtils() {
   }

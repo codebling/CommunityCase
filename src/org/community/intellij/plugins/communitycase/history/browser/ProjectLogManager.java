@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ProjectLogManager {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.history.browser.ProjectLogManager");
+  private final static Logger LOG = Logger.getInstance("#"+ProjectLogManager.class.getName());
   private static final String CONTENT_KEY = "Log";
 
   private final Project myProject;

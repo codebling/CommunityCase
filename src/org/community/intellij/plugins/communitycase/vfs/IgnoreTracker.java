@@ -51,7 +51,7 @@ import java.util.Set;
  * missed.
  */
 public class IgnoreTracker {
-  private static final Logger log = Logger.getInstance(IgnoreTracker.class.getName());
+  private static final Logger log = Logger.getInstance("#"+IgnoreTracker.class.getName());
 
   /**
    * The vcs manager that tracks content roots

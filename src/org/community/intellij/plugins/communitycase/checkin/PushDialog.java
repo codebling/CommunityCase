@@ -48,7 +48,7 @@ public class PushDialog extends DialogWrapper {
   /**
    * the logger
    */
-  private static final Logger LOG = Logger.getInstance(PushDialog.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+PushDialog.class.getName());
   /**
    * Push policy meaning selected references
    */

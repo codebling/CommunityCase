@@ -24,7 +24,7 @@ class RebaseEntry {
   /**
    * the logger
    */
-  private static final Logger log = Logger.getInstance(RebaseEntry.class.getName());
+  private static final Logger log = Logger.getInstance("#"+RebaseEntry.class.getName());
   /**
    * The commit hash
    */

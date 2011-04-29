@@ -41,7 +41,7 @@ public class HandlerUtil {
   /**
    * The logger instance
    */
-  private static final Logger LOG = Logger.getInstance(HandlerUtil.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+HandlerUtil.class.getName());
 
   /**
    * a private constructor for utility class

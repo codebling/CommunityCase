@@ -34,7 +34,7 @@ public abstract class TextHandler extends Handler {
   /**
    * the logger
    */
-  private static final Logger log = Logger.getInstance(TextHandler.class.getName());
+  private static final Logger log = Logger.getInstance("#"+TextHandler.class.getName());
 
   /**
    * wrapped process handler

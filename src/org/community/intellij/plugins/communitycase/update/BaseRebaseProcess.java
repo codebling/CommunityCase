@@ -56,7 +56,7 @@ public abstract class BaseRebaseProcess {
   /**
    * The logger
    */
-  private static final Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.update.UpdateProcess");
+  private static final Logger LOG = Logger.getInstance("#"+BaseRebaseProcess.class.getName());
   /**
    * The context project
    */

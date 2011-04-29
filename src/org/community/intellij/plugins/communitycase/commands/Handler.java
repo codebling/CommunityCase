@@ -47,7 +47,7 @@ public abstract class Handler {
 
   private final HashSet<Integer> myIgnoredErrorCodes = new HashSet<Integer>(); // Error codes that are ignored for the handler
   private final List<VcsException> myErrors = Collections.synchronizedList(new ArrayList<VcsException>());
-  private static final Logger log = Logger.getInstance(Handler.class.getName());
+  private static final Logger log = Logger.getInstance("#"+Handler.class.getName());
   final GeneralCommandLine myCommandLine;
   @SuppressWarnings({"FieldAccessedSynchronizedAndUnsynchronized"})
   Process myProcess;

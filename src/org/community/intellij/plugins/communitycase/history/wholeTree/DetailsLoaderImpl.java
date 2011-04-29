@@ -37,7 +37,7 @@ import java.util.Map;
  * @author irengrig
  */
 public class DetailsLoaderImpl implements DetailsLoader {
-  private final static Logger LOG = Logger.getInstance("#org.community.intellij.plugins.communitycase.history.wholeTree.DetailsLoaderImpl");
+  private final static Logger LOG = Logger.getInstance("#"+DetailsLoaderImpl.class.getName());
 
   private final static int ourLoadSize = 20;
   private final static long ourRefsReload = 120000;

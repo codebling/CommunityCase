@@ -54,7 +54,7 @@ public class CheckoutProcess {
   /**
    * The logger
    */
-  private static final Logger LOG = Logger.getInstance(CheckoutProcess.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+CheckoutProcess.class.getName());
   /**
    * The configuration process
    */

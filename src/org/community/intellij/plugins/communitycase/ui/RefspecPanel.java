@@ -50,7 +50,7 @@ public class RefspecPanel extends JPanel {
   /**
    * The logger for the class
    */
-  private static final Logger log = Logger.getInstance(Logger.class.getName());
+  private static final Logger log = Logger.getInstance("#"+RefspecPanel.class.getName());
   /**
    * Named remotes associated with the current root
    */

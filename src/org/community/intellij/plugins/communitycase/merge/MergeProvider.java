@@ -48,7 +48,7 @@ public class MergeProvider implements MergeProvider2 {
   /**
    * the logger
    */
-  private static final Logger log = Logger.getInstance(MergeProvider.class.getName());
+  private static final Logger log = Logger.getInstance("#"+MergeProvider.class.getName());
   /**
    * The project instance
    */

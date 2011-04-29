@@ -65,7 +65,7 @@ public class BranchConfigurations implements PersistentStateComponent<BranchConf
   /**
    * The logger
    */
-  private static final Logger LOG = Logger.getInstance(BranchConfigurations.class.getName());
+  private static final Logger LOG = Logger.getInstance("#"+BranchConfigurations.class.getName());
   /**
    * The comparator for branch configuration by name
    */

@@ -55,7 +55,7 @@ import java.util.List;
  * Environment for commit operations.
  */
 public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.CheckinEnvironment {
-  private static final Logger log = Logger.getInstance(CheckinEnvironment.class.getName());
+  private static final Logger log = Logger.getInstance("#"+CheckinEnvironment.class.getName());
   @NonNls private static final String GIT_COMMIT_MSG_FILE_PREFIX = "cc-commit-msg-"; // the file name prefix for commit message file
   @NonNls private static final String GIT_COMMIT_MSG_FILE_EXT = ".txt"; // the file extension for commit message file
 
