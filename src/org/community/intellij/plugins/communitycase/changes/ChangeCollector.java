@@ -563,8 +563,8 @@ class ChangeCollector {
                                                        true);
                 if(!file.isDirectory() || VcsSettings.getInstance(myProject).isShowDirectories())
                   myChanges.add(new Change(before, after, FileStatus.MODIFIED));
-                else
-                  myChanges.add(new Change(before, after, FileStatus.IGNORED));
+                //else  //appears in yellow as file to be added
+                //  myChanges.add(new Change(before, after, FileStatus.IGNORED));
               } else { //it's a checked-out file that's been deleted
                 com.intellij.openapi.vcs.changes.ContentRevision before=
                         ContentRevision.createRevision(myRoot,
@@ -583,8 +583,8 @@ class ChangeCollector {
                 //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.
                 if(!file.isDirectory() || VcsSettings.getInstance(myProject).isShowDirectories())
                   myChanges.add(new Change(before, after, FileStatus.DELETED));
-                else
-                  myChanges.add(new Change(before, after, FileStatus.IGNORED));
+                //else
+                //  myChanges.add(new Change(before, after, FileStatus.IGNORED));
               }
             }
           }
