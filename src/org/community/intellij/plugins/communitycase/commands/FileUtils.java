@@ -259,9 +259,9 @@ public class FileUtils {
     }
     temp.deleteOnExit();
 
-    h.addParameters("-to "+temp.getAbsolutePath());
+    h.addParameters("-to \""+temp.getAbsolutePath()+"\"");
 
-    h.addParameters(relativePath + "@@" + revisionOrBranch);
+    h.addParameters("\""+relativePath + "@@" + revisionOrBranch+"\"");
 //    try {
       h.run();
 /*    }
