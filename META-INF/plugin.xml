@@ -112,9 +112,6 @@
         serviceInterface="org.community.intellij.plugins.communitycase.edit.EditFileProvider"
         serviceImplementation="org.community.intellij.plugins.communitycase.edit.EditFileProvider"/>
     <projectService
-        serviceInterface="org.community.intellij.plugins.communitycase.config.VcsSettings"
-        serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsSettings"/>
-    <projectService
         serviceInterface="org.community.intellij.plugins.communitycase.history.NewUsersComponent"
         serviceImplementation="org.community.intellij.plugins.communitycase.history.NewUsersComponent"/>
     <projectService
@@ -126,9 +123,15 @@
     <projectService
         serviceInterface="org.community.intellij.plugins.communitycase.config.ExecutableValidator"
         serviceImplementation="org.community.intellij.plugins.communitycase.config.ExecutableValidator"/>
+    <projectService
+          serviceInterface="org.community.intellij.plugins.communitycase.config.VcsProjectSettings"
+          serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsProjectSettings"/>
     <applicationService
         serviceInterface="org.community.intellij.plugins.communitycase.config.VcsApplicationSettings"
         serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsApplicationSettings"/>
+    <projectService
+            serviceInterface="org.community.intellij.plugins.communitycase.config.VcsSettings"
+            serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsSettings"/>
     <applicationService
         serviceInterface="org.community.intellij.plugins.communitycase.rebase.RebaseEditorService"
         serviceImplementation="org.community.intellij.plugins.communitycase.rebase.RebaseEditorService"/>
