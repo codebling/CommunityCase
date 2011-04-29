@@ -37,7 +37,7 @@ import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.history.NewUsersComponent;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
@@ -61,13 +61,13 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
 
   private final Project myProject;
   private final VcsDirtyScopeManager myDirtyScopeManager;
-  private final VcsSettings mySettings;
+  private final VcsProjectSettings mySettings;
 
   private boolean myNextCommitGenerate; //the status of the 'generate report' option added to the commit menu
   private Boolean myNextCommitIsPushed = null; // The push option of the next commit
 
 
-  public CheckinEnvironment(@NotNull Project project, @NotNull final VcsDirtyScopeManager dirtyScopeManager, final VcsSettings settings) {
+  public CheckinEnvironment(@NotNull Project project, @NotNull final VcsDirtyScopeManager dirtyScopeManager, final VcsProjectSettings settings) {
     myProject = project;
     myDirtyScopeManager = dirtyScopeManager;
     mySettings = settings;

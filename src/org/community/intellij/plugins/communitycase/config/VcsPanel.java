@@ -44,7 +44,7 @@ public class VcsPanel {
   private JCheckBox myEnableBranchesWidgetCheckBox; // if selected, the branches widget is enabled in the status bar
   private final Project myProject;
   private final VcsApplicationSettings myAppSettings;
-  private final VcsSettings myProjectSettings;
+  private final VcsProjectSettings myProjectSettings;
   private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + Bundle.getString("vcs.config.ssh.mode.idea"); // IDEA ssh value
   private static final String NATIVE_SSH = Bundle.getString("vcs.config.ssh.mode.native"); // Native SSH value
   private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
@@ -57,12 +57,12 @@ public class VcsPanel {
    */
   public VcsPanel(@NotNull Project project) {
     myAppSettings = VcsApplicationSettings.getInstance();
-    myProjectSettings = VcsSettings.getInstance(project);
+    myProjectSettings = VcsProjectSettings.getInstance(project);
     myProject = project;
     /*
     mySSHExecutableComboBox.addItem(IDEA_SSH);
     mySSHExecutableComboBox.addItem(NATIVE_SSH);
-    mySSHExecutableComboBox.setSelectedItem(VcsSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
+    mySSHExecutableComboBox.setSelectedItem(VcsProjectSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     mySSHExecutableComboBox
       .setToolTipText(Bundle.message("vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
     myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.askBeforeLineSeparatorConversion());
@@ -120,7 +120,7 @@ public class VcsPanel {
    *
    * @param settings the settings to load
    */
-  public void load(@NotNull VcsSettings settings) {
+  public void load(@NotNull VcsProjectSettings settings) {
     myGitField.setText(settings.getAppSettings().getPathToExecutable());
     myBranchFilter.setText(settings.getBranchFilter());
     myPathFilter.setText(settings.getPathFilter());
@@ -137,7 +137,7 @@ public class VcsPanel {
    * @param settings the settings object
    * @return the item in crlf combobox
    */
-  static private String crlfPolicyItem(VcsSettings settings) {
+  static private String crlfPolicyItem(VcsProjectSettings settings) {
     String crlf;
     switch (settings.getLineSeparatorsConversion()) {
       case NONE:
@@ -158,7 +158,7 @@ public class VcsPanel {
    *
    * @param settings the settings to load
    */
-  public boolean isModified(@NotNull VcsSettings settings) {
+  public boolean isModified(@NotNull VcsProjectSettings settings) {
     return !settings.getAppSettings().getPathToExecutable().equals(myGitField.getText())
             ||!settings.getBranchFilter().equals(myBranchFilter.getText())
             ||!settings.getPathFilter().equals(myPathFilter.getText());
@@ -169,18 +169,18 @@ public class VcsPanel {
    *
    * @param settings the settings object
    */
-  public void save(@NotNull VcsSettings settings) {
+  public void save(@NotNull VcsProjectSettings settings) {
     settings.getAppSettings().setPathToExecutable(myGitField.getText());
     settings.setBranchFilter(myBranchFilter.getText());
     settings.setPathFilter(myPathFilter.getText());
     /*settings.setIdeaSsh(IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem()));
     Object policyItem = myConvertTextFilesComboBox.getSelectedItem();
-    VcsSettings.ConversionPolicy conversionPolicy;
+    VcsProjectSettings.ConversionPolicy conversionPolicy;
     if (CRLF_DO_NOT_CONVERT.equals(policyItem)) {
-      conversionPolicy = VcsSettings.ConversionPolicy.NONE;
+      conversionPolicy = VcsProjectSettings.ConversionPolicy.NONE;
     }
     else if (CRLF_CONVERT_TO_PROJECT.equals(policyItem)) {
-      conversionPolicy = VcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS;
+      conversionPolicy = VcsProjectSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS;
     }
     else {
       throw new IllegalStateException("Unknown selected CRLF policy: " + policyItem);

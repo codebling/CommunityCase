@@ -7,7 +7,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -33,7 +33,7 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
     LineHandler handler=new LineHandler(myProject, execDir, Command.CHECKOUT);
     handler.setSilent(false);
     handler.setStdoutSuppressed(false);
-    VcsSettings settings=VcsSettings.getInstance(myProject);
+    VcsProjectSettings settings=VcsProjectSettings.getInstance(myProject);
     if(settings!=null && settings.isUseReservedCheckoutForFiles())
       handler.addParameters("-res");//reserved
     else

@@ -20,7 +20,6 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +35,7 @@ import java.util.List;
   storages = {@Storage(
     id = "ws",
     file = "$WORKSPACE_FILE$")})
-public class VcsSettings implements PersistentStateComponent<VcsSettings.State> {
+public class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.State> {
 
   public static final int PREVIOUS_COMMIT_AUTHORS_LIMIT = 16; // Limit for previous commit authors
   private static final SshExecutable DEFAULT_SSH = SshExecutable.IDEA_SSH; // Default SSH policy
@@ -57,7 +56,7 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
   private boolean myReserveFiles=true;
   private boolean myReserveDirectories=false;
 
-  public VcsSettings(VcsApplicationSettings appSettings) {
+  public VcsProjectSettings(VcsApplicationSettings appSettings) {
     myAppSettings = appSettings;
   }
 
@@ -234,11 +233,11 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
    * @return the git settings
    */
   @Nullable
-  public static VcsSettings getInstance(Project project) {
+  public static VcsProjectSettings getInstance(Project project) {
     if (project == null || project.isDisposed()) {
       return null;
     }
-    return PeriodicalTasksCloser.getInstance().safeGetService(project, VcsSettings.class);
+    return PeriodicalTasksCloser.getInstance().safeGetService(project, VcsProjectSettings.class);
   }
 
   /**

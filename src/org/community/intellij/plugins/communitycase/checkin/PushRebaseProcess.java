@@ -29,7 +29,7 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.community.intellij.plugins.communitycase.rebase.InteractiveRebaseEditorHandler;
 import org.community.intellij.plugins.communitycase.rebase.RebaseEditorService;
 import org.community.intellij.plugins.communitycase.update.BaseRebaseProcess;
@@ -55,7 +55,7 @@ public class PushRebaseProcess extends BaseRebaseProcess {
   /**
    * Save changes policy
    */
-  private final VcsSettings.UpdateChangesPolicy mySavePolicy;
+  private final VcsProjectSettings.UpdateChangesPolicy mySavePolicy;
   /**
    * The map from vcs root to list of the commit identifier for reordered commits, if vcs root is not provided, the reordering is not needed.
    */
@@ -85,7 +85,7 @@ public class PushRebaseProcess extends BaseRebaseProcess {
   public PushRebaseProcess(final Vcs vcs,
                            final Project project,
                            List<VcsException> exceptions,
-                           VcsSettings.UpdateChangesPolicy savePolicy,
+                           VcsProjectSettings.UpdateChangesPolicy savePolicy,
                            Map<VirtualFile, List<String>> reorderedCommits,
                            Set<VirtualFile> rootsWithMerges) {
     super(vcs, project, exceptions);
@@ -156,7 +156,7 @@ public class PushRebaseProcess extends BaseRebaseProcess {
    * {@inheritDoc}
    */
   @Override
-  protected VcsSettings.UpdateChangesPolicy getUpdatePolicy() {
+  protected VcsProjectSettings.UpdateChangesPolicy getUpdatePolicy() {
     return mySavePolicy;
   }
 

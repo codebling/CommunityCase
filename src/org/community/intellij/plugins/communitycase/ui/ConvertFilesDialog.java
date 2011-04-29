@@ -34,7 +34,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.commands.StringScanner;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.community.intellij.plugins.communitycase.config.Version;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 
@@ -150,12 +150,12 @@ public class ConvertFilesDialog extends DialogWrapper {
    * @return true if conversion completed successfully, false if process was cancelled or there were errors
    */
   public static boolean showDialogIfNeeded(final Project project,
-                                           final VcsSettings settings,
+                                           final VcsProjectSettings settings,
                                            Map<VirtualFile, List<Change>> sortedChanges,
                                            final List<VcsException> exceptions) {
     try {
       if (settings.askBeforeLineSeparatorConversion() ||
-          settings.getLineSeparatorsConversion() == VcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS) {
+          settings.getLineSeparatorsConversion() == VcsProjectSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS) {
         LocalFileSystem lfs = LocalFileSystem.getInstance();
         final String nl = CodeStyleFacade.getInstance(project).getLineSeparator();
         final Map<VirtualFile, Set<VirtualFile>> files = new HashMap<VirtualFile, Set<VirtualFile>>();
@@ -208,12 +208,12 @@ public class ConvertFilesDialog extends DialogWrapper {
               d.show();
               if (d.isOK()) {
                 settings.setAskBeforeLineSeparatorConversion(!d.myDoNotShowCheckBox.isSelected());
-                settings.setLineSeparatorsConversion(VcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS);
+                settings.setLineSeparatorsConversion(VcsProjectSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS);
                 selectedFiles = d.myFilesToConvert.getCheckedNodes(VirtualFile.class, null);
               }
               else if (d.getExitCode() == DO_NOT_CONVERT) {
                 settings.setAskBeforeLineSeparatorConversion(!d.myDoNotShowCheckBox.isSelected());
-                settings.setLineSeparatorsConversion(VcsSettings.ConversionPolicy.NONE);
+                settings.setLineSeparatorsConversion(VcsProjectSettings.ConversionPolicy.NONE);
               }
               else {
                 //noinspection ThrowableInstanceNeverThrown

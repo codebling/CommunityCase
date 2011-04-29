@@ -29,7 +29,7 @@ import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
@@ -205,7 +205,7 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
       SimpleHandler handler = new SimpleHandler(myProject, root, Command.UNDO_CHECKOUT);
       handler.setRemote(true);
-      VcsSettings settings=VcsSettings.getInstance(myProject);
+      VcsProjectSettings settings=VcsProjectSettings.getInstance(myProject);
       if(settings!=null && !settings.isPreserveKeepFiles())
         handler.addParameters("-rm");
       else
@@ -227,7 +227,7 @@ public class RollbackEnvironment implements com.intellij.openapi.vcs.rollback.Ro
     for (List<String> paths : FileUtils.chunkPaths(root, files)) {
       SimpleHandler handler = new SimpleHandler(myProject, root, Command.UNDO_CHECKOUT);
       handler.setRemote(true);
-      VcsSettings settings=VcsSettings.getInstance(myProject);
+      VcsProjectSettings settings=VcsProjectSettings.getInstance(myProject);
       if(settings!=null && !settings.isPreserveKeepFiles())
         handler.addParameters("-rm");
       else

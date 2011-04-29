@@ -126,7 +126,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
              @NotNull final org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment rollbackEnvironment,
              @NotNull final org.community.intellij.plugins.communitycase.edit.EditFileProvider editFileProvider,
              @NotNull final VcsApplicationSettings settings,
-             @NotNull final VcsSettings projectSettings) {
+             @NotNull final VcsProjectSettings projectSettings) {
     super(project, NAME);
     myVcsManager = vcsManager;
     myAppSettings = settings;

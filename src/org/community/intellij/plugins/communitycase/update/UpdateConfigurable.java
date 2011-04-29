@@ -17,7 +17,7 @@ package org.community.intellij.plugins.communitycase.update;
 
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.Nls;
 
@@ -28,7 +28,7 @@ import javax.swing.*;
  */
 public class UpdateConfigurable implements Configurable {
   /** The vcs settings for the configurable */
-  private final VcsSettings mySettings;
+  private final VcsProjectSettings mySettings;
   /** The options panel */
   private UpdateOptionsPanel myPanel;
 
@@ -36,7 +36,7 @@ public class UpdateConfigurable implements Configurable {
    * The constructor
    * @param settings the settings object
    */
-  public UpdateConfigurable(VcsSettings settings) {
+  public UpdateConfigurable(VcsProjectSettings settings) {
     mySettings = settings;
   }
 

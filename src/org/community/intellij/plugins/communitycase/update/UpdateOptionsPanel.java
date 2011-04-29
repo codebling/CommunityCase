@@ -15,8 +15,8 @@
  */
 package org.community.intellij.plugins.communitycase.update;
 
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
-import org.community.intellij.plugins.communitycase.config.VcsSettings.UpdateType;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings.UpdateType;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -83,7 +83,7 @@ public class UpdateOptionsPanel {
    * @param settings the settings to compare to
    * @return true if the UI modified the settings
    */
-  public boolean isModified(VcsSettings settings) {
+  public boolean isModified(VcsProjectSettings settings) {
     UpdateType type = getUpdateType();
     return type != settings.getUpdateType() || updateSaveFilesPolicy() != settings.updateChangesPolicy();
   }
@@ -91,7 +91,7 @@ public class UpdateOptionsPanel {
   /**
    * @return get policy value from selected radio buttons
    */
-  private VcsSettings.UpdateChangesPolicy updateSaveFilesPolicy() {
+  private VcsProjectSettings.UpdateChangesPolicy updateSaveFilesPolicy() {
     return UpdatePolicyUtils.getUpdatePolicy(myStashRadioButton, myShelveRadioButton, myKeepRadioButton);
   }
 
@@ -118,7 +118,7 @@ public class UpdateOptionsPanel {
    *
    * @param settings the settings to save to
    */
-  public void applyTo(VcsSettings settings) {
+  public void applyTo(VcsProjectSettings settings) {
     settings.setUpdateType(getUpdateType());
     settings.setUpdateChangesPolicy(updateSaveFilesPolicy());
   }
@@ -128,7 +128,7 @@ public class UpdateOptionsPanel {
    *
    * @param settings the settings to use
    */
-  public void updateFrom(VcsSettings settings) {
+  public void updateFrom(VcsProjectSettings settings) {
     switch (settings.getUpdateType()) {
       case REBASE:
         myForceRebaseRadioButton.setSelected(true);

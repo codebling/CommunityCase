@@ -27,7 +27,7 @@ import com.intellij.openapi.vcs.update.UpdatedFiles;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,14 +50,14 @@ public class UpdateEnvironment implements com.intellij.openapi.vcs.update.Update
   /**
    * The project settings
    */
-  private final VcsSettings mySettings;
+  private final VcsProjectSettings mySettings;
 
   /**
    * A constructor from settings
    *
    * @param project a project
    */
-  public UpdateEnvironment(@NotNull Project project, @NotNull Vcs vcs, VcsSettings settings) {
+  public UpdateEnvironment(@NotNull Project project, @NotNull Vcs vcs, VcsProjectSettings settings) {
     myVcs = vcs;
     myProject = project;
     mySettings = settings;

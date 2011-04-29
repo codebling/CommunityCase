@@ -28,11 +28,11 @@ import javax.swing.*;
  * Git VCS configurable implementation
  */
 public class VcsConfigurable implements Configurable {
-  private final VcsSettings settings;
+  private final VcsProjectSettings settings;
   private VcsPanel panel;
   private final Project project;
 
-  public VcsConfigurable(@NotNull VcsSettings settings, @NotNull Project project) {
+  public VcsConfigurable(@NotNull VcsProjectSettings settings, @NotNull Project project) {
     this.project = project;
     this.settings = settings;
   }

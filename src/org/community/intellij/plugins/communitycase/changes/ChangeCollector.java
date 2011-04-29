@@ -45,7 +45,7 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
-import org.community.intellij.plugins.communitycase.config.VcsSettings;
+import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
@@ -149,11 +149,11 @@ class ChangeCollector {
         myLsThreads.add(new LsRunnable());
       }
 
-      if(VcsSettings.getInstance(myProject)!=null && !VcsSettings.getInstance(myProject).getPathFilter().isEmpty()) {
+      if(VcsProjectSettings.getInstance(myProject)!=null && !VcsProjectSettings.getInstance(myProject).getPathFilter().isEmpty()) {
         try {
           //disable the inspection, we check if null above.
           //noinspection ConstantConditions
-          myPathFilter=Pattern.compile(VcsSettings.getInstance(myProject).getPathFilter());
+          myPathFilter=Pattern.compile(VcsProjectSettings.getInstance(myProject).getPathFilter());
         } catch(Exception e) {
           throw new VcsException(Bundle.getString("vcs.config.pathfilter.badregex"),e);
         }
