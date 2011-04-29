@@ -87,24 +87,20 @@ class ChangeCollector {
   private static final Logger log=Logger.getInstance(ChangeCollector.class.getName());
   private final Project myProject;
   private final ChangeListManager myChangeListManager;
-  private final ProgressIndicator myProgressIndicator;
+  //private final ProgressIndicator myProgressIndicator;
   private final VcsDirtyScope myDirtyScope;
 
   private final ProjectFileIndex myFileIndex;
 
   private final VirtualFile myRoot; //will be one of the dirty paths
   private final List<VirtualFile> myUnversioned = new ArrayList<VirtualFile>(); // Unversioned files
-  private final Set<String> myUnmergedNames = new HashSet<String>(); // Names of unmerged files
   private final List<Change> myChanges = new ArrayList<Change>(); // all changes
   private boolean myIsCollected = false; // indicates that collecting changes has been started
-  private boolean myIsFailed = true; // indicates that collecting changes has been failed.
 
   private static final int MAX_THREADS=15;
   private final List<RecurseRunnable> myRecurseThreads=new ArrayList<RecurseRunnable>();
   private final List<LsRunnable> myLsThreads=new ArrayList<LsRunnable>();
 
-  private final Collection<VirtualFile> myProjectPaneFiles=new HashSet<VirtualFile>();
-  private final Collection<VirtualFile> myProjectPaneDirs=new HashSet<VirtualFile>();
   private Pattern myPathFilter=null;
 
   public ChangeCollector(final Project project,
@@ -113,7 +109,7 @@ class ChangeCollector {
                          VcsDirtyScope dirtyScope,
                          final VirtualFile root) {
     myChangeListManager = changeListManager;
-    myProgressIndicator = progressIndicator;
+    //myProgressIndicator = progressIndicator;
     myDirtyScope = dirtyScope;
     myRoot=root;
     myProject = project;
@@ -122,6 +118,8 @@ class ChangeCollector {
 
   /**
    * Get unversioned files
+   * @return the changes
+   * @throws com.intellij.openapi.vcs.VcsException in several cases
    */
   public Collection<VirtualFile> unversioned() throws VcsException {
     ensureCollected();
@@ -130,6 +128,8 @@ class ChangeCollector {
 
   /**
    * Get changes
+   * @throws com.intellij.openapi.vcs.VcsException in several cases
+   * @return the changes
    */
   public Collection<Change> changes() throws VcsException {
     ensureCollected();
@@ -139,6 +139,7 @@ class ChangeCollector {
 
   /**
    * Ensure that changes has been collected.
+   * @throws com.intellij.openapi.vcs.VcsException in several cases
    */
   private void ensureCollected() throws VcsException {
     if(!myIsCollected) {
@@ -161,17 +162,12 @@ class ChangeCollector {
 
       if(!DumbService.getInstance(myProject).isDumb()) {  //don't go to town on the HD if we're indexing, causes excessive thrashing
         Map<String,VirtualFile> vfMap=Util.stringToVirtualFile(myRoot,
-                                                                                          getFsWritableFiles(),
-                                                                                          true);
+                                                               getFsWritableFiles(),
+                                                               true);
 
         for(Map.Entry<String,VirtualFile> pair:vfMap.entrySet()) {
           if(pair.getValue() == null) {
-            Notifications.Bus.notify(new Notification(
-                    Vcs.NOTIFICATION_GROUP_ID,
-                    Bundle.message("changes.err.title"),
-                    Bundle.message("changes.ls.mappingerr.content",pair.getKey()),
-                    NotificationType.WARNING),
-                                     myProject);
+            popupNotification(NotificationType.WARNING, Bundle.message("changes.ls.mappingerr.content", pair.getKey()));
             vfMap.remove(pair.getKey());
           }
         }
@@ -190,7 +186,7 @@ class ChangeCollector {
               break;
             try {
               myLsThreads.wait();
-            } catch(InterruptedException e) {}
+            } catch(InterruptedException ignored) {}
           }
         }
         myLsThreads.clear();
@@ -309,9 +305,11 @@ class ChangeCollector {
       //todo wc figure out what the hell is going on here..
         for (Change c : myChangeListManager.getChangesIn(myRoot)) {
           if (c.getAfterRevision() != null) {
+            //noinspection ConstantConditions
             addToPaths(rootPath, paths, c.getAfterRevision().getFile());
           }
           if (c.getBeforeRevision() != null) {
+            //noinspection ConstantConditions
             addToPaths(rootPath, paths, c.getBeforeRevision().getFile());
           }
         }
@@ -459,7 +457,7 @@ class ChangeCollector {
       spawnOrRecurse(path.getIOFile(),writableFiles, -1);
 
     VirtualFile projBaseDir=myProject.getBaseDir();
-    if(projBaseDir!=null)
+    if(projBaseDir!=null && isInRoot(projBaseDir))
       spawnOrRecurse(Util.virtualFileToFile(projBaseDir),writableFiles,1); //recurse only the base directory, no children
     synchronized(myRecurseThreads) {
       while(true) { //wait until all threads have exited
@@ -467,7 +465,7 @@ class ChangeCollector {
           break;
         try {
           myRecurseThreads.wait();
-        } catch(InterruptedException e) {}
+        } catch(InterruptedException ignored) {}
       }
     }
     myRecurseThreads.clear();
@@ -510,8 +508,8 @@ class ChangeCollector {
 
   /**
    * Parse Command.LS_CHECKOUTS output.
-   * @param list
-   * @throws VcsException
+   * @param list the output from the lsco command
+   * @throws VcsException in several cases
    */
   private void parseLsCheckoutsOutput(String list) throws VcsException {
     //Line format:
@@ -597,8 +595,8 @@ class ChangeCollector {
 
   /**
    * Parse Command.LS output.
-   * @param list
-   * @throws VcsException
+   * @param list the output from the ls command
+   * @throws VcsException in several cases
    */
   private void parseLsOutput(String list) throws VcsException {
     //Line format:
@@ -614,8 +612,11 @@ class ChangeCollector {
     String filename;
 
     while(true) {
+      //noinspection UnusedAssignment
       line=null;
+      //noinspection UnusedAssignment
       versionStartIndex=-2; //bogus value which will be overwritten
+      //noinspection UnusedAssignment
       filename=null;
 
       try {
@@ -745,6 +746,7 @@ class ChangeCollector {
           //if no, add to dirty list or add to changes right away
           if(file.canWrite() && vf.getExtension()!=null) {
             String relativeFilename=Util.relativePath(myRoot,file);
+            //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized(writableFiles) {
               writableFiles.add(relativeFilename); //we don't know if it's been added or hijacked so don't put it in the change list yet, just take note
             }
@@ -752,6 +754,7 @@ class ChangeCollector {
         }
       }
     } else { //probably a deleted file.
+      //noinspection SynchronizationOnLocalVariableOrMethodParameter
       synchronized(writableFiles) {  //we'll do our best to keep track of it...
         writableFiles.add(Util.relativePath(myRoot,file));  //put it in the writeable files to be verified
       }
@@ -824,12 +827,7 @@ class ChangeCollector {
       try {
         recurseHijackedFiles(myFile,myWritableFiles,myMaxDepth);
       } catch(VcsException e) {
-        Notifications.Bus.notify(new Notification(
-                Vcs.NOTIFICATION_GROUP_ID,
-                Bundle.message("changes.err.title"),
-                Bundle.message("changes.err.content")+e.getMessage(),
-                NotificationType.ERROR),
-                                 myProject);
+        popupNotification(e);
       }
 
       myFile=null;
@@ -859,12 +857,7 @@ class ChangeCollector {
       try {
         checkStatusAndAddToChangeList(myFiles);
       } catch(VcsException e) {
-        Notifications.Bus.notify(new Notification(
-                Vcs.NOTIFICATION_GROUP_ID,
-                Bundle.message("changes.err.title"),
-                Bundle.message("changes.err.content")+e.getMessage(),
-                NotificationType.ERROR),
-                                 myProject);
+        popupNotification(e);
       }
 
       myFiles=null;
@@ -872,4 +865,14 @@ class ChangeCollector {
     }
   }
 
+  private void popupNotification(Throwable e) {
+    String message=Bundle.message("changes.err.content")+e.getMessage();
+    //popupNotification(NotificationType.ERROR,message);
+    Logger.getInstance("#"+ChangeCollector.class.getName()).error(message,e);
+  }
+  private void popupNotification(NotificationType type,String s) {
+    Notifications.Bus.notify(
+      new Notification(Vcs.NOTIFICATION_GROUP_ID,Bundle.message("changes.err.title"),s,type),
+      myProject);
+  }
 }
