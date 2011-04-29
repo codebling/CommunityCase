@@ -52,9 +52,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   private Boolean myIsPathFilterAppwide=true;
   private String myBranchFilter="";
   private String myPathFilter="";
-  private boolean myPreserveKeepFiles=false;
-  private boolean myReserveFiles=true;
-  private boolean myReserveDirectories=false;
 
   /**
    * @return save policy for push active branches dialog
@@ -156,7 +153,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     s.IS_PATH_FILTER_APPWIDE=myIsPathFilterAppwide;
     s.BRANCH_FILTER=myBranchFilter;
     s.PATH_FILTER=myPathFilter;
-    s.PRESERVE_KEEP_FILES=myPreserveKeepFiles;
     return s;
   }
 
@@ -178,7 +174,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     myIsPathFilterAppwide=s.IS_PATH_FILTER_APPWIDE;
     myBranchFilter=s.BRANCH_FILTER;
     myPathFilter=s.PATH_FILTER;
-    myPreserveKeepFiles=s.PRESERVE_KEEP_FILES;
   }
 
   /**
@@ -223,30 +218,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     myIsPathFilterAppwide=isPathFilterAppwide;
   }
 
-  public boolean isPreserveKeepFiles() {
-    return myPreserveKeepFiles;
-  }
-
-  public void setPreserveKeepFiles(boolean preserveKeepFiles) {
-    myPreserveKeepFiles=preserveKeepFiles;
-  }
-
-  public boolean isUseReservedCheckoutForFiles() {
-    return myReserveFiles;
-  }
-
-  public void setUseReservedCheckoutForFiles(boolean useReserved) {
-    myReserveFiles=useReserved;
-  }
-
-  public boolean isUseReservedCheckoutForDirectories() {
-    return myReserveDirectories;
-  }
-
-  public void setUseReservedCheckoutForDirectories(boolean useReserved) {
-    myReserveDirectories=useReserved;
-  }
-
   /**
    * The state fo the settings
    */
@@ -285,7 +256,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     public Boolean IS_PATH_FILTER_APPWIDE;
     public String BRANCH_FILTER;
     public String PATH_FILTER;
-    public boolean PRESERVE_KEEP_FILES;
   }
 
 }

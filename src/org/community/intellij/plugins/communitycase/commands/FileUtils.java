@@ -21,6 +21,7 @@ import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.Nullable;
 
@@ -172,12 +173,17 @@ public class FileUtils {
    * @throws VcsException in case of git problem
    */
   public static void addFiles(Project project, VirtualFile root, Collection<VirtualFile> files) throws VcsException {
+    VcsSettings settings=VcsSettings.getInstance(project);
     Collection<VirtualFile> dirs=new HashSet<VirtualFile>();
-    for(VirtualFile f:files)
+    for(VirtualFile f : files)
       dirs.add(f.getParent());
 
     for(List<String> paths : chunkFiles(root, dirs)) {
       SimpleHandler handler=new SimpleHandler(project, root, Command.CHECKOUT);
+      if(settings!=null && settings.isUseReservedCheckoutForDirectories())
+        handler.addParameters("-res");//reserved
+      else
+        handler.addParameters("–unr");//unreserved
       handler.addParameters("-nc");
       handler.endOptions();
       handler.addParameters(paths);

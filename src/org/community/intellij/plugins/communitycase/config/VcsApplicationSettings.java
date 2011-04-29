@@ -58,6 +58,10 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
 
   private String myBranchFilter="";
   private String myPathFilter="";
+  private boolean myPreserveKeepFiles=false;
+  private boolean myReserveFiles=true;
+  private boolean myReserveDirs=false;
+  private boolean myShowDirectories=true;
 
   public static VcsApplicationSettings getInstance() {
     return ServiceManager.getService(VcsApplicationSettings.class);
@@ -93,18 +97,51 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
     return myExecutablePath;
   }
 
+  public boolean isPreserveKeepFiles() {
+    return myPreserveKeepFiles;
+  }
+  public void setPreserveKeepFiles(boolean preserveKeepFiles) {
+    myPreserveKeepFiles=preserveKeepFiles;
+  }
+  public boolean isUseReservedCheckoutForFiles() {
+    return myReserveFiles;
+  }
+  public void setUseReservedCheckoutForFiles(boolean useReserved) {
+    myReserveFiles=useReserved;
+  }
+  public boolean isUseReservedCheckoutForDirectories() {
+    return myReserveDirs;
+  }
+  public void setUseReservedCheckoutForDirectories(boolean useReserved) {
+    myReserveDirs=useReserved;
+  }
+  public boolean isShowDirectories() {
+    return myShowDirectories;
+  }
+  public void setShowDirectories(boolean showDirectories) {
+    myShowDirectories=showDirectories;
+  }
+
   public State getState() {
     State s = new State();
     s.PATH_TO_CLEARTOOL=myExecutablePath;
     s.BRANCH_FILTER=myBranchFilter;
     s.PATH_FILTER=myPathFilter;
+    s.PRESERVE_KEEP_FILES=myPreserveKeepFiles;
+    s.RESERVE_FILES=myReserveFiles;
+    s.RESERVE_DIRS=myReserveDirs;
+    s.SHOW_DIRECTORIES=myShowDirectories;
     return s;
   }
 
-  public void loadState(State state) {
-    myExecutablePath= state.PATH_TO_CLEARTOOL ==null?getDefaultPathToExecutable():state.PATH_TO_CLEARTOOL;
-    myBranchFilter= state.BRANCH_FILTER==null?"":state.BRANCH_FILTER;
-    myPathFilter= state.PATH_FILTER==null?"":state.PATH_FILTER;
+  public void loadState(State s) {
+    myExecutablePath= s.PATH_TO_CLEARTOOL==null?getDefaultPathToExecutable():s.PATH_TO_CLEARTOOL;
+    myBranchFilter= s.BRANCH_FILTER==null?"":s.BRANCH_FILTER;
+    myPathFilter= s.PATH_FILTER==null?"":s.PATH_FILTER;
+    myPreserveKeepFiles= s.PRESERVE_KEEP_FILES==null?myPreserveKeepFiles:s.PRESERVE_KEEP_FILES;
+    myReserveFiles= s.RESERVE_FILES==null?myReserveFiles:s.RESERVE_FILES;
+    myReserveDirs= s.RESERVE_DIRS==null?myReserveDirs:s.RESERVE_DIRS;
+    myShowDirectories= s.SHOW_DIRECTORIES==null?myShowDirectories:s.SHOW_DIRECTORIES;
   }
 
   /**
@@ -151,5 +188,9 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
     public String PATH_TO_CLEARTOOL;
     public String BRANCH_FILTER;
     public String PATH_FILTER;
+    public Boolean PRESERVE_KEEP_FILES;
+    public Boolean RESERVE_FILES;
+    public Boolean RESERVE_DIRS;
+    public Boolean SHOW_DIRECTORIES;
   }
 }

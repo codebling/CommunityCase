@@ -31,6 +31,13 @@ public class VcsSettings {
     else
       return myVcsProjectSettings.getBranchFilter();
   }
+  @NotNull
+  public String getBranchFilter(boolean isAppwide) {
+    if(isAppwide)
+      return myVcsApplicationSettings.getBranchFilter();
+    else
+      return myVcsProjectSettings.getBranchFilter();
+  }
   public void setBranchFilter(String branchFilter,boolean isAppwide) {
     if(isAppwide)
       myVcsApplicationSettings.setBranchFilter(branchFilter);
@@ -51,6 +58,13 @@ public class VcsSettings {
     else
       return myVcsProjectSettings.getPathFilter();
   }
+  @NotNull
+  public String getPathFilter(boolean isAppwide) {
+    if(isAppwide)
+      return myVcsApplicationSettings.getPathFilter();
+    else
+      return myVcsProjectSettings.getPathFilter();
+  }
   public void setPathFilter(String pathFilter,boolean isAppwide) {
     if(isAppwide)
       myVcsApplicationSettings.setPathFilter(pathFilter);
@@ -59,27 +73,28 @@ public class VcsSettings {
   }
 
   public boolean isPreserveKeepFiles() {
-    return myVcsProjectSettings.isPreserveKeepFiles();
+    return myVcsApplicationSettings.isPreserveKeepFiles();
   }
-
   public void setPreserveKeepFiles(boolean preserveKeepFiles) {
-    myVcsProjectSettings.setPreserveKeepFiles(preserveKeepFiles);
+    myVcsApplicationSettings.setPreserveKeepFiles(preserveKeepFiles);
   }
-
   public boolean isUseReservedCheckoutForFiles() {
-    return myVcsProjectSettings.isUseReservedCheckoutForFiles();
+    return myVcsApplicationSettings.isUseReservedCheckoutForFiles();
   }
-
   public void setUseReservedCheckoutForFiles(boolean useReserved) {
-    myVcsProjectSettings.setUseReservedCheckoutForFiles(useReserved);
+    myVcsApplicationSettings.setUseReservedCheckoutForFiles(useReserved);
   }
-
   public boolean isUseReservedCheckoutForDirectories() {
-    return myVcsProjectSettings.isUseReservedCheckoutForDirectories();
+    return myVcsApplicationSettings.isUseReservedCheckoutForDirectories();
   }
-
   public void setUseReservedCheckoutForDirectories(boolean useReserved) {
-    myVcsProjectSettings.setUseReservedCheckoutForDirectories(useReserved);
+    myVcsApplicationSettings.setUseReservedCheckoutForDirectories(useReserved);
+  }
+  public boolean isShowDirectories() {
+    return myVcsApplicationSettings.isShowDirectories();
+  }
+  public void setShowDirectories(boolean showDirectories) {
+    myVcsApplicationSettings.setShowDirectories(showDirectories);
   }
 
   /**
@@ -103,10 +118,6 @@ public class VcsSettings {
    */
   public void setPathToExecutable(String path) {
     myVcsApplicationSettings.setPathToExecutable(path);
-  }
-
-  public boolean getShowDirectories() {
-    return true;
   }
 
   //todo wc we should probably remove all settings below this line, they probably don't work with ClearCase

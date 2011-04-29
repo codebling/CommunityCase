@@ -24,10 +24,17 @@ public class VcsPanel {
   private JTextField myPathFilter;
   private JCheckBox myMakeBranchFilterAppwide;
   private JCheckBox myMakePathFilterAppwide;
+  private JCheckBox myUseReservedCoForFilesCheckBox;
+  private JCheckBox myUseRevervedCoForDirsCheckBox;
+  private JCheckBox myPreserveKeepFilesCheckBox;
+  private JCheckBox myShowDirectoriesCheckBox;
   private final Project myProject;
   private final VcsSettings mySettings;
   private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
   private static final String CRLF_DO_NOT_CONVERT = Bundle.getString("vcs.config.convert.do.not.convert");
+
+  private String swappedOutBranch=null;
+  private String swappedOutPath=null;
 
   /**
    * The constructor
@@ -42,8 +49,10 @@ public class VcsPanel {
         testConnection();
       }
     });
-    myPathToExecutable.addBrowseFolderListener(Bundle.getString("find.title"), Bundle.getString("find.description"), project,
-                                       new FileChooserDescriptor(true, false, false, false, false, false));
+    myPathToExecutable.addBrowseFolderListener(Bundle.getString("find.title"),
+                                               Bundle.getString("find.description"),
+                                               project,
+                                               new FileChooserDescriptor(true, false, false, false, false, false));
     myMakeBranchFilterAppwide.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         swapBranchFilter();
@@ -57,16 +66,14 @@ public class VcsPanel {
   }
 
   private void swapBranchFilter() {
-    boolean global=myMakeBranchFilterAppwide.isSelected();
-    mySettings.setBranchFilter(myBranchFilter.getText(),!global);
-    mySettings.setBranchFilterAppwide(global);
-    myBranchFilter.setText(mySettings.getBranchFilter());
+    String temp=swappedOutBranch;
+    swappedOutBranch=myBranchFilter.getText();
+    myBranchFilter.setText(temp);
   }
   private void swapPathFilter() {
-    boolean global=myMakePathFilterAppwide.isSelected();
-    mySettings.setPathFilter(myPathFilter.getText(),!global);
-    mySettings.setPathFilterAppwide(global);
-    myPathFilter.setText(mySettings.getPathFilter());
+    String temp=swappedOutPath;
+    swappedOutPath=myPathFilter.getText();
+    myPathFilter.setText(temp);
   }
 
   /**
@@ -103,19 +110,6 @@ public class VcsPanel {
   }
 
   /**
-   * Load settings into the configuration panel
-   *
-   * @param settings the settings to load
-   */
-  public void load(@NotNull VcsSettings settings) {
-    myPathToExecutable.setText(settings.getPathToExecutable());
-    myBranchFilter.setText(settings.getBranchFilter());
-    myPathFilter.setText(settings.getPathFilter());
-    myMakeBranchFilterAppwide.setSelected(settings.isBranchFilterAppwide());
-    myMakePathFilterAppwide.setSelected(settings.isPathFilterAppwide());
-  }
-
-  /**
    * Get crlf policy item from settings
    *
    * @param settings the settings object
@@ -144,20 +138,48 @@ public class VcsPanel {
    */
   public boolean isModified(@NotNull VcsSettings settings) {
     return !settings.getPathToExecutable().equals(myPathToExecutable.getText())
-            ||!settings.getBranchFilter().equals(myBranchFilter.getText())
-            ||!settings.getPathFilter().equals(myPathFilter.getText());
+           ||settings.isBranchFilterAppwide()!=myMakeBranchFilterAppwide.isSelected()
+           ||settings.isPathFilterAppwide()!=myMakePathFilterAppwide.isSelected()
+            ||!settings.getBranchFilter(myMakeBranchFilterAppwide.isSelected()).equals(myBranchFilter.getText())
+            ||!settings.getPathFilter(myMakePathFilterAppwide.isSelected()).equals(myPathFilter.getText())
+            ||!settings.getBranchFilter(!myMakeBranchFilterAppwide.isSelected()).equals(swappedOutBranch)
+            ||!settings.getPathFilter(!myMakePathFilterAppwide.isSelected()).equals(swappedOutPath)
+            ||settings.isUseReservedCheckoutForFiles()!=myUseReservedCoForFilesCheckBox.isSelected()
+            ||settings.isUseReservedCheckoutForDirectories()!=myUseRevervedCoForDirsCheckBox.isSelected()
+            ||settings.isPreserveKeepFiles()!=myPreserveKeepFilesCheckBox.isSelected()
+            ||settings.isShowDirectories()!=myShowDirectoriesCheckBox.isSelected();
   }
 
-  /**
-   * Save configuration panel state into settings object
-   *
+  /** Load settings into the configuration panel
+   * @param settings the settings to load
+   */
+  public void load(@NotNull VcsSettings settings) {
+    myPathToExecutable.setText(settings.getPathToExecutable());
+    myMakeBranchFilterAppwide.setSelected(settings.isBranchFilterAppwide());
+    myMakePathFilterAppwide.setSelected(settings.isPathFilterAppwide());
+    myBranchFilter.setText(settings.getBranchFilter(settings.isBranchFilterAppwide()));
+    myPathFilter.setText(settings.getPathFilter(settings.isPathFilterAppwide()));
+    swappedOutBranch=settings.getBranchFilter(!settings.isBranchFilterAppwide());
+    swappedOutPath=settings.getPathFilter(!settings.isPathFilterAppwide());
+    myUseReservedCoForFilesCheckBox.setSelected(settings.isUseReservedCheckoutForFiles());
+    myUseRevervedCoForDirsCheckBox.setSelected(settings.isUseReservedCheckoutForDirectories());
+    myPreserveKeepFilesCheckBox.setSelected(settings.isPreserveKeepFiles());
+    myShowDirectoriesCheckBox.setSelected(settings.isShowDirectories());
+  }
+  /** Save configuration panel state into settings object
    * @param settings the settings object
    */
   public void save(@NotNull VcsSettings settings) {
     settings.setPathToExecutable(myPathToExecutable.getText());
     settings.setBranchFilterAppwide(myMakeBranchFilterAppwide.isSelected());
     settings.setPathFilterAppwide(myMakePathFilterAppwide.isSelected());
-    settings.setBranchFilter(myBranchFilter.getText(), myMakeBranchFilterAppwide.isSelected());
-    settings.setPathFilter(myPathFilter.getText(), myMakePathFilterAppwide.isSelected());
+    settings.setBranchFilter(myBranchFilter.getText(),myMakeBranchFilterAppwide.isSelected());
+    settings.setPathFilter(myPathFilter.getText(),myMakePathFilterAppwide.isSelected());
+    settings.setBranchFilter(swappedOutBranch,!myMakeBranchFilterAppwide.isSelected());
+    settings.setPathFilter(swappedOutPath,!myMakePathFilterAppwide.isSelected());
+    settings.setUseReservedCheckoutForFiles(myUseReservedCoForFilesCheckBox.isSelected());
+    settings.setUseReservedCheckoutForDirectories(myUseRevervedCoForDirsCheckBox.isSelected());
+    settings.setPreserveKeepFiles(myPreserveKeepFilesCheckBox.isSelected());
+    settings.setShowDirectories(myShowDirectoriesCheckBox.isSelected());
   }
 }

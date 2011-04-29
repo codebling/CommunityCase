@@ -41,7 +41,7 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >Fall back on checkouts if reserved requested, try unreserved, if that fails leave as hijack
     *in every case above display a cool notification bubble
 >Files that are filtered out by the regex should be marked as FileStatus.IGNORED
-    *(but then we would have to parse them all...yurk)
+    *but don't descend into filtered dirs (then we would have to parse them all...yurk)
 >Test cases
     *add a file (parent dir will be checked out). Undo checkout on another file in dir. Check if dir remains checked out.
     *try to checkin a file that has a newer version. (are you asked to merge?)
