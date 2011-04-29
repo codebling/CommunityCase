@@ -28,6 +28,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.community.intellij.plugins.communitycase.config.VcsSettings.UpdateChangesPolicy;
+import static org.community.intellij.plugins.communitycase.config.VcsSettings.UpdateType;
+import static org.community.intellij.plugins.communitycase.config.VcsSettings.ConversionPolicy;
+
 /**
  * VCS settings
  */
@@ -37,13 +41,7 @@ import java.util.List;
     id = "ws",
     file = "$WORKSPACE_FILE$")})
 class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.State> {
-
-  public static final int PREVIOUS_COMMIT_AUTHORS_LIMIT = 16; // Limit for previous commit authors
-  private static final SshExecutable DEFAULT_SSH = SshExecutable.IDEA_SSH; // Default SSH policy
-
-  private final List<String> myCommitAuthors = new ArrayList<String>(); // The previously entered authors of the commit (up to {@value #PREVIOUS_COMMIT_AUTHORS_LIMIT})
   private boolean myCheckoutIncludesTags = false;
-  private SshExecutable mySshExecutable = DEFAULT_SSH; // IDEA SSH should be used instead of native SSH.
   private UpdateChangesPolicy myUpdateChangesPolicy = UpdateChangesPolicy.STASH; // The policy that specifies how files are saved before update or rebase
   private UpdateType myUpdateType = UpdateType.BRANCH_DEFAULT; // The type of update operation to perform
   private ConversionPolicy myLineSeparatorsConversion = ConversionPolicy.PROJECT_LINE_SEPARATORS; // The crlf conversion policy
@@ -76,7 +74,7 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   /**
    * @return true if before converting line separators user is asked
    */
-  public boolean askBeforeLineSeparatorConversion() {
+  public boolean getAskBeforeLineSeparatorConversion() {
     return myAskBeforeLineSeparatorConversion;
   }
 
@@ -123,22 +121,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   }
 
   /**
-   * @return true if drop down in checkout dialog includes tags
-   */
-  public boolean isCheckoutIncludesTags() {
-    return myCheckoutIncludesTags;
-  }
-
-  /**
-   * Record whether checkout dialog option included tags last time
-   *
-   * @param value the value to record
-   */
-  public void setCheckoutIncludesTags(boolean value) {
-    myCheckoutIncludesTags = value;
-  }
-
-  /**
    * @return get (a possibly converted value) of update stash policy
    */
   @NotNull
@@ -156,26 +138,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   }
 
   /**
-   * Save an author of the commit and make it the first one. If amount of authors exceeds the limit, remove least recently selected author.
-   *
-   * @param author an author to save
-   */
-  public void saveCommitAuthor(String author) {
-    myCommitAuthors.remove(author);
-    while (myCommitAuthors.size() >= PREVIOUS_COMMIT_AUTHORS_LIMIT) {
-      myCommitAuthors.remove(myCommitAuthors.size() - 1);
-    }
-    myCommitAuthors.add(0, author);
-  }
-
-  /**
-   * @return array for commit authors
-   */
-  public String[] getCommitAuthors() {
-    return myCommitAuthors.toArray(new String[myCommitAuthors.size()]);
-  }
-
-  /**
    * {@inheritDoc}
    */
   public State getState() {
@@ -183,9 +145,7 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     s.CHECKOUT_INCLUDE_TAGS = myCheckoutIncludesTags;
     s.LINE_SEPARATORS_CONVERSION = myLineSeparatorsConversion;
     s.LINE_SEPARATORS_CONVERSION_ASK = myAskBeforeLineSeparatorConversion;
-    s.PREVIOUS_COMMIT_AUTHORS = getCommitAuthors();
     s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = myPushActiveBranchesRebaseSavePolicy;
-    s.SSH_EXECUTABLE = mySshExecutable;
     s.UPDATE_CHANGES_POLICY = myUpdateChangesPolicy;
     s.UPDATE_STASH = true;
     s.UPDATE_TYPE = myUpdateType;
@@ -203,10 +163,7 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     myCheckoutIncludesTags = s.CHECKOUT_INCLUDE_TAGS == null ? false : s.CHECKOUT_INCLUDE_TAGS;
     myLineSeparatorsConversion = s.LINE_SEPARATORS_CONVERSION;
     myAskBeforeLineSeparatorConversion = s.LINE_SEPARATORS_CONVERSION_ASK;
-    myCommitAuthors.clear();
-    myCommitAuthors.addAll(Arrays.asList(s.PREVIOUS_COMMIT_AUTHORS));
     myPushActiveBranchesRebaseSavePolicy = s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY;
-    mySshExecutable = s.SSH_EXECUTABLE;
     myUpdateChangesPolicy = s.UPDATE_CHANGES_POLICY;
     if (myUpdateChangesPolicy == null) {
       myUpdateChangesPolicy = s.UPDATE_STASH ? UpdateChangesPolicy.STASH : UpdateChangesPolicy.KEEP;
@@ -230,29 +187,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
       return null;
     }
     return PeriodicalTasksCloser.getInstance().safeGetService(project, VcsProjectSettings.class);
-  }
-
-  /**
-   * @return true if IDEA ssh should be used
-   */
-  public boolean isIdeaSsh() {
-    return (mySshExecutable == null ? DEFAULT_SSH : mySshExecutable) == SshExecutable.IDEA_SSH;
-  }
-
-  /**
-   * @return true if IDEA ssh should be used
-   */
-  public static boolean isDefaultIdeaSsh() {
-    return DEFAULT_SSH == SshExecutable.IDEA_SSH;
-  }
-
-  /**
-   * Set IDEA ssh value
-   *
-   * @param value the value to set
-   */
-  public void setIdeaSsh(boolean value) {
-    mySshExecutable = value ? SshExecutable.IDEA_SSH : SshExecutable.NATIVE_SSH;
   }
 
   @NotNull
@@ -300,17 +234,9 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   public static class State {
 
     /**
-     * The previously entered authors of the commit (up to {@value #PREVIOUS_COMMIT_AUTHORS_LIMIT})
-     */
-    public String[] PREVIOUS_COMMIT_AUTHORS = {};
-    /**
      * Checkout includes tags
      */
     public Boolean CHECKOUT_INCLUDE_TAGS;
-    /**
-     * IDEA SSH should be used instead of native SSH.
-     */
-    public SshExecutable SSH_EXECUTABLE = DEFAULT_SSH;
     /**
      * True if stash/unstash operation should be performed before update (Obsolete option)
      */
@@ -341,67 +267,4 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     public boolean PRESERVE_KEEP_FILES;
   }
 
-  /**
-   * The way the local changes are saved before update if user has selected auto-stash
-   */
-  public enum UpdateChangesPolicy {
-    /**
-     * Stash changes
-     */
-    STASH,
-    /**
-     * Shelve changes
-     */
-    SHELVE,
-    /**
-     * Keep files in working tree
-     */
-    KEEP
-  }
-
-  /**
-   * Kinds of SSH executable to be used with the git
-   */
-  public enum SshExecutable {
-    /**
-     * SSH provided by IDEA
-     */
-    IDEA_SSH,
-    /**
-     * Naive SSH.
-     */
-    NATIVE_SSH,
-  }
-
-  /**
-   * The type of update to perform
-   */
-  public enum UpdateType {
-    /**
-     * Use default specified in the config file for the branch
-     */
-    BRANCH_DEFAULT,
-    /**
-     * Merge fetched commits with local branch
-     */
-    MERGE,
-    /**
-     * Rebase local commits upon the fetched branch
-     */
-    REBASE
-  }
-
-  /**
-   * The CRLF conversion policy
-   */
-  public enum ConversionPolicy {
-    /**
-     * No conversion is performed
-     */
-    NONE,
-    /**
-     * The files are converted to project line separators
-     */
-    PROJECT_LINE_SEPARATORS
-  }
 }

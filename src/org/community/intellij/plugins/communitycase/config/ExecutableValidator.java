@@ -49,7 +49,7 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
 
   @Override
   protected String getCurrentExecutable() {
-    return myVcs.getAppSettings().getPathToExecutable();
+    return myVcs.getSettings().getPathToExecutable();
   }
 
   @Override
@@ -73,7 +73,7 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
 
   @Override
   protected void saveCurrentExecutable(String executable) {
-    myVcs.getAppSettings().setPathToExecutable(executable);
+    myVcs.getSettings().setPathToExecutable(executable);
   }
 
   /**

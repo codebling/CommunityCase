@@ -1,353 +1,124 @@
-/*
- * Copyright 2000-2009 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.community.intellij.plugins.communitycase.config;
 
-import com.intellij.lifecycle.PeriodicalTasksCloser;
-import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
-import com.intellij.util.containers.ContainerUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+public class VcsSettings {
+  private final VcsProjectSettings myVcsProjectSettings;
+  private final VcsApplicationSettings myVcsApplicationSettings;
 
-/**
- * VCS settings
- */
-@State(
-  name = "ClearCase.Settings",
-  storages = {@Storage(
-    id = "ws",
-    file = "$WORKSPACE_FILE$")})
-public class VcsSettings implements PersistentStateComponent<VcsSettings.State> {
-
-  public static final int PREVIOUS_COMMIT_AUTHORS_LIMIT = 16; // Limit for previous commit authors
-  private static final SshExecutable DEFAULT_SSH = SshExecutable.IDEA_SSH; // Default SSH policy
-
-  private final VcsApplicationSettings myAppSettings;
-  private final List<String> myCommitAuthors = new ArrayList<String>(); // The previously entered authors of the commit (up to {@value #PREVIOUS_COMMIT_AUTHORS_LIMIT})
-  private boolean myCheckoutIncludesTags = false;
-  private SshExecutable mySshExecutable = DEFAULT_SSH; // IDEA SSH should be used instead of native SSH.
-  private UpdateChangesPolicy myUpdateChangesPolicy = UpdateChangesPolicy.STASH; // The policy that specifies how files are saved before update or rebase
-  private UpdateType myUpdateType = UpdateType.BRANCH_DEFAULT; // The type of update operation to perform
-  private ConversionPolicy myLineSeparatorsConversion = ConversionPolicy.PROJECT_LINE_SEPARATORS; // The crlf conversion policy
-  private boolean myAskBeforeLineSeparatorConversion = true; // If true, the dialog is shown with conversion options
-  private UpdateChangesPolicy myPushActiveBranchesRebaseSavePolicy = UpdateChangesPolicy.STASH; // The policy used in push active branches dialog
-
-  private String myBranchFilter="";
-  private String myPathFilter="";
-  private boolean myPreserveKeepFiles=false;
-  private boolean myReserveFiles=true;
-  private boolean myReserveDirectories=false;
-
-  public VcsSettings(VcsApplicationSettings appSettings) {
-    myAppSettings = appSettings;
+  private VcsSettings(VcsProjectSettings vcsProjectSettings, VcsApplicationSettings vcsApplicationSettings) {
+    this.myVcsProjectSettings=vcsProjectSettings;
+    this.myVcsApplicationSettings=vcsApplicationSettings;
   }
 
-  public VcsApplicationSettings getAppSettings() {
-    return myAppSettings;
-  }
-
-  /**
-   * @return save policy for push active branches dialog
-   */
-  public UpdateChangesPolicy getPushActiveBranchesRebaseSavePolicy() {
-    return myPushActiveBranchesRebaseSavePolicy;
-  }
-
-  /**
-   * Change save policy for push active branches dialog
-   *
-   * @param pushActiveBranchesRebaseSavePolicy
-   *         the new policy value
-   */
-  public void setPushActiveBranchesRebaseSavePolicy(UpdateChangesPolicy pushActiveBranchesRebaseSavePolicy) {
-    myPushActiveBranchesRebaseSavePolicy = pushActiveBranchesRebaseSavePolicy;
-  }
-
-  /**
-   * @return true if before converting line separators user is asked
-   */
-  public boolean askBeforeLineSeparatorConversion() {
-    return myAskBeforeLineSeparatorConversion;
-  }
-
-  /**
-   * Modify user notification policy about line separators
-   *
-   * @param askBeforeLineSeparatorConversion
-   *         a new policy value
-   */
-  public void setAskBeforeLineSeparatorConversion(boolean askBeforeLineSeparatorConversion) {
-    myAskBeforeLineSeparatorConversion = askBeforeLineSeparatorConversion;
-  }
-
-  /**
-   * @return policy for converting line separators
-   */
-  public ConversionPolicy getLineSeparatorsConversion() {
-    return myLineSeparatorsConversion;
-  }
-
-  /**
-   * Modify line separators policy
-   *
-   * @param lineSeparatorsConversion the new policy value
-   */
-  public void setLineSeparatorsConversion(ConversionPolicy lineSeparatorsConversion) {
-    myLineSeparatorsConversion = lineSeparatorsConversion;
-  }
-
-  /**
-   * @return update type
-   */
-  public UpdateType getUpdateType() {
-    return myUpdateType;
-  }
-
-  /**
-   * Set update type
-   *
-   * @param updateType the update type to set
-   */
-  public void setUpdateType(UpdateType updateType) {
-    myUpdateType = updateType;
-  }
-
-  /**
-   * @return true if drop down in checkout dialog includes tags
-   */
-  public boolean isCheckoutIncludesTags() {
-    return myCheckoutIncludesTags;
-  }
-
-  /**
-   * Record whether checkout dialog option included tags last time
-   *
-   * @param value the value to record
-   */
-  public void setCheckoutIncludesTags(boolean value) {
-    myCheckoutIncludesTags = value;
-  }
-
-  /**
-   * @return get (a possibly converted value) of update stash policy
-   */
-  @NotNull
-  public UpdateChangesPolicy updateChangesPolicy() {
-    return myUpdateChangesPolicy;
-  }
-
-  /**
-   * Save update changes policy
-   *
-   * @param value the value to save
-   */
-  public void setUpdateChangesPolicy(UpdateChangesPolicy value) {
-    myUpdateChangesPolicy = value;
-  }
-
-  /**
-   * Save an author of the commit and make it the first one. If amount of authors exceeds the limit, remove least recently selected author.
-   *
-   * @param author an author to save
-   */
-  public void saveCommitAuthor(String author) {
-    myCommitAuthors.remove(author);
-    while (myCommitAuthors.size() >= PREVIOUS_COMMIT_AUTHORS_LIMIT) {
-      myCommitAuthors.remove(myCommitAuthors.size() - 1);
-    }
-    myCommitAuthors.add(0, author);
-  }
-
-  /**
-   * @return array for commit authors
-   */
-  public String[] getCommitAuthors() {
-    return myCommitAuthors.toArray(new String[myCommitAuthors.size()]);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public State getState() {
-    State s = new State();
-    s.CHECKOUT_INCLUDE_TAGS = myCheckoutIncludesTags;
-    s.LINE_SEPARATORS_CONVERSION = myLineSeparatorsConversion;
-    s.LINE_SEPARATORS_CONVERSION_ASK = myAskBeforeLineSeparatorConversion;
-    s.PREVIOUS_COMMIT_AUTHORS = getCommitAuthors();
-    s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = myPushActiveBranchesRebaseSavePolicy;
-    s.SSH_EXECUTABLE = mySshExecutable;
-    s.UPDATE_CHANGES_POLICY = myUpdateChangesPolicy;
-    s.UPDATE_STASH = true;
-    s.UPDATE_TYPE = myUpdateType;
-
-    s.BRANCH_FILTER=myBranchFilter;
-    s.PATH_FILTER=myPathFilter;
-    s.PRESERVE_KEEP_FILES=myPreserveKeepFiles;
-    return s;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void loadState(State s) {
-    myCheckoutIncludesTags = s.CHECKOUT_INCLUDE_TAGS == null ? false : s.CHECKOUT_INCLUDE_TAGS;
-    myLineSeparatorsConversion = s.LINE_SEPARATORS_CONVERSION;
-    myAskBeforeLineSeparatorConversion = s.LINE_SEPARATORS_CONVERSION_ASK;
-    myCommitAuthors.clear();
-    myCommitAuthors.addAll(Arrays.asList(s.PREVIOUS_COMMIT_AUTHORS));
-    myPushActiveBranchesRebaseSavePolicy = s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY;
-    mySshExecutable = s.SSH_EXECUTABLE;
-    myUpdateChangesPolicy = s.UPDATE_CHANGES_POLICY;
-    if (myUpdateChangesPolicy == null) {
-      myUpdateChangesPolicy = s.UPDATE_STASH ? UpdateChangesPolicy.STASH : UpdateChangesPolicy.KEEP;
-    }
-    myUpdateType = s.UPDATE_TYPE;
-
-    myBranchFilter=s.BRANCH_FILTER;
-    myPathFilter=s.PATH_FILTER;
-    myPreserveKeepFiles=s.PRESERVE_KEEP_FILES;
-  }
-
-  /**
-   * Get git setting for the project
-   *
-   * @param project a context project
-   * @return the git settings
-   */
-  @Nullable
   public static VcsSettings getInstance(Project project) {
-    if (project == null || project.isDisposed()) {
-      return null;
-    }
-    return PeriodicalTasksCloser.getInstance().safeGetService(project, VcsSettings.class);
-  }
-
-  /**
-   * @return true if IDEA ssh should be used
-   */
-  public boolean isIdeaSsh() {
-    return (mySshExecutable == null ? DEFAULT_SSH : mySshExecutable) == SshExecutable.IDEA_SSH;
-  }
-
-  /**
-   * @return true if IDEA ssh should be used
-   */
-  public static boolean isDefaultIdeaSsh() {
-    return DEFAULT_SSH == SshExecutable.IDEA_SSH;
-  }
-
-  /**
-   * Set IDEA ssh value
-   *
-   * @param value the value to set
-   */
-  public void setIdeaSsh(boolean value) {
-    mySshExecutable = value ? SshExecutable.IDEA_SSH : SshExecutable.NATIVE_SSH;
+    VcsProjectSettings vps=VcsProjectSettings.getInstance(project);
+    VcsApplicationSettings vas=VcsApplicationSettings.getInstance();
+    return new VcsSettings(vps,vas);
   }
 
   @NotNull
   public String getBranchFilter() {
-    return myBranchFilter==null?"":myBranchFilter;
+    return myVcsProjectSettings.getBranchFilter();
   }
+
   public void setBranchFilter(String branchFilter) {
-    myBranchFilter=branchFilter;
+    myVcsProjectSettings.setBranchFilter(branchFilter);
   }
+
   public void setPathFilter(String pathFilter) {
-    myPathFilter=pathFilter;
+    myVcsProjectSettings.setPathFilter(pathFilter);
   }
+
   @NotNull
   public String getPathFilter() {
-    return myPathFilter==null?"":myPathFilter;
+    return myVcsProjectSettings.getPathFilter();
   }
 
   public boolean isPreserveKeepFiles() {
-    return myPreserveKeepFiles;
+    return myVcsProjectSettings.isPreserveKeepFiles();
   }
 
   public void setPreserveKeepFiles(boolean preserveKeepFiles) {
-    myPreserveKeepFiles=preserveKeepFiles;
+    myVcsProjectSettings.setPreserveKeepFiles(preserveKeepFiles);
   }
 
   public boolean isUseReservedCheckoutForFiles() {
-    return myReserveFiles;
+    return myVcsProjectSettings.isUseReservedCheckoutForFiles();
   }
 
   public void setUseReservedCheckoutForFiles(boolean useReserved) {
-    myReserveFiles=useReserved;
+    myVcsProjectSettings.setUseReservedCheckoutForFiles(useReserved);
   }
 
   public boolean isUseReservedCheckoutForDirectories() {
-    return myReserveDirectories;
+    return myVcsProjectSettings.isUseReservedCheckoutForDirectories();
   }
 
   public void setUseReservedCheckoutForDirectories(boolean useReserved) {
-    myReserveDirectories=useReserved;
+    myVcsProjectSettings.setUseReservedCheckoutForDirectories(useReserved);
   }
 
   /**
-   * The state fo the settings
+   * @return the default executable name depending on the platform
    */
-  public static class State {
+  public String getDefaultPathToExecutable() {
+    return myVcsApplicationSettings.getDefaultPathToExecutable();
+  }
 
-    /**
-     * The previously entered authors of the commit (up to {@value #PREVIOUS_COMMIT_AUTHORS_LIMIT})
-     */
-    public String[] PREVIOUS_COMMIT_AUTHORS = {};
-    /**
-     * Checkout includes tags
-     */
-    public Boolean CHECKOUT_INCLUDE_TAGS;
-    /**
-     * IDEA SSH should be used instead of native SSH.
-     */
-    public SshExecutable SSH_EXECUTABLE = DEFAULT_SSH;
-    /**
-     * True if stash/unstash operation should be performed before update (Obsolete option)
-     */
-    public boolean UPDATE_STASH = true;
-    /**
-     * The policy that specifies how files are saved before update or rebase
-     */
-    public UpdateChangesPolicy UPDATE_CHANGES_POLICY = null;
-    /**
-     * The type of update operation to perform
-     */
-    public UpdateType UPDATE_TYPE = UpdateType.BRANCH_DEFAULT;
-    /**
-     * The crlf conversion policy
-     */
-    public ConversionPolicy LINE_SEPARATORS_CONVERSION = ConversionPolicy.PROJECT_LINE_SEPARATORS;
-    /**
-     * If true, the dialog is shown with conversion options
-     */
-    public boolean LINE_SEPARATORS_CONVERSION_ASK = true;
-    /**
-     * The policy used in push active branches dialog
-     */
-    public UpdateChangesPolicy PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = UpdateChangesPolicy.STASH;
+  /**
+   * @return get last set path or null
+   */
+  public String getPathToExecutable() {
+    return myVcsApplicationSettings.getPathToExecutable();
+  }
 
-    public String BRANCH_FILTER;
-    public String PATH_FILTER;
-    public boolean PRESERVE_KEEP_FILES;
+  /**
+   * Change last set path to executable
+   *
+   * @param path the path
+   */
+  public void setPathToExecutable(String path) {
+    myVcsApplicationSettings.setPathToExecutable(path);
+  }
+
+  public boolean getShowDirectories() {
+    return true;
+  }
+
+  //todo wc we should probably remove all settings below this line, they probably don't work with ClearCase
+
+  public ConversionPolicy getLineSeparatorsConversion() {
+    return myVcsProjectSettings.getLineSeparatorsConversion();
+  }
+
+  public boolean getAskBeforeLineSeparatorConversion() {
+    return myVcsProjectSettings.getAskBeforeLineSeparatorConversion();
+  }
+
+  public void setAskBeforeLineSeparatorConversion(boolean askBeforeLineSeparatorConversion) {
+    myVcsProjectSettings.setAskBeforeLineSeparatorConversion(askBeforeLineSeparatorConversion);
+  }
+
+  public void setLineSeparatorsConversion(ConversionPolicy lineSeparatorsConversion) {
+    myVcsProjectSettings.setLineSeparatorsConversion(lineSeparatorsConversion);
+  }
+
+  public UpdateType getUpdateType() {
+    return myVcsProjectSettings.getUpdateType();
+  }
+
+  public UpdateChangesPolicy updateChangesPolicy() {
+    return myVcsProjectSettings.updateChangesPolicy();
+  }
+
+  public void setUpdateType(UpdateType updateType) {
+    myVcsProjectSettings.setUpdateType(updateType);
+  }
+
+  public void setUpdateChangesPolicy(UpdateChangesPolicy value) {
+    myVcsProjectSettings.setUpdateChangesPolicy(value);
   }
 
   /**
@@ -366,20 +137,6 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
      * Keep files in working tree
      */
     KEEP
-  }
-
-  /**
-   * Kinds of SSH executable to be used with the git
-   */
-  public enum SshExecutable {
-    /**
-     * SSH provided by IDEA
-     */
-    IDEA_SSH,
-    /**
-     * Naive SSH.
-     */
-    NATIVE_SSH,
   }
 
   /**
@@ -413,4 +170,5 @@ public class VcsSettings implements PersistentStateComponent<VcsSettings.State> 
      */
     PROJECT_LINE_SEPARATORS
   }
+
 }

@@ -32,7 +32,7 @@ import java.io.File;
   storages = {@Storage(
     id = "ClearCase.Application.Settings",
     file = "$APP_CONFIG$/vcs.xml")})
-public class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationSettings.State> {
+class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationSettings.State> {
   /**
    * the default executable
    */
@@ -62,7 +62,7 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   /**
    * @return the default executable name depending on the platform
    */
-  public String defaultPathToExecutable() {
+  public String getDefaultPathToExecutable() {
     if (myExecutablePath == null) {
       String[] paths;
       String program;
@@ -96,14 +96,14 @@ public class VcsApplicationSettings implements PersistentStateComponent<VcsAppli
   }
 
   public void loadState(State state) {
-    myExecutablePath = state.PATH_TO_CLEARTOOL ==null?defaultPathToExecutable():state.PATH_TO_CLEARTOOL;
+    myExecutablePath = state.PATH_TO_CLEARTOOL ==null?getDefaultPathToExecutable():state.PATH_TO_CLEARTOOL;
   }
 
   /**
    * @return get last set path or null
    */
   public String getPathToExecutable() {
-    return myExecutablePath == null ? defaultPathToExecutable() :myExecutablePath;
+    return myExecutablePath == null ? getDefaultPathToExecutable() :myExecutablePath;
   }
 
   /**

@@ -28,7 +28,6 @@ import com.intellij.util.EventDispatcher;
 import com.intellij.util.Processor;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
-import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
@@ -81,7 +80,7 @@ public abstract class Handler {
 
   protected final Vcs myVcs;
   private final Map<String, String> myEnv;
-  private VcsApplicationSettings myAppSettings;
+  private VcsSettings mySettings;
   private VcsSettings myProjectSettings;
 
   private Runnable mySuspendAction; // Suspend action used by {@link #suspendWriteLock()}
@@ -98,8 +97,7 @@ public abstract class Handler {
   protected Handler(@NotNull Project project, @NotNull File directory, @NotNull Command command) {
     myProject = project;
     myCommand = command;
-    myAppSettings = VcsApplicationSettings.getInstance();
-    myProjectSettings = VcsSettings.getInstance(myProject);
+    mySettings= VcsSettings.getInstance(myProject);
     myEnv = new HashMap<String, String>(System.getenv());
     if (!myEnv.containsKey("HOME")) {
       String home = System.getProperty("user.home");
@@ -113,8 +111,8 @@ public abstract class Handler {
     }
     myWorkingDirectory = directory;
     myCommandLine = new GeneralCommandLine();
-    if (myAppSettings != null) {
-      myCommandLine.setExePath(myAppSettings.getPathToExecutable());
+    if (mySettings!= null) {
+      myCommandLine.setExePath(mySettings.getPathToExecutable());
     }
     myCommandLine.setWorkingDirectory(myWorkingDirectory);
     if (command.name().length() > 0) {
@@ -416,8 +414,6 @@ public abstract class Handler {
       }
       if (log.isDebugEnabled()) {
         log.debug("running: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
-      }
-      if (!myRemoteFlag && myProjectSettings.isIdeaSsh()) {
       }
       myCommandLine.setEnvParams(myEnv);
       // start process

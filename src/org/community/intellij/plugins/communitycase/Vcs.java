@@ -85,7 +85,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   private final VcsHistoryProvider myHistoryProvider;
   private final com.intellij.openapi.vcs.EditFileProvider myEditFileProvider;
   private final ProjectLevelVcsManager myVcsManager;
-  private final VcsApplicationSettings myAppSettings;
+  private final VcsSettings mySettings;
   private final Configurable myConfigurable;
   private final com.intellij.openapi.vcs.diff.RevisionSelector myRevSelector;
   private final MergeProvider myMergeProvider;
@@ -125,11 +125,10 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
              @NotNull final HistoryProvider historyProvider,
              @NotNull final org.community.intellij.plugins.communitycase.rollback.RollbackEnvironment rollbackEnvironment,
              @NotNull final org.community.intellij.plugins.communitycase.edit.EditFileProvider editFileProvider,
-             @NotNull final VcsApplicationSettings settings,
-             @NotNull final VcsSettings projectSettings) {
+             @NotNull final VcsSettings settings) {
     super(project, NAME);
     myVcsManager = vcsManager;
-    myAppSettings = settings;
+    mySettings = settings;
     myChangeProvider = changeProvider;
     myCheckinEnvironment = checkinEnvironment;
     myAnnotationProvider = annotationProvider;
@@ -138,8 +137,8 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     myRollbackEnvironment = rollbackEnvironment;
     myEditFileProvider = editFileProvider;
     myRevSelector = new RevisionSelector();
-    myConfigurable = new VcsConfigurable(projectSettings, myProject);
-    myUpdateEnvironment = new org.community.intellij.plugins.communitycase.update.UpdateEnvironment(myProject, this, projectSettings);
+    myConfigurable = new VcsConfigurable(settings, myProject);
+    myUpdateEnvironment = new org.community.intellij.plugins.communitycase.update.UpdateEnvironment(myProject, this, settings);
     myMergeProvider = new org.community.intellij.plugins.communitycase.merge.MergeProvider(myProject);
     myReverseMergeProvider = new org.community.intellij.plugins.communitycase.merge.MergeProvider(myProject, true);
     myCommittedChangeListProvider = new CommittedChangeListProvider(myProject);
@@ -493,8 +492,8 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    * @return vcs settings for the current project
    */
   @NotNull
-  public VcsApplicationSettings getAppSettings() {
-    return myAppSettings;
+  public VcsSettings getSettings() {
+    return mySettings;
   }
 
   /**
@@ -511,7 +510,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
    * Check version and report problem
    */
   public void checkVersion() {
-    final String executable = myAppSettings.getPathToExecutable();
+    final String executable = mySettings.getPathToExecutable();
     synchronized (myCheckingVersion) {
       if (myVersion != null && myVersionCheckExcecutable.equals(executable)) {
         return;

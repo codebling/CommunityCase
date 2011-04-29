@@ -44,7 +44,6 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
@@ -545,7 +544,7 @@ class ChangeCollector {
             String[] parts=splitOnToken[1].substring(filename.length()+filenameEndToken.length(),splitOnToken[1].length()).split("\\s+",0);
             String relativeFilename=Util.relativePath(myRoot,file);
 
-            if(VcsApplicationSettings.getInstance().getShowDirectories() || !file.isDirectory()) { //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.
+            if(VcsSettings.getInstance(myProject).getShowDirectories() || !file.isDirectory()) { //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.
               VirtualFile vfile=getVirtualFile(filename);
               if(isInRoot(vfile)) { //if it's not in the scope of the changes, ignore it.
                 if(vfile !=null && vfile.exists()) {

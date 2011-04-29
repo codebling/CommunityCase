@@ -43,8 +43,7 @@ public class VcsPanel {
   private JCheckBox myAskBeforeConversionsCheckBox; // The confirmation checkbox
   private JCheckBox myEnableBranchesWidgetCheckBox; // if selected, the branches widget is enabled in the status bar
   private final Project myProject;
-  private final VcsApplicationSettings myAppSettings;
-  private final VcsSettings myProjectSettings;
+  private final VcsSettings mySettings;
   private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + Bundle.getString("vcs.config.ssh.mode.idea"); // IDEA ssh value
   private static final String NATIVE_SSH = Bundle.getString("vcs.config.ssh.mode.native"); // Native SSH value
   private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
@@ -56,8 +55,7 @@ public class VcsPanel {
    * @param project the context project
    */
   public VcsPanel(@NotNull Project project) {
-    myAppSettings = VcsApplicationSettings.getInstance();
-    myProjectSettings = VcsSettings.getInstance(project);
+    mySettings= VcsSettings.getInstance(project);
     myProject = project;
     /*
     mySSHExecutableComboBox.addItem(IDEA_SSH);
@@ -65,7 +63,7 @@ public class VcsPanel {
     mySSHExecutableComboBox.setSelectedItem(VcsSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
     mySSHExecutableComboBox
       .setToolTipText(Bundle.message("vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
-    myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.askBeforeLineSeparatorConversion());
+    myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.getAskBeforeLineSeparatorConversion());
     */
     myTestButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -86,8 +84,8 @@ public class VcsPanel {
    * Test availability of the connection
    */
   private void testConnection() {
-    if (myAppSettings != null) {
-      myAppSettings.setPathToExecutable(myGitField.getText());
+    if (mySettings!= null) {
+      mySettings.setPathToExecutable(myGitField.getText());
     }
     final String s;
     try {
@@ -121,11 +119,11 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public void load(@NotNull VcsSettings settings) {
-    myGitField.setText(settings.getAppSettings().getPathToExecutable());
+    myGitField.setText(settings.getPathToExecutable());
     myBranchFilter.setText(settings.getBranchFilter());
     myPathFilter.setText(settings.getPathFilter());
     /*mySSHExecutableComboBox.setSelectedItem(settings.isIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
-    myAskBeforeConversionsCheckBox.setSelected(settings.askBeforeLineSeparatorConversion());
+    myAskBeforeConversionsCheckBox.setSelected(settings.getAskBeforeLineSeparatorConversion());
     myConvertTextFilesComboBox.setSelectedItem(crlfPolicyItem(settings));
     myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
     */
@@ -159,7 +157,7 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public boolean isModified(@NotNull VcsSettings settings) {
-    return !settings.getAppSettings().getPathToExecutable().equals(myGitField.getText())
+    return !settings.getPathToExecutable().equals(myGitField.getText())
             ||!settings.getBranchFilter().equals(myBranchFilter.getText())
             ||!settings.getPathFilter().equals(myPathFilter.getText());
   }
@@ -170,7 +168,7 @@ public class VcsPanel {
    * @param settings the settings object
    */
   public void save(@NotNull VcsSettings settings) {
-    settings.getAppSettings().setPathToExecutable(myGitField.getText());
+    settings.setPathToExecutable(myGitField.getText());
     settings.setBranchFilter(myBranchFilter.getText());
     settings.setPathFilter(myPathFilter.getText());
     /*settings.setIdeaSsh(IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem()));

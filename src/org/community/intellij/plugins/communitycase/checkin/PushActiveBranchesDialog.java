@@ -110,19 +110,6 @@ public class PushActiveBranchesDialog extends DialogWrapper {
     updateTree(roots, null);
     updateUI();
 
-    final VcsSettings settings = VcsSettings.getInstance(project);
-    if (settings != null) {
-      UpdatePolicyUtils.updatePolicyItem(settings.getPushActiveBranchesRebaseSavePolicy(), myStashRadioButton, myShelveRadioButton, null);
-    }
-    ChangeListener listener = new ChangeListener() {
-      public void stateChanged(ChangeEvent e) {
-        if (settings != null) {
-          settings.setPushActiveBranchesRebaseSavePolicy(UpdatePolicyUtils.getUpdatePolicy(myStashRadioButton, myShelveRadioButton, null));
-        }
-      }
-    };
-    myStashRadioButton.addChangeListener(listener);
-    myShelveRadioButton.addChangeListener(listener);
     myCommitTree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
       public void valueChanged(TreeSelectionEvent e) {
         TreePath path = myCommitTree.getSelectionModel().getSelectionPath();

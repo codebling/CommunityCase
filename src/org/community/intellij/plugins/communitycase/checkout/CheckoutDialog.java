@@ -66,7 +66,6 @@ public class CheckoutDialog extends DialogWrapper {
   /**
    * Checkbox that specifies whether tags are included into drop down
    */
-  private JCheckBox myIncludeTagsCheckBox;
   /**
    * The name of new branch
    */
@@ -118,7 +117,6 @@ public class CheckoutDialog extends DialogWrapper {
     myProject = project;
     mySettings = VcsSettings.getInstance(myProject);
     UiUtil.setupRootChooser(myProject, roots, defaultRoot, myRoot, myCurrentBranch);
-    setupIncludeTags();
     setupBranches();
     setOKButtonText(Bundle.getString("checkout.branch"));
     myBranchToCkeckoutValidator =
@@ -247,11 +245,6 @@ public class CheckoutDialog extends DialogWrapper {
           existingBranches.addAll(branchesAndTags);
           Collections.sort(branchesAndTags);
           // get tags
-          if (myIncludeTagsCheckBox.isSelected()) {
-            int mark = branchesAndTags.size();
-            Tag.listAsStrings(myProject, root(), branchesAndTags, null);
-            Collections.sort(branchesAndTags.subList(mark, branchesAndTags.size()));
-          }
           myBranchToCkeckout.removeAllItems();
           for (String item : branchesAndTags) {
             myBranchToCkeckout.addItem(item);
@@ -266,7 +259,6 @@ public class CheckoutDialog extends DialogWrapper {
     };
     myRoot.addActionListener(l);
     l.actionPerformed(null);
-    myIncludeTagsCheckBox.addActionListener(l);
   }
 
   /**
@@ -319,21 +311,6 @@ public class CheckoutDialog extends DialogWrapper {
     return file;
   }
 
-  /**
-   * Setup {@link #myIncludeTagsCheckBox}
-   */
-  private void setupIncludeTags() {
-    if (mySettings == null) {
-      return;
-    }
-    boolean tagsIncluded = mySettings.isCheckoutIncludesTags();
-    myIncludeTagsCheckBox.setSelected(tagsIncluded);
-    myIncludeTagsCheckBox.addActionListener(new ActionListener() {
-      public void actionPerformed(final ActionEvent e) {
-        mySettings.setCheckoutIncludesTags(myIncludeTagsCheckBox.isSelected());
-      }
-    });
-  }
 
   /**
    * {@inheritDoc}
