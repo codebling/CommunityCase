@@ -16,6 +16,9 @@
  */
 package org.community.intellij.plugins.communitycase.changes;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
@@ -37,6 +40,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.ContentRevision;
 import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.Handler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -99,7 +103,6 @@ class ChangeCollector {
   private static final int MAX_THREADS=15;
   private final List<RecurseRunnable> myRecurseThreads=new ArrayList<RecurseRunnable>();
   private final List<LsRunnable> myLsThreads=new ArrayList<LsRunnable>();
-  private final Vector<VcsException> myExceptions=new Vector<VcsException>();
 
   private final Collection<VirtualFile> myProjectPaneFiles=new HashSet<VirtualFile>();
   private final Collection<VirtualFile> myProjectPaneDirs=new HashSet<VirtualFile>();
@@ -158,9 +161,24 @@ class ChangeCollector {
       collectVcsModifiedList();
 
       if(!DumbService.getInstance(myProject).isDumb()) {  //don't go to town on the HD if we're indexing, causes excessive thrashing
-        Collection<VirtualFile> addedOrHijackedOrCheckedOutFiles=Util.stringToVirtualFile(myRoot,
+        Map<String,VirtualFile> vfMap=Util.stringToVirtualFile(myRoot,
                                                                                           getFsWritableFiles(),
                                                                                           true);
+
+        for(Map.Entry<String,VirtualFile> pair:vfMap.entrySet()) {
+          if(pair.getValue() == null) {
+            Notifications.Bus.notify(new Notification(
+                    Vcs.NOTIFICATION_GROUP_ID,
+                    Bundle.message("changes.err.title"),
+                    Bundle.message("changes.ls.mappingerr.content",pair.getKey()),
+                    NotificationType.WARNING),
+                                     myProject);
+            vfMap.remove(pair.getKey());
+          }
+        }
+
+        Collection<VirtualFile> addedOrHijackedOrCheckedOutFiles=vfMap.values();
+
         //we already have all the info we need about checked out files, so remove those from the list
         for(Change change:myChanges)
           addedOrHijackedOrCheckedOutFiles.remove(change.getVirtualFile()); //remove files already in the checkout list. We don't need to check the status; we already know it.
@@ -736,23 +754,19 @@ class ChangeCollector {
     }
   }
 
-  private void spawnOrRecurse(File file, Set<String> writableFiles, int maxDepth) {
+  private void spawnOrRecurse(File file, Set<String> writableFiles, int maxDepth) throws VcsException {
     RecurseRunnable runner=null;
     synchronized(myRecurseThreads) {
       if(!myRecurseThreads.isEmpty())
         runner=myRecurseThreads.remove(myRecurseThreads.size()-1); //remove the last element instead of the first so that we don't have to recopy the array
     }
 
-    try {
-      if(runner == null) //there are no threads left.
-        recurseHijackedFiles(file, writableFiles, maxDepth);
-      else {
-        runner.setFile(file);
-        runner.setMaxDepth(maxDepth);
-        new Thread(runner).start(); //runner.run();
-      }
-    } catch(VcsException e) {
-      myExceptions.add(e);
+    if(runner == null) //there are no threads left.
+      recurseHijackedFiles(file, writableFiles, maxDepth);
+    else {
+      runner.setFile(file);
+      runner.setMaxDepth(maxDepth);
+      new Thread(runner).start(); //runner.run();
     }
   }
 
@@ -768,7 +782,7 @@ class ChangeCollector {
       myLsThreads.notify();
     }
   }
-  private void spawnLs(Collection<FilePath> files) {
+  private void spawnLs(Collection<FilePath> files) throws VcsException {
 
     LsRunnable runner=null;
     synchronized(myLsThreads) {
@@ -776,15 +790,11 @@ class ChangeCollector {
         runner=myLsThreads.remove(myLsThreads.size()-1); //remove the last element instead of the first so that we don't have to recopy the array
     }
 
-    try {
-      if(runner == null) //there are no threads left.
-        checkStatusAndAddToChangeList(files);
-      else {
-        runner.setFiles(files);
-        new Thread(runner).start(); //runner.run();
-      }
-    } catch(VcsException e) {
-      myExceptions.add(e);
+    if(runner == null) //there are no threads left.
+      checkStatusAndAddToChangeList(files);
+    else {
+      runner.setFiles(files);
+      new Thread(runner).start(); //runner.run();
     }
   }
 
@@ -810,7 +820,12 @@ class ChangeCollector {
       try {
         recurseHijackedFiles(myFile,myWritableFiles,myMaxDepth);
       } catch(VcsException e) {
-        myExceptions.add(e);
+        Notifications.Bus.notify(new Notification(
+                Vcs.NOTIFICATION_GROUP_ID,
+                Bundle.message("changes.err.title"),
+                Bundle.message("changes.err.content")+e.getMessage(),
+                NotificationType.ERROR),
+                                 myProject);
       }
 
       myFile=null;
@@ -840,7 +855,12 @@ class ChangeCollector {
       try {
         checkStatusAndAddToChangeList(myFiles);
       } catch(VcsException e) {
-        myExceptions.add(e);
+        Notifications.Bus.notify(new Notification(
+                Vcs.NOTIFICATION_GROUP_ID,
+                Bundle.message("changes.err.title"),
+                Bundle.message("changes.err.content")+e.getMessage(),
+                NotificationType.ERROR),
+                                 myProject);
       }
 
       myFiles=null;

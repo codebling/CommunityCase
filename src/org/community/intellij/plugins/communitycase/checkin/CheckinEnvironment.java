@@ -184,6 +184,10 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
         //noinspection ThrowableInstanceNeverThrown
         exceptions.add(new VcsException("Creation of commit message file failed", ex));
       }
+      catch(Exception e) {
+        //noinspection ThrowableInstanceNeverThrown
+        exceptions.add(new VcsException(e));
+      }
     }
     if (myNextCommitIsPushed != null && myNextCommitIsPushed.booleanValue() && exceptions.isEmpty()) {
       // push
@@ -480,7 +484,10 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
       String title="Checkin Report";
       //Messages.showDialog(project,msg,title,);
       //Messages.showInfoMessage(project,msg,title);
-      Messages.showMessageDialog(project,changes.toString(),title,null);
+
+      //TODO create a message report window. Messages.showMessageDialog used to work, but does not anymore.
+      //Messages.showMessageDialog(project,changes.toString(),title,null);
+
       //Messages.showMultilineInputDialog(project,msg,title,"bla",null,null);
 
       /*
