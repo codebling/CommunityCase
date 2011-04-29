@@ -112,8 +112,8 @@
         serviceInterface="org.community.intellij.plugins.communitycase.edit.EditFileProvider"
         serviceImplementation="org.community.intellij.plugins.communitycase.edit.EditFileProvider"/>
     <projectService
-        serviceInterface="org.community.intellij.plugins.communitycase.config.VcsProjectSettings"
-        serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsProjectSettings"/>
+        serviceInterface="org.community.intellij.plugins.communitycase.config.VcsSettings"
+        serviceImplementation="org.community.intellij.plugins.communitycase.config.VcsSettings"/>
     <projectService
         serviceInterface="org.community.intellij.plugins.communitycase.history.NewUsersComponent"
         serviceImplementation="org.community.intellij.plugins.communitycase.history.NewUsersComponent"/>

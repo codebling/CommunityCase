@@ -39,7 +39,7 @@ import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.HandlerUtil;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.LineHandlerAdapter;
-import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.community.intellij.plugins.communitycase.rebase.RebaseUtils;
 import org.community.intellij.plugins.communitycase.ui.ConvertFilesDialog;
@@ -246,16 +246,16 @@ public abstract class BaseRebaseProcess {
     if (mySkippedCommits.size() > 0) {
       SkippedCommits.showSkipped(myProject, mySkippedCommits);
     }
-    if (getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.SHELVE) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       if (myShelvedChangeList != null) {
         myProgressIndicator.setText(Bundle.getString("update.unshelving.changes"));
         StashUtils.doSystemUnshelve(myProject, myShelvedChangeList, myShelveManager, myChangeManager, myExceptions);
       }
     }
     // Move files back to theirs change lists
-    if (getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.SHELVE || getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.STASH) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE || getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       VcsDirtyScopeManager m = VcsDirtyScopeManager.getInstance(myProject);
-      final boolean isStash = getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.STASH;
+      final boolean isStash = getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH;
       HashSet<File> filesToRefresh = isStash ? new HashSet<File>() : null;
       for (LocalChangeList changeList : myListsCopy) {
         for (Change c : changeList.getChanges()) {
@@ -314,7 +314,7 @@ public abstract class BaseRebaseProcess {
         myExceptions.add(Util.rethrowVcsException(ex.get()));
       }
     }
-    if (stashCreated && getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.STASH) {
+    if (stashCreated && getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       myProgressIndicator.setText(HandlerUtil.formatOperationName("Unstashing changes to", root));
       unstash(root);
       // after unstash, offer reverse merge
@@ -335,7 +335,7 @@ public abstract class BaseRebaseProcess {
    * @throws VcsException if there is a problem with saving changes
    */
   private void saveRootChangesBeforeUpdate(VirtualFile root) throws VcsException {
-    if (getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.STASH) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       stashCreated = false;
       if (myRootsToStash.contains(root)) {
         myProgressIndicator.setText(HandlerUtil.formatOperationName("Stashing changes from", root));
@@ -350,7 +350,7 @@ public abstract class BaseRebaseProcess {
    * @return false, if update process needs to be aborted
    */
   private boolean saveProjectChangesBeforeUpdate() {
-    if (getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.STASH || getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.SHELVE) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH || getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       myStashMessage = makeStashMessage();
       myListsCopy = myChangeManager.getChangeListsCopy();
       for (LocalChangeList l : myListsCopy) {
@@ -382,8 +382,8 @@ public abstract class BaseRebaseProcess {
         }
       }
     }
-    if (getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.STASH) {
-      VcsProjectSettings settings = VcsProjectSettings.getInstance(myProject);
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
+      VcsSettings settings = VcsSettings.getInstance(myProject);
       if (settings == null) {
         return false;
       }
@@ -396,7 +396,7 @@ public abstract class BaseRebaseProcess {
         return false;
       }
     }
-    if (getUpdatePolicy() == VcsProjectSettings.UpdateChangesPolicy.SHELVE) {
+    if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       myShelveManager = ShelveChangesManager.getInstance(myProject);
       ArrayList<Change> changes = new ArrayList<Change>();
       for (LocalChangeList l : myListsCopy) {
@@ -480,7 +480,7 @@ public abstract class BaseRebaseProcess {
   /**
    * @return the policy of autosaving change
    */
-  protected abstract VcsProjectSettings.UpdateChangesPolicy getUpdatePolicy();
+  protected abstract VcsSettings.UpdateChangesPolicy getUpdatePolicy();
 
   /**
    * Check if some roots are under the rebase operation and show a message in this case

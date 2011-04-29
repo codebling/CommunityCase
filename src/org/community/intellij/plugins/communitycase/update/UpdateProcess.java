@@ -25,7 +25,7 @@ import com.intellij.util.text.DateFormatUtil;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
-import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.merge.MergeChangeCollector;
 
@@ -39,7 +39,7 @@ public class UpdateProcess extends BaseRebaseProcess {
   /**
    * The settings to use
    */
-  private final VcsProjectSettings mySettings;
+  private final VcsSettings mySettings;
   /**
    * The updated files
    */
@@ -59,7 +59,7 @@ public class UpdateProcess extends BaseRebaseProcess {
    * @param exceptions   the collection with exceptions
    */
   public UpdateProcess(final Project project,
-                       VcsProjectSettings settings,
+                       VcsSettings settings,
                        final Vcs vcs,
                        UpdatedFiles updatedFiles,
                        List<VcsException> exceptions) {
@@ -127,7 +127,7 @@ public class UpdateProcess extends BaseRebaseProcess {
    * {@inheritDoc}
    */
   @Override
-  protected VcsProjectSettings.UpdateChangesPolicy getUpdatePolicy() {
+  protected VcsSettings.UpdateChangesPolicy getUpdatePolicy() {
     return mySettings.updateChangesPolicy();
   }
 }

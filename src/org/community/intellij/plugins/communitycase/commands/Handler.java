@@ -29,7 +29,7 @@ import com.intellij.util.Processor;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.config.VcsApplicationSettings;
-import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -82,7 +82,7 @@ public abstract class Handler {
   protected final Vcs myVcs;
   private final Map<String, String> myEnv;
   private VcsApplicationSettings myAppSettings;
-  private VcsProjectSettings myProjectSettings;
+  private VcsSettings myProjectSettings;
 
   private Runnable mySuspendAction; // Suspend action used by {@link #suspendWriteLock()}
   private Runnable myResumeAction; // Resume action used by {@link #resumeWriteLock()}
@@ -99,7 +99,7 @@ public abstract class Handler {
     myProject = project;
     myCommand = command;
     myAppSettings = VcsApplicationSettings.getInstance();
-    myProjectSettings = VcsProjectSettings.getInstance(myProject);
+    myProjectSettings = VcsSettings.getInstance(myProject);
     myEnv = new HashMap<String, String>(System.getenv());
     if (!myEnv.containsKey("HOME")) {
       String home = System.getProperty("user.home");

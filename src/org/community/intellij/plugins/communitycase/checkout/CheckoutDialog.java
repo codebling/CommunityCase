@@ -26,7 +26,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
-import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.community.intellij.plugins.communitycase.ui.ReferenceValidator;
 import org.community.intellij.plugins.communitycase.ui.UiUtil;
@@ -98,7 +98,7 @@ public class CheckoutDialog extends DialogWrapper {
   /**
    * The Git setting for the project
    */
-  @Nullable private final VcsProjectSettings mySettings;
+  @Nullable private final VcsSettings mySettings;
   /**
    * Existing branches for the currently selected root
    */
@@ -116,7 +116,7 @@ public class CheckoutDialog extends DialogWrapper {
     setTitle(Bundle.getString("checkout.branch"));
     assert roots.size() > 0;
     myProject = project;
-    mySettings = VcsProjectSettings.getInstance(myProject);
+    mySettings = VcsSettings.getInstance(myProject);
     UiUtil.setupRootChooser(myProject, roots, defaultRoot, myRoot, myCurrentBranch);
     setupIncludeTags();
     setupBranches();

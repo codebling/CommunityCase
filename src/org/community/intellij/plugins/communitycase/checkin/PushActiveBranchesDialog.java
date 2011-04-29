@@ -42,7 +42,7 @@ import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.actions.RepositoryAction;
 import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 import org.community.intellij.plugins.communitycase.commands.*;
-import org.community.intellij.plugins.communitycase.config.VcsProjectSettings;
+import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.community.intellij.plugins.communitycase.ui.UiUtil;
@@ -110,7 +110,7 @@ public class PushActiveBranchesDialog extends DialogWrapper {
     updateTree(roots, null);
     updateUI();
 
-    final VcsProjectSettings settings = VcsProjectSettings.getInstance(project);
+    final VcsSettings settings = VcsSettings.getInstance(project);
     if (settings != null) {
       UpdatePolicyUtils.updatePolicyItem(settings.getPushActiveBranchesRebaseSavePolicy(), myStashRadioButton, myShelveRadioButton, null);
     }
@@ -408,13 +408,13 @@ public class PushActiveBranchesDialog extends DialogWrapper {
     final Set<VirtualFile> rootsWithMerges;
     private final Map<VirtualFile, Set<String>> uncheckedCommits;
     private final Set<VirtualFile> roots;
-    private final VcsProjectSettings.UpdateChangesPolicy policy;
+    private final VcsSettings.UpdateChangesPolicy policy;
     final Map<VirtualFile,List<String>> reorderedCommits;
 
     public RebaseInfo(Map<VirtualFile, List<String>> reorderedCommits,
                       Set<VirtualFile> rootsWithMerges,
                       Map<VirtualFile, Set<String>> uncheckedCommits, Set<VirtualFile> roots,
-                      VcsProjectSettings.UpdateChangesPolicy policy) {
+                      VcsSettings.UpdateChangesPolicy policy) {
 
       this.reorderedCommits = reorderedCommits;
       this.rootsWithMerges = rootsWithMerges;
@@ -489,8 +489,8 @@ public class PushActiveBranchesDialog extends DialogWrapper {
         reorderedCommits.put(r.root, reordered);
       }
     }
-    final VcsProjectSettings.UpdateChangesPolicy p = UpdatePolicyUtils.getUpdatePolicy(myStashRadioButton, myShelveRadioButton, null);
-    assert p == VcsProjectSettings.UpdateChangesPolicy.STASH || p == VcsProjectSettings.UpdateChangesPolicy.SHELVE;
+    final VcsSettings.UpdateChangesPolicy p = UpdatePolicyUtils.getUpdatePolicy(myStashRadioButton, myShelveRadioButton, null);
+    assert p == VcsSettings.UpdateChangesPolicy.STASH || p == VcsSettings.UpdateChangesPolicy.SHELVE;
 
     return new RebaseInfo(reorderedCommits, rootsWithMerges, uncheckedCommits, roots, p);
   }
