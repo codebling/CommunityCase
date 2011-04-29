@@ -879,7 +879,8 @@ public class Util {
   public static List<FilePath> virtualFileToFilePath(@NotNull List<VirtualFile> virtualFiles) {
     List<FilePath> filePaths=new ArrayList<FilePath>();
     for(VirtualFile virtualFile:virtualFiles)
-      filePaths.add(virtualFileToFilePath(virtualFile));
+      if(virtualFile != null)
+        filePaths.add(virtualFileToFilePath(virtualFile));
 
     return filePaths;
   }
@@ -899,15 +900,13 @@ public class Util {
   }
 
   @Deprecated
-  public static Collection<VirtualFile> stringToVirtualFile(@NotNull VirtualFile vcsRoot,@NotNull Collection<String> files,boolean unescapePath) throws VcsException {
-    Collection<VirtualFile> virtualFiles;
-    if(List.class.isAssignableFrom(files.getClass()))
-      virtualFiles=new ArrayList<VirtualFile>();
-    else
-      virtualFiles=new HashSet<VirtualFile>();
+  public static Map<String,VirtualFile> stringToVirtualFile(@NotNull VirtualFile vcsRoot,
+                                                            @NotNull Collection<String> files,
+                                                            boolean unescapePath) throws VcsException {
+    Map<String,VirtualFile> virtualFiles=new HashMap<String,VirtualFile>();
 
     for(String file : files)
-      virtualFiles.add(stringToVirtualFile(vcsRoot,file,unescapePath));
+      virtualFiles.put(file,stringToVirtualFile(vcsRoot,file,unescapePath));
 
     return virtualFiles;
   }
