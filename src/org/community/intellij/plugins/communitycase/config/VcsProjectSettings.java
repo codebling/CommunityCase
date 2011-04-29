@@ -48,6 +48,8 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   private boolean myAskBeforeLineSeparatorConversion = true; // If true, the dialog is shown with conversion options
   private UpdateChangesPolicy myPushActiveBranchesRebaseSavePolicy = UpdateChangesPolicy.STASH; // The policy used in push active branches dialog
 
+  private Boolean myIsBranchFilterAppwide=true;
+  private Boolean myIsPathFilterAppwide=true;
   private String myBranchFilter="";
   private String myPathFilter="";
   private boolean myPreserveKeepFiles=false;
@@ -150,6 +152,8 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     s.UPDATE_STASH = true;
     s.UPDATE_TYPE = myUpdateType;
 
+    s.IS_BRANCH_FILTER_APPWIDE=myIsBranchFilterAppwide;
+    s.IS_PATH_FILTER_APPWIDE=myIsPathFilterAppwide;
     s.BRANCH_FILTER=myBranchFilter;
     s.PATH_FILTER=myPathFilter;
     s.PRESERVE_KEEP_FILES=myPreserveKeepFiles;
@@ -170,6 +174,8 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
     }
     myUpdateType = s.UPDATE_TYPE;
 
+    myIsBranchFilterAppwide=s.IS_BRANCH_FILTER_APPWIDE;
+    myIsPathFilterAppwide=s.IS_PATH_FILTER_APPWIDE;
     myBranchFilter=s.BRANCH_FILTER;
     myPathFilter=s.PATH_FILTER;
     myPreserveKeepFiles=s.PRESERVE_KEEP_FILES;
@@ -202,6 +208,19 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   @NotNull
   public String getPathFilter() {
     return myPathFilter==null?"":myPathFilter;
+  }
+
+  public Boolean isBranchFilterAppwide() {
+    return myIsBranchFilterAppwide;
+  }
+  public Boolean isPathFilterAppwide() {
+    return myIsPathFilterAppwide;
+  }
+  public void setBranchFilterAppwide(boolean isBranchFilterAppwide) {
+    myIsBranchFilterAppwide=isBranchFilterAppwide;
+  }
+  public void setPathFilterAppwide(boolean isPathFilterAppwide) {
+    myIsPathFilterAppwide=isPathFilterAppwide;
   }
 
   public boolean isPreserveKeepFiles() {
@@ -262,6 +281,8 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
      */
     public UpdateChangesPolicy PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = UpdateChangesPolicy.STASH;
 
+    public Boolean IS_BRANCH_FILTER_APPWIDE;
+    public Boolean IS_PATH_FILTER_APPWIDE;
     public String BRANCH_FILTER;
     public String PATH_FILTER;
     public boolean PRESERVE_KEEP_FILES;

@@ -18,22 +18,44 @@ public class VcsSettings {
     return new VcsSettings(vps,vas);
   }
 
+  public boolean isBranchFilterAppwide() {
+    return myVcsProjectSettings.isBranchFilterAppwide()==null?true:myVcsProjectSettings.isBranchFilterAppwide();
+  }
+  public void setBranchFilterAppwide(boolean branchFilterAppwide) {
+    myVcsProjectSettings.setBranchFilterAppwide(branchFilterAppwide);
+  }
   @NotNull
   public String getBranchFilter() {
-    return myVcsProjectSettings.getBranchFilter();
+    if(isBranchFilterAppwide())
+      return myVcsApplicationSettings.getBranchFilter();
+    else
+      return myVcsProjectSettings.getBranchFilter();
+  }
+  public void setBranchFilter(String branchFilter,boolean isAppwide) {
+    if(isAppwide)
+      myVcsApplicationSettings.setBranchFilter(branchFilter);
+    else
+      myVcsProjectSettings.setBranchFilter(branchFilter);
   }
 
-  public void setBranchFilter(String branchFilter) {
-    myVcsProjectSettings.setBranchFilter(branchFilter);
+  public boolean isPathFilterAppwide() {
+      return myVcsProjectSettings.isPathFilterAppwide()==null?true:myVcsProjectSettings.isPathFilterAppwide();
   }
-
-  public void setPathFilter(String pathFilter) {
-    myVcsProjectSettings.setPathFilter(pathFilter);
+  public void setPathFilterAppwide(boolean pathFilterAppwide) {
+    myVcsProjectSettings.setPathFilterAppwide(pathFilterAppwide);
   }
-
   @NotNull
   public String getPathFilter() {
-    return myVcsProjectSettings.getPathFilter();
+    if(isPathFilterAppwide())
+      return myVcsApplicationSettings.getPathFilter();
+    else
+      return myVcsProjectSettings.getPathFilter();
+  }
+  public void setPathFilter(String pathFilter,boolean isAppwide) {
+    if(isAppwide)
+      myVcsApplicationSettings.setPathFilter(pathFilter);
+    else
+      myVcsProjectSettings.setPathFilter(pathFilter);
   }
 
   public boolean isPreserveKeepFiles() {

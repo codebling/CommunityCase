@@ -3,7 +3,6 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
     *maybe when it already has a debug breakpoint?
 >Reserve/Unreserve!!
 >Make a specific failure message if the version does not exist
->Make filters global (app-specific) instead of project-specific
 >File to checkin is not latest version
 >Notification bubble if file couldn't
 >In ChangeCollector, only add the project path if it's one of the dirty paths??

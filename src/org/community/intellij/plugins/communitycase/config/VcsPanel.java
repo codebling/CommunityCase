@@ -1,21 +1,5 @@
-/*
- * Copyright 2000-2009 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.community.intellij.plugins.communitycase.config;
 
-import com.intellij.openapi.application.ApplicationNamesInfo;
 import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -30,22 +14,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Git VCS configuration panel
+ * VCS configuration panel
  */
 public class VcsPanel {
   private JButton myTestButton; // Test git executable
   private JComponent myRootPanel;
-  private TextFieldWithBrowseButton myGitField;
+  private TextFieldWithBrowseButton myPathToExecutable;
   private JTextField myBranchFilter;
   private JTextField myPathFilter;
-  private JComboBox mySSHExecutableComboBox; // Type of SSH executable to use
-  private JComboBox myConvertTextFilesComboBox; // The conversion policy
-  private JCheckBox myAskBeforeConversionsCheckBox; // The confirmation checkbox
-  private JCheckBox myEnableBranchesWidgetCheckBox; // if selected, the branches widget is enabled in the status bar
+  private JCheckBox myMakeBranchFilterAppwide;
+  private JCheckBox myMakePathFilterAppwide;
   private final Project myProject;
   private final VcsSettings mySettings;
-  private static final String IDEA_SSH = ApplicationNamesInfo.getInstance().getProductName() + " " + Bundle.getString("vcs.config.ssh.mode.idea"); // IDEA ssh value
-  private static final String NATIVE_SSH = Bundle.getString("vcs.config.ssh.mode.native"); // Native SSH value
   private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
   private static final String CRLF_DO_NOT_CONVERT = Bundle.getString("vcs.config.convert.do.not.convert");
 
@@ -57,27 +37,36 @@ public class VcsPanel {
   public VcsPanel(@NotNull Project project) {
     mySettings= VcsSettings.getInstance(project);
     myProject = project;
-    /*
-    mySSHExecutableComboBox.addItem(IDEA_SSH);
-    mySSHExecutableComboBox.addItem(NATIVE_SSH);
-    mySSHExecutableComboBox.setSelectedItem(VcsSettings.isDefaultIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
-    mySSHExecutableComboBox
-      .setToolTipText(Bundle.message("vcs.config.ssh.mode.tooltip", ApplicationNamesInfo.getInstance().getFullProductName()));
-    myAskBeforeConversionsCheckBox.setSelected(myProjectSettings.getAskBeforeLineSeparatorConversion());
-    */
     myTestButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         testConnection();
       }
     });
-    /*
-    myConvertTextFilesComboBox.addItem(CRLF_DO_NOT_CONVERT);
-    myConvertTextFilesComboBox.addItem(CRLF_CONVERT_TO_PROJECT);
-    myConvertTextFilesComboBox.setSelectedItem(CRLF_CONVERT_TO_PROJECT);
-    */
-    myGitField.addBrowseFolderListener(Bundle.getString("find.title"), Bundle.getString("find.description"), project,
+    myPathToExecutable.addBrowseFolderListener(Bundle.getString("find.title"), Bundle.getString("find.description"), project,
                                        new FileChooserDescriptor(true, false, false, false, false, false));
-    //myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
+    myMakeBranchFilterAppwide.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        swapBranchFilter();
+      }
+    });
+    myMakePathFilterAppwide.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        swapPathFilter();
+      }
+    });
+  }
+
+  private void swapBranchFilter() {
+    boolean global=myMakeBranchFilterAppwide.isSelected();
+    mySettings.setBranchFilter(myBranchFilter.getText(),!global);
+    mySettings.setBranchFilterAppwide(global);
+    myBranchFilter.setText(mySettings.getBranchFilter());
+  }
+  private void swapPathFilter() {
+    boolean global=myMakePathFilterAppwide.isSelected();
+    mySettings.setPathFilter(myPathFilter.getText(),!global);
+    mySettings.setPathFilterAppwide(global);
+    myPathFilter.setText(mySettings.getPathFilter());
   }
 
   /**
@@ -85,7 +74,7 @@ public class VcsPanel {
    */
   private void testConnection() {
     if (mySettings!= null) {
-      mySettings.setPathToExecutable(myGitField.getText());
+      mySettings.setPathToExecutable(myPathToExecutable.getText());
     }
     final String s;
     try {
@@ -119,14 +108,11 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public void load(@NotNull VcsSettings settings) {
-    myGitField.setText(settings.getPathToExecutable());
+    myPathToExecutable.setText(settings.getPathToExecutable());
     myBranchFilter.setText(settings.getBranchFilter());
     myPathFilter.setText(settings.getPathFilter());
-    /*mySSHExecutableComboBox.setSelectedItem(settings.isIdeaSsh() ? IDEA_SSH : NATIVE_SSH);
-    myAskBeforeConversionsCheckBox.setSelected(settings.getAskBeforeLineSeparatorConversion());
-    myConvertTextFilesComboBox.setSelectedItem(crlfPolicyItem(settings));
-    myEnableBranchesWidgetCheckBox.setSelected(BranchConfigurations.getInstance(myProject).isWidgetEnabled());
-    */
+    myMakeBranchFilterAppwide.setSelected(settings.isBranchFilterAppwide());
+    myMakePathFilterAppwide.setSelected(settings.isPathFilterAppwide());
   }
 
   /**
@@ -157,7 +143,7 @@ public class VcsPanel {
    * @param settings the settings to load
    */
   public boolean isModified(@NotNull VcsSettings settings) {
-    return !settings.getPathToExecutable().equals(myGitField.getText())
+    return !settings.getPathToExecutable().equals(myPathToExecutable.getText())
             ||!settings.getBranchFilter().equals(myBranchFilter.getText())
             ||!settings.getPathFilter().equals(myPathFilter.getText());
   }
@@ -168,24 +154,10 @@ public class VcsPanel {
    * @param settings the settings object
    */
   public void save(@NotNull VcsSettings settings) {
-    settings.setPathToExecutable(myGitField.getText());
-    settings.setBranchFilter(myBranchFilter.getText());
-    settings.setPathFilter(myPathFilter.getText());
-    /*settings.setIdeaSsh(IDEA_SSH.equals(mySSHExecutableComboBox.getSelectedItem()));
-    Object policyItem = myConvertTextFilesComboBox.getSelectedItem();
-    VcsSettings.ConversionPolicy conversionPolicy;
-    if (CRLF_DO_NOT_CONVERT.equals(policyItem)) {
-      conversionPolicy = VcsSettings.ConversionPolicy.NONE;
-    }
-    else if (CRLF_CONVERT_TO_PROJECT.equals(policyItem)) {
-      conversionPolicy = VcsSettings.ConversionPolicy.PROJECT_LINE_SEPARATORS;
-    }
-    else {
-      throw new IllegalStateException("Unknown selected CRLF policy: " + policyItem);
-    }
-    settings.setLineSeparatorsConversion(conversionPolicy);
-    settings.setAskBeforeLineSeparatorConversion(myAskBeforeConversionsCheckBox.isSelected());
-    */
-    //BranchConfigurations.getInstance(myProject).setWidgetEnabled(myEnableBranchesWidgetCheckBox.isSelected());
+    settings.setPathToExecutable(myPathToExecutable.getText());
+    settings.setBranchFilterAppwide(myMakeBranchFilterAppwide.isSelected());
+    settings.setPathFilterAppwide(myMakePathFilterAppwide.isSelected());
+    settings.setBranchFilter(myBranchFilter.getText(), myMakeBranchFilterAppwide.isSelected());
+    settings.setPathFilter(myPathFilter.getText(), myMakePathFilterAppwide.isSelected());
   }
 }

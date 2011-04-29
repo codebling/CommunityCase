@@ -21,6 +21,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.util.SystemInfo;
 import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
@@ -54,6 +55,9 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
    * The last used path
    */
   private String myExecutablePath;
+
+  private String myBranchFilter="";
+  private String myPathFilter="";
 
   public static VcsApplicationSettings getInstance() {
     return ServiceManager.getService(VcsApplicationSettings.class);
@@ -92,11 +96,15 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
   public State getState() {
     State s = new State();
     s.PATH_TO_CLEARTOOL=myExecutablePath;
+    s.BRANCH_FILTER=myBranchFilter;
+    s.PATH_FILTER=myPathFilter;
     return s;
   }
 
   public void loadState(State state) {
-    myExecutablePath = state.PATH_TO_CLEARTOOL ==null?getDefaultPathToExecutable():state.PATH_TO_CLEARTOOL;
+    myExecutablePath= state.PATH_TO_CLEARTOOL ==null?getDefaultPathToExecutable():state.PATH_TO_CLEARTOOL;
+    myBranchFilter= state.BRANCH_FILTER==null?"":state.BRANCH_FILTER;
+    myPathFilter= state.PATH_FILTER==null?"":state.PATH_FILTER;
   }
 
   /**
@@ -118,6 +126,21 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
     return true;
   }
 
+  @NotNull
+  public String getBranchFilter() {
+    return myBranchFilter==null?"":myBranchFilter;
+  }
+  public void setBranchFilter(String branchFilter) {
+    myBranchFilter=branchFilter;
+  }
+  public void setPathFilter(String pathFilter) {
+    myPathFilter=pathFilter;
+  }
+  @NotNull
+  public String getPathFilter() {
+    return myPathFilter==null?"":myPathFilter;
+  }
+
   /**
    * The settings state
    */
@@ -126,5 +149,7 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
      * The last saved path
      */
     public String PATH_TO_CLEARTOOL;
+    public String BRANCH_FILTER;
+    public String PATH_FILTER;
   }
 }
