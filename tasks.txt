@@ -1,10 +1,29 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+>When checking out a file the file sometimes sdisappears form the tabs AND from the project view and then you need to sync !
+    *maybe when it already has a debug breakpoint?
+>Reserve/Unreserve!!
+>Make a specific failure message if the version does not exist
+>Make filters global (app-specific) instead of project-specific
+>File to checkin is not latest version
+>Notification bubble if file couldn't
+>In ChangeCollector, only add the project path if it's one of the dirty paths??
 >Add files !!!
     *fix directory modification code
+        .directories must be created first and committed last
+>Files that are filtered out by the regex should be marked as FileStatus.IGNORED
+>Branch filter and file filter texts should indicate whether it is an inclusion or exclusion filter
+>Merge tool (only for committed changes??  no.)
+    *recent changes, including active and recently committed change lists
+        .listen for commits and save change lists
+    *for each view, try to checkout file and apply changes (based on diff from prev version)
+        .draw merge arrow, even if it's a checkout (warn if current file is hijacked)
 >Method to find current version
 >Method to find current branch
 >History shows separate branches in separate panes?
     *at least show only the current branch. Do this using "-bra main" or "-bra bl162_integration"
+>Correctly implement the method to determine our current branch
+    *do this by doing an LS on a file and taking either the branch listed or the mkbranch.
+>Colour legend for change list in VCS setup (kind of gross, but..)
 >Handle file names with spaces!
 >Checkout/convert hijack to checkout
 >Redo Command classes
@@ -39,10 +58,25 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >Fix project so that it compiles WITHOUT using idea.jar!?
     *replace all usages of FilePathImpl with FilePath
         -new FilePathImpl(..) -> VcsUtil.getFilePath(..)
+>IntelliJ bugs to fix
+    *no refresh after adding ignored file
+    *clear read-only status using file system results in modified file
 (1)=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Can't run any version control commands on a hijacked file...
 revert/undo checkout doesn't work for hijacked or unversioned files
 lsvtree giving "not a vob object" if file is hijacked.
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+from Alex's idea.log:
+2011-03-30 13:42:12,035 [684004701]   INFO - nges.UpdatingChangeListBuilder - [processChangeInList-1] entering, cl name: null change: C:/abressan_main/serverdev/server/base/_build/tests/mailgtw/script-mailgtw-load/other-imap-load-mailgtw.s
+2011-03-30 13:42:12,035 [684004701]   INFO - nges.UpdatingChangeListBuilder - [processChangeInList-1] not under scope
+2011-03-30 13:42:12,035 [684004701]   INFO - nges.UpdatingChangeListBuilder - [processChangeInList-1] entering, cl name: null change: C:\abressan_main\serverdev\server\base\_build\tests\mailgtw\script-mailgtw-tool\environment\ovi-migration-environment.s.template
+2011-03-30 13:42:12,035 [684004701]   INFO - nges.UpdatingChangeListBuilder - [processChangeInList-1] to add to corresponding list
+2011-03-30 13:42:12,035 [684004701]   INFO - i.vcs.changes.ChangeListWorker - [addChangeToCorrespondingList] for change C:\abressan_main\serverdev\server\base\_build\tests\mailgtw\script-mailgtw-tool\environment\ovi-migration-environment.s.template type: MODIFICATION have before revision: true
+2011-03-30 13:42:12,035 [684004701]   INFO - i.vcs.changes.ChangeListWorker - [addChangeToCorrespondingList] skip default list: Default type: MODIFICATION have before revision: true
+2011-03-30 13:42:12,035 [684004701]   INFO - nges.UpdatingChangeListBuilder - [processChangeInList-1] entering, cl name: null change: C:/abressan_main/serverdev/server/base/_build/tests/mailgtw/script-mailgtw-load/hotmail-load-mailgtw.s
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+with 10.5..
+2011-03-24 15:33:56,972 [  10016]   INFO - pl.projectlevelman.NewMappings - Error: activating non existing vcs: ClearCase
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 for directories, context menu root's "Revert..." works, but ClearCase-> Revert and undo checkout  does not
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
@@ -73,46 +107,6 @@ when showing log (history)...
 
 cleartool: Error: Unrecognized option "-fmt"
 Usage: get -to dest-pname pname
-=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
-The action is only available when files are selected: The action is only available when files are selected
-java.lang.AssertionError: The action is only available when files are selected
-	at org.community.intellij.plugins.communitycase.actions.BasicAction.actionPerformed(BasicAction.java:71)
-	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher$3.performAction(IdeKeyEventDispatcher.java:524)
-	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher.processAction(IdeKeyEventDispatcher.java:564)
-	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher.inInitState(IdeKeyEventDispatcher.java:444)
-	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher.dispatchKeyEvent(IdeKeyEventDispatcher.java:197)
-	at com.intellij.ide.IdeEventQueue._dispatchEvent(IdeEventQueue.java:491)
-	at com.intellij.ide.IdeEventQueue._dispatchEvent(IdeEventQueue.java:404)
-	at com.intellij.ide.IdeEventQueue.dispatchEvent(IdeEventQueue.java:368)
-	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
-	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
-	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
-	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
-	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
-	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
-[this is all together]
-java.lang.IllegalArgumentException: Argument 0 for @NotNull parameter of org/community/intellij/plugins/communitycase/Util.virtualFileToFilePath must not be null
-	at org.community.intellij.plugins.communitycase.Util.virtualFileToFilePath(Util.java)
-	at org.community.intellij.plugins.communitycase.Util.virtualFileToFilePath(Util.java:877)
-	at org.community.intellij.plugins.communitycase.changes.ChangeCollector.checkStatusAndAddToChangeList(ChangeCollector.java:169)
-	at org.community.intellij.plugins.communitycase.changes.ChangeCollector.ensureCollected(ChangeCollector.java:148)
-	at org.community.intellij.plugins.communitycase.changes.ChangeCollector.changes(ChangeCollector.java:126)
-	at org.community.intellij.plugins.communitycase.changes.ChangeProvider.getChanges(ChangeProvider.java:76)
-	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl.actualUpdate(ChangeListManagerImpl.java:501)
-	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl.updateImmediately(ChangeListManagerImpl.java:425)
-	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl.access$500(ChangeListManagerImpl.java:67)
-	at com.intellij.openapi.vcs.changes.ChangeListManagerImpl$ActualUpdater.execute(ChangeListManagerImpl.java:278)
-	at com.intellij.openapi.vcs.changes.UpdateRequestsQueue$MyRunnable$1.consume(UpdateRequestsQueue.java:186)
-	at com.intellij.openapi.vcs.changes.UpdateRequestsQueue$MyRunnable$1.consume(UpdateRequestsQueue.java:184)
-	at com.intellij.openapi.vcs.changes.ExecutorWrapper$3.run(ExecutorWrapper.java:101)
-	at com.intellij.openapi.application.impl.ApplicationImpl$6.run(ApplicationImpl.java:383)
-	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:441)
-	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:138)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
-	at java.lang.Thread.run(Thread.java:619)
-	at com.intellij.openapi.application.impl.ApplicationImpl$1$1.run(ApplicationImpl.java:131)
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 2011-03-22 13:21:24,958 [ 302621]  ERROR - plication.impl.ApplicationImpl - The DialogWrapper can be used only on event dispatch thread.
 java.lang.IllegalStateException: The DialogWrapper can be used only on event dispatch thread.
@@ -145,4 +139,25 @@ java.lang.IllegalStateException: The DialogWrapper can be used only on event dis
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
 	at java.lang.Thread.run(Thread.java:619)
 	at com.intellij.openapi.application.impl.ApplicationImpl$1$1.run(ApplicationImpl.java:131)
+=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
+null
+java.lang.AssertionError
+	at org.community.intellij.plugins.communitycase.actions.QuickListContentProvider.add(QuickListContentProvider.java:86)
+	at org.community.intellij.plugins.communitycase.actions.QuickListContentProvider.getVcsActions(QuickListContentProvider.java:62)
+	at com.intellij.openapi.vcs.actions.VcsQuickListPopupAction.fillVcsPopup(VcsQuickListPopupAction.java:66)
+	at com.intellij.openapi.vcs.actions.VcsQuickListPopupAction.fillActions(VcsQuickListPopupAction.java:43)
+	at com.intellij.ide.actions.QuickSwitchSchemeAction.actionPerformed(QuickSwitchSchemeAction.java:42)
+	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher$3.performAction(IdeKeyEventDispatcher.java:524)
+	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher.processAction(IdeKeyEventDispatcher.java:564)
+	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher.inInitState(IdeKeyEventDispatcher.java:444)
+	at com.intellij.openapi.keymap.impl.IdeKeyEventDispatcher.dispatchKeyEvent(IdeKeyEventDispatcher.java:197)
+	at com.intellij.ide.IdeEventQueue._dispatchEvent(IdeEventQueue.java:491)
+	at com.intellij.ide.IdeEventQueue._dispatchEvent(IdeEventQueue.java:404)
+	at com.intellij.ide.IdeEventQueue.dispatchEvent(IdeEventQueue.java:368)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:269)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:184)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:174)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:169)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:161)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:122)
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
