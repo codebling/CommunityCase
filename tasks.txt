@@ -33,7 +33,6 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >Autoset project VCS root(s) using ct pwv -root (also detect and remember other views for merging)
 >Colour validation on settings regexs to indicate if valid regex
 >Merge tool
->Version Tree of directory should show version tree of directory element, not version trees of every child
 >Pre-checkin optimisations
     *check/request branch mastership
     *check/reserve file
@@ -60,6 +59,7 @@ creating this file until I'm sure that the bettercodes.org tasks won't disappear
 >IntelliJ bugs to fix
     *no refresh after adding ignored file
     *clear read-only status using file system results in modified file
+    *com.intellij.openapi.vcs.impl.VcsFileStatusProvider.getBaseVersionContent ignores exceptions thrown by content = beforeRevision.getContent();
 (1)=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 Can't run any version control commands on a hijacked file...
 revert/undo checkout doesn't work for hijacked or unversioned files
