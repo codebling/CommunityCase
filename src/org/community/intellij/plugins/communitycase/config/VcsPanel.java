@@ -28,6 +28,7 @@ public class VcsPanel {
   private JCheckBox myUseRevervedCoForDirsCheckBox;
   private JCheckBox myPreserveKeepFilesCheckBox;
   private JCheckBox myShowDirectoriesCheckBox;
+  private JTextArea myYouCanStillIgnoreTextArea;
   private final Project myProject;
   private final VcsSettings mySettings;
   private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
@@ -173,8 +174,8 @@ public class VcsPanel {
     settings.setPathToExecutable(myPathToExecutable.getText());
     settings.setBranchFilterAppwide(myMakeBranchFilterAppwide.isSelected());
     settings.setPathFilterAppwide(myMakePathFilterAppwide.isSelected());
-    settings.setBranchFilter(myBranchFilter.getText(),myMakeBranchFilterAppwide.isSelected());
-    settings.setPathFilter(myPathFilter.getText(),myMakePathFilterAppwide.isSelected());
+    settings.setBranchFilter(myBranchFilter.getText(), myMakeBranchFilterAppwide.isSelected());
+    settings.setPathFilter(myPathFilter.getText(), myMakePathFilterAppwide.isSelected());
     settings.setBranchFilter(swappedOutBranch,!myMakeBranchFilterAppwide.isSelected());
     settings.setPathFilter(swappedOutPath,!myMakePathFilterAppwide.isSelected());
     settings.setUseReservedCheckoutForFiles(myUseReservedCoForFilesCheckBox.isSelected());
