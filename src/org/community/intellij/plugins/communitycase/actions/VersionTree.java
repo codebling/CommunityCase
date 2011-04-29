@@ -44,34 +44,26 @@ public class VersionTree extends BasicAction {
   }
 
   @Override
-  public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] affectedFiles) {
-
-    //ugly hack as workaround to VCS not passing us a directory name when it wants the action on a directory.
-    if(myLastDir != null)
-        runVersionTree(project,exceptions,myLastDir);
-    else
-      for(VirtualFile vf:affectedFiles)
-          runVersionTree(project,exceptions,vf);
+  public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] files) {
+    for(VirtualFile vf:files) {
+      try {
+        VirtualFile root;
+        root=Util.getRoot(vf);
+        if(vf.isDirectory() && root.equals(vf))
+          root=vf.getParent();
+        //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
+        LineHandler handler=new LineHandler(project,root, Command.VERSION_TREE_GRAPHICAL);
+        handler.endOptions();
+        handler.addParameters(vf.getName()+"@@");
+        handler.start();
+        vf.refresh(false, false); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
+      } catch(VcsException e) {
+        exceptions.add(e);
+        log.error(e);
+      }
+    }
 
     return true;
-  }
-
-  private void runVersionTree(Project project,List<VcsException> exceptions,VirtualFile file) {
-    try {
-      VirtualFile root;
-      root=Util.getRoot(file);
-      if(file.isDirectory() && root.equals(file))
-        root=file.getParent();
-      //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
-      LineHandler handler=new LineHandler(project,root, Command.VERSION_TREE_GRAPHICAL);
-      handler.endOptions();
-      handler.addParameters(file.getName()+"@@");
-      handler.start();
-      file.refresh(false, false); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
-    } catch(VcsException e) {
-      exceptions.add(e);
-      log.error(e);
-    }
   }
 
   @Override
@@ -82,16 +74,6 @@ public class VersionTree extends BasicAction {
 
   @Override
   protected boolean isEnabled(@NotNull Project project, @NotNull Vcs vcs, @NotNull VirtualFile... vFiles) {
-    for (VirtualFile file : vFiles)
-      if(file.isDirectory() && vFiles.length > 1)
-        return false;
-
-    //ugly hack as workaround for when VCS tries to send us a list of files instead of a directory
-    if(vFiles.length==1 && vFiles[0].isDirectory())
-      myLastDir=vFiles[0];
-    else
-      myLastDir=null;
-
     return true;
   }
 }

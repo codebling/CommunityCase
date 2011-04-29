@@ -77,14 +77,13 @@ public abstract class BasicAction extends DumbAwareAction {
     }
     final String actionName = getActionName();
 
-    final VirtualFile[] affectedFiles = collectAffectedFiles(project, vFiles);
     final List<VcsException> exceptions = new ArrayList<VcsException>();
-    final boolean background = perform(project, vcs, exceptions, affectedFiles);
+    final boolean background = perform(project, vcs, exceptions, vFiles);
     if (!background) {
       vcs.runInBackground(new Task.Backgroundable(project, getActionName()) {
 
         public void run(@NotNull ProgressIndicator indicator) {
-          Util.refreshFiles(project, Arrays.asList(affectedFiles));
+          Util.refreshFiles(project, Arrays.asList(vFiles));
           com.intellij.util.ui.UIUtil.invokeLaterIfNeeded(new Runnable() {
               public void run() {
                   UiUtil.showOperationErrors(project, exceptions, actionName);
@@ -137,31 +136,6 @@ public abstract class BasicAction extends DumbAwareAction {
       }
     });
     return true;
-  }
-
-  /**
-   * given a list of action-target files, returns ALL the files that should be
-   * subject to the action Does not keep directories, but recursively adds
-   * directory contents
-   *
-   * @param project the project subject of the action
-   * @param files   the root selection
-   * @return the complete set of files this action should apply to
-   */
-  @NotNull
-  protected VirtualFile[] collectAffectedFiles(@NotNull Project project, @NotNull VirtualFile[] files) {
-    List<VirtualFile> affectedFiles = new ArrayList<VirtualFile>(files.length);
-    ProjectLevelVcsManager projectLevelVcsManager = ProjectLevelVcsManager.getInstance(project);
-    for (VirtualFile file : files) {
-      if (!file.isDirectory() && projectLevelVcsManager.getVcsFor(file) instanceof Vcs) {
-        affectedFiles.add(file);
-      }
-      else if (file.isDirectory() && isRecursive()) {
-        addChildren(project, affectedFiles, file);
-      }
-
-    }
-    return VfsUtil.toVirtualFileArray(affectedFiles);
   }
 
   /**
