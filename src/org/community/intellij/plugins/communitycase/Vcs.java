@@ -27,6 +27,7 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.openapi.vcs.*;
 import com.intellij.openapi.vcs.changes.CommitExecutor;
+import com.intellij.openapi.vcs.changes.VcsDirtyScopeManager;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsHistoryProvider;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
@@ -683,5 +684,10 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   @Override
   public com.intellij.openapi.vcs.EditFileProvider getEditFileProvider() {
     return myEditFileProvider;
+  }
+
+  public void refreshAllRoots() {
+    VcsDirtyScopeManager.getInstance(myProject).markEverythingDirty();
+    //for(VirtualFile vf:ProjectLevelVcsManager.getInstance(myProject).getRootsUnderVcs(this))
   }
 }

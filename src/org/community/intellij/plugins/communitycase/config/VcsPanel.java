@@ -4,7 +4,9 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsException;
+import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
@@ -182,5 +184,7 @@ public class VcsPanel {
     settings.setUseReservedCheckoutForDirectories(myUseRevervedCoForDirsCheckBox.isSelected());
     settings.setPreserveKeepFiles(myPreserveKeepFilesCheckBox.isSelected());
     settings.setShowDirectories(myShowDirectoriesCheckBox.isSelected());
+
+    Vcs.getInstance(myProject).refreshAllRoots();
   }
 }
