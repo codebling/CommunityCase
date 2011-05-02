@@ -46,21 +46,23 @@ public class VersionTree extends BasicAction {
   @Override
   public boolean perform(@NotNull final Project project, Vcs vcs, @NotNull final List<VcsException> exceptions, @NotNull VirtualFile[] files) {
     for(VirtualFile vf:files) {
-      try {
-        VirtualFile root;
-        root=Util.getRoot(vf);
-        if(vf.isDirectory() && root.equals(vf))
-          root=vf.getParent();
-        //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
-        LineHandler handler=new LineHandler(project,root, Command.VERSION_TREE_GRAPHICAL);
-        handler.endOptions();
-        handler.addParameters(vf.getName()+"@@");
-        handler.start();
-        vf.refresh(false, false); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
-      } catch(VcsException e) {
-        exceptions.add(e);
-        log.error(e);
-      }
+      FileStatus fileStatus = FileStatusManager.getInstance(project).getStatus(vf);
+      if(fileStatus!=FileStatus.IGNORED && fileStatus!=FileStatus.UNKNOWN)
+        try {
+          VirtualFile root;
+          root=Util.getRoot(vf);
+          if(vf.isDirectory() && root.equals(vf))
+            root=vf.getParent();
+          //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
+          LineHandler handler=new LineHandler(project,root, Command.VERSION_TREE_GRAPHICAL);
+          handler.endOptions();
+          handler.addParameters(vf.getName()+"@@");
+          handler.start();
+          vf.refresh(false, false); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
+        } catch(VcsException e) {
+          exceptions.add(e);
+          log.error(e);
+        }
     }
 
     return true;
@@ -74,6 +76,11 @@ public class VersionTree extends BasicAction {
 
   @Override
   protected boolean isEnabled(@NotNull Project project, @NotNull Vcs vcs, @NotNull VirtualFile... vFiles) {
-    return true;
+    for (VirtualFile file : vFiles) {
+      FileStatus fileStatus = FileStatusManager.getInstance(project).getStatus(file);
+      if(fileStatus!=FileStatus.IGNORED && fileStatus!=FileStatus.UNKNOWN)
+        return true;
+    }
+    return false;
   }
 }
