@@ -1,4 +1,7 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+>Next changes
+    *ClearCase Explorer option
+    *proper status of added and moved files
 >When checking out a file the file sometimes sdisappears form the tabs AND from the project view and then you need to sync !
     *maybe when it already has a debug breakpoint?
 >Reserve/Unreserve!!
