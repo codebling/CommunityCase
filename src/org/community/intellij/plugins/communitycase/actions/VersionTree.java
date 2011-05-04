@@ -28,6 +28,7 @@ import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,13 +57,13 @@ public class VersionTree extends BasicAction {
           handler.endOptions();
           handler.addParameters(vf.getName()+"@@");
           handler.start();
-          vf.refresh(false, false); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
+
         } catch(VcsException e) {
           exceptions.add(e);
           log.error(e);
         }
     }
-
+    Util.refreshFiles(project,Arrays.asList(files)); //todo wc since line handler runs in a separate thread this needs to be done there...implement properly when we migrate Handlers to Commands.
     return true;
   }
 

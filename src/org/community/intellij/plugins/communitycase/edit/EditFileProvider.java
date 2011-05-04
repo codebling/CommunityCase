@@ -10,6 +10,8 @@ import org.community.intellij.plugins.communitycase.commands.LineHandler;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 /**
  * Handler for checking out files.
  *
@@ -47,8 +49,7 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
     }
 
     handler.start();
-    for(VirtualFile file:virtualFiles)
-      file.refresh(false,false);
+    Util.refreshFiles(myProject,Arrays.asList(virtualFiles));
   }
 
   @Override
