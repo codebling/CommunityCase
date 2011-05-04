@@ -101,13 +101,13 @@ public abstract class BasicAction extends DumbAwareAction {
    * @param project       the context project
    * @param mksVcs        the vcs instance
    * @param exceptions    the list of exceptions to be collected.
-   * @param affectedFiles the files to be affected by the operation
+   * @param files the files to be affected by the operation
    * @return true if the operation scheduled a background job, or cleanup is not needed
    */
   protected abstract boolean perform(@NotNull Project project,
                                      Vcs mksVcs,
                                      @NotNull List<VcsException> exceptions,
-                                     @NotNull VirtualFile[] affectedFiles);
+                                     @NotNull VirtualFile[] files);
 
   /**
    * Perform the action over set of files in background
