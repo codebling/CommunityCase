@@ -230,7 +230,7 @@ public class SimpleHandler extends TextHandler {
       throw ex[0];
     }
     if (result[0] == null) {
-      throw new VcsException("The git command returned null: " + printableCommandLine());
+      throw new VcsException("Command returned null: " + printableCommandLine());
     }
     return result[0];
   }
