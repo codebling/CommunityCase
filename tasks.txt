@@ -1,7 +1,10 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+>Add 'checkin successful' notification for Alex
 >Next changes
-    *ClearCase Explorer option
+    *reserve/unreserve files action
+    *checkin action should only appear on checked out files
     *proper status of added and moved files
+    *remove unused commands
 >When checking out a file the file sometimes sdisappears form the tabs AND from the project view and then you need to sync !
     *maybe when it already has a debug breakpoint?
 >Reserve/Unreserve!!
@@ -109,38 +112,6 @@ when showing log (history)...
 
 cleartool: Error: Unrecognized option "-fmt"
 Usage: get -to dest-pname pname
-=-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
-2011-03-22 13:21:24,958 [ 302621]  ERROR - plication.impl.ApplicationImpl - The DialogWrapper can be used only on event dispatch thread.
-java.lang.IllegalStateException: The DialogWrapper can be used only on event dispatch thread.
-	at com.intellij.openapi.ui.DialogWrapper.ensureEventDispatchThread(DialogWrapper.java:1469)
-	at com.intellij.openapi.ui.DialogWrapper.showAndGetOk(DialogWrapper.java:1166)
-	at com.intellij.openapi.ui.DialogWrapper.show(DialogWrapper.java:1160)
-	at com.intellij.openapi.ui.Messages.showDialog(Messages.java:129)
-	at com.intellij.openapi.ui.Messages.showDialog(Messages.java:120)
-	at com.intellij.openapi.ui.Messages.showMessageDialog(Messages.java:199)
-	at org.community.intellij.plugins.communitycase.checkin.CheckinEnvironment.commit(CheckinEnvironment.java:483)
-	at org.community.intellij.plugins.communitycase.checkin.CheckinEnvironment.commit(CheckinEnvironment.java:161)
-	at com.intellij.openapi.vcs.changes.ui.CommitHelper$CommitProcessor.process(CommitHelper.java:315)
-	at com.intellij.openapi.vcs.changes.ChangesUtil.processItemsByVcs(ChangesUtil.java:289)
-	at com.intellij.openapi.vcs.changes.ChangesUtil.processChangesByVcs(ChangesUtil.java:294)
-	at com.intellij.openapi.vcs.changes.ui.CommitHelper$CommitProcessor.callSelf(CommitHelper.java:304)
-	at com.intellij.openapi.vcs.changes.ui.CommitHelper.generalCommit(CommitHelper.java:155)
-	at com.intellij.openapi.vcs.changes.ui.CommitHelper.access$200(CommitHelper.java:49)
-	at com.intellij.openapi.vcs.changes.ui.CommitHelper$1.run(CommitHelper.java:100)
-	at com.intellij.openapi.vcs.changes.ui.CommitHelper$2.run(CommitHelper.java:115)
-	at com.intellij.openapi.progress.impl.ProgressManagerImpl$TaskRunnable.run(ProgressManagerImpl.java:482)
-	at com.intellij.openapi.progress.impl.ProgressManagerImpl$2.run(ProgressManagerImpl.java:205)
-	at com.intellij.openapi.progress.impl.ProgressManagerImpl.executeProcessUnderProgress(ProgressManagerImpl.java:233)
-	at com.intellij.openapi.progress.impl.ProgressManagerImpl.runProcess(ProgressManagerImpl.java:196)
-	at com.intellij.openapi.progress.impl.ProgressManagerImpl$6.run(ProgressManagerImpl.java:358)
-	at com.intellij.openapi.application.impl.ApplicationImpl$6.run(ApplicationImpl.java:383)
-	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:441)
-	at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:138)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
-	at java.lang.Thread.run(Thread.java:619)
-	at com.intellij.openapi.application.impl.ApplicationImpl$1$1.run(ApplicationImpl.java:131)
 =-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-==-=
 null
 java.lang.AssertionError
