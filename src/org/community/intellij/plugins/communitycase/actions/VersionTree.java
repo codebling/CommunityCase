@@ -37,8 +37,6 @@ public class VersionTree extends BasicAction {
   private static final Logger log=Logger.getInstance("#"+VersionTree.class.getName());
   private static final String NAME=Bundle.getString("versiontree.action.name");
 
-  private VirtualFile myLastDir=null;
-
   public VersionTree() {
     super(NAME);
   }
@@ -54,7 +52,7 @@ public class VersionTree extends BasicAction {
           if(vf.isDirectory() && root.equals(vf))
             root=vf.getParent();
           //todo wc create a more lightweight handler to fire and forget this instead of wasting threads and other resources
-          LineHandler handler=new LineHandler(project,root, Command.VERSION_TREE_GRAPHICAL);
+          LineHandler handler=new LineHandler(project,root,Command.VERSION_TREE_GRAPHICAL);
           handler.endOptions();
           handler.addParameters(vf.getName()+"@@");
           handler.start();
