@@ -543,49 +543,48 @@ class ChangeCollector {
             String relativeFilename=Util.relativePath(myRoot,file);
 
             VirtualFile vfile=getVirtualFile(filename);
-            if(isInRoot(vfile)) { //if it's not in the scope of the changes, ignore it.
-              if(vfile !=null && vfile.exists()) {
-                //this is a checked out file, which we'll automatically consider to be "modified"
-                //in this case, the next string after "from" should be the version number that the checkout came from
-                com.intellij.openapi.vcs.changes.ContentRevision before=
-                        ContentRevision.createRevision(myRoot,
-                                                       relativeFilename,
-                                                       HistoryUtils.createUnvalidatedRevisionNumber(parts[0]),
-                                                       myProject,
-                                                       false,
-                                                       true);
-                com.intellij.openapi.vcs.changes.ContentRevision after=
-                        ContentRevision.createRevision(myRoot,
-                                                       relativeFilename,
-                                                       null,
-                                                       myProject,
-                                                       false,
-                                                       true);
-                if(!file.isDirectory() || VcsSettings.getInstance(myProject).isShowDirectories())
-                  myChanges.add(new Change(before, after, FileStatus.MODIFIED));
-                //else  //appears in yellow as file to be added
-                //  myChanges.add(new Change(before, after, FileStatus.IGNORED));
-              } else { //it's a checked-out file that's been deleted
-                com.intellij.openapi.vcs.changes.ContentRevision before=
-                        ContentRevision.createRevision(myRoot,
-                                                       relativeFilename,
-                                                       HistoryUtils.createUnvalidatedRevisionNumber(parts[0]),
-                                                       myProject,
-                                                       false,
-                                                       true);
-                com.intellij.openapi.vcs.changes.ContentRevision after=
-                        ContentRevision.createRevision(myRoot,
-                                                       relativeFilename,
-                                                       null,
-                                                       myProject,
-                                                       false,
-                                                       true);
-                //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.
-                if(!file.isDirectory() || VcsSettings.getInstance(myProject).isShowDirectories())
-                  myChanges.add(new Change(before, after, FileStatus.DELETED));
-                //else
-                //  myChanges.add(new Change(before, after, FileStatus.IGNORED));
-              }
+            if(vfile !=null && vfile.exists() && isInRoot(vfile)) {
+              //this is a checked out file, which we'll automatically consider to be "modified"
+              //in this case, the next string after "from" should be the version number that the checkout came from
+              com.intellij.openapi.vcs.changes.ContentRevision before=
+                      ContentRevision.createRevision(myRoot,
+                                                     relativeFilename,
+                                                     HistoryUtils.createUnvalidatedRevisionNumber(parts[0]),
+                                                     myProject,
+                                                     false,
+                                                     true);
+              com.intellij.openapi.vcs.changes.ContentRevision after=
+                      ContentRevision.createRevision(myRoot,
+                                                     relativeFilename,
+                                                     null,
+                                                     myProject,
+                                                     false,
+                                                     true);
+              if(!file.isDirectory() || VcsSettings.getInstance(myProject).isShowDirectories())
+                myChanges.add(new Change(before, after, FileStatus.MODIFIED));
+              //else  //appears in yellow as file to be added
+              //  myChanges.add(new Change(before, after, FileStatus.IGNORED));
+            } else { //it's a checked-out file that's been deleted
+              //todo wc if the file is deleted but isn't in the root, do not add to list of changes
+              com.intellij.openapi.vcs.changes.ContentRevision before=
+                      ContentRevision.createRevision(myRoot,
+                                                     relativeFilename,
+                                                     HistoryUtils.createUnvalidatedRevisionNumber(parts[0]),
+                                                     myProject,
+                                                     false,
+                                                     true);
+              com.intellij.openapi.vcs.changes.ContentRevision after=
+                      ContentRevision.createRevision(myRoot,
+                                                     relativeFilename,
+                                                     null,
+                                                     myProject,
+                                                     false,
+                                                     true);
+              //todo wc if it's a deleted file, we won't actually know if it's a directory or not so it will still be shown.
+              if(!file.isDirectory() || VcsSettings.getInstance(myProject).isShowDirectories())
+                myChanges.add(new Change(before, after, FileStatus.DELETED));
+              //else
+              //  myChanges.add(new Change(before, after, FileStatus.IGNORED));
             }
           }
         }
