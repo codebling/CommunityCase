@@ -1,5 +1,4 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
->Add 'checkin successful' notification for Alex
 >Next changes
     *reserve/unreserve files action
     *checkin action should only appear on checked out files

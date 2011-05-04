@@ -15,6 +15,9 @@
  */
 package org.community.intellij.plugins.communitycase.checkin;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
@@ -34,6 +37,7 @@ import com.intellij.util.PairConsumer;
 import com.intellij.util.ui.UIUtil;
 import com.intellij.vcsUtil.VcsUtil;
 import org.community.intellij.plugins.communitycase.Util;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
@@ -504,6 +508,12 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
               .createPopup()
               .show(new RelativePoint(new Point(0,0)));
       */
+      Notifications.Bus.notify(
+        new Notification(Vcs.NOTIFICATION_GROUP_ID,
+                         Bundle.message("checkin.success.title"),
+                         Bundle.getString("checkin.success.message"),
+                         NotificationType.INFORMATION),
+        project);
     }
   }
 
