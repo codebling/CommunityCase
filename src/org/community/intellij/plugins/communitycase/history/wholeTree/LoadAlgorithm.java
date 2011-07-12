@@ -15,10 +15,7 @@ package org.community.intellij.plugins.communitycase.history.wholeTree;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.CalledInAwt;
 import com.intellij.util.containers.Convertor;
-import com.intellij.util.continuation.Continuation;
-import com.intellij.util.continuation.ContinuationContext;
-import com.intellij.util.continuation.TaskDescriptor;
-import com.intellij.util.continuation.Where;
+import com.intellij.util.continuation.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -38,12 +35,11 @@ public class LoadAlgorithm {
     myProject = project;
     myLoaders = loaders;
     myAbstractHashs = abstractHashs;
-    myContinuation = new Continuation(myProject, false);
+    myContinuation = Continuation.createFragmented(myProject, false);
   }
 
   public void execute() {
-    final ContinuationContext.GatheringContinuationContext initContext =
-      new ContinuationContext.GatheringContinuationContext();
+    final GatheringContinuationContext initContext = new GatheringContinuationContext();
 
     if (myAbstractHashs != null) {
       initContext.last(new TryHashes());

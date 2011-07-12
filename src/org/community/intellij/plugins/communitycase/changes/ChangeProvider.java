@@ -134,7 +134,9 @@ public class ChangeProvider implements com.intellij.openapi.vcs.changes.ChangePr
         final VirtualFile vf = filePath.getVirtualFile();
         if (vf != null
                 && !FileStatus.ADDED.equals(myAddGate.getStatus(vf))
-                && myFileDocumentManager.isFileModifiedAndDocumentUnsaved(vf)) {
+                && myFileDocumentManager.isFileModified(vf)
+//                && myFileDocumentManager.isDocumentUnsaved(myFileDocumentManager.getDocument(vf))
+                ) {
           final VirtualFile root = myVcsManager.getVcsRootFor(vf);
           if (root != null) {
             //todo wc fix this

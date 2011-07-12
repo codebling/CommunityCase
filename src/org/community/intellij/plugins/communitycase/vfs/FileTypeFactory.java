@@ -29,6 +29,6 @@ public class FileTypeFactory extends com.intellij.openapi.fileTypes.FileTypeFact
    * {@inheritDoc}
    */
   public void createFileTypes(@NotNull FileTypeConsumer consumer) {
-    consumer.consume(new PlainTextFileType(), new ExactFileNameMatcher(".ignore"), new ExactFileNameMatcher(".modules"));
+    consumer.consume(PlainTextFileType.INSTANCE, new ExactFileNameMatcher(".ignore"), new ExactFileNameMatcher(".modules"));
   }
 }

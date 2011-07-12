@@ -658,13 +658,6 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     return Collections.<CommitExecutor>singletonList(myCommitAndPushExecutor);
   }
 
-  @Override
-  public CommittedChangeList getRevisionChanges(final VcsFileRevision revision, final VirtualFile file) throws VcsException {
-    final Project project = getProject();
-    final VirtualFile vcsRoot = Util.getRoot(file);
-    return ChangeUtils.getRevisionChanges(project, vcsRoot, revision.getRevisionNumber().asString(), false);
-  }
-
   /**
    * @return true if vcs was activated
    */
