@@ -1,4 +1,16 @@
 creating this file until I'm sure that the bettercodes.org tasks won't disappear on me..
+
+:\cc\baplugintest\serverdev\lost+found
+> ct diff -dif -pre DBMODIF_148.124ed3561a944e438c360b6c01ef572e
+-----[ added ]-----
+> added and renamed.txt  --03-03T13:32 ascher
+-----[ added ]-----
+> addme.txt  --03-02T11:49 ascher
+
+register a factory for the checkin handler, it is only needed if the vcs is active. see git change ee9c075eae4cbac2745a888273acd398cab4a180
+
+>If file to checkout is a directory, then cd to parent directory instead of trying to check out '.'
+>Checking out files still sometimes causes them to disappear from the whole bloody project
 >Next changes
     *reserve/unreserve files action
     *checkin action should only appear on checked out files
