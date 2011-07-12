@@ -165,10 +165,11 @@ class ChangeCollector {
                                                                getFsWritableFiles(),
                                                                true);
 
-        for(Map.Entry<String,VirtualFile> pair:vfMap.entrySet()) {
+        for(Iterator<Map.Entry<String,VirtualFile>> i=vfMap.entrySet().iterator(); i.hasNext();) {
+          Map.Entry<String,VirtualFile> pair=i.next();
           if(pair.getValue() == null) {
             popupNotification(NotificationType.WARNING, Bundle.message("changes.ls.mappingerr.content", pair.getKey()));
-            vfMap.remove(pair.getKey());
+            i.remove();
           }
         }
 
