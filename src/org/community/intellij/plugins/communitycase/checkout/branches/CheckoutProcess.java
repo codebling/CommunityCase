@@ -40,7 +40,6 @@ import org.community.intellij.plugins.communitycase.checkout.branches.BranchConf
 import org.community.intellij.plugins.communitycase.checkout.branches.BranchConfigurations.ChangeListInfo;
 import org.community.intellij.plugins.communitycase.commands.*;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
-import org.community.intellij.plugins.communitycase.update.StashUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -565,7 +564,9 @@ public class CheckoutProcess {
       return false;
     }
     progress.setText("Refreshing files before restoring shelve: " + shelve.DESCRIPTION);
-    StashUtils.doSystemUnshelve(myProject, shelve, myShelveManager, myChangeManager, myExceptions);
+    //StashUtils.doSystemUnshelve(myProject, shelve, myShelveManager, myChangeManager, myExceptions);
+    //todo wc do unshelf here
+
     // dirty files and parse changes
     final HashMap<Pair<String, String>, String> parsedChanges = new HashMap<Pair<String, String>, String>();
     for (ChangeInfo changeInfo : changes.CHANGES) {
@@ -723,7 +724,11 @@ public class CheckoutProcess {
     if (progress != null) {
       progress.setText("Creating shelve: " + description);
     }
-    ShelvedChangeList shelved = StashUtils.shelveChanges(myProject, myShelveManager, toShelve, description, myExceptions);
+    //ShelvedChangeList shelved = StashUtils.shelveChanges(myProject, myShelveManager, toShelve, description, myExceptions);
+    //todo wc do shelf here
+
+    return null;
+/*
     if (shelved == null) {
       return null;
     }
@@ -732,6 +737,7 @@ public class CheckoutProcess {
     b.CHANGE_LISTS = li.toArray(new ChangeListInfo[li.size()]);
     b.CHANGES = ci.toArray(new ChangeInfo[ci.size()]);
     return b;
+*/
   }
 
   /**

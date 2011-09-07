@@ -17,11 +17,13 @@ package org.community.intellij.plugins.communitycase;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
+import com.intellij.openapi.util.Throwable2Computable;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsFileRevisionEx;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
+import com.intellij.openapi.vcs.impl.ContentRevisionCache;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.community.intellij.plugins.communitycase.commands.FileUtils;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
@@ -47,7 +49,6 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
   private final Date date;
   private final Pair<Pair<String, String>, Pair<String, String>> authorAndCommitter;
   private final String message;
-  private byte[] content;
   private final Project project;
   private final String branch;
 
@@ -118,27 +119,24 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
   }
 
   @Override
-  public synchronized void loadContent() throws VcsException {
+  public synchronized byte[] loadContent() throws IOException, VcsException {
     final VirtualFile root = Util.getRoot(path);
-    if (content == null) {
-      content = FileUtils.getFileContent(project, root, revision.asString(), Util.relativePath(root, path));
-      if (content == null) {
-        content = new byte[0];
-      }
-    }
+    return FileUtils.getFileContent(project, root, revision.asString(), Util.relativePath(root, path));
   }
 
   @Override
-  public synchronized byte[] getContent() throws IOException {
-    if (content == null) {
-      try {
-        loadContent();
-      }
-      catch (VcsException e) {
-        throw new IOException(e.getMessage());
-      }
-    }
-    return content;
+  public synchronized byte[] getContent() throws IOException, VcsException {
+    return ContentRevisionCache.getOrLoadAsBytes(project,
+                                                 path,
+                                                 revision,
+                                                 Vcs.getKey(),
+                                                 ContentRevisionCache.UniqueType.REPOSITORY_CONTENT,
+                                                 new Throwable2Computable<byte[],VcsException,IOException>() {
+                                                   @Override
+                                                   public byte[] compute() throws VcsException, IOException {
+                                                     return loadContent();
+                                                   }
+                                                 });
   }
 
   @Override

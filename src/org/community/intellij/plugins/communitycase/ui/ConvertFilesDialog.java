@@ -16,6 +16,7 @@
 package org.community.intellij.plugins.communitycase.ui;
 
 import com.intellij.codeStyle.CodeStyleFacade;
+import com.intellij.ide.presentation.VirtualFilePresentation;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
@@ -373,7 +374,7 @@ public class ConvertFilesDialog extends DialogWrapper {
       if (leaf) {
         VirtualFile parent = (VirtualFile)((CheckedTreeNode)node.getParent()).getUserObject();
         // the real file
-        Icon i = file.getIcon();
+        Icon i = VirtualFilePresentation.getIcon(file);
         if (i != null) {
           r.setIcon(i);
         }

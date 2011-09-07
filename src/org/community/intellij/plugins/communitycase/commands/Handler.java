@@ -19,7 +19,6 @@ import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.FilePath;
-import com.intellij.openapi.vcs.RepositoryChangeListener;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VfsUtil;
@@ -315,9 +314,8 @@ public abstract class Handler {
    * @return true if the command line would be too long, false otherwise
    */
   public boolean isAddedPathSizeTooGreat(@NotNull final Collection<FilePath> filePaths) {
-    GeneralCommandLine clone=myCommandLine.clone();
-    addRelativePaths(clone,myWorkingDirectory,filePaths);
-    return isLargeCommandLine(clone);
+    addRelativePaths(myCommandLine,myWorkingDirectory,filePaths);
+    return isLargeCommandLine(myCommandLine);
   }
 
   /**
@@ -401,12 +399,6 @@ public abstract class Handler {
   public synchronized void start() {
     checkNotStarted();
 
-    RepositoryChangeListener indexChangeListener = null;
-    if (myCommand.modifiesIndex()) {
-      indexChangeListener = myVcs.getIndexChangeListener();
-      indexChangeListener.internalOperationStarted();
-    }
-
     try {
       // setup environment
       if (!myProject.isDefault() && !mySilent && (myVcs != null)) {
@@ -424,10 +416,6 @@ public abstract class Handler {
     catch (Throwable t) {
       cleanupEnv();
       myListeners.getMulticaster().startFailed(t);
-    } finally {
-      if (indexChangeListener != null) {
-        indexChangeListener.internalOperationEnded();
-      }
     }
   }
 
@@ -440,8 +428,7 @@ public abstract class Handler {
    * @return a command line with full path to executable replace to "git"
    */
   public String printableCommandLine() {
-    final GeneralCommandLine line = myCommandLine.clone();
-    return line.getCommandLineString();
+    return myCommandLine.getCommandLineString();
   }
 
   /**

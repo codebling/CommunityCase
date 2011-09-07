@@ -18,10 +18,8 @@ package org.community.intellij.plugins.communitycase.changes;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
-import com.intellij.openapi.vcs.FilePath;
-import com.intellij.openapi.vcs.ProjectLevelVcsManager;
-import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.VcsOutgoingChangesProvider;
+import com.intellij.openapi.vcs.*;
+import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -32,6 +30,7 @@ import org.community.intellij.plugins.communitycase.BranchesSearcher;
 import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.commands.SimpleHandler;
 import org.community.intellij.plugins.communitycase.history.HistoryUtils;
+import org.community.intellij.plugins.communitycase.history.browser.ShaHash;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -84,42 +83,83 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
     return base;
   }
 
-  @NotNull
-  public <U> Collection<U> whichAreOutgoingChanges(Collection<U> revisions,
-                                                   Convertor<U, VcsRevisionNumber> convertor,
-                                                   Convertor<U, FilePath> filePatchConvertor, VirtualFile vcsRoot) throws VcsException {
-    final BranchesSearcher searcher = new BranchesSearcher(myProject, vcsRoot, true);
-    final Branch target = searcher.getRemote();
-    if (searcher.getLocal() == null || target == null) {
-      return new ArrayList<U>(revisions); // no information, better strict approach
-    }
-    // get branches with commit
-    final Collection<U> result = new ArrayList<U>(revisions);
-    for (Iterator<U> iterator = result.iterator(); iterator.hasNext();) {
-      final U t = iterator.next();
-      final List<String> branches = new ArrayList<String>();
-      // we do not use passed revision convertor since it returns just recent commit on repo
-      final VcsRevisionNumber revision=HistoryUtils.getCurrentRevision(myProject, filePatchConvertor.convert(t));
-      if (revision == null) continue; // will be true for new files; they are anyway outgoing 
+  public Collection<Change> filterLocalChangesBasedOnLocalCommits(final Collection<Change> localChanges, final VirtualFile vcsRoot) throws VcsException {
+     final BranchesSearcher searcher = new BranchesSearcher(myProject, vcsRoot, true);
+     if (searcher.getLocal() == null || searcher.getRemote() == null) {
+       return new ArrayList<Change>(localChanges); // no information, better strict approach (see getOutgoingChanges() code)
+     }
+     final VcsRevisionNumber base = searcher.getLocal().getMergeBase(myProject, vcsRoot, searcher.getRemote());
+     if (base == null) {
+       return new ArrayList<Change>(localChanges); // no information, better strict approach (see getOutgoingChanges() code)
+     }
+     final List<Pair<ShaHash, Date>> hashes = HistoryUtils.onlyHashesHistory(myProject,
+       new FilePathImpl(vcsRoot), vcsRoot, (base.asString() + "..HEAD"));
 
-      final String containingCommit = revision.asString();
-      try {
-        Branch.listAsStrings(myProject, vcsRoot, true, false, branches, containingCommit);
-      }
-      catch (VcsException e) {
-        LOG.info("containingCommit = '" + containingCommit + "', current revision = '" + (revision == null ? null : revision.asString())
-                 + "', file = " + filePatchConvertor.convert(t).getPath());
-        LOG.info(e);
-        throw e;
-      }
+     if (hashes.isEmpty()) return Collections.emptyList(); // no local commits
+     final String first = hashes.get(0).getFirst().getValue(); // optimization
+     final Set<String> localHashes = new HashSet<String>();
+     for (Pair<ShaHash, Date> hash : hashes) {
+       localHashes.add(hash.getFirst().getValue());
+     }
+     final Collection<Change> result = new ArrayList<Change>();
+     for (Change change : localChanges) {
+       if (change.getBeforeRevision() != null) {
+         final String changeBeforeRevision = change.getBeforeRevision().getRevisionNumber().asString().trim();
+         if (first.equals(changeBeforeRevision) || localHashes.contains(changeBeforeRevision)) {
+           result.add(change);
+         }
+       }
+     }
+     return result;
+   }
 
-      if (branches.contains(target.getName())) {
-        iterator.remove();
-      }
-    }
+   /*@NotNull
+   public <U> Collection<U> whichAreOutgoingChanges(Collection<U> revisions,
+                                                    Convertor<U, VcsRevisionNumber> convertor,
+                                                    Convertor<U, FilePath> filePatchConvertor, VirtualFile vcsRoot) throws VcsException {
+     final Pair<VcsRevisionNumber, List<CommittedChangeList>> pair = getOutgoingChanges(vcsRoot, true);
+     if (pair.getFirst() == null) {
+       return new ArrayList<U>(revisions); // no information, better strict approach (see getOutgoingChanges() code)
+     }
+     if (pair.getSecond().isEmpty()) return Collections.emptyList(); // no local commits
+     final Set<String> localHashes = new HashSet<String>();
+     for (CommittedChangeList list : pair.getSecond()) {
+       localHashes.add(((GitCommittedChangeList) list).getFullHash());
+     }
 
-    return result;
-  }
+     final BranchesSearcher searcher = new BranchesSearcher(myProject, vcsRoot, true);
+     final GitBranch target = searcher.getRemote();
+     if (searcher.getLocal() == null || target == null) {
+       return new ArrayList<U>(revisions); // no information, better strict approach
+     }
+
+     // get branches with commit
+     final Collection<U> result = new ArrayList<U>(revisions);
+     for (Iterator<U> iterator = result.iterator(); iterator.hasNext();) {
+       final U t = iterator.next();
+       final List<String> branches = new ArrayList<String>();
+       // we do not use passed revision convertor since it returns just recent commit on repo
+       final VcsRevisionNumber revision = GitHistoryUtils.getCurrentRevision(myProject, filePatchConvertor.convert(t), null);
+       if (revision == null) continue; // will be true for new files; they are anyway outgoing
+
+       final String containingCommit = revision.asString();
+       try {
+         GitBranch.listAsStrings(myProject, vcsRoot, true, false, branches, containingCommit);
+       }
+       catch (VcsException e) {
+         LOG.info("containingCommit = '" + containingCommit + "', current revision = '" + (revision == null ? null : revision.asString())
+                  + "', file = " + filePatchConvertor.convert(t).getPath());
+         LOG.info(e);
+         throw e;
+       }
+
+       if (branches.contains(target.getName())) {
+         iterator.remove();
+       }
+     }
+
+     return result;
+   }*/
 
   public Date getRevisionDate(VcsRevisionNumber revision) {
     return null; //todo wc implement me !  try implementing HistoryUtils.getRevisionDate(revision);

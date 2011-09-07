@@ -111,7 +111,6 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   private ReferenceTracker myReferenceTracker;
   private boolean isActivated; // If true, the vcs was activated
   private ExecutableValidator myExecutableValidator;
-  private RepositoryChangeListener myIndexChangeListener;
 
   public static Vcs getInstance(@NotNull Project project) {
     return (Vcs)ProjectLevelVcsManager.getInstance(project).findVcsByName(NAME);
@@ -148,7 +147,6 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     myCommitAndPushExecutor = new CommitAndPushExecutor(checkinEnvironment);
     myReferenceTracker = new ReferenceTracker(myProject, this, myReferenceListeners.getMulticaster());
     myTaskQueue = new BackgroundTaskQueue(myProject, Bundle.getString("task.queue.title"));
-    myIndexChangeListener = new RepositoryChangeListener(myProject, "./index");
   }
 
   /**
@@ -401,7 +399,6 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
     if (myIgnoreTracker == null) {
       myIgnoreTracker = new IgnoreTracker(myProject, this);
     }
-    myIndexChangeListener.activate();
     myReferenceTracker.activate();
     NewUsersComponent.getInstance(myProject).activate();
     ProjectLogManager.getInstance(myProject).activate();
@@ -431,7 +428,6 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
       myConfigTracker.dispose();
       myConfigTracker = null;
     }
-    myIndexChangeListener.dispose();
     myReferenceTracker.deactivate();
     NewUsersComponent.getInstance(myProject).deactivate();
     ProjectLogManager.getInstance(myProject).deactivate();
@@ -667,10 +663,6 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
 
   public ExecutableValidator getExecutableValidator() {
     return myExecutableValidator;
-  }
-
-  public RepositoryChangeListener getIndexChangeListener() {
-    return myIndexChangeListener;
   }
 
   /** {@inheritDoc} */

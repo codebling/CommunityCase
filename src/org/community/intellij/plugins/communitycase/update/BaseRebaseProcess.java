@@ -249,7 +249,8 @@ public abstract class BaseRebaseProcess {
     if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.SHELVE) {
       if (myShelvedChangeList != null) {
         myProgressIndicator.setText(Bundle.getString("update.unshelving.changes"));
-        StashUtils.doSystemUnshelve(myProject, myShelvedChangeList, myShelveManager, myChangeManager, myExceptions);
+        //StashUtils.doSystemUnshelve(myProject, myShelvedChangeList, myShelveManager, myChangeManager, myExceptions);
+        //todo wc unshelve changes here
       }
     }
     // Move files back to theirs change lists
@@ -316,7 +317,7 @@ public abstract class BaseRebaseProcess {
     }
     if (stashCreated && getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       myProgressIndicator.setText(HandlerUtil.formatOperationName("Unstashing changes to", root));
-      unstash(root);
+      //unstash(root);
       // after unstash, offer reverse merge
       mergeFiles(root, cancelled, ex, true);
       //noinspection ThrowableResultOfMethodCallIgnored
@@ -339,7 +340,7 @@ public abstract class BaseRebaseProcess {
       stashCreated = false;
       if (myRootsToStash.contains(root)) {
         myProgressIndicator.setText(HandlerUtil.formatOperationName("Stashing changes from", root));
-        stashCreated = StashUtils.saveStash(myProject, root, myStashMessage);
+        //stashCreated = StashUtils.saveStash(myProject, root, myStashMessage);
       }
     }
   }
@@ -404,7 +405,8 @@ public abstract class BaseRebaseProcess {
       }
       if (changes.size() > 0) {
         myProgressIndicator.setText(Bundle.getString("update.shelving.changes"));
-        myShelvedChangeList = StashUtils.shelveChanges(myProject, myShelveManager, changes, myStashMessage, myExceptions);
+        //myShelvedChangeList = StashUtils.shelveChanges(myProject, myShelveManager, changes, myStashMessage, myExceptions);
+        //todo wc shelve changes here
         if (myShelvedChangeList == null) {
           return false;
         }
@@ -438,6 +440,7 @@ public abstract class BaseRebaseProcess {
    *
    * @param root the vcs root
    */
+/*
   private void unstash(VirtualFile root) {
     try {
       StashUtils.popLastStash(myProject, root);
@@ -451,6 +454,7 @@ public abstract class BaseRebaseProcess {
       });
     }
   }
+*/
 
   /**
    * Mark the start of the operation

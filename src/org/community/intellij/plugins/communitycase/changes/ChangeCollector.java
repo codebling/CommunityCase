@@ -415,12 +415,7 @@ class ChangeCollector {
    * @return true if childCandidate is a child of parentCandidate.
    */
   private static boolean isAncestor(FilePath parentCandidate, FilePath childCandidate, boolean strict) {
-    try {
-      return FileUtil.isAncestor(parentCandidate.getIOFile(), childCandidate.getIOFile(), strict);
-    }
-    catch (IOException e) {
-      return false;
-    }
+    return FileUtil.isAncestor(parentCandidate.getIOFile(), childCandidate.getIOFile(), strict);
   }
 
   /**

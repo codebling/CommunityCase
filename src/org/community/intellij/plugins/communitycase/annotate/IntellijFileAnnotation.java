@@ -235,6 +235,11 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     return null;
   }
 
+  @Override
+  public int getLineCount() {
+    return myLines.size();
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -244,6 +249,19 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     }
     final LineInfo lineInfo = myLines.get(lineNumber);
     return lineInfo == null ? null : lineInfo.getRevision();
+  }
+
+  private boolean lineNumberCheck(int lineNumber) {
+    return myLines.size() <= lineNumber || lineNumber < 0 || myLines.get(lineNumber) == null;
+  }
+
+  @Override
+  public Date getLineDate(int lineNumber) {
+    if (lineNumberCheck(lineNumber)) {
+      return null;
+    }
+    final LineInfo lineInfo = myLines.get(lineNumber);
+    return lineInfo == null ? null : lineInfo.getDate();
   }
 
   /**
