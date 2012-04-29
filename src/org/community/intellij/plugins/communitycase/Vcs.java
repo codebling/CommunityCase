@@ -386,7 +386,7 @@ public class Vcs extends AbstractVcs<CommittedChangeList> {
   protected void activate() {
     isActivated = true;
     myExecutableValidator = new ExecutableValidator(myProject);
-    myExecutableValidator.checkExecutableAndShowDialogIfNeeded();
+    myExecutableValidator.checkExecutableAndNotifyIfNeeded();
     if (!myProject.isDefault() && myRootTracker == null) {
       myRootTracker = new RootTracker(this, myProject, myRootListeners.getMulticaster());
     }

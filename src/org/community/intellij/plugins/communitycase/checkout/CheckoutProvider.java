@@ -89,7 +89,7 @@ public class CheckoutProvider implements com.intellij.openapi.vcs.CheckoutProvid
             }
           }
         });
-        listener.directoryCheckedOut(new File(parentDirectory, directoryName));
+        listener.directoryCheckedOut(new File(parentDirectory, directoryName), Vcs.getKey());
         listener.checkoutCompleted();
       }
     }.queue();

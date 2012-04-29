@@ -83,6 +83,11 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     return false;
   }
 
+  @Override
+  public boolean isRefreshAfterCommitNeeded() {
+    return false;
+  }
+
   /** {@inheritDoc} */
   @Nullable
   @Override
@@ -120,7 +125,8 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   @Override
   public List<VcsException> commit(@NotNull List<Change> changes,
                                    @NotNull String message,
-                                   @NotNull NullableFunction<Object, Object> parametersHolder) {
+                                   @NotNull NullableFunction<Object, Object> parametersHolder,
+                                   @Nullable Set<String> feedback) {
     List<VcsException> exceptions = new ArrayList<VcsException>();
     if (message.length() == 0) {
       //noinspection ThrowableInstanceNeverThrown
@@ -208,7 +214,7 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
   @Override
   public List<VcsException> commit(List<Change> changes, String preparedComment) {
     //noinspection unchecked
-    return commit(changes, preparedComment, NullableFunction.NULL);
+    return commit(changes, preparedComment, NullableFunction.NULL, null);
   }
 
   /**

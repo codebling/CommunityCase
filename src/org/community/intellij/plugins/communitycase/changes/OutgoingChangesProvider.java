@@ -161,7 +161,18 @@ public class OutgoingChangesProvider implements VcsOutgoingChangesProvider<Commi
      return result;
    }*/
 
-  public Date getRevisionDate(VcsRevisionNumber revision) {
-    return null; //todo wc implement me !  try implementing HistoryUtils.getRevisionDate(revision);
+  @Nullable
+  @Override
+  public Date getRevisionDate(VcsRevisionNumber revision, FilePath file) {
+    return null;
+    /*
+    if (VcsRevisionNumber.NULL.equals(revision)) return null;
+    try {
+      return new Date(HistoryUtils.getAuthorTime(myProject, file, revision.asString()));
+    }
+    catch (VcsException e) {
+      return null;
+    }
+    */
   }
 }

@@ -25,26 +25,22 @@ import com.intellij.openapi.vfs.CharsetToolkit;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.commands.Command;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Project service that is used to check whether currently set git executable is valid (just calls 'git version' and parses the output),
  * and to display notification to the user proposing to fix the project set up.
  * @author Kirill Likhodedov
  */
-public class ExecutableValidator extends com.intellij.execution.util.ExecutableValidator {
+public class ExecutableValidator extends com.intellij.execution.ExecutableValidator {
 
   private Vcs myVcs;
 
   public ExecutableValidator(Project project) {
-    super(project, Vcs.NOTIFICATION_GROUP_ID);
+    super(project,
+          Bundle.message("executable.notification.title"),
+          Bundle.message("executable.notification.description"));
     myVcs = Vcs.getInstance(project);
-    setMessagesAndTitles(Bundle.message("executable.notification.title"),
-                         Bundle.message("executable.notification.description"),
-                         Bundle.message("executable.dialog.title"),
-                         Bundle.message("executable.dialog.description"),
-                         Bundle.message("executable.dialog.error"),
-                         Bundle.message("executable.filechooser.title"),
-                         Bundle.message("executable.filechooser.description"));
   }
 
   @Override
@@ -52,9 +48,10 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
     return myVcs.getSettings().getPathToExecutable();
   }
 
+  @NotNull
   @Override
-  protected Configurable getConfigurable(Project project) {
-    return myVcs == null ? null : myVcs.getConfigurable();
+  protected Configurable getConfigurable() {
+    return myVcs.getConfigurable();
   }
 
   @Override
@@ -69,11 +66,6 @@ public class ExecutableValidator extends com.intellij.execution.util.ExecutableV
     } catch (Throwable e) {
       return false;
     }
-  }
-
-  @Override
-  protected void saveCurrentExecutable(String executable) {
-    myVcs.getSettings().setPathToExecutable(executable);
   }
 
   /**

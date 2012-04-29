@@ -248,6 +248,21 @@ public class BigTableTableModel extends AbstractTableModel {
     int idxFrom = findIdx(lines);
 
     int recountFrom = new GroupingMerger<CommitI, String>() {
+
+      @Override
+      protected void willBeRecountFrom(int idx, int wasSize) {
+        /* see community.git commit 60210d79199f6add144945978410abc5ab99aada
+        if (mySkeletonBuilder != null) {
+          for (int i = idx; i < wasSize; i++) {
+            //myIdxMap.removeValue(i);
+            for (VirtualFile root : myOrder) {
+              myRepoIdxMap.get(root).remove(i);
+            }
+          }
+        }
+        */
+      }
+
       @Override
       protected CommitI wrapItem(CommitI commitI) {
         if (mySkeletonBuilder != null && ! commitI.holdsDecoration()) {
