@@ -1,11 +1,12 @@
 Setting up your environment for developing CommunityCase:
 	*things you need:
 			-JDK 6
-			-IntelliJ IDEA IC-102.216
+			-IntelliJ IDEA (whatever version you'd like to develop against)
 	
 	-File->Project Structure
-	-add the JDK you just made
-	-add an IntelliJ IDEA plugin SDK, choose the version above
+	-add the JDK you just made (Platform Settings, SDKs -> Add New SDK (the plus button) -> JSDk)
+	-add an IntelliJ IDEA Plugin SDK (Platform Settings, SDKs -> Add New SDK (the plus button) -> IntelliJ IDEA Plugin SDK). Once the SDK appears, choose the JDK version above as the 'Internal Java Platform'.
 	-add 'lib/idea.jar' to the classpath for the SDK you just added
+	-if the SDK name does not match the one set under Project Settings, Project -> Project SDK, then select the SDK you just added.
 	-Settings->Code Style->General->Tab size = 2
 
