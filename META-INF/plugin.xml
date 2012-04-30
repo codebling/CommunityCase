@@ -2,8 +2,8 @@
   <name>CommunityCase</name>
   <id>CommunityCase</id>
   <description>Provides version control integration with ClearCase</description>
-  <version>11.1-v1</version>
-  <idea-version since-build="IC-117.105" until-build="IC-117.281"/>
+  <version>11.0-v1</version>
+  <idea-version since-build="IC-111.69" until-build="IC-111.227"/>
   <category>VCS Integration</category>
   <vendor url="http://github.com/codebling/" logo="/general/ijLogo.png">community</vendor>
 
