@@ -35,11 +35,12 @@ public class LoadAlgorithm {
     myProject = project;
     myLoaders = loaders;
     myAbstractHashs = abstractHashs;
-    myContinuation = Continuation.createFragmented(myProject, false);
+    myContinuation = new Continuation(myProject, false);
   }
 
   public void execute() {
-    final GatheringContinuationContext initContext = new GatheringContinuationContext();
+    final ContinuationContext.GatheringContinuationContext initContext
+            = new ContinuationContext.GatheringContinuationContext();
 
     if (myAbstractHashs != null) {
       initContext.last(new TryHashes());
