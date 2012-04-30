@@ -83,11 +83,6 @@ public class CheckinEnvironment implements com.intellij.openapi.vcs.checkin.Chec
     return false;
   }
 
-  @Override
-  public boolean isRefreshAfterCommitNeeded() {
-    return false;
-  }
-
   /** {@inheritDoc} */
   @Nullable
   @Override
