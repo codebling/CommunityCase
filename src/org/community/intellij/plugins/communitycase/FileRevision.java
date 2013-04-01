@@ -19,6 +19,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Pair;
 import com.intellij.openapi.util.Throwable2Computable;
 import com.intellij.openapi.vcs.FilePath;
+import com.intellij.openapi.vcs.RepositoryLocation;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsFileRevisionEx;
@@ -77,6 +78,11 @@ public class FileRevision extends VcsFileRevisionEx implements Comparable<VcsFil
    */
   public FilePath getPath() {
     return path;
+  }
+
+  @Override
+  public RepositoryLocation getChangedRepositoryPath() {
+    return null;
   }
 
   @Override

@@ -21,9 +21,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.history.*;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Consumer;
 import com.intellij.util.ui.ColumnInfo;
 import org.community.intellij.plugins.communitycase.FileRevision;
+import org.community.intellij.plugins.communitycase.Util;
 import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 import org.community.intellij.plugins.communitycase.config.ExecutableValidator;
@@ -150,4 +152,15 @@ public class HistoryProvider implements VcsHistoryProvider {
   public boolean supportsHistoryForDirectories() {
     return true;
   }
+
+  @Override
+  public DiffFromHistoryHandler getHistoryDiffHandler() {
+    return null;
+  }
+
+  @Override
+  public boolean canShowHistoryFor(@NotNull VirtualFile file) {
+    return true;
+  }
+
 }

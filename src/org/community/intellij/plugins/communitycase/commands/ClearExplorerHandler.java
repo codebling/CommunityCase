@@ -26,7 +26,7 @@ public class ClearExplorerHandler {
       binPath=ceHandler.mySettings.getPathToExecutable();
     binPath=new File(binPath).getParent() + File.separator + "clearexplorer.exe";
     ceHandler.myCommandLine.setExePath(binPath);
-    ceHandler.myCommandLine.setWorkingDirectory(directory);
+    ceHandler.myCommandLine.setWorkDirectory(directory);
     ceHandler.addParameters(directory.toString());
   }
 
