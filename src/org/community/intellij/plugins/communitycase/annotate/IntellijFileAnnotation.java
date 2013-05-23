@@ -17,25 +17,20 @@ package org.community.intellij.plugins.communitycase.annotate;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vcs.FileStatus;
-import com.intellij.openapi.vcs.FileStatusListener;
-import com.intellij.openapi.vcs.FileStatusManager;
 import com.intellij.openapi.vcs.VcsException;
-import com.intellij.openapi.vcs.annotate.AnnotationListener;
+import com.intellij.openapi.vcs.VcsKey;
 import com.intellij.openapi.vcs.annotate.AnnotationSourceSwitcher;
 import com.intellij.openapi.vcs.annotate.LineAnnotationAspect;
 import com.intellij.openapi.vcs.annotate.LineAnnotationAspectAdapter;
 import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileAdapter;
-import com.intellij.openapi.vfs.VirtualFileEvent;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.util.EventDispatcher;
 import com.intellij.util.text.DateFormatUtil;
+import org.community.intellij.plugins.communitycase.Vcs;
 import org.community.intellij.plugins.communitycase.actions.ShowAllSubmittedFilesAction;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -44,7 +39,7 @@ import java.util.*;
  * <p/>
  * Based on the JetBrains SVNAnnotationProvider.
  */
-public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate.FileAnnotation {
+public class IntellijFileAnnotation extends com.intellij.openapi.vcs.annotate.FileAnnotation {
   private final static Logger LOG = Logger.getInstance("#"+IntellijFileAnnotation.class.getName());
 
   /**
@@ -59,29 +54,16 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
    * The project reference
    */
   private final Project myProject;
-  /**
-   * Annotation change listeners
-   */
-  private final EventDispatcher<AnnotationListener> myListeners = EventDispatcher.create(AnnotationListener.class);
+  private final VcsRevisionNumber myBaseRevision;
   /**
    * Map from revision numbers to revisions
    */
   private final Map<VcsRevisionNumber, VcsFileRevision> myRevisionMap = new HashMap<VcsRevisionNumber, VcsFileRevision>();
-  /**
-   * listener for file system events
-   */
-  private final VirtualFileAdapter myFileListener;
-
-  private final MyFileStatusListener myFileStatusListener;
 
   /**
    * the virtual file for which annotations are generated
    */
   private final VirtualFile myFile;
-  /**
-   * If true, file system is monitored for changes
-   */
-  private final boolean myMonitorFlag;
 
   private final LineAnnotationAspect DATE_ASPECT = new AnnotationAspect(AnnotationAspect.DATE, true) {
     public String doGetValue(LineInfo info) {
@@ -105,6 +87,7 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
       return author == null ? "" : author;
     }
   };
+  private final Vcs myVcs;
 
   /**
    * A constructor
@@ -113,27 +96,12 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
    * @param file        the root
    * @param monitorFlag if false the file system will not be listened for changes (used for annotated files from the repository).
    */
-  public IntellijFileAnnotation(@NotNull final Project project, @NotNull VirtualFile file, final boolean monitorFlag) {
+  public IntellijFileAnnotation(@NotNull final Project project, @NotNull VirtualFile file, final boolean monitorFlag, final VcsRevisionNumber revision) {
+    super(project);
     myProject = project;
+    myVcs = Vcs.getInstance(myProject);
     myFile = file;
-    myMonitorFlag = monitorFlag;
-    if (myMonitorFlag) {
-      myFileListener = new VirtualFileAdapter() {
-        @Override
-        public void contentsChanged(final VirtualFileEvent event) {
-          if (myFile != event.getFile()) return;
-          if (!event.isFromRefresh()) return;
-          fireAnnotationChanged();
-        }
-      };
-      VirtualFileManager.getInstance().addVirtualFileListener(myFileListener);
-      myFileStatusListener = new MyFileStatusListener();
-      FileStatusManager.getInstance(myProject).addFileStatusListener(myFileStatusListener);
-    }
-    else {
-      myFileListener = null;
-      myFileStatusListener = null;
-    }
+    myBaseRevision = revision == null ? (myVcs.getDiffProvider().getCurrentRevision(file)) : revision;
   }
 
   /**
@@ -148,34 +116,9 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
   }
 
   /**
-   * Fire annotation changed event
-   */
-  private void fireAnnotationChanged() {
-    myListeners.getMulticaster().onAnnotationChanged();
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void addListener(AnnotationListener listener) {
-    myListeners.addListener(listener);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void removeListener(AnnotationListener listener) {
-    myListeners.removeListener(listener);
-  }
-
-  /**
    * {@inheritDoc}
    */
   public void dispose() {
-    if (myMonitorFlag) {
-      VirtualFileManager.getInstance().removeVirtualFileListener(myFileListener);
-      FileStatusManager.getInstance(myProject).removeFileStatusListener(myFileStatusListener);
-    }
   }
 
   /**
@@ -294,6 +237,10 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     myContentBuffer.append(line);
   }
 
+  public int getNumLines() {
+    return myLines.size();
+  }
+
   /**
    * Revision annotation aspect implementation
    */
@@ -377,21 +324,24 @@ public class IntellijFileAnnotation implements com.intellij.openapi.vcs.annotate
     }
   }
 
-  private class MyFileStatusListener implements FileStatusListener {
-    public void fileStatusesChanged() {
-    }
+  public VirtualFile getFile() {
+    return myFile;
+  }
 
-    public void fileStatusChanged(@NotNull VirtualFile virtualFile) {
-      if (myFile.equals(virtualFile)) {
-        checkAndFire();
-      }
-    }
+  @Nullable
+  @Override
+  public VcsRevisionNumber getCurrentRevision() {
+    return myBaseRevision;
+  }
 
-    private void checkAndFire() {
-      // for the case of commit changes... remove annotation gutter
-      if (FileStatus.NOT_CHANGED.equals(FileStatusManager.getInstance(myProject).getStatus(myFile))) {
-        fireAnnotationChanged();
-      }
-    }
+  @Override
+  public VcsKey getVcsKey() {
+    return Vcs.getKey();
+  }
+
+  @Override
+  public boolean isBaseRevisionChanged(VcsRevisionNumber number) {
+    final VcsRevisionNumber currentCurrentRevision = myVcs.getDiffProvider().getCurrentRevision(myFile);
+    return myBaseRevision != null && ! myBaseRevision.equals(currentCurrentRevision);
   }
 }

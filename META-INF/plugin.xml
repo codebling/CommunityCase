@@ -2,7 +2,7 @@
   <name>CommunityCase</name>
   <id>CommunityCase</id>
   <version>11.1-v1</version>
-  <idea-version since-build="IC-120.11" until-build="IC-123.169"/>
+  <idea-version since-build="IC-123.169" until-build="IC-129.451"/>
   <category>VCS Integration</category>
   <vendor url="http://github.com/codebling/" logo="/general/ijLogo.png">community</vendor>
   <description>
