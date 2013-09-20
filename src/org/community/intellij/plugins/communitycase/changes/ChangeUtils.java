@@ -224,7 +224,7 @@ public class ChangeUtils {
   public static VcsRevisionNumber loadRevision(final Project project, final VirtualFile vcsRoot, @NonNls final String revisionNumber)
     throws VcsException {
     SimpleHandler handler = new SimpleHandler(project, vcsRoot, Command.REV_LIST);
-    handler.addParameters("--timestamp", "--max-count=1", revisionNumber);
+    handler.addParameters("--timestamp", "-last 1", revisionNumber);
     handler.endOptions();
     handler.setRemote(true);
     //handler.setSilent(true);
@@ -288,7 +288,7 @@ public class ChangeUtils {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("--max-count=1", "--pretty=%h", "--encoding=UTF-8", "\"" + hash.getValue() + "\"", "--");
+    h.addParameters("-last 1", "--pretty=%h", "--encoding=UTF-8", "\"" + hash.getValue() + "\"", "--");
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;
@@ -304,7 +304,7 @@ public class ChangeUtils {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("--max-count=1", "--pretty=%H", "--encoding=UTF-8", "\"" + anyReference + "\"", "--");
+    h.addParameters("-last 1", "--pretty=%H", "--encoding=UTF-8", "\"" + anyReference + "\"", "--");
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;
@@ -321,7 +321,7 @@ public class ChangeUtils {
     h.setRemote(true);
     h.setSilent(true);
     final String grepParam = "--grep=" + StringUtil.escapeQuotes(anyReference);
-    h.addParameters("--max-count=1", "--pretty=%H", "--all", "--encoding=UTF-8", grepParam, "--");
+    h.addParameters("-last 1", "--pretty=%H", "--all", "--encoding=UTF-8", grepParam, "--");
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;

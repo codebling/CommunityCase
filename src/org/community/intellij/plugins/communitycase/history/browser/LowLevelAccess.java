@@ -54,9 +54,6 @@ public interface LowLevelAccess {
 
   void loadAllBranches(final List<String> sink) throws VcsException;
 
-  void loadAllTags(final Collection<String> sink) throws VcsException;
-
-  void cherryPick(ShaHash hash) throws VcsException;
   void loadHashesWithParents(final @NotNull Collection<String> startingPoints, @NotNull final Collection<ChangesFilter.Filter> filters,
                              final AsynchConsumer<CommitHashPlusParents> consumer, Getter<Boolean> isCanceled, int useMaxCnt) throws VcsException;
   List<Commit> getCommitDetails(final Collection<String> commitIds, SymbolicRefs refs) throws VcsException;
