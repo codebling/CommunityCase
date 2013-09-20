@@ -106,16 +106,8 @@ public class HistoryProvider implements VcsHistoryProvider {
     return new VcsAbstractHistorySession(revisions) {
       @Nullable
       protected VcsRevisionNumber calcCurrentRevisionNumber() {
-        try {
-          return HistoryUtils.getCurrentRevision(myProject, HistoryUtils.getLastCommitName(myProject, filePath));
-        }
-        catch (VcsException e) {
-          // likely the file is not under VCS anymore.
-          if (log.isDebugEnabled()) {
-            log.debug("Unable to retrieve the current revision number", e);
-          }
+          //do we need to return anything here? Check version history for code that was removed
           return null;
-        }
       }
 
       public HistoryAsTreeProvider getHistoryAsTreeProvider() {
