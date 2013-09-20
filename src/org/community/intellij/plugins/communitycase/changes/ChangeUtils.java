@@ -288,7 +288,7 @@ public class ChangeUtils {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-last 1", "--pretty=%h", "--encoding=UTF-8", "\"" + hash.getValue() + "\"", "--");
+    h.addParameters("-last 1", "--pretty=%h", "--encoding=UTF-8", hash.getValue(), "--");
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;
@@ -304,7 +304,7 @@ public class ChangeUtils {
     SimpleHandler h = new SimpleHandler(project, root, Command.LOG);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-last 1", "--pretty=%H", "--encoding=UTF-8", "\"" + anyReference + "\"", "--");
+    h.addParameters("-last 1", "--pretty=%H", "--encoding=UTF-8", anyReference, "--");
     try {
       final String output = h.run().trim();
       if (StringUtil.isEmptyOrSpaces(output)) return null;
