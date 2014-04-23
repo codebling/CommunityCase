@@ -281,8 +281,6 @@ public class HistoryUtils {
       semaphore.down();
       logHandler.start();
       semaphore.waitFor();
-
-      currentPath.set(getFirstCommitRenamePath(project, finalRoot, firstCommit.get(), currentPath.get()));
     }
 
   }
