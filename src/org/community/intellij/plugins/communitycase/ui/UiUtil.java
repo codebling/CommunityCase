@@ -15,7 +15,7 @@
  */
 package org.community.intellij.plugins.communitycase.ui;
 
-import com.intellij.ide.ui.ListCellRendererWrapper;
+import com.intellij.ui.ListCellRendererWrapper;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
@@ -63,10 +63,9 @@ public class UiUtil {
 
   /**
    * @return a list cell renderer for virtual files (it renders presentable URL)
-   * @param listCellRenderer
    */
-  public static ListCellRenderer getVirtualFileListCellRenderer(final ListCellRenderer listCellRenderer) {
-    return new ListCellRendererWrapper<VirtualFile>(listCellRenderer) {
+  public static ListCellRendererWrapper<VirtualFile> getVirtualFileListCellRenderer() {
+    return new ListCellRendererWrapper<VirtualFile>() {
       @Override
       public void customize(final JList list, final VirtualFile file, final int index, final boolean selected, final boolean hasFocus) {
         setText(file == null || !file.isValid() ? "(invalid)" : file.getPresentableUrl());
@@ -91,12 +90,10 @@ public class UiUtil {
    *
    * @param defaultRemote a default remote
    * @param fetchUrl      if true, the fetch url is shown
-   * @param listCellRenderer
    * @return a list cell renderer for virtual files (it renders presentable URL
    */
-  public static ListCellRenderer getRemoteListCellRenderer(final String defaultRemote, final boolean fetchUrl,
-                                                              final ListCellRenderer listCellRenderer) {
-    return new ListCellRendererWrapper<Remote>(listCellRenderer) {
+  public static ListCellRendererWrapper<Remote> getRemoteListCellRenderer(final String defaultRemote, final boolean fetchUrl) {
+    return new ListCellRendererWrapper<Remote>() {
       @Override
       public void customize(final JList list, final Remote remote, final int index, final boolean selected, final boolean hasFocus) {
         final String text;
@@ -138,7 +135,7 @@ public class UiUtil {
     for (VirtualFile root : roots) {
       RootChooser.addItem(root);
     }
-    RootChooser.setRenderer(getVirtualFileListCellRenderer(RootChooser.getRenderer()));
+    RootChooser.setRenderer(getVirtualFileListCellRenderer());
     RootChooser.setSelectedItem(defaultRoot != null ? defaultRoot : roots.get(0));
     if (currentBranchLabel != null) {
       final ActionListener listener = new ActionListener() {
@@ -273,7 +270,7 @@ public class UiUtil {
       if (currentBranch != null) {
         remote = ConfigUtil.getValue(project, root, "branch." + currentBranch + ".remote");
       }
-      remoteCombobox.setRenderer(getRemoteListCellRenderer(remote, fetchUrl, remoteCombobox.getRenderer()));
+      remoteCombobox.setRenderer(getRemoteListCellRenderer(remote, fetchUrl));
       Remote toSelect = null;
       remoteCombobox.removeAllItems();
       for (Remote r : remotes) {
