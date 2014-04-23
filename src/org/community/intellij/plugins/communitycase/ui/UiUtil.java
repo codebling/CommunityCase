@@ -124,24 +124,24 @@ public class UiUtil {
    * @param project            a context project
    * @param roots              roots for the project
    * @param defaultRoot        a default root
-   * @param RootChooser     root selector
+   * @param rootChooser     root selector
    * @param currentBranchLabel current branch label (might be null)
    */
   public static void setupRootChooser(@NotNull final Project project,
                                       @NotNull final List<VirtualFile> roots,
                                       @Nullable final VirtualFile defaultRoot,
-                                      @NotNull final JComboBox RootChooser,
+                                      @NotNull final JComboBox rootChooser,
                                       @Nullable final JLabel currentBranchLabel) {
     for (VirtualFile root : roots) {
-      RootChooser.addItem(root);
+      rootChooser.addItem(root);
     }
-    RootChooser.setRenderer(getVirtualFileListCellRenderer());
-    RootChooser.setSelectedItem(defaultRoot != null ? defaultRoot : roots.get(0));
+    rootChooser.setRenderer(getVirtualFileListCellRenderer());
+    rootChooser.setSelectedItem(defaultRoot != null ? defaultRoot : roots.get(0));
     if (currentBranchLabel != null) {
       final ActionListener listener = new ActionListener() {
         public void actionPerformed(final ActionEvent e) {
           try {
-            VirtualFile root = (VirtualFile)RootChooser.getSelectedItem();
+            VirtualFile root = (VirtualFile)rootChooser.getSelectedItem();
             assert root != null : "The root must not be null";
             Branch current = Branch.current(project, root);
             if (current == null) {
@@ -157,7 +157,7 @@ public class UiUtil {
         }
       };
       listener.actionPerformed(null);
-      RootChooser.addActionListener(listener);
+      rootChooser.addActionListener(listener);
     }
   }
 
