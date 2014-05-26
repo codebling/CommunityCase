@@ -183,7 +183,7 @@ public class FileUtils {
       if(settings!=null && settings.isUseReservedCheckoutForDirectories())
         handler.addParameters("-res");//reserved
       else
-        handler.addParameters("–unr");//unreserved
+        handler.addParameters("-unr");//unreserved
       handler.addParameters("-nc");
       handler.endOptions();
       handler.addParameters(paths);
