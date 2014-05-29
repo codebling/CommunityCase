@@ -435,7 +435,7 @@ class ChangeCollector {
     lsco.setRemote(true);
     //lsco.setSilent(true);
     //lsco.setStdoutSuppressed(true);
-    lsco.addParameters("-a -me -cvi");
+    lsco.addParameters("-a","-me","-cvi");
     lsco.endOptions();
 
     parseLsCheckoutsOutput(lsco.run());

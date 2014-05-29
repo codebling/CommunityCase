@@ -242,8 +242,8 @@ public abstract class Handler {
   @SuppressWarnings({"WeakerAccess"})
   public void addParameters(@NonNls @NotNull String... parameters) {
     checkNotStarted();
-    String[] fixedParameters = fixSpaces(parameters);
-    myCommandLine.addParameters(fixedParameters);
+//    String[] fixedParameters = fixSpaces(parameters);
+    myCommandLine.addParameters(parameters);
   }
 
   /**
