@@ -112,7 +112,8 @@ public class LowLevelAccessImpl implements LowLevelAccess {
 
     final List<String> parameters = new ArrayList<String>();
     if (useMaxCnt > 0) {
-      parameters.add("-last " + useMaxCnt);
+      parameters.add("-last");
+      parameters.add(String.valueOf(useMaxCnt));
     }
 
     for (ChangesFilter.Filter filter : filters) {
