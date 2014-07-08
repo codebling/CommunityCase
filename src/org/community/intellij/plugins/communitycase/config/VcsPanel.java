@@ -30,7 +30,7 @@ public class VcsPanel {
   private JCheckBox myUseRevervedCoForDirsCheckBox;
   private JCheckBox myPreserveKeepFilesCheckBox;
   private JCheckBox myShowDirectoriesCheckBox;
-  private JTextArea myYouCanStillIgnoreTextArea;
+  private JTextArea youCanStillIgnoreTextArea;
   private final Project myProject;
   private final VcsSettings mySettings;
   private static final String CRLF_CONVERT_TO_PROJECT = Bundle.getString("vcs.config.convert.project");
@@ -110,28 +110,6 @@ public class VcsPanel {
    */
   public JComponent getPanel() {
     return myRootPanel;
-  }
-
-  /**
-   * Get crlf policy item from settings
-   *
-   * @param settings the settings object
-   * @return the item in crlf combobox
-   */
-  static private String crlfPolicyItem(VcsSettings settings) {
-    String crlf;
-    switch (settings.getLineSeparatorsConversion()) {
-      case NONE:
-        crlf = CRLF_DO_NOT_CONVERT;
-        break;
-      case PROJECT_LINE_SEPARATORS:
-        crlf = CRLF_CONVERT_TO_PROJECT;
-        break;
-      default:
-        assert false : "Unknown crlf policy: " + settings.getLineSeparatorsConversion();
-        crlf = null;
-    }
-    return crlf;
   }
 
   /**

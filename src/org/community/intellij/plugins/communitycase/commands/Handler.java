@@ -114,7 +114,7 @@ public abstract class Handler {
     if (mySettings!= null) {
       myCommandLine.setExePath(mySettings.getPathToExecutable());
     }
-    myCommandLine.setWorkingDirectory(myWorkingDirectory);
+    myCommandLine.setWorkDirectory(myWorkingDirectory);
     if (command.name().length() > 0) {
       addParameters(command.name());
     }
@@ -242,8 +242,8 @@ public abstract class Handler {
   @SuppressWarnings({"WeakerAccess"})
   public void addParameters(@NonNls @NotNull String... parameters) {
     checkNotStarted();
-    String[] fixedParameters = fixSpaces(parameters);
-    myCommandLine.addParameters(fixedParameters);
+//    String[] fixedParameters = fixSpaces(parameters);
+    myCommandLine.addParameters(parameters);
   }
 
   /**

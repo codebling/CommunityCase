@@ -488,7 +488,7 @@ public class LogUI implements Disposable {
         return null;
       }
     };
-    tableLinkListener.install(myJBTable);
+    tableLinkListener.installOn(myJBTable);
     myJBTable.getExpandableItemsHandler().setEnabled(false);
     //myJBTable.setTableHeader(null);
     myJBTable.setShowGrid(false);

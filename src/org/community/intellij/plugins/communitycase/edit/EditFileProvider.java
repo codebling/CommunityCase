@@ -39,7 +39,7 @@ public class EditFileProvider implements com.intellij.openapi.vcs.EditFileProvid
     if(settings!=null && settings.isUseReservedCheckoutForFiles())
       handler.addParameters("-res");//reserved
     else
-      handler.addParameters("–unr");//unreserved
+      handler.addParameters("-unr");//unreserved
     handler.addParameters("-nc");//no comment   //todo wc optionally prompt for this
     handler.addParameters("-use");//use hijack - force this so that we can clear the read-only flag ahead of command execution
     handler.endOptions();

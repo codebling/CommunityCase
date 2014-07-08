@@ -38,7 +38,7 @@ public class SelectRepositoryAndShowLogAction extends AnAction {
   @Override
   public void actionPerformed(AnActionEvent e) {
     final Project project = PlatformDataKeys.PROJECT.getData(e.getDataContext());
-    final VirtualFile[] virtualFiles = FileChooser.chooseFiles(project, new FileChooserDescriptor(false, true, false, true, false, false));
+    final VirtualFile[] virtualFiles = FileChooser.chooseFiles(new FileChooserDescriptor(false, true, false, true, false, false), project, null);
     if (virtualFiles == null || virtualFiles.length == 0) return;
 
     new MyDialog(project, virtualFiles).show();

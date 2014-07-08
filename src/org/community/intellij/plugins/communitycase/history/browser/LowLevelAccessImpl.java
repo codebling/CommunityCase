@@ -57,15 +57,8 @@ public class LowLevelAccessImpl implements LowLevelAccess {
       filter.getCommandParametersFilter().applyToCommandLine(parameters);
     }
 
-    if (! startingPoints.isEmpty()) {
-      for (String startingPoint : startingPoints) {
-        parameters.add(startingPoint);
-      }
-    } else {
-      parameters.add("--all");
-    }
     if (useMaxCnt > 0) {
-      parameters.add("--max-count=" + useMaxCnt);
+      parameters.add("-last " + useMaxCnt);
     }
 
     HistoryUtils.hashesWithParents(myProject, new FilePathImpl(myRoot), consumer, isCanceled, parameters.toArray(new String[parameters.size()]));
@@ -92,7 +85,6 @@ public class LowLevelAccessImpl implements LowLevelAccess {
 
   public SymbolicRefs getRefs() throws VcsException {
     final SymbolicRefs refs = new SymbolicRefs();
-    loadAllTags(refs.getTags());
     final List<Branch> allBranches = new ArrayList<Branch>();
     final Branch current = Branch.list(myProject, myRoot, true, true, allBranches, null);
     for (Branch branch : allBranches) {
@@ -120,25 +112,14 @@ public class LowLevelAccessImpl implements LowLevelAccess {
 
     final List<String> parameters = new ArrayList<String>();
     if (useMaxCnt > 0) {
-      parameters.add("--max-count=" + useMaxCnt);
+      parameters.add("-last");
+      parameters.add(String.valueOf(useMaxCnt));
     }
 
     for (ChangesFilter.Filter filter : filters) {
       filter.getCommandParametersFilter().applyToCommandLine(parameters);
     }
     
-    if (! startingPoints.isEmpty()) {
-      for (String startingPoint : startingPoints) {
-        parameters.add(startingPoint);
-      }
-    } else {
-      parameters.add("--all");
-    }
-
-    for (String endPoint : endPoints) {
-      parameters.add("^" + endPoint);
-    }
-
     HistoryUtils.historyWithLinks(myProject, new FilePathImpl(myRoot),
             refs, consumer, isCanceled, parameters.toArray(new String[parameters.size()]));
   }
@@ -169,13 +150,5 @@ public class LowLevelAccessImpl implements LowLevelAccess {
   public void loadAllBranches(List<String> sink) throws VcsException {
     Branch.listAsStrings(myProject, myRoot, true, false, sink, null);
     Branch.listAsStrings(myProject, myRoot, false, true, sink, null);
-  }
-
-  public void loadAllTags(Collection<String> sink) throws VcsException {
-    Tag.listAsStrings(myProject, myRoot, sink, null);
-  }
-
-  public void cherryPick(ShaHash hash) throws VcsException {
-    FileUtils.cherryPick(myProject, myRoot, hash.getValue());
   }
 }

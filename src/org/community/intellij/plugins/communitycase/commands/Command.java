@@ -27,11 +27,11 @@ import org.jetbrains.annotations.NotNull;
 public class Command {
 
   public static final Command ADD = write("mkelem");
-  public static final Command ANNOTATE = read("NOTIMPLEMENTED_ANNOTATE");            //fixme
+  public static final Command BLAME = read("NOTIMPLEMENTED_BLAME");                  //fixme
   public static final Command BRANCH = meta("lstype -kind brtype -s");
   public static final Command CHECKIN = write("ci");
   public static final Command CHECKOUT= write("co");
-  public static final Command GIT_CHECKOUT= write("NOTIMPLEMENTED_GIT_CHECKOUT");           //fixme
+  public static final Command GIT_CHECKOUT= write("NOTIMPLEMENTED_GIT_CHECKOUT");    //fixme
   public static final Command CONFIG = meta("NOTIMPLEMENTED_CONFIG");                //fixme
   public static final Command CHECK_ATTR = read("NOTIMPLEMENTED_CHECK_ATTR");        //fixme
   public static final Command CHERRY_PICK = write("NOTIMPLEMENTED_CHERRY_PICK");     //fixme
@@ -56,11 +56,11 @@ public class Command {
   public static final Command REV_LIST = meta("NOTIMPLEMENTED_REV_LIST");            //fixme
   public static final Command RM = write("rmname");
   public static final Command SHOW = write("get");
-  public static final Command STASH = write("NOTIMPLEMENTED_STASH");        //fixme
-  public static final Command TAG = meta("NOTIMPLEMENTED_TAG");           //fixme
+  public static final Command STASH = write("NOTIMPLEMENTED_STASH");                 //fixme
+  public static final Command TAG = meta("NOTIMPLEMENTED_TAG");                      //fixme
   public static final Command UNDO_CHECKOUT = write("unco");
   public static final Command UPDATE = write("update");
-  public static final Command UPDATE_INDEX = write("NOTIMPLEMENTED_UPDATE_INDEX"); //fixme
+  public static final Command UPDATE_INDEX = write("NOTIMPLEMENTED_UPDATE_INDEX");   //fixme
   public static final Command VERSION = meta("-ver");
   public static final Command VERSION_TREE_GRAPHICAL = meta("lsvtree -g");
 

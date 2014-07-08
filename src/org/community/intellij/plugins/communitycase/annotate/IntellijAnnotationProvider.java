@@ -138,7 +138,7 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
                                      final VcsFileRevision revision,
                                      final List<VcsFileRevision> revisions,
                                      final VirtualFile file) throws VcsException {
-    SimpleHandler h = new SimpleHandler(myProject, Util.getRoot(repositoryFilePath), Command.ANNOTATE);
+    SimpleHandler h = new SimpleHandler(myProject, Util.getRoot(repositoryFilePath), Command.BLAME);
     h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.setCharset(file.getCharset());
@@ -152,7 +152,10 @@ public class IntellijAnnotationProvider implements com.intellij.openapi.vcs.anno
     h.endOptions();
     h.addRelativePaths(repositoryFilePath);
     String output = h.run();
-    IntellijFileAnnotation annotation = new IntellijFileAnnotation(myProject, file, revision == null);
+    IntellijFileAnnotation annotation = new IntellijFileAnnotation(myProject,
+                                                                   file,
+                                                                   revision == null,
+                                                                   revision.getRevisionNumber());
     class CommitInfo {
       Date date;
       String author;

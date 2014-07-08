@@ -38,7 +38,12 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
    * the default executable
    */
   @NonNls static final String[] DEFAULT_WINDOWS_PATHS =
-    {"C:\\Program Files\\ibm\\RationalSDLC\\ClearCase\\bin", "C:\\Program Files (x86)\\ibm\\RationalSDLC\\ClearCase\\bin"};
+    {
+            "C:\\Program Files\\ibm\\RationalSDLC\\ClearCase\\bin",
+            "C:\\Program Files (x86)\\ibm\\RationalSDLC\\ClearCase\\bin",
+            "C:\\Program Files\\Rational\\ClearCase\\bin",
+            "C:\\Program Files (x86)\\Rational\\ClearCase\\bin"
+    };
   /**
    * Windows executable name
    */
@@ -92,6 +97,7 @@ class VcsApplicationSettings implements PersistentStateComponent<VcsApplicationS
       if (myExecutablePath == null) {
         // otherwise, hope it's in $PATH
         myExecutablePath= program;
+        //todo - show a warning if we do this, as it breaks ClearCase Explorer action
       }
     }
     return myExecutablePath;
