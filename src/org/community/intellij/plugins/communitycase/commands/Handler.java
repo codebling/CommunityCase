@@ -115,9 +115,8 @@ public abstract class Handler {
       myCommandLine.setExePath(mySettings.getPathToExecutable());
     }
     myCommandLine.setWorkDirectory(myWorkingDirectory);
-    if (command.name().length() > 0) {
-      addParameters(command.name());
-    }
+    String[] nameAsArray = {command.name()};
+    addParameters(fixSpaces(nameAsArray));
   }
 
   /**
