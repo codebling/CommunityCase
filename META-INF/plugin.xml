@@ -1,8 +1,8 @@
 <idea-plugin url="http://github.com/codebling/CommunityCase">
   <name>CommunityCase</name>
   <id>CommunityCase</id>
-  <version>13-v5</version>
-  <idea-version since-build="IC-133.331" until-build="IC-135.999"/>
+  <version>14-v1</version>
+  <idea-version since-build="IC-138.1980" until-build="IC-138.9999"/>
   <category>VCS Integration</category>
   <vendor url="http://github.com/codebling/" logo="/general/ijLogo.png">community</vendor>
   <description>
