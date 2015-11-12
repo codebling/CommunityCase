@@ -50,8 +50,8 @@ public class ExecutableValidator extends com.intellij.execution.ExecutableValida
 
   @NotNull
   @Override
-  protected Configurable getConfigurable() {
-    return myVcs.getConfigurable();
+  protected String getConfigurableDisplayName() {
+    return myVcs.getConfigurable().getDisplayName();
   }
 
   @Override

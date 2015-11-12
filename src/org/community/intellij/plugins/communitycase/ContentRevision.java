@@ -19,6 +19,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.SystemInfo;
 import com.intellij.openapi.vcs.FilePath;
 import com.intellij.openapi.vcs.FilePathImpl;
+import com.intellij.openapi.vcs.LocalFilePath;
 import com.intellij.openapi.vcs.VcsException;
 import com.intellij.openapi.vcs.changes.CurrentContentRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
@@ -143,7 +144,7 @@ public class ContentRevision implements com.intellij.openapi.vcs.changes.Content
     FilePath file = isDeleted ? VcsUtil.getFilePathForDeletedFile(absolutePath, false) : VcsUtil.getFilePath(absolutePath, false);
     if (canBeDeleted && !SystemInfo.isFileSystemCaseSensitive && VcsFilePathUtil.caseDiffers(file.getPath(), absolutePath)) {
       // as for deleted file
-      file = FilePathImpl.createForDeletedFile(new File(absolutePath), false);
+      file = new LocalFilePath(absolutePath, false);
     }
     return file;
   }
