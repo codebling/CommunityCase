@@ -114,10 +114,9 @@ public abstract class Handler {
     if (mySettings!= null) {
       myCommandLine.setExePath(mySettings.getPathToExecutable());
     }
-    myCommandLine.setWorkingDirectory(myWorkingDirectory);
-    if (command.name().length() > 0) {
-      addParameters(command.name());
-    }
+    myCommandLine.setWorkDirectory(myWorkingDirectory);
+    String[] nameAsArray = {command.name()};
+    addParameters(fixSpaces(nameAsArray));
   }
 
   /**
@@ -242,8 +241,8 @@ public abstract class Handler {
   @SuppressWarnings({"WeakerAccess"})
   public void addParameters(@NonNls @NotNull String... parameters) {
     checkNotStarted();
-    String[] fixedParameters = fixSpaces(parameters);
-    myCommandLine.addParameters(fixedParameters);
+//    String[] fixedParameters = fixSpaces(parameters);
+    myCommandLine.addParameters(parameters);
   }
 
   /**
@@ -408,7 +407,7 @@ public abstract class Handler {
       if (log.isDebugEnabled()) {
         log.debug("running: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
       }
-      myCommandLine.setEnvParams(myEnv);
+      myCommandLine.getEnvironment().putAll(myEnv);
       // start process
       myProcess = myCommandLine.createProcess();
       startHandlingStreams();

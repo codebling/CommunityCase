@@ -42,7 +42,6 @@ import org.community.intellij.plugins.communitycase.commands.LineHandlerAdapter;
 import org.community.intellij.plugins.communitycase.config.VcsSettings;
 import org.community.intellij.plugins.communitycase.i18n.Bundle;
 import org.community.intellij.plugins.communitycase.rebase.RebaseUtils;
-import org.community.intellij.plugins.communitycase.ui.ConvertFilesDialog;
 import org.community.intellij.plugins.communitycase.ui.UiUtil;
 
 import java.io.File;
@@ -386,14 +385,6 @@ public abstract class BaseRebaseProcess {
     if (getUpdatePolicy() == VcsSettings.UpdateChangesPolicy.STASH) {
       VcsSettings settings = VcsSettings.getInstance(myProject);
       if (settings == null) {
-        return false;
-      }
-      boolean result = ConvertFilesDialog.showDialogIfNeeded(myProject, settings, mySortedChanges, myExceptions);
-      if (!result) {
-        if (myExceptions.isEmpty()) {
-          //noinspection ThrowableInstanceNeverThrown
-          myExceptions.add(new VcsException("Conversion of line separators failed."));
-        }
         return false;
       }
     }

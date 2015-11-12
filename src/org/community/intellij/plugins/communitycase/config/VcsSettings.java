@@ -120,24 +120,6 @@ public class VcsSettings {
     myVcsApplicationSettings.setPathToExecutable(path);
   }
 
-  //todo wc we should probably remove all settings below this line, they probably don't work with ClearCase
-
-  public ConversionPolicy getLineSeparatorsConversion() {
-    return myVcsProjectSettings.getLineSeparatorsConversion();
-  }
-
-  public boolean getAskBeforeLineSeparatorConversion() {
-    return myVcsProjectSettings.getAskBeforeLineSeparatorConversion();
-  }
-
-  public void setAskBeforeLineSeparatorConversion(boolean askBeforeLineSeparatorConversion) {
-    myVcsProjectSettings.setAskBeforeLineSeparatorConversion(askBeforeLineSeparatorConversion);
-  }
-
-  public void setLineSeparatorsConversion(ConversionPolicy lineSeparatorsConversion) {
-    myVcsProjectSettings.setLineSeparatorsConversion(lineSeparatorsConversion);
-  }
-
   public UpdateType getUpdateType() {
     return myVcsProjectSettings.getUpdateType();
   }
@@ -189,19 +171,4 @@ public class VcsSettings {
      */
     REBASE
   }
-
-  /**
-   * The CRLF conversion policy
-   */
-  public enum ConversionPolicy {
-    /**
-     * No conversion is performed
-     */
-    NONE,
-    /**
-     * The files are converted to project line separators
-     */
-    PROJECT_LINE_SEPARATORS
-  }
-
 }

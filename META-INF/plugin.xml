@@ -1,17 +1,15 @@
 <idea-plugin url="http://github.com/codebling/CommunityCase">
   <name>CommunityCase</name>
   <id>CommunityCase</id>
-  <description>Provides version control integration with ClearCase</description>
-  <version>11.1-v1</version>
-  <idea-version since-build="IC-117.105" until-build="IC-117.281"/>
+  <version>14-v1</version>
+  <idea-version since-build="IC-138.1980"/>
   <category>VCS Integration</category>
-  <vendor url="http://github.com/codebling/" logo="/general/ijLogo.png">community</vendor>
-
-    <description>
-        Provides support for ClearCase in IntelliJ IDEA Community Edition. This plugin is also compatible with
-        Ultimate Edition, where it can replace the Jetbrains ClearCase plugin and provide faster change detection.
-        Please report all bugs at http://github.com/codebling/CommunityCase/issues
-    </description>
+  <vendor url="http://github.com/codebling/">community</vendor>
+  <description>
+    Provides support for ClearCase in IntelliJ IDEA Community Edition. This plugin is also compatible with
+    Ultimate Edition, where it can replace the Jetbrains ClearCase plugin and provide faster change detection.
+    Please report all bugs at http://github.com/codebling/CommunityCase/issues
+  </description>
 
   <depends>com.intellij.modules.vcs</depends>
 
@@ -138,7 +136,6 @@
         serviceInterface="org.community.intellij.plugins.communitycase.config.SshConnectionSettings"
         serviceImplementation="org.community.intellij.plugins.communitycase.config.SshConnectionSettings"/>
 
-    <ComponentRoamingType component="Cc.Settings" type="DISABLED"/>
     <fileTypeFactory implementation="org.community.intellij.plugins.communitycase.vfs.FileTypeFactory"/>
   </extensions>
 </idea-plugin>

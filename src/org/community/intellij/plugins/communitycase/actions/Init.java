@@ -60,7 +60,7 @@ public class Init extends DumbAwareAction {
     fcd.setDescription(Bundle.getString("init.destination.directory.description"));
     fcd.setHideIgnored(false);
     final VirtualFile baseDir = project.getBaseDir();
-    final VirtualFile[] files = FileChooser.chooseFiles(project, fcd, baseDir);
+    final VirtualFile[] files = FileChooser.chooseFiles(fcd, project, baseDir);
     if (files.length == 0) {
       return;
     }

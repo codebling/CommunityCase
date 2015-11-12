@@ -313,4 +313,14 @@ public class CommittedChangeListProvider implements CommittedChangesProvider<Com
   public boolean refreshIncomingWithCommitted() {
     return false;
   }
+
+  @Override
+  public com.intellij.openapi.vcs.RepositoryLocation getForNonLocal(VirtualFile file) {
+    return null;
+  }
+
+  @Override
+  public boolean supportsIncomingChanges() {
+    return false;
+  }
 }

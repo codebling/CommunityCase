@@ -146,7 +146,7 @@ class LogParser {
   }
 
   String getFormatOption() {
-    return "-fmt \"" + myFormat + "%" + LogOption.ELEMENT_NAME.getPlaceholder() + "\\n\\n" + "\"";
+    return myFormat + "%" + LogOption.ELEMENT_NAME.getPlaceholder() + "\\n\\n";
   }
 
   /**

@@ -18,6 +18,7 @@ package org.community.intellij.plugins.communitycase.changes;
 import com.intellij.openapi.vcs.changes.Change;
 import com.intellij.openapi.vcs.changes.LocalChangeList;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -88,5 +89,11 @@ public class ChangeList extends LocalChangeList {
   @Override
   public LocalChangeList copy() {
     return new org.community.intellij.plugins.communitycase.changes.ChangeList(name, comment, changes);
+  }
+
+  @Nullable
+  @Override
+  public Object getData() {
+    return null;
   }
 }

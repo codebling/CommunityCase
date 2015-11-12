@@ -90,7 +90,7 @@ public class HistoryUtils {
     LogParser parser = new LogParser(LogOption.VERSION,LogOption.TIME);
     h.setRemote(true);
     h.setSilent(true);
-    h.addParameters("-last 1", parser.getFormatOption()); //todo wc first result received is not necessarily latest
+    h.addParameters("-last","1", "-fmt",parser.getFormatOption()); //todo wc first result received is not necessarily latest
 /*    if (branch != null && !branch.isEmpty()) {
       h.addParameters(branch);
     }
@@ -281,8 +281,6 @@ public class HistoryUtils {
       semaphore.down();
       logHandler.start();
       semaphore.waitFor();
-
-      currentPath.set(getFirstCommitRenamePath(project, finalRoot, firstCommit.get(), currentPath.get()));
     }
 
   }
@@ -293,7 +291,7 @@ public class HistoryUtils {
     h.setStdoutSuppressed(true);
 
 //    h.addParameters("--name-only", parser.getPretty(), "--encoding=UTF-8", lastCommit);
-    h.addParameters(parser.getFormatOption());
+    h.addParameters("-fmt",parser.getFormatOption());
     if (parameters != null && parameters.length > 0) {
       h.addParameters(parameters);
     }
@@ -320,7 +318,7 @@ public class HistoryUtils {
     h.setStdoutSuppressed(true);
 
     //h.addParameters("-M", "--name-status", parser.getFormatOption(), "--encoding=UTF-8", commit);
-    h.addParameters(parser.getFormatOption());
+    h.addParameters("-fmt",parser.getFormatOption());
     /*
     -M[<n>]
            If generating diffs, detect and report renames for each commit. For
@@ -428,12 +426,6 @@ public class HistoryUtils {
       throw exceptions.get(0);
     }
     return rc;
-  }
-
-  public static List<Pair<ShaHash, Date>> onlyHashesHistory(Project project, FilePath path, final String... parameters)
-    throws VcsException {
-    final VirtualFile root = Util.getRoot(path);
-    return onlyHashesHistory(project, path, root, parameters);
   }
 
   public static List<Pair<ShaHash, Date>> onlyHashesHistory(Project project, FilePath path, final VirtualFile root, final String... parameters)
@@ -610,7 +602,7 @@ public class HistoryUtils {
     h.setStdoutSuppressed(true);
 
     //h.addParameters("--name-status", parser.getFormatOption(), "--encoding=UTF-8");
-    h.addParameters(parser.getFormatOption());
+    h.addParameters("-fmt",parser.getFormatOption());
     /*
     --name-status
            Show only names and status of changed files. See the description of
@@ -649,7 +641,7 @@ public class HistoryUtils {
     h.setRemote(true);
     h.setStdoutSuppressed(true);
     h.addParameters(parameters);
-    h.addParameters(parser.getFormatOption());// h.addParameters(parser.getFormatOption(), "--encoding=UTF-8");
+    h.addParameters("-fmt",parser.getFormatOption());// h.addParameters(parser.getFormatOption(), "--encoding=UTF-8");
 
     h.endOptions();
     h.addRelativePaths(path);

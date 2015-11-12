@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AntConfiguration">
-    <defaultAnt bundledAnt="true" />
-  </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
@@ -167,11 +164,13 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
     </wildcardResourcePatterns>
-    <annotationProcessing enabled="false" useClasspath="true" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+    </annotationProcessing>
   </component>
-  <component name="CopyrightManager" default="">
-    <module2copyright />
-  </component>
+  <component name="CopyrightManager" default="" />
   <component name="CppTools.Loader" reportImplicitCastToBool="false" reportNameReferencedOnce="false" version="3" compilerSelect="AUTO" />
   <component name="DependencyValidationManager">
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
@@ -184,198 +183,6 @@
   </component>
   <component name="IdProvider" IDEtalkID="9998BDB2E37B128DB95E5987B86296EF" />
   <component name="InspectionProjectProfileManager">
-    <profiles>
-      <profile version="1.0" is_locked="false">
-        <option name="myName" value="Project Default" />
-        <option name="myLocal" value="false" />
-        <inspection_tool class="BooleanConstructor" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="CanBeFinal" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="REPORT_CLASSES" value="true" />
-          <option name="REPORT_METHODS" value="true" />
-          <option name="REPORT_FIELDS" value="true" />
-        </inspection_tool>
-        <inspection_tool class="CanBeStatic" level="WARNING" enabled="false" />
-        <inspection_tool class="ChainedEquality" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="CheckStyle-IDEA" level="ERROR" enabled="true" />
-        <inspection_tool class="ChuckStyle-IDEA" level="WARNING" enabled="true" />
-        <inspection_tool class="ClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_regex" value="^[A-Z][A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="ConstantConditions" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="SUGGEST_NULLABLE_ANNOTATIONS" value="false" />
-          <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="false" />
-        </inspection_tool>
-        <inspection_tool class="ConstantNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="onlyCheckImmutables" value="false" />
-          <option name="m_regex" value="^[A-Z_0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="ContinueOrBreakFromFinallyBlock" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="Deprecation" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="EjbErrors" level="WARNING" enabled="false">
-          <option name="REPORT_ERRORS" value="true" />
-          <option name="REPORT_WARNINGS" value="true" />
-        </inspection_tool>
-        <inspection_tool class="EmptyCatchBlock" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="m_includeComments" value="true" />
-          <option name="m_ignoreTestCases" value="true" />
-          <option name="m_ignoreIgnoreParameter" value="true" />
-        </inspection_tool>
-        <inspection_tool class="EmptyFinallyBlock" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="EmptyMethod" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="EmptyStatementBody" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="m_reportEmptyBlocks" value="false" />
-        </inspection_tool>
-        <inspection_tool class="EmptyTryBlock" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="ExtendsObject" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="FinalPrivateMethod" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="FinalStaticMethod" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="InfiniteLoopStatement" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="InfiniteRecursion" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="InstanceMethodNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_regex" value="^[a-z][A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="InstanceVariableNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_regex" value="^m([A-Z]|_[a-z])[A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="InterfaceNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_regex" value="^[A-HJ-Z][A-Za-z0-9]*$|^I[a-z][A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="JavaDoc" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="TOP_LEVEL_CLASS_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="public" />
-              <option name="REQUIRED_TAGS" value="" />
-            </value>
-          </option>
-          <option name="INNER_CLASS_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
-              <option name="REQUIRED_TAGS" value="" />
-            </value>
-          </option>
-          <option name="METHOD_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="protected" />
-              <option name="REQUIRED_TAGS" value="@return@param@throws or @exception" />
-            </value>
-          </option>
-          <option name="FIELD_OPTIONS">
-            <value>
-              <option name="ACCESS_JAVADOC_REQUIRED_FOR" value="none" />
-              <option name="REQUIRED_TAGS" value="" />
-            </value>
-          </option>
-          <option name="IGNORE_DEPRECATED" value="false" />
-          <option name="IGNORE_JAVADOC_PERIOD" value="true" />
-          <option name="IGNORE_DUPLICATED_THROWS" value="false" />
-          <option name="IGNORE_POINT_TO_ITSELF" value="false" />
-          <option name="myAdditionalJavadocTags" value="" />
-        </inspection_tool>
-        <inspection_tool class="LocalVariableNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_ignoreForLoopParameters" value="false" />
-          <option name="m_ignoreCatchParameters" value="false" />
-          <option name="m_regex" value="^(a[^A-Z]|m[^A-Z]|s[^A-Z]|[b-ln-rt-z])[A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="LoopStatementsThatDontLoop" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="ManualArrayCopy" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="MissortedModifiers" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_requireAnnotationsFirst" value="true" />
-        </inspection_tool>
-        <inspection_tool class="NestedAssignment" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="OnDemandImport" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="PackageVisibleField" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="PackageVisibleInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEnums" value="false" />
-        </inspection_tool>
-        <inspection_tool class="ParameterNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_regex" value="^a[A-Z][A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="PointlessArithmeticExpression" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="m_ignoreExpressionsContainingConstants" value="false" />
-        </inspection_tool>
-        <inspection_tool class="ProtectedInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEnums" value="false" />
-        </inspection_tool>
-        <inspection_tool class="PublicField" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEnums" value="false" />
-          <option name="ignorableAnnotations">
-            <value />
-          </option>
-        </inspection_tool>
-        <inspection_tool class="PublicInnerClass" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="ignoreEnums" value="false" />
-        </inspection_tool>
-        <inspection_tool class="RedundantCast" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="ReturnFromFinallyBlock" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="SameParameterValue" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="SameReturnValue" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="SetupCallsSuperSetup" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="StaticMethodNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_regex" value="^[a-z][A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="StaticVariableNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="checkMutableFinals" value="false" />
-          <option name="m_regex" value="^s([A-Z]|_[a-z])[A-Za-z0-9]*$" />
-          <option name="m_minLength" value="1" />
-          <option name="m_maxLength" value="99" />
-        </inspection_tool>
-        <inspection_tool class="StringConstructor" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="ignoreSubstringArguments" value="false" />
-        </inspection_tool>
-        <inspection_tool class="SynchronizeOnNonFinalField" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="TeardownCallsSuperTeardown" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="ThrowFromFinallyBlock" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnnecessarilyQualifiedStaticUsage" enabled="true" level="WARNING" enabled_by_default="true">
-          <option name="m_ignoreStaticFieldAccesses" value="false" />
-          <option name="m_ignoreStaticMethodCalls" value="false" />
-          <option name="m_ignoreStaticAccessFromStaticContext" value="false" />
-        </inspection_tool>
-        <inspection_tool class="UnnecessaryReturn" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnnecessarySemicolon" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnnecessaryTemporaryOnConversionFromString" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnnecessaryTemporaryOnConversionToString" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnneededThrows" level="WARNING" enabled="false" />
-        <inspection_tool class="UnusedAssignment" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="REPORT_PREFIX_EXPRESSIONS" value="false" />
-          <option name="REPORT_POSTFIX_EXPRESSIONS" value="true" />
-          <option name="REPORT_REDUNDANT_INITIALIZER" value="true" />
-        </inspection_tool>
-        <inspection_tool class="UnusedDeclaration" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="ADD_MAINS_TO_ENTRIES" value="true" />
-          <option name="ADD_APPLET_TO_ENTRIES" value="true" />
-          <option name="ADD_SERVLET_TO_ENTRIES" value="true" />
-          <option name="ADD_NONJAVA_TO_ENTRIES" value="true" />
-        </inspection_tool>
-        <inspection_tool class="UnusedImport" enabled="true" level="WARNING" enabled_by_default="true" />
-        <inspection_tool class="UnusedLabel" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnusedParameters" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="UnusedReturnValue" enabled="false" level="WARNING" enabled_by_default="false" />
-        <inspection_tool class="WeakerAccess" enabled="false" level="WARNING" enabled_by_default="false">
-          <option name="SUGGEST_PACKAGE_LOCAL_FOR_MEMBERS" value="true" />
-          <option name="SUGGEST_PACKAGE_LOCAL_FOR_TOP_CLASSES" value="true" />
-          <option name="SUGGEST_PRIVATE_FOR_INNERS" value="false" />
-        </inspection_tool>
-      </profile>
-    </profiles>
-    <option name="PROJECT_PROFILE" />
-    <option name="USE_PROJECT_PROFILE" value="false" />
-    <version value="1.0" />
     <list size="6">
       <item index="0" class="java.lang.String" itemvalue="SERVER PROBLEM" />
       <item index="1" class="java.lang.String" itemvalue="WEAK WARNING" />
@@ -401,28 +208,6 @@
     <option name="HEAP_SIZE" />
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
-  </component>
-  <component name="NullableNotNullManager">
-    <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
-    <option name="myDefaultNotNull" value="org.jetbrains.annotations.NotNull" />
-    <option name="myNullables">
-      <value>
-        <list size="3">
-          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
-          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
-          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
-        </list>
-      </value>
-    </option>
-    <option name="myNotNulls">
-      <value>
-        <list size="3">
-          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
-          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
-          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
-        </list>
-      </value>
-    </option>
   </component>
   <component name="Palette2">
     <group name="Swing">
@@ -548,147 +333,16 @@
   <component name="ProjectCodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
       <value>
-        <option name="FIELD_NAME_PREFIX" value="my" />
-        <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
-        <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
-        <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
-        <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
-        <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
-        <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
-        <option name="SPACE_AROUND_ASSIGNMENT_OPERATORS" value="false" />
-        <option name="SPACE_AROUND_EQUALITY_OPERATORS" value="false" />
-        <option name="SPACE_AROUND_RELATIONAL_OPERATORS" value="false" />
-        <option name="SPACE_AROUND_BITWISE_OPERATORS" value="false" />
-        <option name="SPACE_AROUND_ADDITIVE_OPERATORS" value="false" />
-        <option name="SPACE_AROUND_MULTIPLICATIVE_OPERATORS" value="false" />
-        <option name="SPACE_AROUND_SHIFT_OPERATORS" value="false" />
-        <option name="SPACE_AFTER_COMMA" value="false" />
-        <option name="SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS" value="false" />
-        <option name="SPACE_AFTER_SEMICOLON" value="false" />
-        <option name="SPACE_AFTER_TYPE_CAST" value="false" />
-        <option name="SPACE_BEFORE_IF_PARENTHESES" value="false" />
-        <option name="SPACE_BEFORE_WHILE_PARENTHESES" value="false" />
-        <option name="SPACE_BEFORE_FOR_PARENTHESES" value="false" />
-        <option name="SPACE_BEFORE_CATCH_PARENTHESES" value="false" />
-        <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
-        <option name="SPACE_BEFORE_SYNCHRONIZED_PARENTHESES" value="false" />
-        <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
-        <option name="SPACE_BEFORE_ELSE_KEYWORD" value="false" />
-        <option name="SPACE_BEFORE_WHILE_KEYWORD" value="false" />
-        <option name="SPACE_BEFORE_CATCH_KEYWORD" value="false" />
-        <option name="SPACE_BEFORE_FINALLY_KEYWORD" value="false" />
-        <option name="SPACE_BEFORE_QUEST" value="false" />
-        <option name="SPACE_AFTER_QUEST" value="false" />
-        <option name="SPACE_BEFORE_COLON" value="false" />
-        <option name="SPACE_AFTER_COLON" value="false" />
-        <option name="CALL_PARAMETERS_WRAP" value="5" />
-        <option name="METHOD_PARAMETERS_WRAP" value="5" />
-        <option name="EXTENDS_LIST_WRAP" value="5" />
-        <option name="THROWS_LIST_WRAP" value="5" />
-        <option name="BINARY_OPERATION_WRAP" value="5" />
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
-        <ADDITIONAL_INDENT_OPTIONS fileType="sass">
-          <option name="INDENT_SIZE" value="2" />
-        </ADDITIONAL_INDENT_OPTIONS>
-        <ADDITIONAL_INDENT_OPTIONS fileType="sql">
-          <option name="INDENT_SIZE" value="2" />
-        </ADDITIONAL_INDENT_OPTIONS>
-        <ADDITIONAL_INDENT_OPTIONS fileType="yml">
-          <option name="INDENT_SIZE" value="2" />
-        </ADDITIONAL_INDENT_OPTIONS>
-        <codeStyleSettings language="Groovy">
-          <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
-          <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
-          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
-          <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
-          <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
-          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
-          <option name="SPACE_AROUND_ASSIGNMENT_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_EQUALITY_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_RELATIONAL_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_BITWISE_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_ADDITIVE_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_MULTIPLICATIVE_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_SHIFT_OPERATORS" value="false" />
-          <option name="SPACE_AFTER_COMMA" value="false" />
-          <option name="SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS" value="false" />
-          <option name="SPACE_AFTER_SEMICOLON" value="false" />
-          <option name="SPACE_AFTER_TYPE_CAST" value="false" />
-          <option name="SPACE_BEFORE_IF_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_WHILE_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_FOR_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_CATCH_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_SYNCHRONIZED_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_ELSE_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_CATCH_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_FINALLY_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_QUEST" value="false" />
-          <option name="SPACE_AFTER_QUEST" value="false" />
-          <option name="SPACE_BEFORE_COLON" value="false" />
-          <option name="SPACE_AFTER_COLON" value="false" />
-          <option name="CALL_PARAMETERS_WRAP" value="5" />
-          <option name="METHOD_PARAMETERS_WRAP" value="5" />
-          <option name="EXTENDS_LIST_WRAP" value="5" />
-          <option name="THROWS_LIST_WRAP" value="5" />
-          <option name="BINARY_OPERATION_WRAP" value="5" />
-          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
-          <indentOptions>
-            <option name="INDENT_SIZE" value="2" />
-          </indentOptions>
-        </codeStyleSettings>
-        <codeStyleSettings language="JAVA">
-          <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
-          <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
-          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
-          <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
-          <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
-          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
-          <option name="SPACE_AROUND_ASSIGNMENT_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_EQUALITY_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_RELATIONAL_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_BITWISE_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_ADDITIVE_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_MULTIPLICATIVE_OPERATORS" value="false" />
-          <option name="SPACE_AROUND_SHIFT_OPERATORS" value="false" />
-          <option name="SPACE_AFTER_COMMA" value="false" />
-          <option name="SPACE_AFTER_COMMA_IN_TYPE_ARGUMENTS" value="false" />
-          <option name="SPACE_AFTER_SEMICOLON" value="false" />
-          <option name="SPACE_AFTER_TYPE_CAST" value="false" />
-          <option name="SPACE_BEFORE_IF_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_WHILE_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_FOR_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_CATCH_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_SYNCHRONIZED_PARENTHESES" value="false" />
-          <option name="SPACE_BEFORE_ARRAY_INITIALIZER_LBRACE" value="true" />
-          <option name="SPACE_BEFORE_ELSE_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_WHILE_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_CATCH_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_FINALLY_KEYWORD" value="false" />
-          <option name="SPACE_BEFORE_QUEST" value="false" />
-          <option name="SPACE_AFTER_QUEST" value="false" />
-          <option name="SPACE_BEFORE_COLON" value="false" />
-          <option name="SPACE_AFTER_COLON" value="false" />
-          <option name="CALL_PARAMETERS_WRAP" value="5" />
-          <option name="METHOD_PARAMETERS_WRAP" value="5" />
-          <option name="EXTENDS_LIST_WRAP" value="5" />
-          <option name="THROWS_LIST_WRAP" value="5" />
-          <option name="BINARY_OPERATION_WRAP" value="5" />
-          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
-          <indentOptions>
-            <option name="INDENT_SIZE" value="2" />
-            <option name="TAB_SIZE" value="2" />
-          </indentOptions>
-        </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
   <component name="ProjectDictionaryState">
     <dictionary name="ascher" />
+    <dictionary name="qbert" />
   </component>
   <component name="ProjectKey">
     <option name="state" value="project://default" />
@@ -701,7 +355,7 @@
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IC-117.281-11.1.2" project-jdk-type="IDEA JDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="IDEA IC-138.1980.1-14EAP" project-jdk-type="IDEA JDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ResourceManagerContainer">
@@ -720,4 +374,3 @@
     <find-history />
   </component>
 </project>
-

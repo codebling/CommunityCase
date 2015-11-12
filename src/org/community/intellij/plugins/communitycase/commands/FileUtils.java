@@ -183,7 +183,7 @@ public class FileUtils {
       if(settings!=null && settings.isUseReservedCheckoutForDirectories())
         handler.addParameters("-res");//reserved
       else
-        handler.addParameters("–unr");//unreserved
+        handler.addParameters("-unr");//unreserved
       handler.addParameters("-nc");
       handler.endOptions();
       handler.addParameters(paths);
@@ -249,7 +249,9 @@ public class FileUtils {
 
     File temp;
     try {
-      temp = FileUtil.createTempFile(relativePath.replaceAll("\\.","-")+revisionOrBranch.replaceAll("\\\\|/","-"), "tmp");
+        String tempFileName = relativePath.replaceAll("\\.", "-") + revisionOrBranch.replaceAll("\\\\|/", "-");
+        tempFileName = tempFileName.replaceAll(" ", "_");
+        temp = FileUtil.createTempFile(tempFileName, "tmp");
     } catch(IOException e) {
       throw new VcsException(e);
     }
@@ -259,9 +261,9 @@ public class FileUtils {
     }
     temp.deleteOnExit();
 
-    h.addParameters("-to \""+temp.getAbsolutePath()+"\"");
+    h.addParameters("-to", temp.getAbsolutePath());
 
-    h.addParameters("\""+relativePath + "@@" + revisionOrBranch+"\"");
+    h.addParameters(relativePath + "@@" + revisionOrBranch);
 //    try {
       h.run();
 /*    }

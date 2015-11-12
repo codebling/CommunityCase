@@ -30,7 +30,6 @@ import java.util.List;
 
 import static org.community.intellij.plugins.communitycase.config.VcsSettings.UpdateChangesPolicy;
 import static org.community.intellij.plugins.communitycase.config.VcsSettings.UpdateType;
-import static org.community.intellij.plugins.communitycase.config.VcsSettings.ConversionPolicy;
 
 /**
  * VCS settings
@@ -44,8 +43,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   private boolean myCheckoutIncludesTags = false;
   private UpdateChangesPolicy myUpdateChangesPolicy = UpdateChangesPolicy.STASH; // The policy that specifies how files are saved before update or rebase
   private UpdateType myUpdateType = UpdateType.BRANCH_DEFAULT; // The type of update operation to perform
-  private ConversionPolicy myLineSeparatorsConversion = ConversionPolicy.PROJECT_LINE_SEPARATORS; // The crlf conversion policy
-  private boolean myAskBeforeLineSeparatorConversion = true; // If true, the dialog is shown with conversion options
   private UpdateChangesPolicy myPushActiveBranchesRebaseSavePolicy = UpdateChangesPolicy.STASH; // The policy used in push active branches dialog
 
   private Boolean myIsBranchFilterAppwide=true;
@@ -68,39 +65,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
    */
   public void setPushActiveBranchesRebaseSavePolicy(UpdateChangesPolicy pushActiveBranchesRebaseSavePolicy) {
     myPushActiveBranchesRebaseSavePolicy = pushActiveBranchesRebaseSavePolicy;
-  }
-
-  /**
-   * @return true if before converting line separators user is asked
-   */
-  public boolean getAskBeforeLineSeparatorConversion() {
-    return myAskBeforeLineSeparatorConversion;
-  }
-
-  /**
-   * Modify user notification policy about line separators
-   *
-   * @param askBeforeLineSeparatorConversion
-   *         a new policy value
-   */
-  public void setAskBeforeLineSeparatorConversion(boolean askBeforeLineSeparatorConversion) {
-    myAskBeforeLineSeparatorConversion = askBeforeLineSeparatorConversion;
-  }
-
-  /**
-   * @return policy for converting line separators
-   */
-  public ConversionPolicy getLineSeparatorsConversion() {
-    return myLineSeparatorsConversion;
-  }
-
-  /**
-   * Modify line separators policy
-   *
-   * @param lineSeparatorsConversion the new policy value
-   */
-  public void setLineSeparatorsConversion(ConversionPolicy lineSeparatorsConversion) {
-    myLineSeparatorsConversion = lineSeparatorsConversion;
   }
 
   /**
@@ -142,8 +106,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
   public State getState() {
     State s = new State();
     s.CHECKOUT_INCLUDE_TAGS = myCheckoutIncludesTags;
-    s.LINE_SEPARATORS_CONVERSION = myLineSeparatorsConversion;
-    s.LINE_SEPARATORS_CONVERSION_ASK = myAskBeforeLineSeparatorConversion;
     s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY = myPushActiveBranchesRebaseSavePolicy;
     s.UPDATE_CHANGES_POLICY = myUpdateChangesPolicy;
     s.UPDATE_STASH = true;
@@ -161,8 +123,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
    */
   public void loadState(State s) {
     myCheckoutIncludesTags = s.CHECKOUT_INCLUDE_TAGS == null ? false : s.CHECKOUT_INCLUDE_TAGS;
-    myLineSeparatorsConversion = s.LINE_SEPARATORS_CONVERSION;
-    myAskBeforeLineSeparatorConversion = s.LINE_SEPARATORS_CONVERSION_ASK;
     myPushActiveBranchesRebaseSavePolicy = s.PUSH_ACTIVE_BRANCHES_REBASE_SAVE_POLICY;
     myUpdateChangesPolicy = s.UPDATE_CHANGES_POLICY;
     if (myUpdateChangesPolicy == null) {
@@ -239,10 +199,6 @@ class VcsProjectSettings implements PersistentStateComponent<VcsProjectSettings.
      * The type of update operation to perform
      */
     public UpdateType UPDATE_TYPE = UpdateType.BRANCH_DEFAULT;
-    /**
-     * The crlf conversion policy
-     */
-    public ConversionPolicy LINE_SEPARATORS_CONVERSION = ConversionPolicy.PROJECT_LINE_SEPARATORS;
     /**
      * If true, the dialog is shown with conversion options
      */
