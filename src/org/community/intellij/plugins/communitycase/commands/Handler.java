@@ -407,7 +407,7 @@ public abstract class Handler {
       if (log.isDebugEnabled()) {
         log.debug("running: " + myCommandLine.getCommandLineString() + " in " + myWorkingDirectory);
       }
-      myCommandLine.getEnvironment().putAll(myEnv);
+      myCommandLine.setEnvParams(myEnv);
       // start process
       myProcess = myCommandLine.createProcess();
       startHandlingStreams();
